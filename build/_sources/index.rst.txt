@@ -8,12 +8,35 @@ HTS2019 Source Materials
 
 Source materials can bd cloned from the `HTS2019 GitLab Repository <https://gitlab.oit.duke.edu/HTS2018/HTS2019-notebooks.git>`_
 
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Slides
+
+   slides.rst
+
 .. toctree::
    :maxdepth: 2
    :caption: Unix Shell
 
    cliburn/R00_Review_Basics.ipynb
-   cliburn/R00_Review_Basics.ipynb
+
+.. toctree::
+   :maxdepth: 2
+   :caption: R Graphics and Data Manipulation
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Bioinformatics
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Reproducible Analysis (Git)
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Analysis of Pilot Data
+
 
 Indices and tables
 ==================

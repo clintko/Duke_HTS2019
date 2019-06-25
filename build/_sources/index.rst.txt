@@ -13,7 +13,7 @@ Source materials can bd cloned from the `HTS2019 GitLab Repository <https://gitl
    :caption: Unix Shell
 
    cliburn/R00_Review_Basics.ipynb
-   
+   cliburn/R00_Review_Basics.ipynb
 
 Indices and tables
 ==================

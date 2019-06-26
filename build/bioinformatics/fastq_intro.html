@@ -1,0 +1,713 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction to FASTQ Files &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Quick Intro of Analysis Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../janice/1_IntroToCompBoot.html">Duke HTS Summer Course 2018</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/2_Intro_to_Unix_and_bash.html">Introduction to Unix and bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/3_IntroductionToR.html">Introduction to R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/4_Rlibraries_and_bioconductor.html">R libraries and Bioconductor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/5_Tidyverse_HandsOn-Filled.html">Hands-On Tidyverse - with count data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/6_Statistical_Inference.html">Simulations and Statistical Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/7_Statistical_Inference_Solutions.html">Estimation and Hypothesis Testing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix01_File_And_Directory_Solutions.html">Working with Unix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix03_File_Storage_Solutions.html">File archival and recovery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix04_Text_Manipulation_Solutinos.html">Working with text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Analysis of Pilot Data (Gene Count, DESeq2 &amp; DE Analysis)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/8_Pilot2019_getstarcounts-KO.html">Get Star Count of the Pilot 2019 Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/00_deseq_prepare_data.html">DESeq2: Create count matrix and metadata data frame</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/01_deseq_dataobject.html">DESeq2: Create Data Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/02_deseq_DE.html">DESeq2: Basic Differential Expression (DE) analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/03_deseq_interaction.html">DESeq2: Basic Differential Expression (DE) analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/04-deseq2-plots.html">Generate figures from DESEq2 analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction to FASTQ Files</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/bioinformatics/fastq_intro.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Introduction-to-FASTQ-Files">
+<h1>Introduction to FASTQ Files<a class="headerlink" href="#Introduction-to-FASTQ-Files" title="Permalink to this headline">¶</a></h1>
+<!---
+** Add Intro Text***
+--><div class="section" id="Shell-Variables">
+<h2>Shell Variables<a class="headerlink" href="#Shell-Variables" title="Permalink to this headline">¶</a></h2>
+<p>As before, we will use shell variables to make it easier to refer to the directories we are working with. The shell variables do not carry over between notebooks. Shell variables are specific to a shell session, and each notebook is a separate shell session.</p>
+<p>So the first thing we will do is assign the variables in this notebook.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Hack to handle broken pipes - IGNORE.</span>
+cleanup <span class="o">()</span> <span class="o">{</span>
+    :
+<span class="o">}</span>
+<span class="nb">trap</span> <span class="s2">&quot;cleanup&quot;</span> SIGPIPE
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">set</span> -u
+<span class="nv">DATA_BASE</span><span class="o">=</span><span class="s2">&quot;/data/hts_2019_data&quot;</span>
+<span class="nv">RAW_FASTQS</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$DATA_BASE</span><span class="s2">/hts2019_pilot_rawdata&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Looking-at-a-FASTQ">
+<h2>Looking at a FASTQ<a class="headerlink" href="#Looking-at-a-FASTQ" title="Permalink to this headline">¶</a></h2>
+<p>Let’s take a quick look at our data. For our first pass at analysis, we are just going to be working with the first read data (R1) from one sample.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls -lSrh <span class="nv">$RAW_FASTQS</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+total 24G
+-r--r--r-- 1 jovyan users 1.1K May 16 17:27 README.rtf
+-r--r--r-- 1 jovyan users 3.0K Jun 12 13:06 2019_pilot_metadata.md
+-r--r--r-- 1 jovyan users 3.7K May 16 17:27 2019_pilot_metadata.tsv
+-r--r--r-- 1 jovyan users  11K May 16 17:27 md5_checksum.txt
+-r--r--r-- 1 jovyan users  51K May 16 17:27 sequencing_run_report_5630_190509A5.html
+-r--r--r-- 1 jovyan users 111M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_H2_S28_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 113M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_H2_S28_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 113M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_H2_S28_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 115M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_H2_S28_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 116M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">21_2019_P_M1_S21_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 118M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">21_2019_P_M1_S21_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 118M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">21_2019_P_M1_S21_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 119M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">21_2019_P_M1_S21_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 124M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_H2_S30_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 126M May 16 17:31 <span class="ansi-red-intense-fg ansi-bold">22_2019_P_M1_S22_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 127M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_H2_S30_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 127M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_H2_S30_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 127M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_H1_S26_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 128M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">22_2019_P_M1_S22_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 128M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">22_2019_P_M1_S22_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 129M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_H2_S30_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 130M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_H1_S26_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 130M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">22_2019_P_M1_S22_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 130M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_H1_S26_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 131M May 16 17:31 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_H1_S25_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 132M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_H1_S27_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 133M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_H1_S26_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 133M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_H1_S25_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 133M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_H1_S25_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 134M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_H1_S27_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 134M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_H1_S27_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 135M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">15_2019_P_M1_S15_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 136M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_H1_S25_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 136M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_H1_S27_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 137M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">15_2019_P_M1_S15_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 137M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">15_2019_P_M1_S15_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 139M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_H2_S29_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 139M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">14_2019_P_M1_S14_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 139M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">15_2019_P_M1_S15_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 141M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">13_2019_P_M1_S13_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 141M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_H2_S29_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 142M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">14_2019_P_M1_S14_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 142M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_H2_S29_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 142M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">14_2019_P_M1_S14_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 143M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">13_2019_P_M1_S13_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 143M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">13_2019_P_M1_S13_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 144M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_H2_S29_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 144M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">14_2019_P_M1_S14_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 145M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">13_2019_P_M1_S13_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 146M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">19_2019_P_M1_S19_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 147M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">12_2019_P_M1_S12_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 149M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">19_2019_P_M1_S19_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 149M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">19_2019_P_M1_S19_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 150M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">12_2019_P_M1_S12_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 150M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">12_2019_P_M1_S12_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 151M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">19_2019_P_M1_S19_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 151M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">23_2019_P_M1_S23_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 152M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">12_2019_P_M1_S12_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 152M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">20_2019_P_M1_S20_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 154M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">23_2019_P_M1_S23_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 154M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">23_2019_P_M1_S23_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 155M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">20_2019_P_M1_S20_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 155M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">20_2019_P_M1_S20_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 156M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">23_2019_P_M1_S23_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 156M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">11_2019_P_M1_S11_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 157M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">10_2019_P_M1_S10_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 157M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">20_2019_P_M1_S20_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 159M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">11_2019_P_M1_S11_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 159M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">11_2019_P_M1_S11_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 160M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">10_2019_P_M1_S10_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 160M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">10_2019_P_M1_S10_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 161M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">11_2019_P_M1_S11_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 162M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">24_2019_P_M1_S24_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 162M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">10_2019_P_M1_S10_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 164M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_T1_S31_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 164M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">24_2019_P_M1_S24_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 165M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">24_2019_P_M1_S24_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 166M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">17_2019_P_M1_S17_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 167M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">24_2019_P_M1_S24_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 167M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_T1_S31_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 168M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_T1_S31_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 168M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_T1_S33_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 169M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">17_2019_P_M1_S17_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 169M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">17_2019_P_M1_S17_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 170M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">6_2019_P_M1_S6_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 170M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_T1_S31_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 170M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">18_2019_P_M1_S18_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 171M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">17_2019_P_M1_S17_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 171M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">16_2019_P_M1_S16_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 172M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_T1_S33_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 172M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_T1_S33_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 172M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">9_2019_P_M1_S9_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 173M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">6_2019_P_M1_S6_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 173M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">18_2019_P_M1_S18_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 174M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">6_2019_P_M1_S6_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 174M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">18_2019_P_M1_S18_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 174M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">16_2019_P_M1_S16_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 175M May 16 17:31 <span class="ansi-red-intense-fg ansi-bold">16_2019_P_M1_S16_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 175M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_T1_S33_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 176M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">9_2019_P_M1_S9_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 176M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">6_2019_P_M1_S6_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 176M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_T1_S32_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 176M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">9_2019_P_M1_S9_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 176M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">18_2019_P_M1_S18_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 177M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">16_2019_P_M1_S16_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 178M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">9_2019_P_M1_S9_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 180M May 16 17:31 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_T1_S32_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 180M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_T1_S32_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 182M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_M1_S36_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 183M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_T1_S32_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 185M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_M1_S36_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 186M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_M1_S36_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 188M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_M1_S34_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 188M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">4_2018_P_M1_S36_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 192M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_M1_S34_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 192M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_M1_S34_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 195M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">2_2018_P_M1_S34_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 198M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">8_2019_P_M1_S8_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 201M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">8_2019_P_M1_S8_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 202M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">8_2019_P_M1_S8_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 204M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">7_2019_P_M1_S7_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 204M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_M1_S35_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 204M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">5_2019_P_M1_S5_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 204M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">8_2019_P_M1_S8_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 205M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">4_2019_P_M1_S4_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 207M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">7_2019_P_M1_S7_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 207M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">5_2019_P_M1_S5_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 207M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_M1_S35_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 207M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">5_2019_P_M1_S5_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 207M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">7_2019_P_M1_S7_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 208M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_M1_S35_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 208M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">4_2019_P_M1_S4_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 209M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">4_2019_P_M1_S4_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 210M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">7_2019_P_M1_S7_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 210M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">5_2019_P_M1_S5_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 210M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">3_2018_P_M1_S35_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 211M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">4_2019_P_M1_S4_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 216M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">3_2019_P_M1_S3_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 219M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">3_2019_P_M1_S3_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 220M May 16 17:27 <span class="ansi-red-intense-fg ansi-bold">3_2019_P_M1_S3_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 222M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">3_2019_P_M1_S3_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 223M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">1_2019_P_M1_S1_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 226M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">1_2019_P_M1_S1_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 227M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">1_2019_P_M1_S1_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 230M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">1_2019_P_M1_S1_L003_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 233M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">2_2019_P_M1_S2_L002_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 237M May 16 17:29 <span class="ansi-red-intense-fg ansi-bold">2_2019_P_M1_S2_L001_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 238M May 16 17:28 <span class="ansi-red-intense-fg ansi-bold">2_2019_P_M1_S2_L004_R1_001.fastq.gz</span>
+-r--r--r-- 1 jovyan users 241M May 16 17:30 <span class="ansi-red-intense-fg ansi-bold">2_2019_P_M1_S2_L003_R1_001.fastq.gz</span>
+</pre></div><p class="rubric" id="compression-gzip-zcat-etc">Compression: gzip, zcat, etc</p>
+<p>The “.gz” at the end of the FASTQ file name indicates that the fastq file was compressed using a program named gzip. This is pretty common because FASTQ files can be huge. <code class="docutils literal notranslate"><span class="pre">cat</span></code> is a program for viewing text files, <code class="docutils literal notranslate"><span class="pre">zcat</span></code> is a special version of this program that lets you view compressed text files without first decompressing them.</p>
+</div>
+</div>
+<p>Here we will use: * zcat: to show the compress FASTQ * head: to grab only the first 10 lines, since the whole file has over 5 x 10^6 lines (which would almost certainly hang our web browser)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>zcat <span class="nv">$RAW_FASTQS</span>/21_2019_P_M1_S21_L002_R1_001.fastq.gz <span class="p">|</span> head
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+@NB501800:327:HF27FBGXB:2:11101:19634:1049 1:N:0:CGCTCATT+CTTCGCCT
+GCGCTNCGAGGCGGCGGTGGCGCGGGCGGCGGAGACAGAGGCAGCGGCGGTGGCGAGGTTGGCCGAGTGCTGCTTG
++
+AAAAA#EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+@NB501800:327:HF27FBGXB:2:11101:11230:1055 1:N:0:CGCTCATT+CTTCGCCT
+AAAATATTGACTGGTCACCACTTGTCCAGAAATAATGTCAAAAATGGTAGTGCCGACACCGAGATATGAGTCGGTG
++
+AAAAAEEEEEEEEEEEEEEEEEEEEEEEEEAEEEEEEEEEEEEEEEEEEEEEEEEEEEEEAEEEEEEEEEEEEEEE
+@NB501800:327:HF27FBGXB:2:11101:23417:1059 1:N:0:CGCTCATT+CTTCGCCT
+AAAGATATCTGTAGGGTTGACCTCCTTGCCGGAGGGTTTCTTAAGAAGAACTCGAGTACCTTTTCTACCTAGCGCC
+</pre></div><p class="rubric" id="less">less</p>
+<p><code class="docutils literal notranslate"><span class="pre">less</span></code> is a program for taking an interactive look at a text file, like a FASTQ - it let’s you scroll, search, etc. <code class="docutils literal notranslate"><span class="pre">less</span></code> won’t work in the bash notebook, if you want to try it out, you need to use a terminal.</p>
+<p>To switch to a terminal, click on the jupyter “File” menu, and select “Open”. A new browser window/tab should open, with your jupyter “home base”. Here, you should click on the “Files” tab if it is not already active, there click on “New” and select “Terminal”, which should open a new live terminal.</p>
+<p>Since we want to look at a compressed (gzipped) FASTQ, we will use a version of <code class="docutils literal notranslate"><span class="pre">less</span></code> called <code class="docutils literal notranslate"><span class="pre">zless</span></code>, which decompresses on the fly.</p>
+<p>At the terminal’s command prompt, type (or paste) <code class="docutils literal notranslate"><span class="pre">zless</span> <span class="pre">/data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L002_R1_001.fastq.gz</span></code> You should see the first few lines of the file, notice that it looks like the examples we saw in lecture.</p>
+<p><code class="docutils literal notranslate"><span class="pre">zless</span></code> (and its standard cousin <code class="docutils literal notranslate"><span class="pre">less</span></code>) can do a lot of things. Here are a few important keystrokes:</p>
+<ul class="simple">
+<li><p>q : quit</p></li>
+<li><p>space : scroll down a page</p></li>
+<li><p>up/down arrow : scroll up/down by a line</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="What-do-quality-scores-mean?">
+<h1>What do quality scores mean?<a class="headerlink" href="#What-do-quality-scores-mean?" title="Permalink to this headline">¶</a></h1>
+<p>See the <a class="reference internal" href="quality_scores.html"><span class="doc">Quality Scores</span></a> notebook for a “translation” of quality scores. The <a class="reference external" href="https://en.wikipedia.org/wiki/FASTQ_format">Wikipedia article on FASTQs</a> is also a useful resource.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

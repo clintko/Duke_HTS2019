@@ -1,0 +1,391 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Counting Reads\n",
+    "The next step after mapping reads is to count the number of reads that fall within each annotated gene in the genome, so lets set up a count directory.\n",
+    "\n",
+    "## Shell Variables"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[0m\u001b[01;34mcount_out\u001b[0m  \u001b[01;34migv\u001b[0m     \u001b[01;34mqc_output\u001b[0m  \u001b[01;31mstuff_for_igv_shorter_intron.tgz\u001b[0m  \u001b[01;34mtrimmed_fastqs\u001b[0m\n",
+      "\u001b[01;34mgenome\u001b[0m     \u001b[01;34mmyinfo\u001b[0m  \u001b[01;34mstar_out\u001b[0m   \u001b[01;31mstuff_for_igv.tgz\u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Source the config script\n",
+    "source bioinf_intro_config.sh\n",
+    "\n",
+    "mkdir -p $COUNT_OUT\n",
+    "ls $CUROUT"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Counting Reads"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "usage: htseq-count [options] alignment_file gff_file\n",
+      "\n",
+      "This script takes one or more alignment files in SAM/BAM format and a feature\n",
+      "file in GFF format and calculates for each feature the number of reads mapping\n",
+      "to it. See http://htseq.readthedocs.io/en/master/count.html for details.\n",
+      "\n",
+      "positional arguments:\n",
+      "  samfilenames          Path to the SAM/BAM files containing the mapped reads.\n",
+      "                        If '-' is selected, read from standard input\n",
+      "  featuresfilename      Path to the file containing the features\n",
+      "\n",
+      "optional arguments:\n",
+      "  -h, --help            show this help message and exit\n",
+      "  -f {sam,bam}, --format {sam,bam}\n",
+      "                        type of <alignment_file> data, either 'sam' or 'bam'\n",
+      "                        (default: sam)\n",
+      "  -r {pos,name}, --order {pos,name}\n",
+      "                        'pos' or 'name'. Sorting order of <alignment_file>\n",
+      "                        (default: name). Paired-end sequencing data must be\n",
+      "                        sorted either by position or by read name, and the\n",
+      "                        sorting order must be specified. Ignored for single-\n",
+      "                        end data.\n",
+      "  --max-reads-in-buffer MAX_BUFFER_SIZE\n",
+      "                        When <alignment_file> is paired end sorted by\n",
+      "                        position, allow only so many reads to stay in memory\n",
+      "                        until the mates are found (raising this number will\n",
+      "                        use more memory). Has no effect for single end or\n",
+      "                        paired end sorted by name\n",
+      "  -s {yes,no,reverse}, --stranded {yes,no,reverse}\n",
+      "                        whether the data is from a strand-specific assay.\n",
+      "                        Specify 'yes', 'no', or 'reverse' (default: yes).\n",
+      "                        'reverse' means 'yes' with reversed strand\n",
+      "                        interpretation\n",
+      "  -a MINAQUAL, --minaqual MINAQUAL\n",
+      "                        skip all reads with alignment quality lower than the\n",
+      "                        given minimum value (default: 10)\n",
+      "  -t FEATURETYPE, --type FEATURETYPE\n",
+      "                        feature type (3rd column in GFF file) to be used, all\n",
+      "                        features of other type are ignored (default, suitable\n",
+      "                        for Ensembl GTF files: exon)\n",
+      "  -i IDATTR, --idattr IDATTR\n",
+      "                        GFF attribute to be used as feature ID (default,\n",
+      "                        suitable for Ensembl GTF files: gene_id)\n",
+      "  --additional-attr ADDITIONAL_ATTR\n",
+      "                        Additional feature attributes (default: none, suitable\n",
+      "                        for Ensembl GTF files: gene_name). Use multiple times\n",
+      "                        for each different attribute\n",
+      "  -m {union,intersection-strict,intersection-nonempty}, --mode {union,intersection-strict,intersection-nonempty}\n",
+      "                        mode to handle reads overlapping more than one feature\n",
+      "                        (choices: union, intersection-strict, intersection-\n",
+      "                        nonempty; default: union)\n",
+      "  --nonunique {none,all}\n",
+      "                        Whether to score reads that are not uniquely aligned\n",
+      "                        or ambiguously assigned to features\n",
+      "  --secondary-alignments {score,ignore}\n",
+      "                        Whether to score secondary alignments (0x100 flag)\n",
+      "  --supplementary-alignments {score,ignore}\n",
+      "                        Whether to score supplementary alignments (0x800 flag)\n",
+      "  -o SAMOUTS, --samout SAMOUTS\n",
+      "                        write out all SAM alignment records into SAM files\n",
+      "                        (one per input file needed), annotating each line with\n",
+      "                        its feature assignment (as an optional field with tag\n",
+      "                        'XF')\n",
+      "  -q, --quiet           suppress progress report\n",
+      "\n",
+      "Written by Simon Anders (sanders@fs.tum.de), European Molecular Biology\n",
+      "Laboratory (EMBL). (c) 2010. Released under the terms of the GNU General\n",
+      "Public License v3. Part of the 'HTSeq' framework, version 0.11.2.\n"
+     ]
+    }
+   ],
+   "source": [
+    "htseq-count --help"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We will use [htseq-count](http://www-huber.embl.de/users/anders/HTSeq/doc/count.html) to do the counting, but first we need to make some decisions, because the `htseq-count` defaults do not work with some annotation files.  Here are the **most important** commandline options that we need to consider:\n",
+    "* --format=<format>: Format of the input data. Possible values are sam (for text SAM files) and bam (for binary BAM files). Default is sam.\n",
+    "* --stranded=<yes/no/reverse>: whether the data is from a strand-specific assay (default: yes). For stranded=no, a read is considered overlapping with a feature regardless of whether it is mapped to the same or the opposite strand as the feature. For stranded=yes and single-end reads, the read has to be mapped to the same strand as the feature. For paired-end reads, the first read has to be on the same strand and the second read on the opposite strand. For stranded=reverse, these rules are reversed.\n",
+    "* --type=<feature type>: feature type (3rd column in GFF file) to be evaluated, all features of other type are ignored (default, suitable for RNA-Seq analysis using an Ensembl GTF file: exon)\n",
+    "* --idattr=<id attribute>: GFF attribute to be used as feature ID. Several GFF lines with the same feature ID will be considered as parts of the same feature. The feature ID is used to identity the counts in the output table. The default, suitable for RNA-Seq analysis using an Ensembl GTF file, is gene\\_id.\n",
+    "\n",
+    "And here is how we will set those options:\n",
+    "* --format=bam: Since Tophat generated BAM files for us\n",
+    "* --stranded=reverse: The dUTP method that we used for generating a strand-specific library produces reads that are anti-sense, htseq-count considers this to be \"reverse\".\n",
+    "\n",
+    "We need to look at the GFF file to understand what exactly the `--type` and `--idattr` options are, and why we are setting them this way."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "#!genome-build CNA3\n",
+      "#!genome-version CNA3\n",
+      "#!genome-date 2015-11\n",
+      "#!genome-build-accession GCA_000149245.3\n",
+      "#!genebuild-last-updated 2015-11\n",
+      "1\tena\tgene\t100\t5645\t.\t-\t.\tgene_id \"CNAG_04548\"; gene_source \"ena\"; gene_biotype \"protein_coding\";\n",
+      "1\tena\ttranscript\t100\t5645\t.\t-\t.\tgene_id \"CNAG_04548\"; transcript_id \"AFR92135\"; gene_source \"ena\"; gene_biotype \"protein_coding\"; transcript_source \"ena\"; transcript_biotype \"protein_coding\";\n",
+      "1\tena\texon\t5494\t5645\t.\t-\t.\tgene_id \"CNAG_04548\"; transcript_id \"AFR92135\"; exon_number \"1\"; gene_source \"ena\"; gene_biotype \"protein_coding\"; transcript_source \"ena\"; transcript_biotype \"protein_coding\"; exon_id \"AFR92135-1\";\n",
+      "1\tena\tCDS\t5494\t5645\t.\t-\t0\tgene_id \"CNAG_04548\"; transcript_id \"AFR92135\"; exon_number \"1\"; gene_source \"ena\"; gene_biotype \"protein_coding\"; transcript_source \"ena\"; transcript_biotype \"protein_coding\"; protein_id \"AFR92135\"; protein_version \"1\";\n",
+      "1\tena\tstart_codon\t5643\t5645\t.\t-\t0\tgene_id \"CNAG_04548\"; transcript_id \"AFR92135\"; exon_number \"1\"; gene_source \"ena\"; gene_biotype \"protein_coding\"; transcript_source \"ena\"; transcript_biotype \"protein_coding\";\n",
+      "1\tena\texon\t5322\t5422\t.\t-\t.\tgene_id \"CNAG_04548\"; transcript_id \"AFR92135\"; exon_number \"2\"; gene_source \"ena\"; gene_biotype \"protein_coding\"; transcript_source \"ena\"; transcript_biotype \"protein_coding\"; exon_id \"AFR92135-2\";\n",
+      "1\tena\tCDS\t5322\t5422\t.\t-\t1\tgene_id \"CNAG_04548\"; transcript_id \"AFR92135\"; exon_number \"2\"; gene_source \"ena\"; gene_biotype \"protein_coding\"; transcript_source \"ena\"; transcript_biotype \"protein_coding\"; protein_id \"AFR92135\"; protein_version \"1\";\n",
+      "1\tena\texon\t3958\t5263\t.\t-\t.\tgene_id \"CNAG_04548\"; transcript_id \"AFR92135\"; exon_number \"3\"; gene_source \"ena\"; gene_biotype \"protein_coding\"; transcript_source \"ena\"; transcript_biotype \"protein_coding\"; exon_id \"AFR92135-3\";\n",
+      "1\tena\tCDS\t3958\t5263\t.\t-\t2\tgene_id \"CNAG_04548\"; transcript_id \"AFR92135\"; exon_number \"3\"; gene_source \"ena\"; gene_biotype \"protein_coding\"; transcript_source \"ena\"; transcript_biotype \"protein_coding\"; protein_id \"AFR92135\"; protein_version \"1\";\n",
+      "1\tena\texon\t3206\t3890\t.\t-\t.\tgene_id \"CNAG_04548\"; transcript_id \"AFR92135\"; exon_number \"4\"; gene_source \"ena\"; gene_biotype \"protein_coding\"; transcript_source \"ena\"; transcript_biotype \"protein_coding\"; exon_id \"AFR92135-4\";\n",
+      "1\tena\tCDS\t3206\t3890\t.\t-\t1\tgene_id \"CNAG_04548\"; transcript_id \"AFR92135\"; exon_number \"4\"; gene_source \"ena\"; gene_biotype \"protein_coding\"; transcript_source \"ena\"; transcript_biotype \"protein_coding\"; protein_id \"AFR92135\"; protein_version \"1\";\n",
+      "1\tena\texon\t2846\t3126\t.\t-\t.\tgene_id \"CNAG_04548\"; transcript_id \"AFR92135\"; exon_number \"5\"; gene_source \"ena\"; gene_biotype \"protein_coding\"; transcript_source \"ena\"; transcript_biotype \"protein_coding\"; exon_id \"AFR92135-5\";\n",
+      "1\tena\tCDS\t2846\t3126\t.\t-\t0\tgene_id \"CNAG_04548\"; transcript_id \"AFR92135\"; exon_number \"5\"; gene_source \"ena\"; gene_biotype \"protein_coding\"; transcript_source \"ena\"; transcript_biotype \"protein_coding\"; protein_id \"AFR92135\"; protein_version \"1\";\n",
+      "1\tena\texon\t2322\t2782\t.\t-\t.\tgene_id \"CNAG_04548\"; transcript_id \"AFR92135\"; exon_number \"6\"; gene_source \"ena\"; gene_biotype \"protein_coding\"; transcript_source \"ena\"; transcript_biotype \"protein_coding\"; exon_id \"AFR92135-6\";\n",
+      "1\tena\tCDS\t2322\t2782\t.\t-\t1\tgene_id \"CNAG_04548\"; transcript_id \"AFR92135\"; exon_number \"6\"; gene_source \"ena\"; gene_biotype \"protein_coding\"; transcript_source \"ena\"; transcript_biotype \"protein_coding\"; protein_id \"AFR92135\"; protein_version \"1\";\n"
+     ]
+    }
+   ],
+   "source": [
+    "head -20 $GENOME_DIR/$GTF"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "#!genome-build CNA3\n",
+      "#!genome-version CNA3\n",
+      "#!genome-date 2015-11\n",
+      "#!genome-build-accession GCA_000149245.3\n",
+      "#!genebuild-last-updated 2015-11\n",
+      "1\tena\tgene\t100\t5645\t.\t-\t.\tgene_id \"CNAG_04548\"; gene_so\n",
+      "1\tena\ttranscript\t100\t5645\t.\t-\t.\tgene_id \"CNAG_04548\"; t\n",
+      "1\tena\texon\t5494\t5645\t.\t-\t.\tgene_id \"CNAG_04548\"; transc\n",
+      "1\tena\tCDS\t5494\t5645\t.\t-\t0\tgene_id \"CNAG_04548\"; transcr\n",
+      "1\tena\tstart_codon\t5643\t5645\t.\t-\t0\tgene_id \"CNAG_04548\";\n",
+      "1\tena\texon\t5322\t5422\t.\t-\t.\tgene_id \"CNAG_04548\"; transc\n",
+      "1\tena\tCDS\t5322\t5422\t.\t-\t1\tgene_id \"CNAG_04548\"; transcr\n",
+      "1\tena\texon\t3958\t5263\t.\t-\t.\tgene_id \"CNAG_04548\"; transc\n",
+      "1\tena\tCDS\t3958\t5263\t.\t-\t2\tgene_id \"CNAG_04548\"; transcr\n",
+      "1\tena\texon\t3206\t3890\t.\t-\t.\tgene_id \"CNAG_04548\"; transc\n",
+      "1\tena\tCDS\t3206\t3890\t.\t-\t1\tgene_id \"CNAG_04548\"; transcr\n",
+      "1\tena\texon\t2846\t3126\t.\t-\t.\tgene_id \"CNAG_04548\"; transc\n",
+      "1\tena\tCDS\t2846\t3126\t.\t-\t0\tgene_id \"CNAG_04548\"; transcr\n",
+      "1\tena\texon\t2322\t2782\t.\t-\t.\tgene_id \"CNAG_04548\"; transc\n",
+      "1\tena\tCDS\t2322\t2782\t.\t-\t1\tgene_id \"CNAG_04548\"; transcr\n",
+      "1\tena\texon\t1823\t2274\t.\t-\t.\tgene_id \"CNAG_04548\"; transc\n",
+      "1\tena\tCDS\t1823\t2274\t.\t-\t2\tgene_id \"CNAG_04548\"; transcr\n",
+      "1\tena\texon\t1556\t1767\t.\t-\t.\tgene_id \"CNAG_04548\"; transc\n",
+      "1\tena\tCDS\t1556\t1767\t.\t-\t0\tgene_id \"CNAG_04548\"; transcr\n",
+      "1\tena\texon\t100\t1497\t.\t-\t.\tgene_id \"CNAG_04548\"; transcr\n",
+      "1\tena\tCDS\t168\t1497\t.\t-\t1\tgene_id \"CNAG_04548\"; transcri\n",
+      "1\tena\tthree_prime_utr\t100\t167\t.\t-\t.\tgene_id \"CNAG_04548\n",
+      "1\tena\tgene\t5928\t7982\t.\t-\t.\tgene_id \"CNAG_07303\"; gene_s\n",
+      "1\tena\ttranscript\t5928\t7982\t.\t-\t.\tgene_id \"CNAG_07303\"; \n",
+      "1\tena\texon\t7685\t7982\t.\t-\t.\tgene_id \"CNAG_07303\"; transc\n",
+      "1\tena\tCDS\t7685\t7769\t.\t-\t0\tgene_id \"CNAG_07303\"; transcr\n",
+      "1\tena\tstart_codon\t7767\t7769\t.\t-\t0\tgene_id \"CNAG_07303\";\n",
+      "1\tena\texon\t5928\t7626\t.\t-\t.\tgene_id \"CNAG_07303\"; transc\n",
+      "1\tena\tCDS\t6209\t7626\t.\t-\t2\tgene_id \"CNAG_07303\"; transcr\n",
+      "1\tena\tfive_prime_utr\t7770\t7982\t.\t-\t.\tgene_id \"CNAG_0730\n",
+      "1\tena\tthree_prime_utr\t5928\t6208\t.\t-\t.\tgene_id \"CNAG_073\n",
+      "1\tena\ttranscript\t6209\t7769\t.\t-\t.\tgene_id \"CNAG_07303\"; \n",
+      "1\tena\texon\t7685\t7769\t.\t-\t.\tgene_id \"CNAG_07303\"; transc\n",
+      "1\tena\tCDS\t7685\t7769\t.\t-\t0\tgene_id \"CNAG_07303\"; transcr\n",
+      "1\tena\tstart_codon\t7767\t7769\t.\t-\t0\tgene_id \"CNAG_07303\";\n",
+      "1\tena\texon\t6209\t7626\t.\t-\t.\tgene_id \"CNAG_07303\"; transc\n",
+      "1\tena\tCDS\t6212\t7626\t.\t-\t2\tgene_id \"CNAG_07303\"; transcr\n",
+      "1\tena\tstop_codon\t6209\t6211\t.\t-\t0\tgene_id \"CNAG_07303\"; \n",
+      "1\tena\tgene\t8766\t9603\t.\t-\t.\tgene_id \"CNAG_07304\"; gene_s\n",
+      "1\tena\ttranscript\t8766\t9603\t.\t-\t.\tgene_id \"CNAG_07304\"; \n",
+      "1\tena\texon\t9311\t9603\t.\t-\t.\tgene_id \"CNAG_07304\"; transc\n",
+      "1\tena\tCDS\t9311\t9480\t.\t-\t0\tgene_id \"CNAG_07304\"; transcr\n",
+      "1\tena\tstart_codon\t9478\t9480\t.\t-\t0\tgene_id \"CNAG_07304\";\n",
+      "1\tena\texon\t8766\t9246\t.\t-\t.\tgene_id \"CNAG_07304\"; transc\n",
+      "1\tena\tCDS\t9129\t9246\t.\t-\t1\tgene_id \"CNAG_07304\"; transcr\n"
+     ]
+    }
+   ],
+   "source": [
+    "head -50 $GENOME_DIR/$GTF | cut -c -55"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Running htseq-count\n",
+    "So now we are ready!  We run `htseq-count` using `htseq-count ALIGNMENT_FILE GFF_FILE`.  Here is our command for our test sample:\n",
+    "    \n",
+    "* --format=bam: Since Tophat generated BAM files for us\n",
+    "* --stranded=reverse: The dUTP method that we used for generating a strand-specific library produces reads that are anti-sense, htseq-count considers this to be \"reverse\".\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "21_2019_P_M1_S21_L001_R1_short_introns_Aligned.sortedByCoord.out.bam\n",
+      "21_2019_P_M1_S21_L001_R1_short_introns_Aligned.sortedByCoord.out.bam.bai\n",
+      "21_2019_P_M1_S21_L001_R1_short_introns_Log.final.out\n",
+      "21_2019_P_M1_S21_L001_R1_short_introns_Log.out\n",
+      "21_2019_P_M1_S21_L001_R1_short_introns_Log.progress.out\n",
+      "21_2019_P_M1_S21_L001_R1_short_introns_ReadsPerGene.out.tab\n",
+      "21_2019_P_M1_S21_L001_R1_short_introns_SJ.out.tab\n",
+      "21_2019_P_M1_S21_L002_R1_Aligned.out.bam\n",
+      "21_2019_P_M1_S21_L002_R1_Log.final.out\n",
+      "21_2019_P_M1_S21_L002_R1_Log.out\n",
+      "21_2019_P_M1_S21_L002_R1_Log.progress.out\n",
+      "21_2019_P_M1_S21_L002_R1_ReadsPerGene.out.tab\n",
+      "21_2019_P_M1_S21_L002_R1_short_introns_Aligned.sortedByCoord.out.bam\n",
+      "21_2019_P_M1_S21_L002_R1_short_introns_Aligned.sortedByCoord.out.bam.bai\n",
+      "21_2019_P_M1_S21_L002_R1_short_introns_Log.final.out\n",
+      "21_2019_P_M1_S21_L002_R1_short_introns_Log.out\n",
+      "21_2019_P_M1_S21_L002_R1_short_introns_Log.progress.out\n",
+      "21_2019_P_M1_S21_L002_R1_short_introns_ReadsPerGene.out.tab\n",
+      "21_2019_P_M1_S21_L002_R1_short_introns_SJ.out.tab\n",
+      "21_2019_P_M1_S21_L002_R1_SJ.out.tab\n",
+      "\u001b[0m\u001b[01;34m21_2019_P_M1_S21_L002_R1__STARtmp\u001b[0m\n",
+      "genome_Log.out\n",
+      "\u001b[01;34mmultiqc_data\u001b[0m\n",
+      "multiqc_report.html\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls ${STAR_OUT}"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "htseq-count --quiet \\\n",
+    "    --format=bam \\\n",
+    "    --stranded=reverse \\\n",
+    "    ${STAR_OUT}/21_2019_P_M1_S21_L002_R1_Aligned.out.bam \\\n",
+    "    $GENOME_DIR/$GTF > ${COUNT_OUT}/21_2019_P_M1_S21_L002_R1.tsv"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's take a quick peek at the results"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "CNAG_00001\t0\n",
+      "CNAG_00002\t51\n",
+      "CNAG_00003\t23\n",
+      "CNAG_00004\t78\n",
+      "CNAG_00005\t5\n",
+      "CNAG_00006\t546\n",
+      "CNAG_00007\t188\n",
+      "CNAG_00008\t119\n",
+      "CNAG_00009\t29\n",
+      "CNAG_00010\t146\n"
+     ]
+    }
+   ],
+   "source": [
+    "head ${COUNT_OUT}/21_2019_P_M1_S21_L002_R1.tsv"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "There's also some useful information at the end of the file:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "ENSRNA049551862\t0\n",
+      "ENSRNA049551899\t0\n",
+      "ENSRNA049551942\t0\n",
+      "ENSRNA049551964\t0\n",
+      "ENSRNA049551993\t0\n",
+      "__no_feature\t18783\n",
+      "__ambiguous\t316\n",
+      "__too_low_aQual\t0\n",
+      "__not_aligned\t46060\n",
+      "__alignment_not_unique\t35006\n"
+     ]
+    }
+   ],
+   "source": [
+    "tail ${COUNT_OUT}/21_2019_P_M1_S21_L002_R1.tsv"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 1
+}

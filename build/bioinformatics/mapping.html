@@ -1,0 +1,1303 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Mapping Reads to a Reference Genome &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Quick Intro of Analysis Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../janice/1_IntroToCompBoot.html">Duke HTS Summer Course 2018</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/2_Intro_to_Unix_and_bash.html">Introduction to Unix and bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/3_IntroductionToR.html">Introduction to R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/4_Rlibraries_and_bioconductor.html">R libraries and Bioconductor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/5_Tidyverse_HandsOn-Filled.html">Hands-On Tidyverse - with count data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/6_Statistical_Inference.html">Simulations and Statistical Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/7_Statistical_Inference_Solutions.html">Estimation and Hypothesis Testing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix01_File_And_Directory_Solutions.html">Working with Unix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix03_File_Storage_Solutions.html">File archival and recovery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix04_Text_Manipulation_Solutinos.html">Working with text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Analysis of Pilot Data (Gene Count, DESeq2 &amp; DE Analysis)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/8_Pilot2019_getstarcounts-KO.html">Get Star Count of the Pilot 2019 Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/00_deseq_prepare_data.html">DESeq2: Create count matrix and metadata data frame</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/01_deseq_dataobject.html">DESeq2: Create Data Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/02_deseq_DE.html">DESeq2: Basic Differential Expression (DE) analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/03_deseq_interaction.html">DESeq2: Basic Differential Expression (DE) analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/04-deseq2-plots.html">Generate figures from DESEq2 analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Mapping Reads to a Reference Genome</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/bioinformatics/mapping.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Mapping-Reads-to-a-Reference-Genome">
+<h1>Mapping Reads to a Reference Genome<a class="headerlink" href="#Mapping-Reads-to-a-Reference-Genome" title="Permalink to this headline">¶</a></h1>
+<!---
+** Add Intro Text***
+--><div class="section" id="Shell-Variables">
+<h2>Shell Variables<a class="headerlink" href="#Shell-Variables" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Source the config script</span>
+<span class="nb">source</span> bioinf_intro_config.sh
+
+ls <span class="nv">$CUROUT</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-blue-intense-fg ansi-bold">count_out</span>  <span class="ansi-blue-intense-fg ansi-bold">igv</span>     <span class="ansi-blue-intense-fg ansi-bold">qc_output</span>  <span class="ansi-red-intense-fg ansi-bold">stuff_for_igv_shorter_intron.tgz</span>  <span class="ansi-blue-intense-fg ansi-bold">trimmed_fastqs</span>
+<span class="ansi-blue-intense-fg ansi-bold">genome</span>     <span class="ansi-blue-intense-fg ansi-bold">myinfo</span>  <span class="ansi-blue-intense-fg ansi-bold">star_out</span>   <span class="ansi-red-intense-fg ansi-bold">stuff_for_igv.tgz</span>
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Mapping-with-STAR">
+<h2>Mapping with STAR<a class="headerlink" href="#Mapping-with-STAR" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>STAR <span class="se">\</span>
+    --runMode alignReads <span class="se">\</span>
+    --twopassMode None <span class="se">\</span>
+    --genomeDir <span class="nv">$GENOME_DIR</span> <span class="se">\</span>
+    --readFilesIn <span class="nv">$TRIMMED</span>/21_2019_P_M1_S21_L002_R1_001.trim.fastq.gz <span class="se">\</span>
+    --readFilesCommand gunzip -c <span class="se">\</span>
+    --outFileNamePrefix <span class="si">${</span><span class="nv">STAR_OUT</span><span class="si">}</span>/21_2019_P_M1_S21_L002_R1_ <span class="se">\</span>
+    --quantMode GeneCounts <span class="se">\</span>
+    --outSAMtype BAM Unsorted <span class="se">\</span>
+    --outSAMunmapped Within <span class="se">\</span>
+    --runThreadN <span class="m">2</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Jun 26 15:10:01 ..... started STAR run
+Jun 26 15:10:01 ..... loading genome
+Jun 26 15:10:05 ..... started mapping
+Jun 26 15:11:40 ..... finished successfully
+</pre></div></div>
+</div>
+<p>We will start with these parameters, but there is an extensive list of command line options detailed in the <a class="reference external" href="https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf">STAR Manual</a>, it is a good idea to read through and try to understand all of them. We will discuss some more later.</p>
+<ul class="simple">
+<li><p>–runMode alignReads : map reads</p></li>
+<li><p>–twopassMode : Run one pass or two? If two-pass mode is on, STAR tries to discover novel junctions, then reruns mapping with these added to the annotation</p></li>
+<li><p>–genomeDir : directory containing the genome index</p></li>
+<li><p>–readFilesIn : input FASTQ</p></li>
+<li><p>–readFilesCommand gunzip -c : use “gunzip -c” to uncompress FASTQ on-the-fly, since it is gzipped</p></li>
+<li><p>–outFileNamePrefix : prefix (and path) to use for all output files</p></li>
+<li><p>–quantMode GeneCounts : output a table of read counts per gene</p></li>
+<li><p>–outSAMtype BAM Unsorted : output an unsort BAM file</p></li>
+<li><p>–outSAMunmapped Within : included unmapped reads in the BAM file</p></li>
+<li><p>–runThreadN : tells STAR to run using multiple cores. I am using it so we don’t have to wait too long for this to run during class. It is OK to use multiple cores, but before you do this you should be sure that the server is not busy, and even then you should use a reasonable number of cores. Abusing multi-threading is inconsiderate of other users and could crash the server.</p></li>
+</ul>
+<div class="section" id="STAR-Output">
+<h3>STAR Output<a class="headerlink" href="#STAR-Output" title="Permalink to this headline">¶</a></h3>
+<p>So what happened? Let’s take a look …</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls <span class="si">${</span><span class="nv">STAR_OUT</span><span class="si">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+21_2019_P_M1_S21_L001_R1_short_introns_Aligned.sortedByCoord.out.bam
+21_2019_P_M1_S21_L001_R1_short_introns_Aligned.sortedByCoord.out.bam.bai
+21_2019_P_M1_S21_L001_R1_short_introns_Log.final.out
+21_2019_P_M1_S21_L001_R1_short_introns_Log.out
+21_2019_P_M1_S21_L001_R1_short_introns_Log.progress.out
+21_2019_P_M1_S21_L001_R1_short_introns_ReadsPerGene.out.tab
+21_2019_P_M1_S21_L001_R1_short_introns_SJ.out.tab
+21_2019_P_M1_S21_L002_R1_Aligned.out.bam
+21_2019_P_M1_S21_L002_R1_Log.final.out
+21_2019_P_M1_S21_L002_R1_Log.out
+21_2019_P_M1_S21_L002_R1_Log.progress.out
+21_2019_P_M1_S21_L002_R1_ReadsPerGene.out.tab
+21_2019_P_M1_S21_L002_R1_short_introns_Aligned.sortedByCoord.out.bam
+21_2019_P_M1_S21_L002_R1_short_introns_Aligned.sortedByCoord.out.bam.bai
+21_2019_P_M1_S21_L002_R1_short_introns_Log.final.out
+21_2019_P_M1_S21_L002_R1_short_introns_Log.out
+21_2019_P_M1_S21_L002_R1_short_introns_Log.progress.out
+21_2019_P_M1_S21_L002_R1_short_introns_ReadsPerGene.out.tab
+21_2019_P_M1_S21_L002_R1_short_introns_SJ.out.tab
+21_2019_P_M1_S21_L002_R1_SJ.out.tab
+genome_Log.out
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>head <span class="si">${</span><span class="nv">STAR_OUT</span><span class="si">}</span>/21_2019_P_M1_S21_L002_R1*
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+==&gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_Aligned.out.bam &lt;==
+     � BC ���Mo�@���C</div></div>
+</div>
+<dl class="simple">
+<dt>$�&#64;�H�X!���_�S�T�JM��M���^����</dt><dd><p>�?�g�    =��r�#�q�R�
+�#�M�AX�qLlӪVq,�1gy��^�4�Z{p_(���Z�2b2V2O4��      �)�</p>
+</dd>
+</dl>
+<p>�Lk�
+���d&amp;amp;0�.��,`��0������v��u�5�p��#�ڬb qm�e-��Ř=�</p>
+<blockquote>
+<div><p>6:�Z�W���1?��a5��]�����z�       /</p>
+</div></blockquote>
+<p>q=�     �b�����D
+{:0�”��r���D       �q�t?�^�&amp;lt;1�a����</p>
+<blockquote>
+<div><p>�2ө������ �f����Y�eF��A*wS��b�����NkS���F�ۀ���&#64;5��g7��&#64;��q&amp;amp;�i</p>
+</div></blockquote>
+<dl class="simple">
+<dt>B��=�d&amp;gt;V/�x?��ᳳN�� �U���TƠ���)ח:�BD’���</dt><dd><p>�gB�ިO�.��i���ł���{Z��D</p>
+</dd>
+<dt>��</dt><dd><p>�5YY�y��ϗ��^����U]�j&amp;amp;��s�9������40=b�;��</p>
+</dd>
+</dl>
+<p>#�ĮMEKGC QT;a.pF1�AŏN����cl�J�a���Y�0���Uu�{�ǩ�Y+����ԩ�{������~��g��~����0{��^
+������Twp:{�Y�͏�����8|F�����s^b��x�|�����x��������G�fy^�Ɩ���&amp;amp;��8I��[$u�DMEm��ud�q՝������’��������Vw�T=�Λ����W�����c����`z�n�ӒC��
+�(lӠ��1���aS�eX��d�i�*�L?�S#&amp;lt;��i̙�j���C����)tZ��{�t�0�i�,HB�%a��IPU�f6.m��”�y$n0P�H��P:���Q�^���ʕk�r%��]�~���kׯ�l�ӣ��_x����I�櫽�        &amp;amp;DEaY�Q��^�E
+�MY��j��$�q��咇��lwq�N�</p>
+<blockquote>
+<div><p>�[���e���O�c��.&amp;gt;�0�VǇ</p>
+</div></blockquote>
+<p>�;4��06a֤Un�, �866��&amp;amp;/�0,�”/��o��&amp;amp;�#�bl��U����܍ۿ�k����k :e#D��l��
+?�&amp;lt;D�h</p>
+<blockquote>
+<div><p>�V��� �&amp;amp;,�6o”�D��G�Viۤ��”�aRY/ ����</p>
+</div></blockquote>
+<p>�
+��{���8ݣ#HN&#64;�p
+���W`�&amp;amp;��&amp;lt;&amp;gt;�&#64;��
+2*</p>
+<dl>
+<dt>��J���4 3 ��&amp;amp;(�m�ب��U)׃X&#64;�׮�!�h�t�N����</dt><dd><p>8tW�z1��̛�9���W&amp;lt;t+��}</p>
+<dl>
+<dt>==&amp;gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_Log.final.out &amp;lt;==</dt><dd><blockquote>
+<div><blockquote>
+<div><p>Started job on |       Jun 26 15:10:01</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Started mapping on |       Jun 26 15:10:05</dt><dd><p>Finished on |       Jun 26 15:11:40</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Mapping speed, Million of reads per hour |       92.30</p>
+<blockquote>
+<div><blockquote>
+<div><blockquote>
+<div><p>Number of input reads |       2435761</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Average input read length |       75</dt><dd><p>UNIQUE READS:</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Uniquely mapped reads number |       2354695</dt><dd><p>Uniquely mapped reads % |       96.67%</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+<p>==&amp;gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_Log.out &amp;lt;==
+STAR version=STAR_2.5.2b
+STAR compilation time,server,dir=&amp;lt;not set in Debian&amp;gt;
+##### DEFAULT parameters:
+versionSTAR                       20201
+versionGenome                     20101   20200
+parametersFiles                   -
+sysShell                          -
+runMode                           alignReads
+runThreadN                        1
+runDirPerm                        User_RWX</p>
+<dl class="simple">
+<dt>==&amp;gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_Log.progress.out &amp;lt;==</dt><dd><dl class="simple">
+<dt>Time    Speed        Read     Read   Mapped   Mapped   Mapped   Mapped Unmapped Unmapped Unmapped Unmapped</dt><dd><p>M/hr      number   length   unique   length   MMrate    multi   multi+       MM    short    other</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Jun 26 15:11:06     94.5     1601279       75    96.7%     75.4     0.2%     1.4%     0.1%     0.0%     1.8%     0.0%
+ALL DONE!</p>
+<p>==&amp;gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_ReadsPerGene.out.tab &amp;lt;==
+N_unmapped      46060   46060   46060
+N_multimapping  35006   35006   35006
+N_noFeature     12466   2145291 18783
+N_ambiguous     203327  820     316
+CNAG_04548      0       0       0
+CNAG_07303      0       0       0
+CNAG_07304      6       0       6
+CNAG_00001      0       0       0
+CNAG_07305      1       0       1
+CNAG_00002      51      0       51</p>
+<p>==&amp;gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_short_introns_Aligned.sortedByCoord.out.bam &amp;lt;==
+�F��T����i����Di���(��{y�ׇ��L�v33���S�[��f�nJ ^B�;�ݝ�ɬ}A�я�I��z�#������� Ba����̓�Fp��u��,�:��F�V�i�KD,ye!|f�j�Xm�)e�f�`�h3R”:%ĥ����Հ9�ClR0�m�&amp;gt;��V8�u�ٔ�n�`</p>
+</dd>
+</dl>
+<p>�c.��|���#��c�&amp;lt;� ;��v   �ޡK;�pϳ�KKG�
+׳�}pfS��* �ece�
+�7:F���</p>
+<blockquote>
+<div><p><a href="#id1"><span class="problematic" id="id2">`</span></a>�E:�KIfZC%���XX�i��ʻY,�Ck+Iя!���z25��d��q�j�%�1�E�8�;�EID1aQ;
+H��*�4cR�z�`�LxN��L��X���D</p>
+</div></blockquote>
+<p>$�ӱn�I’rji�c��x?ٻ��rg��&amp;gt;_�0ͤv�&amp;lt;*V �����b#P(T�[�o�I?���i?I���A���w�:
+���`h�nn��O}��$�x� �L’B�E��M��&amp;lt;��V*ԯ�3&amp;amp;9����g%��M�˙a9=��咣r~JTF.3
+�ҩ̜�������Q�=��Wn!��������kJm�R���}P5�kF+��8 �A?�΁rћowAy��V&amp;gt;���C�n���׏f�$���{ZR�����54��H��N�&amp;amp;� �Ъ�.�BCe=�}{�,[VV�{�0�h���:�z�9Ֆڀ&#64;�_�s�ny���+�0*��#�   ����11��Ҵ&amp;lt;�����</p>
+<blockquote>
+<div><p>��u�1b4����׮]���Uu�ĩ{�U��O�W��k����{���</p>
+</div></blockquote>
+<p>���F��{�����{Q��������b?�W��1u�{5}����X.��b�����~5��K�QEdyz��
+&amp;amp;�)+�I0     �sM��y���o&amp;lt;�_
+�E�&amp;gt;�ǟ���_y)�+/&amp;amp;_��{���2��h�݀��#�}]!-���߮���b�} ����ir�ϓ�)���i��t��i��8
+G�N� ��{�&#64;z; } }����,K�!-i{�W��j7�4ˣl�f�8�&amp;amp;�I�f��li:�r�F�l�N�Cz��nKΓXY�o�~R=��cI }²�.&#64;R��i�V��q��n������HNI���p�M�I�g�)���&amp;lt;b�`��ݩy�bzIi��ӟ&amp;amp;&amp;amp;+y_�G���
+mi�ޭ�� z��O�,��s�y��Dc bBz����������8&#64;��*
+&amp;gt;$I���’-3OP&amp;amp;x</p>
+<blockquote>
+<div><p>����)�7 ���[���?��6����0?CA�I2���l�AI��4:EA ‘Y;S�Z�-�B�����c�!j�’�&#64;-��������j��DM�u</p>
+</div></blockquote>
+<p>��
+OF)~ڢj��S���a�ܬ�#� ��Z4�mG�qL�i���(    �b�J_�c
+���MP���-��������q�8,�����Ί�*o��`����i���������v =S��(, �{�m�w��&amp;gt;�7”�=}��%��5�N��f�[�|�nb̻ ̻S8���</p>
+<blockquote>
+<div><p>#�����ڕ���a=z���m�~t(XF�T�a=7�����0�a.����%���f��%2؎=u㠒x��О`-�[���0L=P�j��u� w������Z-�����򸜯��5n&amp;gt;m���&amp;amp;�����G”Ӧ^�ug+��</p>
+</div></blockquote>
+<p>�|�_ÉZ�a”��9}�8�I’ERde���FPx콒4+2|�K�-�&amp;gt;=���
+hW�NԿ�*��o=��n���EO
+�W��T�</p>
+<blockquote>
+<div><p>�6�) �����u�&amp;lt;[����c �e� `   �������}ᓠ���?^A��ӂ·��#z`c�O�K�`.����F�d*U�U�Gk��P</p>
+</div></blockquote>
+<p>#x&amp;gt;��D���OX�GL�:��:�d � �����ކ=PHo&amp;gt;      ��Wsw �ԏ��������~+</p>
+<blockquote>
+<div><p>��đև�R�}������R�29�C�{�g�G���Ef��/������</p>
+</div></blockquote>
+<dl class="simple">
+<dt>5p�TQ��kS=��55�b�[�ׅ� ��2�z�II ?l*</dt><dd><p>�{��!����Zn;t�A�DC1�S�e</p>
+</dd>
+</dl>
+<p>��s��� x��”=&amp;lt;|�K�z�|C��        P��#�{�F}��ٜ�#&amp;lt;L��Q�g��  ��v�v{6���O�a:�
+��br��
+C*��9��������7yz�g&#64;���s���at]wt� ��� �� �fE���&amp;gt;UHlS��+�[&#64;z��$��ǭ���S��_��CO&#64;�i��I����
+�F�����,I�I��)&amp;gt;’Y
+N�&amp;lt;���$/�&#64;3J��S�.� P9ƾxca�C&amp;amp;`џb/������߻˨�����8(��r�H�|]�~I���8,ð ���9��E8��0��cj��z�c4��l�#���Ǐ�t��-X&amp;lt;/�T� � ���Z_����|u6�`Ԓ���~s0ͪ����#O��
+�r[�?$�t%K����WaB��G�:�n����+�d� �3�.CT��za�”����C�������7*�����1��_/��J����[[��(���7���Y�~�����z6�`�#J1���G�{VLZ�N߭�4&amp;gt;F��3Ջ����|�;
+�qn�v</p>
+<blockquote>
+<div><p>B#�x�  �:��A|յ����</p>
+</div></blockquote>
+<p>���[,w{c�u���
+y*��    4�T�U��I��</p>
+<blockquote>
+<div><p>==&amp;gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_short_introns_Aligned.sortedByCoord.out.bam.bai &amp;lt;==
+�JM����(�c�1+���B,�Έ+-rpT/+�pT/t�a0�rU�0`�0ϱ</p>
+</div></blockquote>
+<p>���^��N��7^&amp;gt;
+n�Έ+-rpT/o+�pT/t�a0l�c�1+���B,rsp�1�Y�;5z���N&amp;lt;qMj=~^�LCZ
+�`D��j�EO[�F}f �]&amp;gt;�cLCN4yU�0sp�1��M6��av9O7���;���N&amp;lt;qMj=f �]&amp;gt;X,LC^�LCZ
+�`D�j�Ex��av9[���;s�Y�;5��M6�nE_pG�ڣ�I�!�jvM��JQ���JQ�.K�TP�2[�FnE_pG�ڣ�I�(L�L��|KV�~:�W��:�WVq��X�Vq��X���Z����Zk.h�^�&amp;gt;�T�k�Y��l�W�</p>
+<blockquote>
+<div><p>`+xcQ�*L�L!�jvM�.K�T�|KV�~:�W�:�WRI���_W�
+`I’�e��բf�k.h�^I���_���բf��g�+xcI’�eJ���Z���Z��g� ��g&amp;lt;� o�� o󉱎x����x50�d�05�d�����h�</p>
+</div></blockquote>
+<p>i�^�
+i��T�k�&amp;lt;&amp;amp;xPqJʹrS� ��g���h</p>
+<blockquote>
+<div><p>�5��{yl~5T�̂U{�nz�m6Q{��2`|馷}Zpl~{yl~5T�̂50�d���m6Q{��2`|���5�,lYÎ�׉��&#64;ҋ��q�t��B����B��05�d��0&amp;gt;���0&amp;gt;��
+��?���J΢�JS�j��R�f”N��N��7^&amp;gt;</p>
+</div></blockquote>
+<p>����
+����� 1��!� x�&amp;amp;��J�q:1���ޚ������ƹ�d�d���=x���`�ի��:1�G�g;���g;��=ƹ���,�(�JAD��X��xٜ�J�q:1��:1�G�g;��g;��6ƹ��ƹ�d�d��^e�$�Y^e�$�=x���`�ի8�ի��&amp;amp;T��,�(�JAD���d�Y�Z�d�Y��n���������ζs��8�ի��&amp;amp;T���n��������J���ζs�!���� &#64;�%��r�h�����������y�/�w����#W��k�      :+�j ��դ �E�</p>
+<blockquote>
+<div><p>�6’�yz’��8�’���q(����(�&#64;��)2��*4b�1+���B,�Έ+-rpT/t�a0�rU�0�p�1�Y�;5��M6���6���7XE��8��av9[���;���N&amp;lt;qMj=����=��]&amp;gt;X,LCZ</p>
+</div></blockquote>
+<p>�`DFf�EO[�FnE_pG�ڣ�I��9’J�ğjJ�*�Js�`K��w�K�(L�L!�jvM��JQ�.K�TL��U�|KV�~:�WVq��X���Zk.h�^I���_�</p>
+<blockquote>
+<div><blockquote>
+<div><p>`+xcI’�evR�+f��բf��g���h�5�,lYÎ�5������&#64;ҋ�`�t��B��o���gpZ%xPqJʹr���t�S�v��*wy�7x󉱎x{�nz�m6Q{��2`|ɘ�}Zpl~5T�̂�&amp;lt;g��50�d��0&amp;gt;��</p>
+<dl>
+<dt>==&amp;gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_short_introns_Log.final.out &amp;lt;==</dt><dd><blockquote>
+<div><blockquote>
+<div><p>Started job on |       Jun 24 09:50:39</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Started mapping on |       Jun 24 09:50:39</dt><dd><p>Finished on |       Jun 24 09:51:17</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Mapping speed, Million of reads per hour |       230.76</p>
+<blockquote>
+<div><blockquote>
+<div><blockquote>
+<div><p>Number of input reads |       2435761</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Average input read length |       75</dt><dd><p>UNIQUE READS:</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Uniquely mapped reads number |       2355964</dt><dd><p>Uniquely mapped reads % |       96.72%</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+<p>==&amp;gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_short_introns_Log.out &amp;lt;==
+STAR version=STAR_2.5.2b
+STAR compilation time,server,dir=&amp;lt;not set in Debian&amp;gt;
+##### DEFAULT parameters:
+versionSTAR                       20201
+versionGenome                     20101   20200
+parametersFiles                   -
+sysShell                          -
+runMode                           alignReads
+runThreadN                        1
+runDirPerm                        User_RWX</p>
+<dl class="simple">
+<dt>==&amp;gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_short_introns_Log.progress.out &amp;lt;==</dt><dd><dl class="simple">
+<dt>Time    Speed        Read     Read   Mapped   Mapped   Mapped   Mapped Unmapped Unmapped Unmapped Unmapped</dt><dd><p>M/hr      number   length   unique   length   MMrate    multi   multi+       MM    short    other</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>ALL DONE!</p>
+<p>==&amp;gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_short_introns_ReadsPerGene.out.tab &amp;lt;==
+N_unmapped      46059   46059   46059
+N_multimapping  33738   33738   33738
+N_noFeature     12438   2146527 18736
+N_ambiguous     203237  786     143
+CNAG_04548      0       0       0
+CNAG_07303      0       0       0
+CNAG_07304      6       0       6
+CNAG_00001      0       0       0
+CNAG_07305      1       0       1
+CNAG_00002      51      0       51</p>
+<p>==&amp;gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_short_introns_SJ.out.tab &amp;lt;==
+1       9247    9310    2       2       1       6       4       35
+1       10455   10506   1       3       0       7       8       24
+1       10609   10694   1       1       0       0       2       21
+1       11574   11622   2       2       0       0       1       21
+1       11574   11637   2       2       0       0       2       32
+1       12904   12991   1       1       1       4       0       37
+1       13077   13136   1       1       1       10      0       37
+1       13256   13310   1       1       1       7       0       37
+1       13480   13530   1       1       1       5       0       33
+1       13480   13534   1       1       0       1       0       28</p>
+<p>==&amp;gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_SJ.out.tab &amp;lt;==
+1       9247    9310    2       2       1       6       4       35
+1       10455   10506   1       3       0       7       7       24
+1       10609   10694   1       1       0       0       2       21
+1       11574   11622   2       2       0       0       1       21
+1       11574   11637   2       2       0       0       2       32
+1       12904   12991   1       1       1       4       0       37
+1       13077   13136   1       1       1       10      0       37
+1       13256   13310   1       1       1       7       0       37
+1       13480   13530   1       1       1       5       0       33
+1       13480   13534   1       1       0       1       0       28
+&lt;/pre&gt;</p>
+</div></blockquote>
+</div></blockquote>
+<dl class="simple">
+<dt>$�&#64;�H�Xtextbackslash{}!���_�S�T�JM��M���^{}����</dt><dd><p>�?�g�    =��r�#�q�R�
+�#�M�AX�qLlӪVq,�1gy��^{}�4�Z{p_(���Z�2b2V2O4��        �)�</p>
+</dd>
+</dl>
+<p>�Lk�
+���d&amp;0�.��,`��0������v��u�5�p��#�ڬb qm�e-��Ř=�</p>
+<blockquote>
+<div><p>6:�Z�W���1?��a5��]�����z�       /</p>
+</div></blockquote>
+<p>q=�     �b�����D
+{:0�”��r���D  �q�t?�^{}�&lt;1�a����</p>
+<blockquote>
+<div><p>�2ө������ �f����Y�eF��A*wS��b�����NkS���F�ۀ���&#64;5��g7��&#64;��q&amp;�i</p>
+</div></blockquote>
+<dl class="simple">
+<dt>B��=�d&gt;V/�x?��ᳳN�� �U���TƠ���)ח:�BD’���</dt><dd><p>�gB�ިO�.��i���ł���{Z��D</p>
+</dd>
+<dt>��</dt><dd><p>�5YY�y��ϗ��^{}����U]�j&amp;��s�9������40=b�;��</p>
+</dd>
+</dl>
+<p>#�ĮMEKGC QT;atextbackslash{}.pF1�AŏN����cl�J�a���Y�0���Uu�{�ǩ�Y+����ԩ�{������textasciitilde{}��g��textasciitilde{}����0{��^{}
+������Twp:{�Y�͏�����8|F�����s^{}b��x�|�����x��������G�fy^{}�Ɩ���&amp;��8I��[$u�DMEm��ud�q՝������’��������Vw�T=�Λ����W�����c����`z�n�ӒC��
+�(lӠ��1���aS�eX��d�i�*�L?�S#&lt;��i̙�j���C����)tZ��{�t�0�i�,HB�%a��IPU�f6.m��”�y$n0P�H��P:���Q�^{}���ʕk�r%��]�textasciitilde{}���kׯ�l�ӣ��_x����I�櫽�      &amp;DEaY�Q��^{}�E
+�MY��j��$�q��咇��lwq�N�</p>
+<blockquote>
+<div><p>�[���e���O�c��.&gt;�0�VǇ</p>
+</div></blockquote>
+<p>�;4��06a֤Un�, �866��&amp;/�0,�”/��o��&amp;�#�bl��U����܍ۿ�k����k :e#D��l��
+?�&lt;D�h</p>
+<blockquote>
+<div><p>�V��� �&amp;,�6o”�D��G�Viۤ��”�aRY/ ����</p>
+</div></blockquote>
+<p>�
+��{���8ݣ#HN&#64;�p
+���W`�&amp;��&lt;&gt;�&#64;��
+2*</p>
+<dl>
+<dt>��J���4 3 ��&amp;(�m�ب��U)׃X&#64;�׮�!�h�t�N����</dt><dd><p>8tW�z1��̛�9���W&lt;t+��}</p>
+<dl>
+<dt>==&gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_Log.final.out &lt;==</dt><dd><blockquote>
+<div><blockquote>
+<div><p>Started job on |       Jun 26 15:10:01</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Started mapping on |       Jun 26 15:10:05</dt><dd><p>Finished on |       Jun 26 15:11:40</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Mapping speed, Million of reads per hour |       92.30</p>
+<blockquote>
+<div><blockquote>
+<div><blockquote>
+<div><p>Number of input reads |       2435761</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Average input read length |       75</dt><dd><p>UNIQUE READS:</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Uniquely mapped reads number |       2354695</dt><dd><p>Uniquely mapped reads % |      96.67%</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+<p>==&gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_Log.out &lt;==
+STAR version=STAR_2.5.2b
+STAR compilation time,server,dir=&lt;not set in Debian&gt;
+##### DEFAULT parameters:
+versionSTAR                       20201
+versionGenome                     20101   20200
+parametersFiles                   -
+sysShell                          -
+runMode                           alignReads
+runThreadN                        1
+runDirPerm                        User_RWX</p>
+<dl class="simple">
+<dt>==&gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_Log.progress.out &lt;==</dt><dd><dl class="simple">
+<dt>Time    Speed        Read     Read   Mapped   Mapped   Mapped   Mapped Unmapped Unmapped Unmapped Unmapped</dt><dd><p>M/hr      number   length   unique   length   MMrate    multi   multi+       MM    short    other</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Jun 26 15:11:06     94.5     1601279       75    96.7%     75.4     0.2%     1.4%     0.1%     0.0%     1.8%     0.0%
+ALL DONE!</p>
+<p>==&gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_ReadsPerGene.out.tab &lt;==
+N_unmapped     46060   46060   46060
+N_multimapping 35006   35006   35006
+N_noFeature    12466   2145291 18783
+N_ambiguous    203327  820     316
+CNAG_04548     0       0       0
+CNAG_07303     0       0       0
+CNAG_07304     6       0       6
+CNAG_00001     0       0       0
+CNAG_07305     1       0       1
+CNAG_00002     51      0       51</p>
+<p>==&gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_short_introns_Aligned.sortedByCoord.out.bam &lt;==
+�F��T��textbackslash{}��i����Di���(��{y�ׇ��L�v33���S�[��f�nJ ^{}B�;�ݝ�ɬ}A�я�I��z�#������� Ba����̓�Fp��u��,�:��F�V�i�KD,ye!|f�j�Xm�)e�f�`�h3R”:%ĥ����Հ9�ClR0�m�&gt;��V8�u�ٔ�n�`</p>
+</dd>
+</dl>
+<p>�c.��|���#��c�&lt;� ;��v     �ޡK;�pϳ�KKG�
+׳�}pfS��* �ece�
+�7:F���</p>
+<blockquote>
+<div><p><a href="#id3"><span class="problematic" id="id4">`</span></a>�E:�KIfZC%���XX�i��ʻY,�Ck+Iя!���z25��d��q�j�%�1�E�8�;�EID1aQ;
+H��*�4cR�z�`�LxN��L��X���D</p>
+</div></blockquote>
+<p>$�ӱn�I’rji�c��x?ٻ��rg��&gt;_�0ͤv�&lt;<a href="#id5"><span class="problematic" id="id6">*</span></a>V �����b#P(T�[�o�I?���i?I���A���w�:
+���`h�nn��O}��$�x� �L’B�E��M��&lt;��V*ԯ�textbackslash{}3&amp;9����g%��M�˙a9=��咣rtextasciitilde{}JTF.3
+�textbackslash{}ҩ̜�������Q�=��Wn!��������kJm�R���}P5�kF+��8 �A?�΁rћowAy��V&gt;���C�n���׏f�$���{ZR�����54��H��N�&amp;� �Ъ�.�BCe=�}{�,[VV�{�0�h���:�z�9Ֆڀ&#64;�_�s�ny���+�0*��#�  ����11��Ҵ&lt;�����</p>
+<blockquote>
+<div><p>��u�1b4����׮]���Uu�ĩ{�U��O�W��k����{���</p>
+</div></blockquote>
+<p>���F��{�����{Q��������b?�W��1u�{5}����X.��b�����textasciitilde{}5��K�QEdyz��
+&amp;�)+�I0        �sM��y���o&lt;�_
+�E�&gt;�ǟ���_y)�+/&amp;_��{���2��h�݀��#�}]!-���߮���b�} ����ir�ϓ�)���i��t��i��8
+G�N� ��{�&#64;z; } }����,K�!-i{textbackslash{}�W��j7�4ˣl�f�8�&amp;�I�f��li:�r�F�l�N�Cz��nKΓXY�o�textasciitilde{}R=��cI }²�.&#64;R��i�V��q��n������HNI���p�M�I�g�)���&lt;b�`��ݩy�bzIi��ӟ&amp;&amp;+y_�G���
+mi�ޭ�� z��O�,��s�y��Dc bBz����������8&#64;��*
+&gt;$I���’-3OP&amp;x</p>
+<blockquote>
+<div><p>����)�7 ���[���?��6����0?CA�I2���l�AI��4:EA ‘Y;S�Z�-�B�����c�!j�’�&#64;-��������j��DM�u</p>
+</div></blockquote>
+<p>��
+OF)textasciitilde{}ڢj��S���a�ܬ�#� ��Z4�mG�qL�i���(   �b�J_�c
+���MP���-��������q�8,�����Ί�*o��`����i���������v =S��(, �{�m�w��&gt;�7”�=}��%��5�N��f�[�|�nb̻     ̻S8���</p>
+<blockquote>
+<div><p>#�����ڕ���a=z���m�textasciitilde{}t(XF�T�a=7�����0�a.����%���f��%2؎=u㠒x��О`-�[���0L=P�j��u� w������Z-�����򸜯��5n&gt;m���&amp;�����G”Ӧ^{}�ug+��</p>
+</div></blockquote>
+<p>�|�_ÉZ�a”��9}�8�I’ERde���FPx콒4+2|�K�-�&gt;=���
+hW�NԿ�*��o=��n���EO
+�W��T�</p>
+<blockquote>
+<div><p>�6�) �����u�&lt;[����c �e� `      �������}ᓠ���?^{}A��ӂ·textbackslash{}��#z`c�O�K�`.����textbackslash{}F�d*textbackslash{}U�U�Gk��P</p>
+</div></blockquote>
+<p>#x&gt;��D���OX�GL�:��:�d � �����ކ=PHo&gt;   ��Wsw �ԏ�����textbackslash{}
+���textasciitilde{}+</p>
+<blockquote>
+<div><p>��đև�R�}�����textbackslash{}�R�29�C�{�g�G���Ef��/������</p>
+</div></blockquote>
+<dl class="simple">
+<dt>5p�TQ��kS=��55�b�[�ׅ� ��2�z�II ?l*</dt><dd><p>�{��!����Zn;t�A�DC1�S�e</p>
+</dd>
+</dl>
+<p>��s��� x��”=&lt;<a href="#id7"><span class="problematic" id="id8">|�K�z�|C��       P��\#�\{�F\}��ٜ�\#&lt;L��Q�g�� ��v�v\{6���O�a:�
+��br��
+C*��9��������7yz�g&#64;���s���at]wt� ��� �� �fE���&gt;UHlS��+�[&#64;z��\$��ǭ���S��\_��CO&#64;�i��I\textbackslash{}����
+�F�����,I�I��)&gt;'Y
+N�&lt;���\$/�&#64;3J��S�.�   P9ƾxca�C\&amp;`џb/������߻\˨�����8(��r�H�|</span></a>]�textasciitilde{}I���8,ð ���9��E8��0��cj��z�c4��l�#���Ǐ�t��-X&lt;/�T� � ���Z_����|u6�`Ԓ���textasciitilde{}s0ͪ����#O��
+�r[�?$�t%K����WaB��G�:�n����+�d�       �3�.CT��za�”����C�������7*�����1��_/��J����[[��(���7���Y�textasciitilde{}�����z6�`�#J1���G�{VLZ�N߭�4&gt;F��3Ջ����|�;
+�qn�v</p>
+<blockquote>
+<div><p>B#�x� �:��A|յ����</p>
+</div></blockquote>
+<p>���[,w{c�u���
+y*��    4�T�U��I��</p>
+<blockquote>
+<div><p>==&gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_short_introns_Aligned.sortedByCoord.out.bam.bai &lt;==
+�JM����(�c�1+���B,�Έ+-rpT/+�pT/t�a0�rU�0`�0ϱ</p>
+</div></blockquote>
+<p>���^{}��N��7^{}&gt;
+n�Έ+-rpT/o+�pT/t�a0l�c�1+���B,rsp�1�Y�;5z���N&lt;qMj=textasciitilde{}^{}�LCZ
+�`D��j�EO[�F}f �]&gt;�cLCN4yU�0sp�1��M6��av9O7���;���N&lt;qMj=f �]&gt;X,LC^{}�LCZ
+�`D�j�Ex��av9[���;s�Y�;5��M6�nE_pG�ڣ�I�!�jvM��JQ���JQ�.K�TP�2[�FnE_pG�ڣ�I�(L�L��|KV�textasciitilde{}:�W��:�WVq��X�Vq��X���Z����Zk.h�^{}�&gt;�T�k�Y��l�W�</p>
+<blockquote>
+<div><p>textbackslash{}`+xcQ�*L�L!�jvM�.K�T�|KV�textasciitilde{}:�W�:�WRI���_W�
+textbackslash{}`I’�e��բf�k.h�^{}I���_���բf��g�+xcI’�eJ���Z���Z��g� ��g&lt;� o�� o󉱎x����x50�d�05�d�����h�</p>
+</div></blockquote>
+<p>i�^{}�
+i��T�k�&lt;&amp;xPqJʹtextbackslash{}rS� ��g���h</p>
+<blockquote>
+<div><p>�5��{yltextasciitilde{}5T�̂U{�nz�m6Q{��2`|馷}Zpltextasciitilde{}{yltextasciitilde{}5T�̂50�d���m6Q{��2`|���5�,lYÎ�׉��&#64;ҋ��q�t��B����B��05�d��0&gt;���0&gt;��
+��?���J΢�JS�j��R�f”N��N��7^{}&gt;</p>
+</div></blockquote>
+<p>����
+����� 1��!� x�&amp;��J�q:1���ޚ������ƹ�d�d���=x���`�ի��:1�G�g;���g;��=ƹ���,�(�JAD��X��xٜ�J�q:1��:1�G�g;��g;��6ƹ��ƹ�d�d��^{}e�$�Y^{}e�$�=x���`�ի8�ի��&amp;T��,�(�JAD���d�Y�Z�d�Y��n���������ζs��8�ի��&amp;T���n��������J���ζs�!���� &#64;�%��r�h�����������y�/�w����#W��k�     :+�j ��դ �E�</p>
+<blockquote>
+<div><p>�6’�yz’��8�’���q(����(�&#64;��)2��*4b�1+���B,�Έ+-rpT/t�a0�rU�0�p�1�Y�;5��M6���6���7XE��8��av9[���;���N&lt;qMj=����=��]&gt;X,LCZ</p>
+</div></blockquote>
+<p>�`DFf�EO[�FnE_pG�ڣ�I��9’J�ğjJ�*�Js�`K��w�K�(L�L!�jvM��JQ�.K�TL��U�|KV�textasciitilde{}:�WVq��X���Zk.h�^{}I���_�</p>
+<blockquote>
+<div><p>textbackslash{}`+xcI’�evR�+f��բf��g���h�5�,lYÎ�5������&#64;ҋ�`�t��B��o���gpZ%xPqJʹtextbackslash{}r���t�S�v��*wy�7x󉱎x{�nz�m6Q{��2`|ɘ�}Zpltextasciitilde{}5T�̂�&lt;g��50�d��0&gt;��</p>
+<dl>
+<dt>==&gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_short_introns_Log.final.out &lt;==</dt><dd><blockquote>
+<div><blockquote>
+<div><p>Started job on |       Jun 24 09:50:39</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Started mapping on |       Jun 24 09:50:39</dt><dd><p>Finished on |       Jun 24 09:51:17</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Mapping speed, Million of reads per hour |       230.76</p>
+<blockquote>
+<div><blockquote>
+<div><blockquote>
+<div><p>Number of input reads |       2435761</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Average input read length |       75</dt><dd><p>UNIQUE READS:</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Uniquely mapped reads number |       2355964</dt><dd><p>Uniquely mapped reads % |      96.72%</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+<p>==&gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_short_introns_Log.out &lt;==
+STAR version=STAR_2.5.2b
+STAR compilation time,server,dir=&lt;not set in Debian&gt;
+##### DEFAULT parameters:
+versionSTAR                       20201
+versionGenome                     20101   20200
+parametersFiles                   -
+sysShell                          -
+runMode                           alignReads
+runThreadN                        1
+runDirPerm                        User_RWX</p>
+<dl class="simple">
+<dt>==&gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_short_introns_Log.progress.out &lt;==</dt><dd><dl class="simple">
+<dt>Time    Speed        Read     Read   Mapped   Mapped   Mapped   Mapped Unmapped Unmapped Unmapped Unmapped</dt><dd><p>M/hr      number   length   unique   length   MMrate    multi   multi+       MM    short    other</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>ALL DONE!</p>
+<p>==&gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_short_introns_ReadsPerGene.out.tab &lt;==
+N_unmapped     46059   46059   46059
+N_multimapping 33738   33738   33738
+N_noFeature    12438   2146527 18736
+N_ambiguous    203237  786     143
+CNAG_04548     0       0       0
+CNAG_07303     0       0       0
+CNAG_07304     6       0       6
+CNAG_00001     0       0       0
+CNAG_07305     1       0       1
+CNAG_00002     51      0       51</p>
+<p>==&gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_short_introns_SJ.out.tab &lt;==
+1       9247    9310    2       2       1       6       4       35
+1       10455   10506   1       3       0       7       8       24
+1       10609   10694   1       1       0       0       2       21
+1       11574   11622   2       2       0       0       1       21
+1       11574   11637   2       2       0       0       2       32
+1       12904   12991   1       1       1       4       0       37
+1       13077   13136   1       1       1       10      0       37
+1       13256   13310   1       1       1       7       0       37
+1       13480   13530   1       1       1       5       0       33
+1       13480   13534   1       1       0       1       0       28</p>
+<p>==&gt; /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_SJ.out.tab &lt;==
+1       9247    9310    2       2       1       6       4       35
+1       10455   10506   1       3       0       7       7       24
+1       10609   10694   1       1       0       0       2       21
+1       11574   11622   2       2       0       0       1       21
+1       11574   11637   2       2       0       0       2       32
+1       12904   12991   1       1       1       4       0       37
+1       13077   13136   1       1       1       10      0       37
+1       13256   13310   1       1       1       7       0       37
+1       13480   13530   1       1       1       5       0       33
+1       13480   13534   1       1       0       1       0       28
+end{sphinxVerbatim}
+}
+% The following relax is needed to avoid problems with adjacent ANSI
+% cells and some other stuff (e.g. bullet lists) following ANSI cells.
+% See <a class="reference external" href="https://github.com/sphinx-doc/sphinx/issues/3594">https://github.com/sphinx-doc/sphinx/issues/3594</a>
+relax</p>
+</div></blockquote>
+<p>STAR generates several files for each FASTQ: * Log.out : lots of details of the run, including all parameters used * Log.final.out : Important summary statistics * ReadsPerGene.out.tab : Count table, the main thing we are interested in * SJ.out.tab : All splice junctions, including ones from the GTF and novel junctions discovered by STAR * Log.progress.out: run statistics updated during run, not so interesting at the end</p>
+<p>Let’s take a closer look at Log.final.out</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat <span class="si">${</span><span class="nv">STAR_OUT</span><span class="si">}</span>/21_2019_P_M1_S21_L002_R1_Log.final.out
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+                                 Started job on |       Jun 26 15:10:01
+                             Started mapping on |       Jun 26 15:10:05
+                                    Finished on |       Jun 26 15:11:40
+       Mapping speed, Million of reads per hour |       92.30
+
+                          Number of input reads |       2435761
+                      Average input read length |       75
+                                    UNIQUE READS:
+                   Uniquely mapped reads number |       2354695
+                        Uniquely mapped reads % |       96.67%
+                          Average mapped length |       75.36
+                       Number of splices: Total |       610596
+            Number of splices: Annotated (sjdb) |       596312
+                       Number of splices: GT/AG |       603894
+                       Number of splices: GC/AG |       5846
+                       Number of splices: AT/AC |       112
+               Number of splices: Non-canonical |       744
+                      Mismatch rate per base, % |       0.16%
+                         Deletion rate per base |       0.01%
+                        Deletion average length |       1.35
+                        Insertion rate per base |       0.00%
+                       Insertion average length |       1.11
+                             MULTI-MAPPING READS:
+        Number of reads mapped to multiple loci |       35006
+             % of reads mapped to multiple loci |       1.44%
+        Number of reads mapped to too many loci |       1263
+             % of reads mapped to too many loci |       0.05%
+                                  UNMAPPED READS:
+       % of reads unmapped: too many mismatches |       0.00%
+                 % of reads unmapped: too short |       1.83%
+                     % of reads unmapped: other |       0.00%
+                                  CHIMERIC READS:
+                       Number of chimeric reads |       0
+                            % of chimeric reads |       0.00%
+</pre></div></div>
+</div>
+<div class="section" id="Sanity-Check:-Number-of-Reads">
+<h4>Sanity Check: Number of Reads<a class="headerlink" href="#Sanity-Check:-Number-of-Reads" title="Permalink to this headline">¶</a></h4>
+<p>Are the number of input reads what we expect? Let’s look at how many reads are in the input FASTQ</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>zcat <span class="nv">$TRIMMED</span>/21_2019_P_M1_S21_L002_R1_001.trim.fastq.gz <span class="p">|</span> awk <span class="s1">&#39;{s++}END{print s/4}&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2435761
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Sanity-Check:-Unmapped-Reads">
+<h4>Sanity Check: Unmapped Reads<a class="headerlink" href="#Sanity-Check:-Unmapped-Reads" title="Permalink to this headline">¶</a></h4>
+<p>It is always a good idea to examine a sample of unmapped reads to figure out what they are. The easiest way to do this is with BLAST. In the past I have discovered that an experiment was contaminated with a different species by BLASTing unmapped reads. In that case there were a large number of unmapped reads, which raised my suspicions.</p>
+<p>Even with a high rate of mapped reads, it is worth spending a few minutes to check them out. The simplest thing to do is use <code class="docutils literal notranslate"><span class="pre">samtools</span></code> to generate a FASTA from the unmapped.bam, grab a few of these sequences, and then <a class="reference external" href="https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&amp;PAGE_TYPE=BlastSearch&amp;LINK_LOC=blasthome">BLAST them against the nr database</a></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>samtools fasta -f <span class="m">4</span> <span class="si">${</span><span class="nv">STAR_OUT</span><span class="si">}</span>/21_2019_P_M1_S21_L002_R1_Aligned.out.bam <span class="p">|</span> head -n20
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&gt;NB501800:327:HF27FBGXB:2:11202:18025:8102
+GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGCTCATTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAA
+&gt;NB501800:327:HF27FBGXB:2:11202:20718:8137
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTGTAAAAGTGGGGGTTGTTTTTTATTTTTTTGTAGATTTAAAAA
+&gt;NB501800:327:HF27FBGXB:2:11202:9226:8227
+GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGCTCATTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAA
+&gt;NB501800:327:HF27FBGXB:2:11202:17164:8437
+GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGCTCATTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAA
+&gt;NB501800:327:HF27FBGXB:2:11202:25989:8488
+GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGCTCATTAACTCGTATGCCGTCTTATGCTTGAAAAAAA
+&gt;NB501800:327:HF27FBGXB:2:11202:11951:8497
+GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGCTCATTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAA
+&gt;NB501800:327:HF27FBGXB:2:11202:11505:8555
+ATCGGAAGAGCACACGTCTGAACTCCAGTCACCGCTCATTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAA
+&gt;NB501800:327:HF27FBGXB:2:11202:21516:8563
+GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGCTCATTATCTCGTATGCCGTCTTCTGCTTGAAAAAAATAAG
+&gt;NB501800:327:HF27FBGXB:2:11202:8434:8590
+GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGCTCATTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAA
+&gt;NB501800:327:HF27FBGXB:2:11202:12081:8652
+GATCGAAAGACCACACGTCTGAACACCAGTCACAGCTCAATATCACGTATGAAGTATTATGCATTAAAAAAAAA
+[bam2fq_mainloop] Error writing to FASTx files.: Broken pipe
+[M::bam2fq_mainloop] discarded 0 singletons
+[M::bam2fq_mainloop] processed 71 reads
+samtools bam2fq: Error closing STDOUT: Broken pipe
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="MultiQC">
+<h3>MultiQC<a class="headerlink" href="#MultiQC" title="Permalink to this headline">¶</a></h3>
+<p>MultiQC also works with STAR reports, so let’s try it!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>multiqc <span class="si">${</span><span class="nv">STAR_OUT</span><span class="si">}</span> --outdir <span class="si">${</span><span class="nv">STAR_OUT</span><span class="si">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/home/jovyan/.local/lib/python3.5/site-packages/multiqc/utils/config.py:45: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  configs = yaml.load(f)
+/home/jovyan/.local/lib/python3.5/site-packages/multiqc/utils/config.py:51: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  sp = yaml.load(f)
+[INFO   ]         multiqc : This is MultiQC v1.7
+[INFO   ]         multiqc : Template    : default
+[INFO   ]         multiqc : Searching &#39;/home/jovyan/work/scratch/bioinf_intro/star_out&#39;
+Searching 21 files..  [####################################]  100%
+[INFO   ]            star : Found 3 reports and 3 gene count files
+[INFO   ]         multiqc : Compressing plot data
+[INFO   ]         multiqc : Report      : ../../scratch/bioinf_intro/star_out/multiqc_report.html
+[INFO   ]         multiqc : Data        : ../../scratch/bioinf_intro/star_out/multiqc_data
+[INFO   ]         multiqc : MultiQC complete
+</pre></div></div>
+</div>
+<p>Once multiqc is done running we can view the results by finding the output in the Jupyter browser, it should be in a file named <code class="docutils literal notranslate"><span class="pre">multiqc_report.html</span></code> in :</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">echo</span> <span class="si">${</span><span class="nv">STAR_OUT</span><span class="si">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/home/jovyan/work/scratch/bioinf_intro/star_out
+</pre></div></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

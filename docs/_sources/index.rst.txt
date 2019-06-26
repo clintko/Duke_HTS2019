@@ -64,6 +64,23 @@ Source materials can bd cloned from the `HTS2019 GitLab Repository <https://gitl
    :maxdepth: 2
    :caption: Bioinformatics (FASTQ, FASTQC, STAR, etc)
 
+   bioinformatics/fastq_intro.ipynb
+   bioinformatics/quality_scores.ipynb
+   bioinformatics/fastqc.ipynb
+   bioinformatics/fastq_trimming.ipynb
+   bioinformatics/genome_prep.ipynb
+   bioinformatics/counting.ipynb
+   bioinformatics/mapping.ipynb
+   bioinformatics/making_generic_commands.ipynb
+   bioinformatics/making_a_pipeline.ipynb
+   bioinformatics/loop_pipeline.ipynb
+   bioinformatics/multifastq_loop_pipeline.ipynb
+   bioinformatics/glob_loop.ipynb
+   bioinformatics/prep_for_full_run.ipynb
+   bioinformatics/igv_visualization.ipynb
+   bioinformatics/igv_shorter_introns.ipynb
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Analysis of Pilot Data (Gene Count, DESeq2 & DE Analysis)

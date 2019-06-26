@@ -1,0 +1,607 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Looping with Globs\n",
+    "It can be tedious and error prone to individually specify the files we want to loop over.  Regular expressions, in the form of bash globs allow us to automatically select groups of files to loop over.\n",
+    "\n",
+    "## Shell Variables\n",
+    "Assign the variables in this notebook."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "source bioinf_intro_config.sh\n",
+    "mkdir -p $TRIMMED $STAR_OUT"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Globs?\n",
+    "Previously we specified the files we wanted to loop over explicitly:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "RUNNING FASTQ: 21_2019_P_M1_S21_L002_R1\n",
+      "RUNNING FASTQ: 21_2019_P_M1_S21_L001_R1\n"
+     ]
+    }
+   ],
+   "source": [
+    "for FASTQ in 21_2019_P_M1_S21_L002_R1 21_2019_P_M1_S21_L001_R1\n",
+    "    do\n",
+    "        echo \"RUNNING FASTQ: ${FASTQ}\"\n",
+    "    done"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This is appropriate in some situations, but often when there is a group of files that we want to work with, we can find a simple way to list these files without specifying them one-by-one.  For example, since the reads for each FASTQ are split across four lanes, we might want to analyze the data from all four lanes at once.  There are several ways that we can specify the FASTQs from all four lanes of FASTQ 21_2019:\n",
+    "\n",
+    "1. The easiest is to use the `*` wildcard, which matches any number of any characters (including zero), so we can match the FASTQs from all four lanes like this: `$RAW_FASTQS/21_2019*`\n",
+    "2. `*` is easy and useful, but often it is better to be more specific, otherwise we might match something unintentionally. Since the only difference in the names between the lanes is the \"L001\", \"L002\", \"L003\", and \"L004\", we can narrow our match using `?`, which matches any single character: `21_2019_P_M1_S21_L00?_R1_001.fastq.gz`\n",
+    "3. The best approach is to specify exactly what characters we are allowing in that variable position.  Square brackets allow you to list specific characters that can match `[1234]` or a range `[1-4]`: `21_2019_P_M1_S21_L00[1-4]_R1_001.fastq.gz`\n",
+    "\n",
+    "Globs can be confusing.  Keep in mind that here we are using the globs to search through all the file names in a directory and list the files with a name that matches a specific pattern."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L001_R1_001.fastq.gz /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L002_R1_001.fastq.gz /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L003_R1_001.fastq.gz /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L004_R1_001.fastq.gz\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $RAW_FASTQS/21_2019*"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L001_R1_001.fastq.gz /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L002_R1_001.fastq.gz /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L003_R1_001.fastq.gz /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L004_R1_001.fastq.gz\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $RAW_FASTQS/21_2019_P_M1_S21_L00?_R1_001.fastq.gz"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L001_R1_001.fastq.gz /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L002_R1_001.fastq.gz /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L003_R1_001.fastq.gz /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L004_R1_001.fastq.gz\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $RAW_FASTQS/21_2019_P_M1_S21_L00[1234]_R1_001.fastq.gz"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L001_R1_001.fastq.gz /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L002_R1_001.fastq.gz /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L003_R1_001.fastq.gz /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L004_R1_001.fastq.gz\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $RAW_FASTQS/21_2019_P_M1_S21_L00[1-4]_R1_001.fastq.gz"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## More Complex Globs"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can combine multiple wildcards in a glob to match a more complex set of filenames.  For example we could match \"2019\" samples 10 through 19, Lanes 1 through 4, with the following glob."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[0m\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/10_2019_P_M1_S10_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/10_2019_P_M1_S10_L002_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/10_2019_P_M1_S10_L003_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/10_2019_P_M1_S10_L004_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/11_2019_P_M1_S11_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/11_2019_P_M1_S11_L002_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/11_2019_P_M1_S11_L003_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/11_2019_P_M1_S11_L004_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/12_2019_P_M1_S12_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/12_2019_P_M1_S12_L002_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/12_2019_P_M1_S12_L003_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/12_2019_P_M1_S12_L004_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/13_2019_P_M1_S13_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/13_2019_P_M1_S13_L002_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/13_2019_P_M1_S13_L003_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/13_2019_P_M1_S13_L004_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/14_2019_P_M1_S14_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/14_2019_P_M1_S14_L002_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/14_2019_P_M1_S14_L003_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/14_2019_P_M1_S14_L004_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/15_2019_P_M1_S15_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/15_2019_P_M1_S15_L002_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/15_2019_P_M1_S15_L003_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/15_2019_P_M1_S15_L004_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/16_2019_P_M1_S16_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/16_2019_P_M1_S16_L002_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/16_2019_P_M1_S16_L003_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/16_2019_P_M1_S16_L004_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/17_2019_P_M1_S17_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/17_2019_P_M1_S17_L002_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/17_2019_P_M1_S17_L003_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/17_2019_P_M1_S17_L004_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/18_2019_P_M1_S18_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/18_2019_P_M1_S18_L002_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/18_2019_P_M1_S18_L003_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/18_2019_P_M1_S18_L004_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/19_2019_P_M1_S19_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/19_2019_P_M1_S19_L002_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/19_2019_P_M1_S19_L003_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/19_2019_P_M1_S19_L004_R1_001.fastq.gz\u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls $RAW_FASTQS/1?_2019_*_L00[1-4]_R1_001.fastq.gz"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Looping over a glob\n",
+    "Now we can put together `for` loops with globs, to loop over all the lanes from library 21_2019"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "RUNNING FASTQ: /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L001_R1_001.fastq.gz\n",
+      "RUNNING FASTQ: /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "RUNNING FASTQ: /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L003_R1_001.fastq.gz\n",
+      "RUNNING FASTQ: /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L004_R1_001.fastq.gz\n"
+     ]
+    }
+   ],
+   "source": [
+    "for FASTQ in $RAW_FASTQS/21_2019_P_M1_S21_L00[1-4]_R1_001.fastq.gz\n",
+    "    do\n",
+    "        echo \"RUNNING FASTQ: ${FASTQ}\"\n",
+    "    done"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## String Manipulation\n",
+    "\n",
+    "But we still have a bit of work to do.  Before when we were manually specifying each FASTQ, we looped over a *substring* of the full path, then added on the prefix and suffix, for example: `$TRIMMED/${FASTQ}_001.trim.fastq.gz`.  But now we are grabbing the full path, and we need to manipulate it so that we can generate output file names that are different than the input, and put the output in different directories.  We can do all this with the `basename` bash function. The simple form of `basename` removes the whole directory portion of a path and just returns the filename:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "FULL PATH IS: /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L001_R1_001.fastq.gz\n",
+      "basename gives us: 21_2019_P_M1_S21_L001_R1_001.fastq.gz\n",
+      "\n",
+      "FULL PATH IS: /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "basename gives us: 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "for FASTQ in $RAW_FASTQS/21_2019_P_M1_S21_L00[1-2]_R1_001.fastq.gz\n",
+    "    do\n",
+    "        echo \"FULL PATH IS: ${FASTQ}\"\n",
+    "        echo \"basename gives us: $(basename ${FASTQ})\"\n",
+    "        echo \"\"\n",
+    "    done"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "If you give `basename` a string as a second argument, it will strip that string from the end of the path (if it is there):"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "FULL PATH IS: /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L001_R1_001.fastq.gz\n",
+      "basename gives us: 21_2019_P_M1_S21_L001_R1\n",
+      "\n",
+      "FULL PATH IS: /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "basename gives us: 21_2019_P_M1_S21_L002_R1\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "for FASTQ in $RAW_FASTQS/21_2019_P_M1_S21_L00[1-2]_R1_001.fastq.gz\n",
+    "    do\n",
+    "        echo \"FULL PATH IS: ${FASTQ}\"\n",
+    "        echo \"basename gives us: $(basename ${FASTQ} '_001.fastq.gz')\"\n",
+    "        echo \"\"\n",
+    "    done"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> Note that if the string you give is not a suffix of the path, nothing is stripped from the *end* of the path, but the directory prefix will still be removed:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "FULL PATH IS: /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L001_R1_001.fastq.gz\n",
+      "with '_001.fastq.gz': 21_2019_P_M1_S21_L001_R1\n",
+      "with 'fastq':         21_2019_P_M1_S21_L001_R1_001.fastq.gz\n",
+      "with 'foo':           21_2019_P_M1_S21_L001_R1_001.fastq.gz\n",
+      "\n",
+      "FULL PATH IS: /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "with '_001.fastq.gz': 21_2019_P_M1_S21_L002_R1\n",
+      "with 'fastq':         21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "with 'foo':           21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "for FASTQ in $RAW_FASTQS/21_2019_P_M1_S21_L00[1-2]_R1_001.fastq.gz\n",
+    "    do\n",
+    "        echo \"FULL PATH IS: ${FASTQ}\"\n",
+    "        echo \"with '_001.fastq.gz': $(basename ${FASTQ} '_001.fastq.gz')\"\n",
+    "        echo \"with 'fastq':         $(basename ${FASTQ} 'fastq')\"\n",
+    "        echo \"with 'foo':           $(basename ${FASTQ} 'foo')\"\n",
+    "        echo \"\"\n",
+    "    done"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "And we can assign the results of `basename` to a variable for later use:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "FULL PATH IS: /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L001_R1_001.fastq.gz\n",
+      "basename gives us: 21_2019_P_M1_S21_L001_R1\n",
+      "OUTPUT PATH: /home/jovyan/work/scratch/bioinf_intro/trimmed_fastqs/21_2019_P_M1_S21_L001_R1_001.trim.fastq.gz\n",
+      "FULL PATH IS: /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "basename gives us: 21_2019_P_M1_S21_L002_R1\n",
+      "OUTPUT PATH: /home/jovyan/work/scratch/bioinf_intro/trimmed_fastqs/21_2019_P_M1_S21_L002_R1_001.trim.fastq.gz\n"
+     ]
+    }
+   ],
+   "source": [
+    "for FASTQ in $RAW_FASTQS/21_2019_P_M1_S21_L00[1-2]_R1_001.fastq.gz\n",
+    "    do\n",
+    "        echo \"FULL PATH IS: ${FASTQ}\"\n",
+    "        FASTQ_BASE=\"$(basename ${FASTQ} '_001.fastq.gz')\"\n",
+    "        echo \"basename gives us: $FASTQ_BASE\"\n",
+    "        echo \"OUTPUT PATH: ${TRIMMED}/${FASTQ_BASE}_001.trim.fastq.gz\"\n",
+    "    done"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "With globs and `basename` in our toolbox, we are ready to **conquer the world** or at least run multiple FASTQs through our pipeline, without breaking a sweat!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## A globy pipeline"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "---------------- TRIMMING: 21_2019_P_M1_S21_L001_R1 ----------------\n",
+      "Command Line: /home/jovyan/work/scratch/bioinf_intro/myinfo/neb_e7600_adapters.fasta /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L001_R1_001.fastq.gz -q 20 -x 0.5 -o /home/jovyan/work/scratch/bioinf_intro/trimmed_fastqs/21_2019_P_M1_S21_L001_R1_001.trim.fastq.gz\n",
+      "Scale used: 2.2\n",
+      "Phred: 33\n",
+      "Threshold used: 751 out of 300000\n",
+      "Adapter Adapter (AGATCGGAAGAGCACACGTCTGAACTCCAGTCA): counted 2504 at the 'end' of '/data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L001_R1_001.fastq.gz', clip set to 6\n",
+      "Files: 1\n",
+      "Total reads: 2479050\n",
+      "Too short after clip: 1519\n",
+      "Clipped 'end' reads: Count: 46013, Mean: 15.47, Sd: 8.24\n",
+      "Trimmed 299018 reads by an average of 1.71 bases on quality < 20\n",
+      "---------------- MAPPING: 21_2019_P_M1_S21_L001_R1 ----------------\n",
+      "Jun 26 16:30:37 ..... started STAR run\n",
+      "Jun 26 16:30:37 ..... loading genome\n",
+      "Jun 26 16:30:38 ..... started mapping\n",
+      "Jun 26 16:32:13 ..... started sorting BAM\n",
+      "Jun 26 16:32:20 ..... finished successfully\n",
+      "---------------- TRIMMING: 21_2019_P_M1_S21_L002_R1 ----------------\n",
+      "Command Line: /home/jovyan/work/scratch/bioinf_intro/myinfo/neb_e7600_adapters.fasta /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L002_R1_001.fastq.gz -q 20 -x 0.5 -o /home/jovyan/work/scratch/bioinf_intro/trimmed_fastqs/21_2019_P_M1_S21_L002_R1_001.trim.fastq.gz\n",
+      "Scale used: 2.2\n",
+      "Phred: 33\n",
+      "Threshold used: 751 out of 300000\n",
+      "Adapter Adapter (AGATCGGAAGAGCACACGTCTGAACTCCAGTCA): counted 2515 at the 'end' of '/data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L002_R1_001.fastq.gz', clip set to 6\n",
+      "Files: 1\n",
+      "Total reads: 2437108\n",
+      "Too short after clip: 1347\n",
+      "Clipped 'end' reads: Count: 44977, Mean: 15.55, Sd: 8.27\n",
+      "Trimmed 288960 reads by an average of 1.70 bases on quality < 20\n",
+      "---------------- MAPPING: 21_2019_P_M1_S21_L002_R1 ----------------\n",
+      "Jun 26 16:32:36 ..... started STAR run\n",
+      "Jun 26 16:32:36 ..... loading genome\n",
+      "Jun 26 16:32:40 ..... started mapping\n",
+      "Jun 26 16:34:08 ..... started sorting BAM\n",
+      "Jun 26 16:34:13 ..... finished successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "for FASTQ in $RAW_FASTQS/21_2019_P_M1_S21_L00[1-2]_R1_001.fastq.gz\n",
+    "    do\n",
+    "        FASTQ_BASE=\"$(basename ${FASTQ} '_001.fastq.gz')\"\n",
+    "        echo \"---------------- TRIMMING: $FASTQ_BASE ----------------\"\n",
+    "        fastq-mcf \\\n",
+    "            $MYINFO/neb_e7600_adapters.fasta \\\n",
+    "            $RAW_FASTQS/${FASTQ_BASE}_001.fastq.gz \\\n",
+    "            -q 20 -x 0.5 \\\n",
+    "            -o $TRIMMED/${FASTQ_BASE}_001.trim.fastq.gz\n",
+    "        \n",
+    "        echo \"---------------- MAPPING: $FASTQ_BASE ----------------\"\n",
+    "        STAR \\\n",
+    "            --runMode alignReads \\\n",
+    "            --twopassMode None \\\n",
+    "            --genomeDir $GENOME_DIR \\\n",
+    "            --readFilesIn $TRIMMED/${FASTQ_BASE}_001.trim.fastq.gz \\\n",
+    "            --readFilesCommand gunzip -c \\\n",
+    "            --outFileNamePrefix ${STAR_OUT}/${FASTQ_BASE}_ \\\n",
+    "            --quantMode GeneCounts \\\n",
+    "            --outSAMtype BAM SortedByCoordinate \\\n",
+    "            --runThreadN 2\n",
+    "    done"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### And let's check the result"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "21_2019_P_M1_S21_L001_R1_Aligned.sortedByCoord.out.bam\n",
+      "21_2019_P_M1_S21_L001_R1_Log.final.out\n",
+      "21_2019_P_M1_S21_L001_R1_Log.out\n",
+      "21_2019_P_M1_S21_L001_R1_Log.progress.out\n",
+      "21_2019_P_M1_S21_L001_R1_ReadsPerGene.out.tab\n",
+      "21_2019_P_M1_S21_L001_R1_short_introns_Aligned.sortedByCoord.out.bam\n",
+      "21_2019_P_M1_S21_L001_R1_short_introns_Aligned.sortedByCoord.out.bam.bai\n",
+      "21_2019_P_M1_S21_L001_R1_short_introns_Log.final.out\n",
+      "21_2019_P_M1_S21_L001_R1_short_introns_Log.out\n",
+      "21_2019_P_M1_S21_L001_R1_short_introns_Log.progress.out\n",
+      "21_2019_P_M1_S21_L001_R1_short_introns_ReadsPerGene.out.tab\n",
+      "21_2019_P_M1_S21_L001_R1_short_introns_SJ.out.tab\n",
+      "21_2019_P_M1_S21_L001_R1_SJ.out.tab\n",
+      "21_2019_P_M1_S21_L002_R1_Aligned.out.bam\n",
+      "21_2019_P_M1_S21_L002_R1_Aligned.sortedByCoord.out.bam\n",
+      "21_2019_P_M1_S21_L002_R1_Log.final.out\n",
+      "21_2019_P_M1_S21_L002_R1_Log.out\n",
+      "21_2019_P_M1_S21_L002_R1_Log.progress.out\n",
+      "21_2019_P_M1_S21_L002_R1_ReadsPerGene.out.tab\n",
+      "21_2019_P_M1_S21_L002_R1_short_introns_Aligned.sortedByCoord.out.bam\n",
+      "21_2019_P_M1_S21_L002_R1_short_introns_Aligned.sortedByCoord.out.bam.bai\n",
+      "21_2019_P_M1_S21_L002_R1_short_introns_Log.final.out\n",
+      "21_2019_P_M1_S21_L002_R1_short_introns_Log.out\n",
+      "21_2019_P_M1_S21_L002_R1_short_introns_Log.progress.out\n",
+      "21_2019_P_M1_S21_L002_R1_short_introns_ReadsPerGene.out.tab\n",
+      "21_2019_P_M1_S21_L002_R1_short_introns_SJ.out.tab\n",
+      "21_2019_P_M1_S21_L002_R1_SJ.out.tab\n",
+      "21_2019_P_M1_S21_L003_R1_Log.final.out\n",
+      "21_2019_P_M1_S21_L003_R1_Log.out\n",
+      "21_2019_P_M1_S21_L003_R1_Log.progress.out\n",
+      "21_2019_P_M1_S21_L003_R1_ReadsPerGene.out.tab\n",
+      "21_2019_P_M1_S21_L003_R1_SJ.out.tab\n",
+      "genome_Log.out\n",
+      "\u001b[0m\u001b[01;34mmultiqc_data\u001b[0m\n",
+      "multiqc_report.html\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls ${STAR_OUT}"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "==> /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L001_R1_ReadsPerGene.out.tab <==\n",
+      "N_unmapped\t47582\t47582\t47582\n",
+      "N_multimapping\t35895\t35895\t35895\n",
+      "N_noFeature\t12476\t2181458\t18846\n",
+      "N_ambiguous\t206438\t870\t288\n",
+      "CNAG_04548\t0\t0\t0\n",
+      "CNAG_07303\t0\t0\t0\n",
+      "CNAG_07304\t10\t0\t10\n",
+      "CNAG_00001\t0\t0\t0\n",
+      "CNAG_07305\t2\t0\t2\n",
+      "CNAG_00002\t43\t0\t43\n",
+      "\n",
+      "==> /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L002_R1_ReadsPerGene.out.tab <==\n",
+      "N_unmapped\t46060\t46060\t46060\n",
+      "N_multimapping\t35006\t35006\t35006\n",
+      "N_noFeature\t12466\t2145291\t18783\n",
+      "N_ambiguous\t203327\t820\t316\n",
+      "CNAG_04548\t0\t0\t0\n",
+      "CNAG_07303\t0\t0\t0\n",
+      "CNAG_07304\t6\t0\t6\n",
+      "CNAG_00001\t0\t0\t0\n",
+      "CNAG_07305\t1\t0\t1\n",
+      "CNAG_00002\t51\t0\t51\n",
+      "\n",
+      "==> /home/jovyan/work/scratch/bioinf_intro/star_out/21_2019_P_M1_S21_L003_R1_ReadsPerGene.out.tab <==\n",
+      "N_unmapped\t47625\t47625\t47625\n",
+      "N_multimapping\t36124\t36124\t36124\n",
+      "N_noFeature\t12566\t2207478\t19048\n",
+      "N_ambiguous\t208095\t881\t289\n",
+      "CNAG_04548\t0\t0\t0\n",
+      "CNAG_07303\t0\t0\t0\n",
+      "CNAG_07304\t16\t0\t16\n",
+      "CNAG_00001\t0\t0\t0\n",
+      "CNAG_07305\t0\t0\t0\n",
+      "CNAG_00002\t53\t0\t53\n"
+     ]
+    }
+   ],
+   "source": [
+    "head ${STAR_OUT}/21_2019_P_M1_S21_L00?_R1_ReadsPerGene.out.tab"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Glob References\n",
+    "- [Globbing Section](http://tldp.org/LDP/abs/html/globbingref.html) from [The Advanced Bash-Scripting Guide](http://tldp.org/LDP/abs/html/index.html)\n",
+    "- [Glob](https://en.wikipedia.org/wiki/Glob_%28programming%29) article on Wikipedia"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 1
+}

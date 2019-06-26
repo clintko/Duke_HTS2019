@@ -1,0 +1,311 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Introduction to FASTQ Files\n",
+    "\n",
+    "<!--- \n",
+    "** Add Intro Text***\n",
+    "-->\n",
+    "\n",
+    "## Shell Variables\n",
+    "As before, we will use shell variables to make it easier to refer to the directories we are working with.  The shell variables do not carry over between notebooks.  Shell variables are specific to a shell session, and each notebook is a separate shell session.\n",
+    "\n",
+    "So the first thing we will do is assign the variables in this notebook."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Hack to handle broken pipes - IGNORE.\n",
+    "cleanup () { \n",
+    "    :\n",
+    "}\n",
+    "trap \"cleanup\" SIGPIPE"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "set -u\n",
+    "DATA_BASE=\"/data/hts_2019_data\"\n",
+    "RAW_FASTQS=\"$DATA_BASE/hts2019_pilot_rawdata\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Looking at a FASTQ\n",
+    "Let's take a quick look at our data.  For our first pass at analysis, we are just going to be working with the first read data (R1) from one sample."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "total 24G\n",
+      "-r--r--r-- 1 jovyan users 1.1K May 16 17:27 README.rtf\n",
+      "-r--r--r-- 1 jovyan users 3.0K Jun 12 13:06 2019_pilot_metadata.md\n",
+      "-r--r--r-- 1 jovyan users 3.7K May 16 17:27 2019_pilot_metadata.tsv\n",
+      "-r--r--r-- 1 jovyan users  11K May 16 17:27 md5_checksum.txt\n",
+      "-r--r--r-- 1 jovyan users  51K May 16 17:27 sequencing_run_report_5630_190509A5.html\n",
+      "-r--r--r-- 1 jovyan users 111M May 16 17:29 \u001b[0m\u001b[01;31m2_2018_P_H2_S28_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 113M May 16 17:30 \u001b[01;31m2_2018_P_H2_S28_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 113M May 16 17:27 \u001b[01;31m2_2018_P_H2_S28_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 115M May 16 17:30 \u001b[01;31m2_2018_P_H2_S28_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 116M May 16 17:28 \u001b[01;31m21_2019_P_M1_S21_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 118M May 16 17:27 \u001b[01;31m21_2019_P_M1_S21_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 118M May 16 17:30 \u001b[01;31m21_2019_P_M1_S21_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 119M May 16 17:28 \u001b[01;31m21_2019_P_M1_S21_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 124M May 16 17:28 \u001b[01;31m4_2018_P_H2_S30_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 126M May 16 17:31 \u001b[01;31m22_2019_P_M1_S22_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 127M May 16 17:29 \u001b[01;31m4_2018_P_H2_S30_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 127M May 16 17:27 \u001b[01;31m4_2018_P_H2_S30_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 127M May 16 17:27 \u001b[01;31m3_2018_P_H1_S26_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 128M May 16 17:28 \u001b[01;31m22_2019_P_M1_S22_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 128M May 16 17:30 \u001b[01;31m22_2019_P_M1_S22_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 129M May 16 17:27 \u001b[01;31m4_2018_P_H2_S30_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 130M May 16 17:28 \u001b[01;31m3_2018_P_H1_S26_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 130M May 16 17:29 \u001b[01;31m22_2019_P_M1_S22_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 130M May 16 17:27 \u001b[01;31m3_2018_P_H1_S26_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 131M May 16 17:31 \u001b[01;31m2_2018_P_H1_S25_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 132M May 16 17:29 \u001b[01;31m4_2018_P_H1_S27_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 133M May 16 17:29 \u001b[01;31m3_2018_P_H1_S26_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 133M May 16 17:27 \u001b[01;31m2_2018_P_H1_S25_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 133M May 16 17:27 \u001b[01;31m2_2018_P_H1_S25_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 134M May 16 17:27 \u001b[01;31m4_2018_P_H1_S27_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 134M May 16 17:28 \u001b[01;31m4_2018_P_H1_S27_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 135M May 16 17:29 \u001b[01;31m15_2019_P_M1_S15_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 136M May 16 17:30 \u001b[01;31m2_2018_P_H1_S25_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 136M May 16 17:28 \u001b[01;31m4_2018_P_H1_S27_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 137M May 16 17:29 \u001b[01;31m15_2019_P_M1_S15_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 137M May 16 17:27 \u001b[01;31m15_2019_P_M1_S15_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 139M May 16 17:30 \u001b[01;31m3_2018_P_H2_S29_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 139M May 16 17:30 \u001b[01;31m14_2019_P_M1_S14_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 139M May 16 17:29 \u001b[01;31m15_2019_P_M1_S15_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 141M May 16 17:28 \u001b[01;31m13_2019_P_M1_S13_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 141M May 16 17:28 \u001b[01;31m3_2018_P_H2_S29_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 142M May 16 17:28 \u001b[01;31m14_2019_P_M1_S14_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 142M May 16 17:27 \u001b[01;31m3_2018_P_H2_S29_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 142M May 16 17:28 \u001b[01;31m14_2019_P_M1_S14_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 143M May 16 17:30 \u001b[01;31m13_2019_P_M1_S13_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 143M May 16 17:27 \u001b[01;31m13_2019_P_M1_S13_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 144M May 16 17:30 \u001b[01;31m3_2018_P_H2_S29_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 144M May 16 17:29 \u001b[01;31m14_2019_P_M1_S14_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 145M May 16 17:29 \u001b[01;31m13_2019_P_M1_S13_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 146M May 16 17:28 \u001b[01;31m19_2019_P_M1_S19_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 147M May 16 17:29 \u001b[01;31m12_2019_P_M1_S12_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 149M May 16 17:30 \u001b[01;31m19_2019_P_M1_S19_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 149M May 16 17:29 \u001b[01;31m19_2019_P_M1_S19_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 150M May 16 17:28 \u001b[01;31m12_2019_P_M1_S12_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 150M May 16 17:28 \u001b[01;31m12_2019_P_M1_S12_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 151M May 16 17:28 \u001b[01;31m19_2019_P_M1_S19_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 151M May 16 17:27 \u001b[01;31m23_2019_P_M1_S23_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 152M May 16 17:30 \u001b[01;31m12_2019_P_M1_S12_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 152M May 16 17:27 \u001b[01;31m20_2019_P_M1_S20_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 154M May 16 17:28 \u001b[01;31m23_2019_P_M1_S23_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 154M May 16 17:28 \u001b[01;31m23_2019_P_M1_S23_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 155M May 16 17:28 \u001b[01;31m20_2019_P_M1_S20_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 155M May 16 17:28 \u001b[01;31m20_2019_P_M1_S20_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 156M May 16 17:30 \u001b[01;31m23_2019_P_M1_S23_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 156M May 16 17:29 \u001b[01;31m11_2019_P_M1_S11_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 157M May 16 17:30 \u001b[01;31m10_2019_P_M1_S10_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 157M May 16 17:29 \u001b[01;31m20_2019_P_M1_S20_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 159M May 16 17:27 \u001b[01;31m11_2019_P_M1_S11_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 159M May 16 17:27 \u001b[01;31m11_2019_P_M1_S11_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 160M May 16 17:28 \u001b[01;31m10_2019_P_M1_S10_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 160M May 16 17:30 \u001b[01;31m10_2019_P_M1_S10_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 161M May 16 17:29 \u001b[01;31m11_2019_P_M1_S11_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 162M May 16 17:28 \u001b[01;31m24_2019_P_M1_S24_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 162M May 16 17:30 \u001b[01;31m10_2019_P_M1_S10_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 164M May 16 17:27 \u001b[01;31m2_2018_P_T1_S31_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 164M May 16 17:28 \u001b[01;31m24_2019_P_M1_S24_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 165M May 16 17:27 \u001b[01;31m24_2019_P_M1_S24_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 166M May 16 17:29 \u001b[01;31m17_2019_P_M1_S17_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 167M May 16 17:30 \u001b[01;31m24_2019_P_M1_S24_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 167M May 16 17:30 \u001b[01;31m2_2018_P_T1_S31_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 168M May 16 17:29 \u001b[01;31m2_2018_P_T1_S31_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 168M May 16 17:30 \u001b[01;31m4_2018_P_T1_S33_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 169M May 16 17:30 \u001b[01;31m17_2019_P_M1_S17_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 169M May 16 17:29 \u001b[01;31m17_2019_P_M1_S17_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 170M May 16 17:29 \u001b[01;31m6_2019_P_M1_S6_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 170M May 16 17:30 \u001b[01;31m2_2018_P_T1_S31_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 170M May 16 17:28 \u001b[01;31m18_2019_P_M1_S18_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 171M May 16 17:28 \u001b[01;31m17_2019_P_M1_S17_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 171M May 16 17:30 \u001b[01;31m16_2019_P_M1_S16_L002_R1_001.fastq.gz\u001b[0m\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "-r--r--r-- 1 jovyan users 172M May 16 17:27 \u001b[01;31m4_2018_P_T1_S33_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 172M May 16 17:29 \u001b[01;31m4_2018_P_T1_S33_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 172M May 16 17:28 \u001b[01;31m9_2019_P_M1_S9_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 173M May 16 17:28 \u001b[01;31m6_2019_P_M1_S6_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 173M May 16 17:28 \u001b[01;31m18_2019_P_M1_S18_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 174M May 16 17:28 \u001b[01;31m6_2019_P_M1_S6_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 174M May 16 17:28 \u001b[01;31m18_2019_P_M1_S18_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 174M May 16 17:29 \u001b[01;31m16_2019_P_M1_S16_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 175M May 16 17:31 \u001b[01;31m16_2019_P_M1_S16_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 175M May 16 17:30 \u001b[01;31m4_2018_P_T1_S33_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 176M May 16 17:29 \u001b[01;31m9_2019_P_M1_S9_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 176M May 16 17:29 \u001b[01;31m6_2019_P_M1_S6_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 176M May 16 17:29 \u001b[01;31m3_2018_P_T1_S32_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 176M May 16 17:27 \u001b[01;31m9_2019_P_M1_S9_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 176M May 16 17:30 \u001b[01;31m18_2019_P_M1_S18_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 177M May 16 17:28 \u001b[01;31m16_2019_P_M1_S16_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 178M May 16 17:29 \u001b[01;31m9_2019_P_M1_S9_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 180M May 16 17:31 \u001b[01;31m3_2018_P_T1_S32_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 180M May 16 17:27 \u001b[01;31m3_2018_P_T1_S32_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 182M May 16 17:28 \u001b[01;31m4_2018_P_M1_S36_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 183M May 16 17:29 \u001b[01;31m3_2018_P_T1_S32_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 185M May 16 17:27 \u001b[01;31m4_2018_P_M1_S36_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 186M May 16 17:29 \u001b[01;31m4_2018_P_M1_S36_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 188M May 16 17:30 \u001b[01;31m2_2018_P_M1_S34_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 188M May 16 17:29 \u001b[01;31m4_2018_P_M1_S36_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 192M May 16 17:27 \u001b[01;31m2_2018_P_M1_S34_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 192M May 16 17:29 \u001b[01;31m2_2018_P_M1_S34_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 195M May 16 17:28 \u001b[01;31m2_2018_P_M1_S34_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 198M May 16 17:27 \u001b[01;31m8_2019_P_M1_S8_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 201M May 16 17:30 \u001b[01;31m8_2019_P_M1_S8_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 202M May 16 17:28 \u001b[01;31m8_2019_P_M1_S8_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 204M May 16 17:29 \u001b[01;31m7_2019_P_M1_S7_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 204M May 16 17:30 \u001b[01;31m3_2018_P_M1_S35_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 204M May 16 17:29 \u001b[01;31m5_2019_P_M1_S5_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 204M May 16 17:30 \u001b[01;31m8_2019_P_M1_S8_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 205M May 16 17:28 \u001b[01;31m4_2019_P_M1_S4_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 207M May 16 17:29 \u001b[01;31m7_2019_P_M1_S7_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 207M May 16 17:29 \u001b[01;31m5_2019_P_M1_S5_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 207M May 16 17:27 \u001b[01;31m3_2018_P_M1_S35_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 207M May 16 17:27 \u001b[01;31m5_2019_P_M1_S5_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 207M May 16 17:28 \u001b[01;31m7_2019_P_M1_S7_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 208M May 16 17:30 \u001b[01;31m3_2018_P_M1_S35_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 208M May 16 17:28 \u001b[01;31m4_2019_P_M1_S4_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 209M May 16 17:28 \u001b[01;31m4_2019_P_M1_S4_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 210M May 16 17:28 \u001b[01;31m7_2019_P_M1_S7_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 210M May 16 17:30 \u001b[01;31m5_2019_P_M1_S5_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 210M May 16 17:30 \u001b[01;31m3_2018_P_M1_S35_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 211M May 16 17:30 \u001b[01;31m4_2019_P_M1_S4_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 216M May 16 17:28 \u001b[01;31m3_2019_P_M1_S3_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 219M May 16 17:27 \u001b[01;31m3_2019_P_M1_S3_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 220M May 16 17:27 \u001b[01;31m3_2019_P_M1_S3_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 222M May 16 17:30 \u001b[01;31m3_2019_P_M1_S3_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 223M May 16 17:29 \u001b[01;31m1_2019_P_M1_S1_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 226M May 16 17:30 \u001b[01;31m1_2019_P_M1_S1_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 227M May 16 17:30 \u001b[01;31m1_2019_P_M1_S1_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 230M May 16 17:29 \u001b[01;31m1_2019_P_M1_S1_L003_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 233M May 16 17:28 \u001b[01;31m2_2019_P_M1_S2_L002_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 237M May 16 17:29 \u001b[01;31m2_2019_P_M1_S2_L001_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 238M May 16 17:28 \u001b[01;31m2_2019_P_M1_S2_L004_R1_001.fastq.gz\u001b[0m\n",
+      "-r--r--r-- 1 jovyan users 241M May 16 17:30 \u001b[01;31m2_2019_P_M1_S2_L003_R1_001.fastq.gz\u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls -lSrh $RAW_FASTQS"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> ### Compression: gzip, zcat, etc\n",
+    "> The \".gz\" at the end of the FASTQ file name indicates that the fastq file was compressed using a program named gzip.  This is pretty common because FASTQ files can be huge.  `cat` is a program for viewing text files, `zcat` is a special version of this program that lets you view compressed text files without first decompressing them."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Here we will use:\n",
+    "* zcat: to show the compress FASTQ\n",
+    "* head: to grab only the first 10 lines, since the whole file has over 5 x 10^6 lines (which would almost certainly hang our web browser)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "@NB501800:327:HF27FBGXB:2:11101:19634:1049 1:N:0:CGCTCATT+CTTCGCCT\n",
+      "GCGCTNCGAGGCGGCGGTGGCGCGGGCGGCGGAGACAGAGGCAGCGGCGGTGGCGAGGTTGGCCGAGTGCTGCTTG\n",
+      "+\n",
+      "AAAAA#EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE\n",
+      "@NB501800:327:HF27FBGXB:2:11101:11230:1055 1:N:0:CGCTCATT+CTTCGCCT\n",
+      "AAAATATTGACTGGTCACCACTTGTCCAGAAATAATGTCAAAAATGGTAGTGCCGACACCGAGATATGAGTCGGTG\n",
+      "+\n",
+      "AAAAAEEEEEEEEEEEEEEEEEEEEEEEEEAEEEEEEEEEEEEEEEEEEEEEEEEEEEEEAEEEEEEEEEEEEEEE\n",
+      "@NB501800:327:HF27FBGXB:2:11101:23417:1059 1:N:0:CGCTCATT+CTTCGCCT\n",
+      "AAAGATATCTGTAGGGTTGACCTCCTTGCCGGAGGGTTTCTTAAGAAGAACTCGAGTACCTTTTCTACCTAGCGCC\n"
+     ]
+    }
+   ],
+   "source": [
+    "zcat $RAW_FASTQS/21_2019_P_M1_S21_L002_R1_001.fastq.gz | head "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "> ## less\n",
+    "> `less` is a program for  taking an interactive look at a text file, like a FASTQ - it let's you scroll, search, etc. `less` won't work in the bash notebook, if you want to try it out, you need to use a terminal.\n",
+    "\n",
+    "> To switch to a terminal, click on the jupyter \"File\" menu, and select \"Open\".  A new browser window/tab should open, with your jupyter \"home base\". Here, you should click on the \"Files\" tab if it is not already active, there click on \"New\" and select \"Terminal\", which should open a new live terminal.\n",
+    "\n",
+    "> Since we want to look at a compressed (gzipped) FASTQ, we will use a version of `less` called `zless`, which decompresses on the fly.\n",
+    "\n",
+    "> At the terminal's command prompt, type (or paste) `zless /data/hts_2019_data/hts2019_pilot_rawdata/21_2019_P_M1_S21_L002_R1_001.fastq.gz`\n",
+    "> You should see the first few lines of the file, notice that it looks like the examples we saw in lecture.\n",
+    "\n",
+    "> `zless` (and its standard cousin `less`) can do a lot of things.  Here are a few important keystrokes:\n",
+    "\n",
+    "> * q : quit\n",
+    "> * space : scroll down a page\n",
+    "> * up/down arrow : scroll up/down by a line "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# What do quality scores mean?\n",
+    "See the [Quality Scores](quality_scores.ipynb) notebook for a \"translation\" of quality scores.  The [Wikipedia article on FASTQs](https://en.wikipedia.org/wiki/FASTQ_format) is also a useful resource."
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 1
+}

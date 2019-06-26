@@ -1,0 +1,499 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Quality Control\n",
+    "<!--\n",
+    "** Add Intro Text***\n",
+    "-->\n",
+    "\n",
+    "## Shell Variables\n",
+    "Assign the variables in this notebook."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "set -u\n",
+    "\n",
+    "# We used these in the last notebook\n",
+    "DATA_BASE=\"/data/hts_2019_data\"\n",
+    "RAW_FASTQS=\"$DATA_BASE/hts2019_pilot_rawdata\"\n",
+    "\n",
+    "# The following are new for this notebook\n",
+    "CUROUT=$HOME/work/scratch/bioinf_intro\n",
+    "QC=$CUROUT/qc_output"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Making New Directories\n",
+    "The directories *do* carry over between notebooks, they are a function of the server, so we only need to make the directories that are new in this notebook"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "mkdir -p $QC"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now let's check to be sure that worked.  We will run `ls` and check that these directories now exist in the `$OUTPUT` directory."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[0m\u001b[01;34mcount_out\u001b[0m  \u001b[01;34migv\u001b[0m     \u001b[01;34mqc_output\u001b[0m  \u001b[01;31mstuff_for_igv_shorter_intron.tgz\u001b[0m  \u001b[01;34mtrimmed_fastqs\u001b[0m\n",
+      "\u001b[01;34mgenome\u001b[0m     \u001b[01;34mmyinfo\u001b[0m  \u001b[01;34mstar_out\u001b[0m   \u001b[01;31mstuff_for_igv.tgz\u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls $CUROUT"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Fastqc\n",
+    "Now that we have had a quick look at our fastq file, let's run some basic analysis using a program called fastqc.  This will take less than a minute to run.  Remember that while \"long\" jobs are running it will say \"In [\\*]:\" in the left margin, once it is done, a number will replace the asterisk."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "            FastQC - A high throughput sequence QC analysis tool\n",
+      "\n",
+      "SYNOPSIS\n",
+      "\n",
+      "\tfastqc seqfile1 seqfile2 .. seqfileN\n",
+      "\n",
+      "    fastqc [-o output dir] [--(no)extract] [-f fastq|bam|sam] \n",
+      "           [-c contaminant file] seqfile1 .. seqfileN\n",
+      "\n",
+      "DESCRIPTION\n",
+      "\n",
+      "    FastQC reads a set of sequence files and produces from each one a quality\n",
+      "    control report consisting of a number of different modules, each one of \n",
+      "    which will help to identify a different potential type of problem in your\n",
+      "    data.\n",
+      "    \n",
+      "    If no files to process are specified on the command line then the program\n",
+      "    will start as an interactive graphical application.  If files are provided\n",
+      "    on the command line then the program will run with no user interaction\n",
+      "    required.  In this mode it is suitable for inclusion into a standardised\n",
+      "    analysis pipeline.\n",
+      "    \n",
+      "    The options for the program as as follows:\n",
+      "    \n",
+      "    -h --help       Print this help file and exit\n",
+      "    \n",
+      "    -v --version    Print the version of the program and exit\n",
+      "    \n",
+      "    -o --outdir     Create all output files in the specified output directory.\n",
+      "                    Please note that this directory must exist as the program\n",
+      "                    will not create it.  If this option is not set then the \n",
+      "                    output file for each sequence file is created in the same\n",
+      "                    directory as the sequence file which was processed.\n",
+      "                    \n",
+      "    --casava        Files come from raw casava output. Files in the same sample\n",
+      "                    group (differing only by the group number) will be analysed\n",
+      "                    as a set rather than individually. Sequences with the filter\n",
+      "                    flag set in the header will be excluded from the analysis.\n",
+      "                    Files must have the same names given to them by casava\n",
+      "                    (including being gzipped and ending with .gz) otherwise they\n",
+      "                    won't be grouped together correctly.\n",
+      "                    \n",
+      "    --nofilter      If running with --casava then don't remove read flagged by\n",
+      "                    casava as poor quality when performing the QC analysis.\n",
+      "                   \n",
+      "    --extract       If set then the zipped output file will be uncompressed in\n",
+      "                    the same directory after it has been created.  By default\n",
+      "                    this option will be set if fastqc is run in non-interactive\n",
+      "                    mode.\n",
+      "                    \n",
+      "    -j --java       Provides the full path to the java binary you want to use to\n",
+      "                    launch fastqc. If not supplied then java is assumed to be in\n",
+      "                    your path.\n",
+      "                   \n",
+      "    --noextract     Do not uncompress the output file after creating it.  You\n",
+      "                    should set this option if you do not wish to uncompress\n",
+      "                    the output when running in non-interactive mode.\n",
+      "                    \n",
+      "    --nogroup       Disable grouping of bases for reads >50bp. All reports will\n",
+      "                    show data for every base in the read.  WARNING: Using this\n",
+      "                    option will cause fastqc to crash and burn if you use it on\n",
+      "                    really long reads, and your plots may end up a ridiculous size.\n",
+      "                    You have been warned!\n",
+      "                    \n",
+      "    -f --format     Bypasses the normal sequence file format detection and\n",
+      "                    forces the program to use the specified format.  Valid\n",
+      "                    formats are bam,sam,bam_mapped,sam_mapped and fastq\n",
+      "                    \n",
+      "    -t --threads    Specifies the number of files which can be processed\n",
+      "                    simultaneously.  Each thread will be allocated 250MB of\n",
+      "                    memory so you shouldn't run more threads than your\n",
+      "                    available memory will cope with, and not more than\n",
+      "                    6 threads on a 32 bit machine\n",
+      "                  \n",
+      "    -c              Specifies a non-default file which contains the list of\n",
+      "    --contaminants  contaminants to screen overrepresented sequences against.\n",
+      "                    The file must contain sets of named contaminants in the\n",
+      "                    form name[tab]sequence.  Lines prefixed with a hash will\n",
+      "                    be ignored.\n",
+      "\n",
+      "    -a              Specifies a non-default file which contains the list of\n",
+      "    --adapters      adapter sequences which will be explicity searched against\n",
+      "                    the library. The file must contain sets of named adapters\n",
+      "                    in the form name[tab]sequence.  Lines prefixed with a hash\n",
+      "                    will be ignored.\n",
+      "                    \n",
+      "    -l              Specifies a non-default file which contains a set of criteria\n",
+      "    --limits        which will be used to determine the warn/error limits for the\n",
+      "                    various modules.  This file can also be used to selectively \n",
+      "                    remove some modules from the output all together.  The format\n",
+      "                    needs to mirror the default limits.txt file found in the\n",
+      "                    Configuration folder.\n",
+      "                    \n",
+      "   -k --kmers       Specifies the length of Kmer to look for in the Kmer content\n",
+      "                    module. Specified Kmer length must be between 2 and 10. Default\n",
+      "                    length is 7 if not specified.\n",
+      "                    \n",
+      "   -q --quiet       Supress all progress messages on stdout and only report errors.\n",
+      "   \n",
+      "   -d --dir         Selects a directory to be used for temporary files written when\n",
+      "                    generating report images. Defaults to system temp directory if\n",
+      "                    not specified.\n",
+      "                    \n",
+      "BUGS\n",
+      "\n",
+      "    Any bugs in fastqc should be reported either to simon.andrews@babraham.ac.uk\n",
+      "    or in www.bioinformatics.babraham.ac.uk/bugzilla/\n",
+      "                   \n"
+     ]
+    }
+   ],
+   "source": [
+    "fastqc -h"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Started analysis of 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 5% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 10% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 15% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 20% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 25% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 30% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 35% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 40% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 45% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 50% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 55% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 60% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 65% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 70% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 75% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 80% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 85% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 90% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Approx 95% complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n",
+      "Analysis complete for 21_2019_P_M1_S21_L002_R1_001.fastq.gz\n"
+     ]
+    }
+   ],
+   "source": [
+    "# fastqc --threads 2 --quiet $DEMUX/r1.8A_pilot.fq.gz -o $QC\n",
+    "fastqc --extract $RAW_FASTQS/21_2019_P_M1_S21_L002_R1_001.fastq.gz -o $QC"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Once fastqc is done running we can view the results by finding the output in the Jupyter browser, it should be in:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/home/jovyan/work/scratch/bioinf_intro/qc_output\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $QC"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## MultiQC\n",
+    "FastQC is a useful tool, but it has one problem: it generates one report for each FASTQ file.  When you have more than a handful of FASTQs (as most projects will), it is tedious to look at each one, and there is no simple way to compare them.\n",
+    "\n",
+    "MultiQC is a solution to this problem.  It mines the results from FastQC (and other HTS analysis tools) and generates reports that combine and summarize results for all the FASTQs analyzed.\n",
+    "\n",
+    "### Run FastQC on Multiple FASTQs\n",
+    "Let's pick a selection of FASTQs to look at - we will run FastQC on the Lane 1 results for samples 10 through 19 (because it is easy to specify these files with a simple command)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "scrolled": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[0m\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/10_2019_P_M1_S10_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/11_2019_P_M1_S11_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/12_2019_P_M1_S12_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/13_2019_P_M1_S13_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/14_2019_P_M1_S14_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/15_2019_P_M1_S15_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/16_2019_P_M1_S16_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/17_2019_P_M1_S17_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/18_2019_P_M1_S18_L001_R1_001.fastq.gz\u001b[0m\n",
+      "\u001b[01;31m/data/hts_2019_data/hts2019_pilot_rawdata/19_2019_P_M1_S19_L001_R1_001.fastq.gz\u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls $RAW_FASTQS/1?_2019_*_L001_R1_001.fastq.gz"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "`--threads 2` tells fastqc to run using 2 cores (of the 16 that we all share).  In general you should not do this because it is potentially inconsiderate of other users.  I am using it so we don't have to wait too long for this to run during class."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fastqc --quiet --threads 2 --extract $RAW_FASTQS/1?_2019_*_L001_R1_001.fastq.gz -o $QC"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Run MultiQC"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/home/jovyan/.local/lib/python3.5/site-packages/multiqc/utils/config.py:45: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.\n",
+      "  configs = yaml.load(f)\n",
+      "/home/jovyan/.local/lib/python3.5/site-packages/multiqc/utils/config.py:51: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.\n",
+      "  sp = yaml.load(f)\n",
+      "Usage: multiqc [OPTIONS] <analysis directory>\n",
+      "\n",
+      "  MultiQC aggregates results from bioinformatics analyses across many\n",
+      "  samples into a single report.\n",
+      "\n",
+      "  It searches a given directory for analysis logs and compiles a HTML\n",
+      "  report. It's a general use tool, perfect for summarising the output from\n",
+      "  numerous bioinformatics tools.\n",
+      "\n",
+      "  To run, supply with one or more directory to scan for analysis results. To\n",
+      "  run here, use 'multiqc .'\n",
+      "\n",
+      "  See http://multiqc.info for more details.\n",
+      "\n",
+      "  Author: Phil Ewels (http://phil.ewels.co.uk)\n",
+      "\n",
+      "Options:\n",
+      "  -f, --force                     Overwrite any existing reports\n",
+      "  -d, --dirs                      Prepend directory to sample names\n",
+      "  -dd, --dirs-depth INTEGER       Prepend [INT] directories to sample names.\n",
+      "                                  Negative number to take from start of path.\n",
+      "  -s, --fullnames                 Do not clean the sample names (leave as full\n",
+      "                                  file name)\n",
+      "  -i, --title TEXT                Report title. Printed as page header, used\n",
+      "                                  for filename if not otherwise specified.\n",
+      "  -b, --comment TEXT              Custom comment, will be printed at the top\n",
+      "                                  of the report.\n",
+      "  -n, --filename TEXT             Report filename. Use 'stdout' to print to\n",
+      "                                  standard out.\n",
+      "  -o, --outdir TEXT               Create report in the specified output\n",
+      "                                  directory.\n",
+      "  -t, --template [default_dev|geo|simple|sections|default]\n",
+      "                                  Report template to use.\n",
+      "  --tag TEXT                      Use only modules which tagged with this\n",
+      "                                  keyword, eg. RNA\n",
+      "  --view-tags, --view_tags        View the available tags and which modules\n",
+      "                                  they load\n",
+      "  -x, --ignore TEXT               Ignore analysis files (glob expression)\n",
+      "  --ignore-samples TEXT           Ignore sample names (glob expression)\n",
+      "  --ignore-symlinks               Ignore symlinked directories and files\n",
+      "  --sample-names PATH             File containing alternative sample names\n",
+      "  -l, --file-list                 Supply a file containing a list of file\n",
+      "                                  paths to be searched, one per row\n",
+      "  -e, --exclude [module name]     Do not use this module. Can specify multiple\n",
+      "                                  times.\n",
+      "  -m, --module [module name]      Use only this module. Can specify multiple\n",
+      "                                  times.\n",
+      "  --data-dir                      Force the parsed data directory to be\n",
+      "                                  created.\n",
+      "  --no-data-dir                   Prevent the parsed data directory from being\n",
+      "                                  created.\n",
+      "  -k, --data-format [json|tsv|yaml]\n",
+      "                                  Output parsed data in a different format.\n",
+      "                                  Default: tsv\n",
+      "  -z, --zip-data-dir              Compress the data directory.\n",
+      "  -p, --export                    Export plots as static images in addition to\n",
+      "                                  the report\n",
+      "  -fp, --flat                     Use only flat plots (static images)\n",
+      "  -ip, --interactive              Use only interactive plots (HighCharts\n",
+      "                                  Javascript)\n",
+      "  --lint                          Use strict linting (validation) to help code\n",
+      "                                  development\n",
+      "  --pdf                           Creates PDF report with 'simple' template.\n",
+      "                                  Requires Pandoc to be installed.\n",
+      "  --no-megaqc-upload              Don't upload generated report to MegaQC,\n",
+      "                                  even if MegaQC options are found\n",
+      "  -c, --config PATH               Specific config file to load, after those in\n",
+      "                                  MultiQC dir / home dir / working dir.\n",
+      "  --cl-config, --cl_config TEXT   Specify MultiQC config YAML on the command\n",
+      "                                  line\n",
+      "  -v, --verbose                   Increase output verbosity.\n",
+      "  -q, --quiet                     Only show log warnings\n",
+      "  --version                       Show the version and exit.\n",
+      "  -h, --help                      Show this message and exit.\n"
+     ]
+    }
+   ],
+   "source": [
+    "multiqc -h"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/home/jovyan/.local/lib/python3.5/site-packages/multiqc/utils/config.py:45: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.\n",
+      "  configs = yaml.load(f)\n",
+      "/home/jovyan/.local/lib/python3.5/site-packages/multiqc/utils/config.py:51: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.\n",
+      "  sp = yaml.load(f)\n",
+      "[INFO   ]         multiqc : This is MultiQC v1.7\n",
+      "[INFO   ]         multiqc : Template    : default\n",
+      "[INFO   ]         multiqc : Searching '/home/jovyan/work/scratch/bioinf_intro/qc_output'\n",
+      "\u001b[?25lSearching 221 files..  [####################################]  100%\u001b[?25h\n",
+      "[INFO   ]          fastqc : Found 11 reports\n",
+      "[INFO   ]         multiqc : Compressing plot data\n",
+      "[WARNING]         multiqc : Previous MultiQC output found! Adjusting filenames..\n",
+      "[WARNING]         multiqc : Use -f or --force to overwrite existing reports instead\n",
+      "[INFO   ]         multiqc : Report      : ../../scratch/bioinf_intro/qc_output/multiqc_report_1.html\n",
+      "[INFO   ]         multiqc : Data        : ../../scratch/bioinf_intro/qc_output/multiqc_data_1\n",
+      "[INFO   ]         multiqc : MultiQC complete\n"
+     ]
+    }
+   ],
+   "source": [
+    "multiqc $QC --outdir $QC"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Once multiqc is done running we can view the results by finding the output in the Jupyter browser, it should be in a file named `multiqc_report.html` in :"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/home/jovyan/work/scratch/bioinf_intro/qc_output\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $QC"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 1
+}

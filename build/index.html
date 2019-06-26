@@ -123,6 +123,30 @@
 <li class="toctree-l1"><a class="reference internal" href="cliburn/R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cliburn/R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Bioinformatics (FASTQ, FASTQC, STAR, etc)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/fastq_intro.html">Introduction to FASTQ Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/fastq_intro.html#What-do-quality-scores-mean?">What do quality scores mean?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/quality_scores.html">What do quality scores mean?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/fastqc.html">Quality Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/fastq_trimming.html">Trimming and Filtering a FASTQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/fastq_trimming.html#Trimming-and-Filtering">Trimming and Filtering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/genome_prep.html">Download and Index Genome</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/counting.html">Counting Reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/mapping.html">Mapping Reads to a Reference Genome</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/making_generic_commands.html">Making Generic Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/making_a_pipeline.html">Making a Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/loop_pipeline.html">Working with Loops</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/multifastq_loop_pipeline.html">Working with Loops</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/glob_loop.html">Looping with Globs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/prep_for_full_run.html">Initialize Variables and Make Directories</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/prep_for_full_run.html#Make-adapter-file">Make adapter file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/prep_for_full_run.html#Download-and-Index-Genome">Download and Index Genome</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/igv_visualization.html">Prepare Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/igv_visualization.html#Downloading-Everything">Downloading Everything</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/igv_visualization.html#Using-IGV">Using IGV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/igv_shorter_introns.html">Run with shorter intron limit</a></li>
+</ul>
 <p class="caption"><span class="caption-text">Analysis of Pilot Data (Gene Count, DESeq2 &amp; DE Analysis)</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="DESeq2/8_Pilot2019_getstarcounts-KO.html">Get Star Count of the Pilot 2019 Data</a></li>
@@ -231,7 +255,13 @@
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Slides</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="slides.html">Slide sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slides.html">Slide sets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="slides.html#background-knowledge-of-hts2019">Background knowledge of HTS2019</a></li>
+<li class="toctree-l2"><a class="reference internal" href="slides.html#wet-lab">Wet Lab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="slides.html#bioinformatics">Bioinformatics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="slides.html#biostatistics">Biostatistics</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -456,6 +486,109 @@
 </ul>
 </div>
 <div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Bioinformatics (FASTQ, FASTQC, STAR, etc)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/fastq_intro.html">Introduction to FASTQ Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/fastq_intro.html#Shell-Variables">Shell Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/fastq_intro.html#Looking-at-a-FASTQ">Looking at a FASTQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/fastq_intro.html#What-do-quality-scores-mean?">What do quality scores mean?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/quality_scores.html">What do quality scores mean?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/quality_scores.html#Phred-Quality-Scores">Phred Quality Scores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/quality_scores.html#Ascii-Codes">Ascii Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/quality_scores.html#Phred-Encodings">Phred Encodings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/quality_scores.html#Why-+33?">Why +33?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/fastqc.html">Quality Control</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/fastqc.html#Shell-Variables">Shell Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/fastqc.html#Making-New-Directories">Making New Directories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/fastqc.html#Fastqc">Fastqc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/fastqc.html#MultiQC">MultiQC</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/fastq_trimming.html">Trimming and Filtering a FASTQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/fastq_trimming.html#Shell-Variables">Shell Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/fastq_trimming.html#Making-New-Directories">Making New Directories</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/fastq_trimming.html#Trimming-and-Filtering">Trimming and Filtering</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/fastq_trimming.html#Making-an-adapter-file">Making an adapter file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/fastq_trimming.html#fastq-mcf">fastq-mcf</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/genome_prep.html">Download and Index Genome</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/genome_prep.html#Shell-Variables">Shell Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/genome_prep.html#STAR">STAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/genome_prep.html#Reference-Genome-and-Annotation">Reference Genome and Annotation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/counting.html">Counting Reads</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/counting.html#Shell-Variables">Shell Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/counting.html#Counting-Reads">Counting Reads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/counting.html#Running-htseq-count">Running htseq-count</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/mapping.html">Mapping Reads to a Reference Genome</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/mapping.html#Shell-Variables">Shell Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/mapping.html#Mapping-with-STAR">Mapping with STAR</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/making_generic_commands.html">Making Generic Commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/making_generic_commands.html#Shell-Variables">Shell Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/making_generic_commands.html#Using-a-FASTQ-variable">Using a <em>FASTQ</em> variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/making_generic_commands.html#Now-for-the-real-thing-.-.-.">Now for the real thing …</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/making_a_pipeline.html">Making a Pipeline</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/making_a_pipeline.html#Shell-Variables">Shell Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/making_a_pipeline.html#Combining-the-Steps">Combining the Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/loop_pipeline.html">Working with Loops</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/loop_pipeline.html#Shell-Variables">Shell Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/loop_pipeline.html#A-Brief-journey-into-for-loops">A Brief journey into <code class="docutils literal notranslate"><span class="pre">for</span></code> loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/loop_pipeline.html#Now-for-the-real-thing-.-.-.">Now for the real thing …</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/multifastq_loop_pipeline.html">Working with Loops</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/multifastq_loop_pipeline.html#Shell-Variables">Shell Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/multifastq_loop_pipeline.html#Now-let's-run-both-samples-throught-the-pipeline:">Now let’s run both samples throught the pipeline:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/glob_loop.html">Looping with Globs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/glob_loop.html#Shell-Variables">Shell Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/glob_loop.html#Globs?">Globs?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/glob_loop.html#More-Complex-Globs">More Complex Globs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/glob_loop.html#Looping-over-a-glob">Looping over a glob</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/glob_loop.html#String-Manipulation">String Manipulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/glob_loop.html#A-globy-pipeline">A globy pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/glob_loop.html#Glob-References">Glob References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/prep_for_full_run.html">Initialize Variables and Make Directories</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/prep_for_full_run.html#Make-adapter-file">Make adapter file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/prep_for_full_run.html#Download-and-Index-Genome">Download and Index Genome</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/igv_visualization.html">Prepare Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/igv_visualization.html#Downloading-Everything">Downloading Everything</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/igv_visualization.html#Downloading-files-through-Jupyter">Downloading files through Jupyter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/igv_visualization.html#Download-IGV">Download IGV</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/igv_visualization.html#Using-IGV">Using IGV</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/igv_visualization.html#Run-IGV">Run IGV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/igv_visualization.html#Load-Files">Load Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/igv_visualization.html#Configurations-to-explore">Configurations to explore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/igv_visualization.html#Look-around">Look around</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bioinformatics/igv_shorter_introns.html">Run with shorter intron limit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/igv_shorter_introns.html#Link-Directory">Link Directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioinformatics/igv_shorter_introns.html#Tarring">Tarring</a></li>
+</ul>
+</li>
+</ul>
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Analysis of Pilot Data (Gene Count, DESeq2 &amp; DE Analysis)</span></p>

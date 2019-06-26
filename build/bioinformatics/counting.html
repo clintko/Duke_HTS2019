@@ -1,0 +1,803 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Counting Reads &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Quick Intro of Analysis Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../janice/1_IntroToCompBoot.html">Duke HTS Summer Course 2018</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/2_Intro_to_Unix_and_bash.html">Introduction to Unix and bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/3_IntroductionToR.html">Introduction to R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/4_Rlibraries_and_bioconductor.html">R libraries and Bioconductor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/5_Tidyverse_HandsOn-Filled.html">Hands-On Tidyverse - with count data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/6_Statistical_Inference.html">Simulations and Statistical Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/7_Statistical_Inference_Solutions.html">Estimation and Hypothesis Testing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix01_File_And_Directory_Solutions.html">Working with Unix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix03_File_Storage_Solutions.html">File archival and recovery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix04_Text_Manipulation_Solutinos.html">Working with text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Analysis of Pilot Data (Gene Count, DESeq2 &amp; DE Analysis)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/8_Pilot2019_getstarcounts-KO.html">Get Star Count of the Pilot 2019 Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/00_deseq_prepare_data.html">DESeq2: Create count matrix and metadata data frame</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/01_deseq_dataobject.html">DESeq2: Create Data Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/02_deseq_DE.html">DESeq2: Basic Differential Expression (DE) analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/03_deseq_interaction.html">DESeq2: Basic Differential Expression (DE) analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/04-deseq2-plots.html">Generate figures from DESEq2 analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Counting Reads</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/bioinformatics/counting.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Counting-Reads">
+<h1>Counting Reads<a class="headerlink" href="#Counting-Reads" title="Permalink to this headline">¶</a></h1>
+<p>The next step after mapping reads is to count the number of reads that fall within each annotated gene in the genome, so lets set up a count directory.</p>
+<div class="section" id="Shell-Variables">
+<h2>Shell Variables<a class="headerlink" href="#Shell-Variables" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Source the config script</span>
+<span class="nb">source</span> bioinf_intro_config.sh
+
+mkdir -p <span class="nv">$COUNT_OUT</span>
+ls <span class="nv">$CUROUT</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-blue-intense-fg ansi-bold">count_out</span>  <span class="ansi-blue-intense-fg ansi-bold">igv</span>     <span class="ansi-blue-intense-fg ansi-bold">qc_output</span>  <span class="ansi-red-intense-fg ansi-bold">stuff_for_igv_shorter_intron.tgz</span>  <span class="ansi-blue-intense-fg ansi-bold">trimmed_fastqs</span>
+<span class="ansi-blue-intense-fg ansi-bold">genome</span>     <span class="ansi-blue-intense-fg ansi-bold">myinfo</span>  <span class="ansi-blue-intense-fg ansi-bold">star_out</span>   <span class="ansi-red-intense-fg ansi-bold">stuff_for_igv.tgz</span>
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Counting-Reads">
+<h2>Counting Reads<a class="headerlink" href="#Counting-Reads" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>htseq-count --help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+usage: htseq-count [options] alignment_file gff_file
+
+This script takes one or more alignment files in SAM/BAM format and a feature
+file in GFF format and calculates for each feature the number of reads mapping
+to it. See http://htseq.readthedocs.io/en/master/count.html for details.
+
+positional arguments:
+  samfilenames          Path to the SAM/BAM files containing the mapped reads.
+                        If &#39;-&#39; is selected, read from standard input
+  featuresfilename      Path to the file containing the features
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -f {sam,bam}, --format {sam,bam}
+                        type of &lt;alignment_file&gt; data, either &#39;sam&#39; or &#39;bam&#39;
+                        (default: sam)
+  -r {pos,name}, --order {pos,name}
+                        &#39;pos&#39; or &#39;name&#39;. Sorting order of &lt;alignment_file&gt;
+                        (default: name). Paired-end sequencing data must be
+                        sorted either by position or by read name, and the
+                        sorting order must be specified. Ignored for single-
+                        end data.
+  --max-reads-in-buffer MAX_BUFFER_SIZE
+                        When &lt;alignment_file&gt; is paired end sorted by
+                        position, allow only so many reads to stay in memory
+                        until the mates are found (raising this number will
+                        use more memory). Has no effect for single end or
+                        paired end sorted by name
+  -s {yes,no,reverse}, --stranded {yes,no,reverse}
+                        whether the data is from a strand-specific assay.
+                        Specify &#39;yes&#39;, &#39;no&#39;, or &#39;reverse&#39; (default: yes).
+                        &#39;reverse&#39; means &#39;yes&#39; with reversed strand
+                        interpretation
+  -a MINAQUAL, --minaqual MINAQUAL
+                        skip all reads with alignment quality lower than the
+                        given minimum value (default: 10)
+  -t FEATURETYPE, --type FEATURETYPE
+                        feature type (3rd column in GFF file) to be used, all
+                        features of other type are ignored (default, suitable
+                        for Ensembl GTF files: exon)
+  -i IDATTR, --idattr IDATTR
+                        GFF attribute to be used as feature ID (default,
+                        suitable for Ensembl GTF files: gene_id)
+  --additional-attr ADDITIONAL_ATTR
+                        Additional feature attributes (default: none, suitable
+                        for Ensembl GTF files: gene_name). Use multiple times
+                        for each different attribute
+  -m {union,intersection-strict,intersection-nonempty}, --mode {union,intersection-strict,intersection-nonempty}
+                        mode to handle reads overlapping more than one feature
+                        (choices: union, intersection-strict, intersection-
+                        nonempty; default: union)
+  --nonunique {none,all}
+                        Whether to score reads that are not uniquely aligned
+                        or ambiguously assigned to features
+  --secondary-alignments {score,ignore}
+                        Whether to score secondary alignments (0x100 flag)
+  --supplementary-alignments {score,ignore}
+                        Whether to score supplementary alignments (0x800 flag)
+  -o SAMOUTS, --samout SAMOUTS
+                        write out all SAM alignment records into SAM files
+                        (one per input file needed), annotating each line with
+                        its feature assignment (as an optional field with tag
+                        &#39;XF&#39;)
+  -q, --quiet           suppress progress report
+
+Written by Simon Anders (sanders@fs.tum.de), European Molecular Biology
+Laboratory (EMBL). (c) 2010. Released under the terms of the GNU General
+Public License v3. Part of the &#39;HTSeq&#39; framework, version 0.11.2.
+</pre></div></div>
+</div>
+<p>We will use <a class="reference external" href="http://www-huber.embl.de/users/anders/HTSeq/doc/count.html">htseq-count</a> to do the counting, but first we need to make some decisions, because the <code class="docutils literal notranslate"><span class="pre">htseq-count</span></code> defaults do not work with some annotation files. Here are the <strong>most important</strong> commandline options that we need to consider: * –format=: Format of the input data. Possible values are sam (for text SAM files) and bam (for binary BAM files). Default is sam. * –stranded=: whether the data is from a strand-specific
+assay (default: yes). For stranded=no, a read is considered overlapping with a feature regardless of whether it is mapped to the same or the opposite strand as the feature. For stranded=yes and single-end reads, the read has to be mapped to the same strand as the feature. For paired-end reads, the first read has to be on the same strand and the second read on the opposite strand. For stranded=reverse, these rules are reversed. * –type=: feature type (3rd column in GFF file) to be evaluated,
+all features of other type are ignored (default, suitable for RNA-Seq analysis using an Ensembl GTF file: exon) * –idattr=: GFF attribute to be used as feature ID. Several GFF lines with the same feature ID will be considered as parts of the same feature. The feature ID is used to identity the counts in the output table. The default, suitable for RNA-Seq analysis using an Ensembl GTF file, is gene_id.</p>
+<p>And here is how we will set those options: * –format=bam: Since Tophat generated BAM files for us * –stranded=reverse: The dUTP method that we used for generating a strand-specific library produces reads that are anti-sense, htseq-count considers this to be “reverse”.</p>
+<p>We need to look at the GFF file to understand what exactly the <code class="docutils literal notranslate"><span class="pre">--type</span></code> and <code class="docutils literal notranslate"><span class="pre">--idattr</span></code> options are, and why we are setting them this way.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>head -20 <span class="nv">$GENOME_DIR</span>/<span class="nv">$GTF</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+#!genome-build CNA3
+#!genome-version CNA3
+#!genome-date 2015-11
+#!genome-build-accession GCA_000149245.3
+#!genebuild-last-updated 2015-11
+1       ena     gene    100     5645    .       -       .       gene_id &#34;CNAG_04548&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;;
+1       ena     transcript      100     5645    .       -       .       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;;
+1       ena     exon    5494    5645    .       -       .       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;1&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; exon_id &#34;AFR92135-1&#34;;
+1       ena     CDS     5494    5645    .       -       0       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;1&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; protein_id &#34;AFR92135&#34;; protein_version &#34;1&#34;;
+1       ena     start_codon     5643    5645    .       -       0       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;1&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;;
+1       ena     exon    5322    5422    .       -       .       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;2&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; exon_id &#34;AFR92135-2&#34;;
+1       ena     CDS     5322    5422    .       -       1       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;2&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; protein_id &#34;AFR92135&#34;; protein_version &#34;1&#34;;
+1       ena     exon    3958    5263    .       -       .       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;3&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; exon_id &#34;AFR92135-3&#34;;
+1       ena     CDS     3958    5263    .       -       2       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;3&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; protein_id &#34;AFR92135&#34;; protein_version &#34;1&#34;;
+1       ena     exon    3206    3890    .       -       .       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;4&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; exon_id &#34;AFR92135-4&#34;;
+1       ena     CDS     3206    3890    .       -       1       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;4&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; protein_id &#34;AFR92135&#34;; protein_version &#34;1&#34;;
+1       ena     exon    2846    3126    .       -       .       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;5&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; exon_id &#34;AFR92135-5&#34;;
+1       ena     CDS     2846    3126    .       -       0       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;5&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; protein_id &#34;AFR92135&#34;; protein_version &#34;1&#34;;
+1       ena     exon    2322    2782    .       -       .       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;6&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; exon_id &#34;AFR92135-6&#34;;
+1       ena     CDS     2322    2782    .       -       1       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;6&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; protein_id &#34;AFR92135&#34;; protein_version &#34;1&#34;;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>head -50 <span class="nv">$GENOME_DIR</span>/<span class="nv">$GTF</span> <span class="p">|</span> cut -c -55
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+#!genome-build CNA3
+#!genome-version CNA3
+#!genome-date 2015-11
+#!genome-build-accession GCA_000149245.3
+#!genebuild-last-updated 2015-11
+1       ena     gene    100     5645    .       -       .       gene_id &#34;CNAG_04548&#34;; gene_so
+1       ena     transcript      100     5645    .       -       .       gene_id &#34;CNAG_04548&#34;; t
+1       ena     exon    5494    5645    .       -       .       gene_id &#34;CNAG_04548&#34;; transc
+1       ena     CDS     5494    5645    .       -       0       gene_id &#34;CNAG_04548&#34;; transcr
+1       ena     start_codon     5643    5645    .       -       0       gene_id &#34;CNAG_04548&#34;;
+1       ena     exon    5322    5422    .       -       .       gene_id &#34;CNAG_04548&#34;; transc
+1       ena     CDS     5322    5422    .       -       1       gene_id &#34;CNAG_04548&#34;; transcr
+1       ena     exon    3958    5263    .       -       .       gene_id &#34;CNAG_04548&#34;; transc
+1       ena     CDS     3958    5263    .       -       2       gene_id &#34;CNAG_04548&#34;; transcr
+1       ena     exon    3206    3890    .       -       .       gene_id &#34;CNAG_04548&#34;; transc
+1       ena     CDS     3206    3890    .       -       1       gene_id &#34;CNAG_04548&#34;; transcr
+1       ena     exon    2846    3126    .       -       .       gene_id &#34;CNAG_04548&#34;; transc
+1       ena     CDS     2846    3126    .       -       0       gene_id &#34;CNAG_04548&#34;; transcr
+1       ena     exon    2322    2782    .       -       .       gene_id &#34;CNAG_04548&#34;; transc
+1       ena     CDS     2322    2782    .       -       1       gene_id &#34;CNAG_04548&#34;; transcr
+1       ena     exon    1823    2274    .       -       .       gene_id &#34;CNAG_04548&#34;; transc
+1       ena     CDS     1823    2274    .       -       2       gene_id &#34;CNAG_04548&#34;; transcr
+1       ena     exon    1556    1767    .       -       .       gene_id &#34;CNAG_04548&#34;; transc
+1       ena     CDS     1556    1767    .       -       0       gene_id &#34;CNAG_04548&#34;; transcr
+1       ena     exon    100     1497    .       -       .       gene_id &#34;CNAG_04548&#34;; transcr
+1       ena     CDS     168     1497    .       -       1       gene_id &#34;CNAG_04548&#34;; transcri
+1       ena     three_prime_utr 100     167     .       -       .       gene_id &#34;CNAG_04548
+1       ena     gene    5928    7982    .       -       .       gene_id &#34;CNAG_07303&#34;; gene_s
+1       ena     transcript      5928    7982    .       -       .       gene_id &#34;CNAG_07303&#34;;
+1       ena     exon    7685    7982    .       -       .       gene_id &#34;CNAG_07303&#34;; transc
+1       ena     CDS     7685    7769    .       -       0       gene_id &#34;CNAG_07303&#34;; transcr
+1       ena     start_codon     7767    7769    .       -       0       gene_id &#34;CNAG_07303&#34;;
+1       ena     exon    5928    7626    .       -       .       gene_id &#34;CNAG_07303&#34;; transc
+1       ena     CDS     6209    7626    .       -       2       gene_id &#34;CNAG_07303&#34;; transcr
+1       ena     five_prime_utr  7770    7982    .       -       .       gene_id &#34;CNAG_0730
+1       ena     three_prime_utr 5928    6208    .       -       .       gene_id &#34;CNAG_073
+1       ena     transcript      6209    7769    .       -       .       gene_id &#34;CNAG_07303&#34;;
+1       ena     exon    7685    7769    .       -       .       gene_id &#34;CNAG_07303&#34;; transc
+1       ena     CDS     7685    7769    .       -       0       gene_id &#34;CNAG_07303&#34;; transcr
+1       ena     start_codon     7767    7769    .       -       0       gene_id &#34;CNAG_07303&#34;;
+1       ena     exon    6209    7626    .       -       .       gene_id &#34;CNAG_07303&#34;; transc
+1       ena     CDS     6212    7626    .       -       2       gene_id &#34;CNAG_07303&#34;; transcr
+1       ena     stop_codon      6209    6211    .       -       0       gene_id &#34;CNAG_07303&#34;;
+1       ena     gene    8766    9603    .       -       .       gene_id &#34;CNAG_07304&#34;; gene_s
+1       ena     transcript      8766    9603    .       -       .       gene_id &#34;CNAG_07304&#34;;
+1       ena     exon    9311    9603    .       -       .       gene_id &#34;CNAG_07304&#34;; transc
+1       ena     CDS     9311    9480    .       -       0       gene_id &#34;CNAG_07304&#34;; transcr
+1       ena     start_codon     9478    9480    .       -       0       gene_id &#34;CNAG_07304&#34;;
+1       ena     exon    8766    9246    .       -       .       gene_id &#34;CNAG_07304&#34;; transc
+1       ena     CDS     9129    9246    .       -       1       gene_id &#34;CNAG_07304&#34;; transcr
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Running-htseq-count">
+<h2>Running htseq-count<a class="headerlink" href="#Running-htseq-count" title="Permalink to this headline">¶</a></h2>
+<p>So now we are ready! We run <code class="docutils literal notranslate"><span class="pre">htseq-count</span></code> using <code class="docutils literal notranslate"><span class="pre">htseq-count</span> <span class="pre">ALIGNMENT_FILE</span> <span class="pre">GFF_FILE</span></code>. Here is our command for our test sample:</p>
+<ul class="simple">
+<li><p>–format=bam: Since Tophat generated BAM files for us</p></li>
+<li><p>–stranded=reverse: The dUTP method that we used for generating a strand-specific library produces reads that are anti-sense, htseq-count considers this to be “reverse”.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls <span class="si">${</span><span class="nv">STAR_OUT</span><span class="si">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+21_2019_P_M1_S21_L001_R1_short_introns_Aligned.sortedByCoord.out.bam
+21_2019_P_M1_S21_L001_R1_short_introns_Aligned.sortedByCoord.out.bam.bai
+21_2019_P_M1_S21_L001_R1_short_introns_Log.final.out
+21_2019_P_M1_S21_L001_R1_short_introns_Log.out
+21_2019_P_M1_S21_L001_R1_short_introns_Log.progress.out
+21_2019_P_M1_S21_L001_R1_short_introns_ReadsPerGene.out.tab
+21_2019_P_M1_S21_L001_R1_short_introns_SJ.out.tab
+21_2019_P_M1_S21_L002_R1_Aligned.out.bam
+21_2019_P_M1_S21_L002_R1_Log.final.out
+21_2019_P_M1_S21_L002_R1_Log.out
+21_2019_P_M1_S21_L002_R1_Log.progress.out
+21_2019_P_M1_S21_L002_R1_ReadsPerGene.out.tab
+21_2019_P_M1_S21_L002_R1_short_introns_Aligned.sortedByCoord.out.bam
+21_2019_P_M1_S21_L002_R1_short_introns_Aligned.sortedByCoord.out.bam.bai
+21_2019_P_M1_S21_L002_R1_short_introns_Log.final.out
+21_2019_P_M1_S21_L002_R1_short_introns_Log.out
+21_2019_P_M1_S21_L002_R1_short_introns_Log.progress.out
+21_2019_P_M1_S21_L002_R1_short_introns_ReadsPerGene.out.tab
+21_2019_P_M1_S21_L002_R1_short_introns_SJ.out.tab
+21_2019_P_M1_S21_L002_R1_SJ.out.tab
+<span class="ansi-blue-intense-fg ansi-bold">21_2019_P_M1_S21_L002_R1__STARtmp</span>
+genome_Log.out
+<span class="ansi-blue-intense-fg ansi-bold">multiqc_data</span>
+multiqc_report.html
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>htseq-count --quiet <span class="se">\</span>
+    --format<span class="o">=</span>bam <span class="se">\</span>
+    --stranded<span class="o">=</span>reverse <span class="se">\</span>
+    <span class="si">${</span><span class="nv">STAR_OUT</span><span class="si">}</span>/21_2019_P_M1_S21_L002_R1_Aligned.out.bam <span class="se">\</span>
+    <span class="nv">$GENOME_DIR</span>/<span class="nv">$GTF</span> &gt; <span class="si">${</span><span class="nv">COUNT_OUT</span><span class="si">}</span>/21_2019_P_M1_S21_L002_R1.tsv
+</pre></div>
+</div>
+</div>
+<p>Let’s take a quick peek at the results</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>head <span class="si">${</span><span class="nv">COUNT_OUT</span><span class="si">}</span>/21_2019_P_M1_S21_L002_R1.tsv
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CNAG_00001      0
+CNAG_00002      51
+CNAG_00003      23
+CNAG_00004      78
+CNAG_00005      5
+CNAG_00006      546
+CNAG_00007      188
+CNAG_00008      119
+CNAG_00009      29
+CNAG_00010      146
+</pre></div></div>
+</div>
+<p>There’s also some useful information at the end of the file:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>tail <span class="si">${</span><span class="nv">COUNT_OUT</span><span class="si">}</span>/21_2019_P_M1_S21_L002_R1.tsv
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ENSRNA049551862 0
+ENSRNA049551899 0
+ENSRNA049551942 0
+ENSRNA049551964 0
+ENSRNA049551993 0
+__no_feature    18783
+__ambiguous     316
+__too_low_aQual 0
+__not_aligned   46060
+__alignment_not_unique  35006
+</pre></div></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

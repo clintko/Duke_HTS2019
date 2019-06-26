@@ -33,6 +33,10 @@ Source materials can bd cloned from the `HTS2019 GitLab Repository <https://gitl
    :maxdepth: 2
    :caption: Reproducible Analysis (Git)
 
+   computing/data_handling_demo.ipynb
+   computing/git_lesson.ipynb
+   computing/git_in_class.ipynb
+
 .. toctree::
    :maxdepth: 2
    :caption: Analysis of Pilot Data

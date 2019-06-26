@@ -1,0 +1,352 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Data handling Demo"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Switch to Jupyter\n",
+    "### Setup Files and Directories"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "RAWDATA_DIR=/tmp/rr_demo\n",
+    "DATA1=\"${RAWDATA_DIR}/data1.csv\"\n",
+    "DATA2=\"${RAWDATA_DIR}/data2.csv\"\n",
+    "mkdir -p $RAWDATA_DIR\n",
+    "\n",
+    "printf \"1\\n2\\n3\\n4\" > $DATA1\n",
+    "printf \"5\\n6\\n7\\n8\" > $DATA2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Checksums"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "==> data1.csv <==\n",
+      "1\n",
+      "2\n",
+      "3\n",
+      "4\n",
+      "==> data2.csv <==\n",
+      "5\n",
+      "6\n",
+      "7\n",
+      "8"
+     ]
+    }
+   ],
+   "source": [
+    "cd $RAWDATA_DIR\n",
+    "head *.csv"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "257cde944bf50d4fe05001bc33dd0ca4  data1.csv\n",
+      "347f3f3465f592fd05200c622045948f  data2.csv\n"
+     ]
+    }
+   ],
+   "source": [
+    "md5sum *.csv"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "  \n",
+    "## Checksums File"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "data1.csv: OK\n",
+      "data2.csv: OK\n"
+     ]
+    }
+   ],
+   "source": [
+    "md5sum *.csv > mydata_md5.txt\n",
+    "md5sum -c mydata_md5.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Catching Changes"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "5\n",
+      "6\n",
+      "3\n",
+      "8"
+     ]
+    }
+   ],
+   "source": [
+    "sed -i s/7/3/ $DATA2\n",
+    "cat $DATA2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {
+    "tags": [
+     "raises-exception"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "data1.csv: OK\n",
+      "data2.csv: FAILED\n",
+      "md5sum: WARNING: 1 computed checksum did NOT match\n"
+     ]
+    },
+    {
+     "ename": "",
+     "evalue": "1",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "md5sum -c mydata_md5.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## READ-ONLY"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "drwxr-xr-x 2 jovyan users 4096 Jun 25 17:10 \u001b[0m\u001b[01;34m/tmp/rr_demo\u001b[0m\n",
+      "total 12\n",
+      "-rw-r--r-- 1 jovyan users  7 Jun 25 17:10 data1.csv\n",
+      "-rw-r--r-- 1 jovyan users 88 Jun 25 17:10 mydata_md5.txt\n",
+      "-rw-r--r-- 1 jovyan users  7 Jun 25 17:10 data2.csv\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls -ld $RAWDATA_DIR\n",
+    "ls -ltr $RAWDATA_DIR"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "dr-xr-xr-x 2 jovyan users 4096 Jun 25 17:10 \u001b[0m\u001b[01;34m/tmp/rr_demo\u001b[0m\n",
+      "total 12\n",
+      "-r--r--r-- 1 jovyan users  7 Jun 25 17:10 data1.csv\n",
+      "-r--r--r-- 1 jovyan users 88 Jun 25 17:10 mydata_md5.txt\n",
+      "-r--r--r-- 1 jovyan users  7 Jun 25 17:10 data2.csv\n"
+     ]
+    }
+   ],
+   "source": [
+    "chmod -R a-w $RAWDATA_DIR\n",
+    "ls -ld $RAWDATA_DIR\n",
+    "ls -ltr $RAWDATA_DIR"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Preventing Modification"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {
+    "tags": [
+     "raises-exception"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "bash: /tmp/rr_demo/data2.csv: Permission denied\n"
+     ]
+    },
+    {
+     "ename": "",
+     "evalue": "1",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "echo \"This is not the data you are looking for\" > $DATA2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {
+    "tags": [
+     "raises-exception"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "sed: couldn't open temporary file /tmp/rr_demo/sedzRnyBp: Permission denied\n"
+     ]
+    },
+    {
+     "ename": "",
+     "evalue": "4",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "sed s/7/3/ -i $DATA2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Preventing Deletion"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {
+    "tags": [
+     "raises-exception"
+    ]
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "rm: cannot remove '/tmp/rr_demo/data1.csv': Permission denied\n",
+      "rm: cannot remove '/tmp/rr_demo/data2.csv': Permission denied\n",
+      "rm: cannot remove '/tmp/rr_demo/mydata_md5.txt': Permission denied\n"
+     ]
+    },
+    {
+     "ename": "",
+     "evalue": "1",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "rm -rf $RAWDATA_DIR"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Clean up\n",
+    "Let's clean up the directory we made.  To do this we need to reset permissions to allow write, otherwise we will get an error again"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "chmod -R a+w $RAWDATA_DIR\n",
+    "rm -rf $RAWDATA_DIR"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

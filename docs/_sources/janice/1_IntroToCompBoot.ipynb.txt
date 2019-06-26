@@ -4,7 +4,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Duke HTS Summer Course 2018"
+    "# Duke HTS Summer Course 2019"
    ]
   },
   {
@@ -177,5 +177,5 @@
   }
  },
  "nbformat": 4,
- "nbformat_minor": 1
+ "nbformat_minor": 2
 }

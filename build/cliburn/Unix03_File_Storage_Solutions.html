@@ -1,0 +1,1394 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>File archival and recovery &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Working with text" href="Unix04_Text_Manipulation_Solutinos.html" />
+    <link rel="prev" title="File I/O" href="Unix02_FileIO_Solutions.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Unix01_File_And_Directory_Solutions.html">Working with Unix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">File archival and recovery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#File-compression-and-archival">File compression and archival</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Combine-multiple-files-into-single-file">Combine multiple files into single file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Compress-concatenated-file">Compress concatenated file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#In-one-step">In one step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Recover-files">Recover files</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Checksums">Checksums</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Different-algorithms-to-generate-checkusms">Different algorithms to generate checkusms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#If-we-alter-hello.txt-in-any-way-the-checksum-will-be-different">If we alter hello.txt in any way the checksum will be different</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Working-with-multiple-files">Working with multiple files</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Exercises">Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Unix04_Text_Manipulation_Solutinos.html">Working with text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>File archival and recovery</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/cliburn/Unix03_File_Storage_Solutions.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="File-archival-and-recovery">
+<h1>File archival and recovery<a class="headerlink" href="#File-archival-and-recovery" title="Permalink to this headline">¶</a></h1>
+<p>Create files to play with.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">echo</span> <span class="s2">&quot;aaaaa&quot;</span> &gt; a.txt
+<span class="nb">echo</span> <span class="s2">&quot;bbbbb&quot;</span> &gt; b.txt
+<span class="nb">echo</span> <span class="s2">&quot;ccccc&quot;</span> &gt; c.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="File-compression-and-archival">
+<h2>File compression and archival<a class="headerlink" href="#File-compression-and-archival" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls ?.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+a.txt  b.txt  c.txt
+</pre></div></div>
+</div>
+<div class="section" id="Combine-multiple-files-into-single-file">
+<h3>Combine multiple files into single file<a class="headerlink" href="#Combine-multiple-files-into-single-file" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>tar -cvf abc.tar ?.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+a.txt
+b.txt
+c.txt
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">abc.tar</span>
+a.txt
+b.txt
+c.txt
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+lsd1.txt
+lsd2.txt
+lsd3.txt
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Compress-concatenated-file">
+<h3>Compress concatenated file<a class="headerlink" href="#Compress-concatenated-file" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>gzip abc.tar
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">abc.tar.gz</span>
+a.txt
+b.txt
+c.txt
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+lsd1.txt
+lsd2.txt
+lsd3.txt
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>rm abc.tar.gz
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="In-one-step">
+<h3>In one step<a class="headerlink" href="#In-one-step" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>tar -czvf abc.tar.gz ?.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+a.txt
+b.txt
+c.txt
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">abc.tar.gz</span>
+a.txt
+b.txt
+c.txt
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+lsd1.txt
+lsd2.txt
+lsd3.txt
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>rm ?.txt
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">abc.tar.gz</span>
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+lsd1.txt
+lsd2.txt
+lsd3.txt
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Recover-files">
+<h3>Recover files<a class="headerlink" href="#Recover-files" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>tar -xzvf abc.tar.gz
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+a.txt
+b.txt
+c.txt
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">abc.tar.gz</span>
+a.txt
+b.txt
+c.txt
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+lsd1.txt
+lsd2.txt
+lsd3.txt
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>rm abc.tar.gz
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Checksums">
+<h2>Checksums<a class="headerlink" href="#Checksums" title="Permalink to this headline">¶</a></h2>
+<p>When working with genomic data, we deal with very large files. There is a small risk that these files will be corrupted over time or during data transfer. To ensure that files are not changed, we use a “checksum” function. This is a function that generates an long, essentially random number called a checksum that represents the contents of the file. When the file contents change, so will the checksum. In theory, there is a very small probability that two different files generate the same
+checksum, but in practice the probability is too small to worry about.</p>
+<p>There are several different algorithms for generating the checksums, and at least 3 Unix commands to do so, but they all work very similarly for our purposes.</p>
+<p>The strategy is:</p>
+<ul class="simple">
+<li><p>Generate and store a checksum together with a data file whose integrity you care about</p></li>
+<li><p>When you use or download the data, re-generate the checksum (using the same algorithm e.g. MD5) and compare with the checksum</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat &gt; hello.txt <span class="s">&lt;&lt; EOF</span>
+<span class="s">1 Hello, bash</span>
+<span class="s">2 Hello, again</span>
+<span class="s">3 Hello</span>
+<span class="s">4 again</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat hello.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1 Hello, bash
+2 Hello, again
+3 Hello
+4 again
+</pre></div></div>
+</div>
+<div class="section" id="Different-algorithms-to-generate-checkusms">
+<h3>Different algorithms to generate checkusms<a class="headerlink" href="#Different-algorithms-to-generate-checkusms" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cksum hello.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1567754519 45 hello.txt
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>md5sum hello.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+a68554400613f5445c13c57907e976ed  hello.txt
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>sha1sum hello.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+57eae725420bf0075d17f849cc8e75379bea6eb6  hello.txt
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="If-we-alter-hello.txt-in-any-way-the-checksum-will-be-different">
+<h3>If we alter hello.txt in any way the checksum will be different<a class="headerlink" href="#If-we-alter-hello.txt-in-any-way-the-checksum-will-be-different" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat hello.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1 Hello, bash
+2 Hello, again
+3 Hello
+4 again
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>md5sum hello.txt &gt; hello.md5
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat hello.md5
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+a68554400613f5445c13c57907e976ed  hello.txt
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat &gt; hello.txt <span class="s">&lt;&lt; EOF</span>
+<span class="s">1 Hello, bash</span>
+<span class="s">2 Hello, again</span>
+<span class="s">2 Hello</span>
+<span class="s">4 again</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat hello.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1 Hello, bash
+2 Hello, again
+2 Hello
+4 again
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>md5sum -c hello.md5
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hello.txt: FAILED
+md5sum: WARNING: 1 computed checksum did NOT match
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Working-with-multiple-files">
+<h3>Working with multiple files<a class="headerlink" href="#Working-with-multiple-files" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>md5sum ?.txt &gt; MD5SUM
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">echo</span> <span class="s2">&quot;ccacc&quot;</span> &gt; c.txt
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>md5sum -c MD5SUM
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+a.txt: OK
+b.txt: OK
+c.txt: FAILED
+md5sum: WARNING: 1 computed checksum did NOT match
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Exercises">
+<h2>Exercises<a class="headerlink" href="#Exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Create an MD5 checksum for all notebooks (files with extension .ipynb) and store as MD5_CHECKSUM</p></li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>md5sum *ipynb &gt; MD5_CHECKSUM
+cat MD5_CHECKSUM
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+62244c839bf75946704624defd31dc2f  R00_Review_Basics.ipynb
+d49c2ea6c69d58abefca0bdc74b4945e  R00_Review_Basics_Scratch.ipynb
+8dced15d1a9b95debd69bd2e26fced51  R01_Data_Manipulation.ipynb
+b5c9f4b88d09728c3d4f0422bd9ffd18  R01_Data_Manipulation_Scratch.ipynb
+9e09863c38312eec48fe00b82770215b  R01_Data_Manipulation_Solutions.ipynb
+16fd0a8d9d681974995d8140172c8ef0  R01_Manipulating_Data_In_R.ipynb
+87f89f814b13174747026ca668f146d6  R02_Tidying_Data_In_R.ipynb
+592d775271c019ac59e82ff7f86f510a  R02_Tidying_Data.ipynb
+efd0a6fe5a6155b91d1856dd115aa153  R02_Tidying_Data_Solutions.ipynb
+54dc64cfcd4d78d970780f858dc7b40f  R03_FileIO.ipynb
+39531aae4ada2bbd009b54b46119bf89  R04_Unsupervised_Learning.ipynb
+0831bd591b1c1cc2df2367c260a39a7c  R04_Unsupervised_Learning_Scratch.ipynb
+8d9eaf96f9d4535dd322d844f460ebda  R05_Unsupervised_Learning_More_Examples.ipynb
+a2fe0422524763aa7c84bc0d93d6bb31  R06_Graphics_Overview.ipynb
+c01a3e52a658b7ea8f1c09e5ab0a7468  R07_Graphics_Base.ipynb
+968d575cbbcdaf939dd690e6e3d13ef7  R08_Graphics_ggplot2.ipynb
+c28451b83183c842f1de53511d30180e  R09_Graphics_Exercise.ipynb
+701e20acca68964c4321c263316f2068  R09_Graphics_Exercise_Solutions.ipynb
+5fce58fcf8e1fb4b07b68240d06679fb  Unix01_File_And_Directory.ipynb
+eb62c94ab276c8d3414e436e3ee0505f  Unix01_File_And_Directory_Solutions.ipynb
+769ad300f06de14308852deae7b44e97  Unix02_FileIO.ipynb
+93110755e331d4ccc384550f8d9ff631  Unix02_FileIO_Solutions.ipynb
+66b6a2f6a69c73ee8662a2ac51c20a17  Unix03_File_Storage.ipynb
+fd1e66e88ba42d0812dbf76a5c65c972  Unix03_File_Storage_Solutions.ipynb
+79d21d0852b2e936095fddb49aa72ee1  Unix04_Text_Manipulation.ipynb
+4a5c5af2eea7002938e500eec054f860  Unix04_Text_Manipulation_Solutinos.ipynb
+6ccf56814666d43b580cc3abfed152ab  Unix05_Variables.ipynb
+6ccf56814666d43b580cc3abfed152ab  Unix05_Variables_Solutions.ipynb
+af15edcf6db6201b09b5ea81046a9cbd  Unix06_Bash_Bioinformatics.ipynb
+d73b692af61c7614e01e329f0a5eb89a  Unix07_Capstone_Exercise.ipynb
+d2c1ad113a4be50fc17c15bb17159975  Unix07_Capstone_Exercise_Solutions.ipynb
+cbe7eb9998cb549acd3ac3b0824407ce  Unix_Appendix01_Regular_Expressions.ipynb
+d0798a03d71e02b5aa8093ca883a5239  Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Archive all notebooks (files with extension .ipynb) in this directory ANd the checksum file as notebooks.tar.gz.</p></li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>tar -czvf notebooks.tar.gz *ipynb MD5_CHECKSUM
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+MD5_CHECKSUM
+</pre></div></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Delete all (files with extension .ipynb).</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>rm *ipynb
+</pre></div>
+</div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Recover the notebooks from the archived file, and check that the files have not changed during the process of tarring and untarring.</p></li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>tar -xzvf notebooks.tar.gz
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+MD5_CHECKSUM
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>md5sum -c MD5_CHECKSUM
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+R00_Review_Basics.ipynb: OK
+R00_Review_Basics_Scratch.ipynb: OK
+R01_Data_Manipulation.ipynb: OK
+R01_Data_Manipulation_Scratch.ipynb: OK
+R01_Data_Manipulation_Solutions.ipynb: OK
+R01_Manipulating_Data_In_R.ipynb: OK
+R02_Tidying_Data_In_R.ipynb: OK
+R02_Tidying_Data.ipynb: OK
+R02_Tidying_Data_Solutions.ipynb: OK
+R03_FileIO.ipynb: OK
+R04_Unsupervised_Learning.ipynb: OK
+R04_Unsupervised_Learning_Scratch.ipynb: OK
+R05_Unsupervised_Learning_More_Examples.ipynb: OK
+R06_Graphics_Overview.ipynb: OK
+R07_Graphics_Base.ipynb: OK
+R08_Graphics_ggplot2.ipynb: OK
+R09_Graphics_Exercise.ipynb: OK
+R09_Graphics_Exercise_Solutions.ipynb: OK
+Unix01_File_And_Directory.ipynb: OK
+Unix01_File_And_Directory_Solutions.ipynb: OK
+Unix02_FileIO.ipynb: OK
+Unix02_FileIO_Solutions.ipynb: OK
+Unix03_File_Storage.ipynb: OK
+Unix03_File_Storage_Solutions.ipynb: OK
+Unix04_Text_Manipulation.ipynb: OK
+Unix04_Text_Manipulation_Solutinos.ipynb: OK
+Unix05_Variables.ipynb: OK
+Unix05_Variables_Solutions.ipynb: OK
+Unix06_Bash_Bioinformatics.ipynb: OK
+Unix07_Capstone_Exercise.ipynb: OK
+Unix07_Capstone_Exercise_Solutions.ipynb: OK
+Unix_Appendix01_Regular_Expressions.ipynb: OK
+Unix_Appendix02_Review.ipynb: OK
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Unix04_Text_Manipulation_Solutinos.html" class="btn btn-neutral float-right" title="Working with text" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Unix02_FileIO_Solutions.html" class="btn btn-neutral float-left" title="File I/O" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

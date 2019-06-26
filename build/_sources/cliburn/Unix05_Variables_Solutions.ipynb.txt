@@ -1,0 +1,1244 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Unix Variables"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Safety - Disable default variables"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The default behavior is to assign the empty string to undeclared variables. This is a problem because it makes mis-spelled variables hard to detect."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $DOES_NOT_EXIST"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "set -u"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "bash: DOES_NOT_EXIST: unbound variable\n"
+     ]
+    },
+    {
+     "ename": "",
+     "evalue": "1",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "echo $DOES_NOT_EXIST"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Assigning variables"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "FILENAME=\"temp.txt\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "temp.txt\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $FILENAME"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "echo \"Some stuff\" > $FILENAME"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Some stuff\n"
+     ]
+    }
+   ],
+   "source": [
+    "cat $FILENAME"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Common mistakes"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You must not have spaces on either side of `=` in a variable assignment."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "bash: FILENAME: command not found\n"
+     ]
+    },
+    {
+     "ename": "",
+     "evalue": "127",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "FILENAME = \"temp.txt\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Unix interprets this as: run a command called `FILENAME`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "bash: FILENAME: command not found\n"
+     ]
+    },
+    {
+     "ename": "",
+     "evalue": "127",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "FILENAME =\"temp.txt\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Unix interprets this as: Assign space to the variable FILENAME then run a program called `temp.txt`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "bash: temp.txt: command not found\n"
+     ]
+    },
+    {
+     "ename": "",
+     "evalue": "127",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "FILENAME= \"temp.txt\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Using a variable"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "PREFIX=\"Gene\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Gene\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $PREFIX"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "bash: PREFIX001: unbound variable\n"
+     ]
+    },
+    {
+     "ename": "",
+     "evalue": "1",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "echo $PREFIX001"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "If you surround the variable name with curly braces, you can concatenate names."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Gene001\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo ${PREFIX}001"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Assigning command outputs to variables"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "To caputre the output of a command, use `$(command)`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "FILES=$(ls)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "a.txt bgp.fasta b.txt Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf c.txt data figs hello.md5 hello.txt lsd1.txt lsd2.txt lsd3.txt MD5_CHECKSUM MD5SUM notebooks.tar.gz R00_Review_Basics.ipynb R00_Review_Basics_Scratch.ipynb R01_Data_Manipulation.ipynb R01_Data_Manipulation_Scratch.ipynb R01_Data_Manipulation_Solutions.ipynb R01_Manipulating_Data_In_R.ipynb R02_Tidying_Data_In_R.ipynb R02_Tidying_Data.ipynb R02_Tidying_Data_Solutions.ipynb R03_FileIO.ipynb R04_Unsupervised_Learning.ipynb R04_Unsupervised_Learning_Scratch.ipynb R05_Unsupervised_Learning_More_Examples.ipynb R06_Graphics_Overview.ipynb R07_Graphics_Base.ipynb R08_Graphics_ggplot2.ipynb R09_Graphics_Exercise.ipynb R09_Graphics_Exercise_Solutions.ipynb seqs temp.txt Unix01_File_And_Directory.ipynb Unix01_File_And_Directory_Solutions.ipynb Unix02_FileIO.ipynb Unix02_FileIO_Solutions.ipynb Unix03_File_Storage.ipynb Unix03_File_Storage_Solutions.ipynb Unix04_Text_Manipulation.ipynb Unix04_Text_Manipulation_Solutinos.ipynb Unix05_Variables.ipynb Unix05_Variables_Solutions.ipynb Unix06_Bash_Bioinformatics.ipynb Unix07_Capstone_Exercise.ipynb Unix07_Capstone_Exercise_Solutions.ipynb Unix_Appendix01_Regular_Expressions.ipynb Unix_Appendix02_Review.ipynb\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $FILES"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "grep: data: Is a directory\n",
+      "grep: figs: Is a directory\n",
+      "lsd1.txt:1:Two of the most famous products of Berkeley are LSD and Unix. \n",
+      "lsd2.txt:1:Two of the most famous products of Berkeley are LSD and Unix. \n",
+      "lsd3.txt:1:Two of the most famous products of Berkeley are LSD and Unix. \n",
+      "MD5_CHECKSUM:19:5fce58fcf8e1fb4b07b68240d06679fb  Unix01_File_And_Directory.ipynb\n",
+      "MD5_CHECKSUM:20:eb62c94ab276c8d3414e436e3ee0505f  Unix01_File_And_Directory_Solutions.ipynb\n",
+      "grep: write error: Broken pipe\n"
+     ]
+    }
+   ],
+   "source": [
+    "grep -in \"unix\" $FILES | head -5"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can also use the anonumous caputre form."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "grep: data: Is a directory\n",
+      "grep: figs: Is a directory\n",
+      "lsd1.txt:1:Two of the most famous products of Berkeley are LSD and Unix. \n",
+      "lsd2.txt:1:Two of the most famous products of Berkeley are LSD and Unix. \n",
+      "lsd3.txt:1:Two of the most famous products of Berkeley are LSD and Unix. \n",
+      "MD5_CHECKSUM:19:5fce58fcf8e1fb4b07b68240d06679fb  Unix01_File_And_Directory.ipynb\n",
+      "MD5_CHECKSUM:20:eb62c94ab276c8d3414e436e3ee0505f  Unix01_File_And_Directory_Solutions.ipynb\n",
+      "grep: write error: Broken pipe\n"
+     ]
+    }
+   ],
+   "source": [
+    "grep -in \"unix\" $(ls) | head -5"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You may sometimes see this old backticks form. It is equivalent although modern usage seems to favor the `$(command)` from."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "grep: data: Is a directory\n",
+      "grep: figs: Is a directory\n",
+      "lsd1.txt:1:Two of the most famous products of Berkeley are LSD and Unix. \n",
+      "lsd2.txt:1:Two of the most famous products of Berkeley are LSD and Unix. \n",
+      "lsd3.txt:1:Two of the most famous products of Berkeley are LSD and Unix. \n",
+      "MD5_CHECKSUM:19:5fce58fcf8e1fb4b07b68240d06679fb  Unix01_File_And_Directory.ipynb\n",
+      "MD5_CHECKSUM:20:eb62c94ab276c8d3414e436e3ee0505f  Unix01_File_And_Directory_Solutions.ipynb\n",
+      "grep: write error: Broken pipe\n"
+     ]
+    }
+   ],
+   "source": [
+    "grep -in \"unix\" `ls` | head -5"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Assigning results of  an arithmetic expression (integers only)\n",
+    "\n",
+    "To do integer arithmetic, use `$(( expression ))`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "5\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $((2 + 3))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This does not work for floating point numbers."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "bash: 2.2 + 3.3: syntax error: invalid arithmetic operator (error token is \".2 + 3.3\")\n"
+     ]
+    },
+    {
+     "ename": "",
+     "evalue": "1",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "echo $((2.2 + 3.3))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You need to invoke the `bc` calculator program to deal with floating point numbers."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "bash: bc: command not found\n"
+     ]
+    },
+    {
+     "ename": "",
+     "evalue": "127",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "echo 2.2 + 3.3 | bc "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Using variables in loops"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "6 a.txt\n",
+      "6 b.txt\n",
+      "6 c.txt\n",
+      "45 hello.txt\n",
+      "107 lsd1.txt\n",
+      "107 lsd2.txt\n",
+      "107 lsd3.txt\n",
+      "11 temp.txt\n"
+     ]
+    }
+   ],
+   "source": [
+    "for FILE in $(ls *txt)\n",
+    "do\n",
+    "    wc -c $FILE\n",
+    "done"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1\n",
+      "1\n",
+      "2\n",
+      "3\n",
+      "5\n"
+     ]
+    }
+   ],
+   "source": [
+    "for FIB in 1 1 2 3 5\n",
+    "do\n",
+    "    echo $FIB\n",
+    "done"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1\n",
+      "2\n",
+      "3\n",
+      "4\n",
+      "5\n",
+      "18\n",
+      "21\n",
+      "24\n",
+      "27\n",
+      "30\n"
+     ]
+    }
+   ],
+   "source": [
+    "for N in $(seq 1 10)\n",
+    "do\n",
+    "    if [[ $N -le 5 ]]\n",
+    "    then\n",
+    "        echo $N\n",
+    "    else\n",
+    "        echo $((3*N))\n",
+    "    fi\n",
+    "done"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Fibonacci series\n",
+    "\n",
+    "Just for fun."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1,1,2,3,5,8,13,21,34,55,"
+     ]
+    }
+   ],
+   "source": [
+    "a=1\n",
+    "b=1\n",
+    "for i in $(seq 1 10)\n",
+    "do\n",
+    "    echo -n ${a}\",\"\n",
+    "    tmp=$a\n",
+    "    a=$b\n",
+    "    b=$((tmp+b))\n",
+    "done"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Single and double quotes\n",
+    "\n",
+    "Variables are not evaluated within single quotes, but they are within double quotes."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "$FOO\n"
+     ]
+    }
+   ],
+   "source": [
+    "FOO=42\n",
+    "echo '$FOO'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "42\n"
+     ]
+    }
+   ],
+   "source": [
+    "FOO=42\n",
+    "echo \"$FOO\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Testing and branching"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Simple example - not use of `-lt`, `-gt`, `&&` and use of parentheses within the test `[[ condition ]]`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "2 > 1\n"
+     ]
+    }
+   ],
+   "source": [
+    "if [[ (2 -gt 1) && (1 -lt 2)]]\n",
+    "then\n",
+    "    echo '2 > 1'\n",
+    "else\n",
+    "    echo 'WTF?'\n",
+    "fi"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Check if a file or its uncompressed version exists before downloading."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf.gz\n",
+      "Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf\n",
+      "File exists\n"
+     ]
+    }
+   ],
+   "source": [
+    "URL='ftp://ftp.ensemblgenomes.org/pub/release-39/fungi/gtf/fungi_basidiomycota1_collection/cryptococcus_neoformans_var_grubii_h99/Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf.gz'\n",
+    "\n",
+    "FILENAME=$(basename $URL)\n",
+    "echo ${FILENAME}\n",
+    "echo ${FILENAME%.*}\n",
+    "\n",
+    "# Download if file does not exist\n",
+    "if [[ ! ((-f ${FILENAME}) || (-f ${FILENAME%.*}))  ]]\n",
+    "then\n",
+    "    wget $URL\n",
+    "    gunzip $URL\n",
+    "else\n",
+    "    echo \"File exists\"\n",
+    "fi"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Using regular expression matching in a test."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Unix06_Bash_Bioinformatics.ipynb\n"
+     ]
+    }
+   ],
+   "source": [
+    "for FILE in $(ls)\n",
+    "do\n",
+    "    if [[ $FILE =~ .*Bash.*ipynb$ ]]\n",
+    "    then\n",
+    "        echo $FILE\n",
+    "    fi\n",
+    "done"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Environment variables"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You can see what variables are visible in the environment with `env`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "LC_ALL=en_US.UTF-8\n",
+      "LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:\n",
+      "LANG=en_US.UTF-8\n",
+      "HOSTNAME=42ec9a5d3346\n",
+      "NB_UID=1000\n"
+     ]
+    }
+   ],
+   "source": [
+    "env | head -5"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/home/jovyan\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $HOME"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "To make a variable visible in the general environment so that other programs can use it, you need to `export` it."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "",
+     "evalue": "1",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "env | grep EXPORTED_VARIABLE"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "export EXPORTED_VARIABLE=\"Hello, Unix\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "EXPORTED_VARIABLE=Hello, Unix\n"
+     ]
+    }
+   ],
+   "source": [
+    "env | grep EXPORTED_VARIABLE"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now remove the environment variable."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "unset EXPORTED_VARIABLE"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "",
+     "evalue": "1",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "env | grep EXPORTED_VARIABLE"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Brace expansion\n",
+    "\n",
+    "Brace expansions create lists of strings. It can also generate ranges."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "file.c file.cpp file.py file.ipynb file.csv file.txt\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo file.{c,cpp,py,ipynb,csv,txt}"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "a1.txt a2.txt a3.txt b1.txt b2.txt b3.txt c1.txt c2.txt c3.txt\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo {a..c}{1..3}.txt"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "mkdir EXPT-1\n",
+      "mkdir EXPT-2\n",
+      "mkdir EXPT-3\n"
+     ]
+    }
+   ],
+   "source": [
+    "for NUM in {1..3}; do\n",
+    "    echo mkdir EXPT-${NUM}\n",
+    "done"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Shell scripts\n",
+    "\n",
+    "A shell script is just a collection of shell commands that you are now familiar with put into a file that can be executed from the command line. There are a few steps to make a shell script.\n",
+    "\n",
+    "1. The first line often contains instructions to use a shell\n",
+    "`#!/bin/bash`\n",
+    "2. The other lines contain standard variable declarations, shell commands, loops etc\n",
+    "3. Save the file with the extension (`.sh`)\n",
+    "4. Make the file executable by `chmod +x <FILENAME>.sh`\n",
+    "\n",
+    "Now you can run the shell script as though it were a shell command."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### First shell script\n",
+    "\n",
+    "Here we will show the mechanics of creating a shell script."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Use an editor to write `script01.sh`"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "```bash\n",
+    "#!/bin/bash\n",
+    "\n",
+    "echo \"Hello bash!\"\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "cat > script01.sh << EOF\n",
+    "#!/bin/bash\n",
+    "\n",
+    "echo \"Hello bash!\"\n",
+    "EOF"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "script01.sh\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls *sh"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Change permission to make file executable."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 44,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "chmod +x script01.sh"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "-rwxr-xr-x 1 jovyan users 32 Jun 26 09:18 \u001b[0m\u001b[01;32mscript01.sh\u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls -l *sh"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Hello bash!\n"
+     ]
+    }
+   ],
+   "source": [
+    "./script01.sh"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Second shell script\n",
+    "\n",
+    "Here we see how to pass arguments to a script in `script02.sh`"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "```bash\n",
+    "#!/bin/bash                                                                     \n",
+    "\n",
+    "echo '$# gives $ of arguments     :' $#\n",
+    "echo '$@ gives arguments as array :' $@\n",
+    "echo '$* gives arguments as string:' $*\n",
+    "\n",
+    "echo '$1, $2, $3 give firs, second, third arguments etc'\n",
+    "echo '$1:' $1\n",
+    "echo '$2:' $2\n",
+    "echo '$2:' $3\n",
+    "\n",
+    "echo 'Evaluating \"$@\"'\n",
+    "for ARG in \"$@\"\n",
+    "do\n",
+    "    echo ${ARG}\n",
+    "done\n",
+    "echo 'Evaluating \"$*\"'\n",
+    "for ARG in $*\n",
+    "do\n",
+    "    echo ${ARG}\n",
+    "done\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "chmod +x script02.sh"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "$# gives $ of arguments     : 3\n",
+      "$@ gives arguments as array : a b c d\n",
+      "$* gives arguments as string: a b c d\n",
+      "$1, $2, $3 give firs, second, third arguments etc\n",
+      "$1: a\n",
+      "$2: b\n",
+      "$2: c d\n",
+      "Evaluating \"$@\"\n",
+      "a\n",
+      "b\n",
+      "c d\n",
+      "Evaluating \"$*\"\n",
+      "a\n",
+      "b\n",
+      "c\n",
+      "d\n"
+     ]
+    }
+   ],
+   "source": [
+    "./script02.sh a b \"c d\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exercises"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "1. Write a shell script that accepts an arbitrary number of filenames as arguments (possibly given by `ls`), and outputs the total number of words in those files."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "```bash\n",
+    "#!/bin/bash\n",
+    "\n",
+    "TOTAL=0\n",
+    "for FILE in \"$@\"\n",
+    "do\n",
+    "    N=$(wc -w < $FILE)\n",
+    "    TOTAL=$((TOTAL + N))\n",
+    "done\n",
+    "echo $TOTAL\n",
+    "```"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

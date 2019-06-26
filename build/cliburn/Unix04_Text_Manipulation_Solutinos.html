@@ -1,0 +1,1461 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Working with text &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Unix Variables" href="Unix05_Variables_Solutions.html" />
+    <link rel="prev" title="File archival and recovery" href="Unix03_File_Storage_Solutions.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Unix01_File_And_Directory_Solutions.html">Working with Unix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix03_File_Storage_Solutions.html">File archival and recovery</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Working with text</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Create-a-FASTA-file-to-play-with">Create a FASTA file to play with</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Using-regular-expresssions">Using regular expresssions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Transliteration">Transliteration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Complement">Complement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Reverse-complement">Reverse complement</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Sorting">Sorting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Sort-by-default-uses-lexicographic-order">Sort by default uses lexicographic order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use--n-flag-for-numeric-order">use <code class="docutils literal notranslate"><span class="pre">-n</span></code> flag for numeric order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Sort-descending">Sort descending</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Downloading-files">Downloading files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#File-compression/uncompression">File compression/uncompression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Inspecting-the-GTF-file">Inspecting the GTF file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Remove-comment-lines">Remove comment lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Spliting-columns">Spliting columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Exercises">Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Working with text</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/cliburn/Unix04_Text_Manipulation_Solutinos.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Working-with-text">
+<h1>Working with text<a class="headerlink" href="#Working-with-text" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Create-a-FASTA-file-to-play-with">
+<h2>Create a FASTA file to play with<a class="headerlink" href="#Create-a-FASTA-file-to-play-with" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat &gt; bgp.fasta <span class="s">&lt;&lt; EOF</span>
+<span class="s">&gt;HSBGPG Human gene for bone gla protein (BGP)</span>
+<span class="s">GGCAGATTCCCCCTAGACCCGCCCGCACCATGGTCAGGCATGCCCCTCCTCATCGCTGGGCACAGCCCAGAGGGT</span>
+<span class="s">ATAAACAGTGCTGGAGGCTGGCGGGGCAGGCCAGCTGAGTCCTGAGCAGCAGCCCAGCGCAGCCACCGAGACACC</span>
+<span class="s">ATGAGAGCCCTCACACTCCTCGCCCTATTGGCCCTGGCCGCACTTTGCATCGCTGGCCAGGCAGGTGAGTGCCCC</span>
+<span class="s">CACCTCCCCTCAGGCCGCATTGCAGTGGGGGCTGAGAGGAGGAAGCACCATGGCCCACCTCTTCTCACCCCTTTG</span>
+<span class="s">GCTGGCAGTCCCTTTGCAGTCTAACCACCTTGTTGCAGGCTCAATCCATTTGCCCCAGCTCTGCCCTTGCAGAGG</span>
+<span class="s">GAGAGGAGGGAAGAGCAAGCTGCCCGAGACGCAGGGGAAGGAGGATGAGGGCCCTGGGGATGAGCTGGGGTGAAC</span>
+<span class="s">CAGGCTCCCTTTCCTTTGCAGGTGCGAAGCCCAGCGGTGCAGAGTCCAGCAAAGGTGCAGGTATGAGGATGGACC</span>
+<span class="s">TGATGGGTTCCTGGACCCTCCCCTCTCACCCTGGTCCCTCAGTCTCATTCCCCCACTCCTGCCACCTCCTGTCTG</span>
+<span class="s">GCCATCAGGAAGGCCAGCCTGCTCCCCACCTGATCCTCCCAAACCCAGAGCCACCTGATGCCTGCCCCTCTGCTC</span>
+<span class="s">CACAGCCTTTGTGTCCAAGCAGGAGGGCAGCGAGGTAGTGAAGAGACCCAGGCGCTACCTGTATCAATGGCTGGG</span>
+<span class="s">GTGAGAGAAAAGGCAGAGCTGGGCCAAGGCCCTGCCTCTCCGGGATGGTCTGTGGGGGAGCTGCAGCAGGGAGTG</span>
+<span class="s">GCCTCTCTGGGTTGTGGTGGGGGTACAGGCAGCCTGCCCTGGTGGGCACCCTGGAGCCCCATGTGTAGGGAGAGG</span>
+<span class="s">AGGGATGGGCATTTTGCACGGGGGCTGATGCCACCACGTCGGGTGTCTCAGAGCCCCAGTCCCCTACCCGGATCC</span>
+<span class="s">CCTGGAGCCCAGGAGGGAGGTGTGTGAGCTCAATCCGGACTGTGACGAGTTGGCTGACCACATCGGCTTTCAGGA</span>
+<span class="s">GGCCTATCGGCGCTTCTACGGCCCGGTCTAGGGTGTCGCTCTGCTGGCCTGGCCGGCAACCCCAGTTCTGCTCCT</span>
+<span class="s">CTCCAGGCACCCTTCTTTCCTCTTCCCCTTGCCCTTGCCCTGACCTCCCAGCCCTATGGATGTGGGGTCCCCATC</span>
+<span class="s">ATCCCAGCTGCTCCCAAATAAACTCCAGAAG</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>wc bgp.fasta
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+  18   25 1294 bgp.fasta
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Using-regular-expresssions">
+<h2>Using regular expresssions<a class="headerlink" href="#Using-regular-expresssions" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep <span class="s2">&quot;CCCCC&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GGCAGATTCCCCCTAGACCCGCCCGCACCATGGTCAGGCATGCCCCTCCTCATCGCTGGGCACAGCCCAGAGGGT
+TGATGGGTTCCTGGACCCTCCCCTCTCACCCTGGTCCCTCAGTCTCATTCCCCCACTCCTGCCACCTCCTGTCTG
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -n <span class="s2">&quot;CCCCC&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2:GGCAGATTCCCCCTAGACCCGCCCGCACCATGGTCAGGCATGCCCCTCCTCATCGCTGGGCACAGCCCAGAGGGT
+9:TGATGGGTTCCTGGACCCTCCCCTCTCACCCTGGTCCCTCAGTCTCATTCCCCCACTCCTGCCACCTCCTGTCTG
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -nv <span class="s2">&quot;CCCCC&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1:&gt;HSBGPG Human gene for bone gla protein (BGP)
+3:ATAAACAGTGCTGGAGGCTGGCGGGGCAGGCCAGCTGAGTCCTGAGCAGCAGCCCAGCGCAGCCACCGAGACACC
+4:ATGAGAGCCCTCACACTCCTCGCCCTATTGGCCCTGGCCGCACTTTGCATCGCTGGCCAGGCAGGTGAGTGCCCC
+5:CACCTCCCCTCAGGCCGCATTGCAGTGGGGGCTGAGAGGAGGAAGCACCATGGCCCACCTCTTCTCACCCCTTTG
+6:GCTGGCAGTCCCTTTGCAGTCTAACCACCTTGTTGCAGGCTCAATCCATTTGCCCCAGCTCTGCCCTTGCAGAGG
+7:GAGAGGAGGGAAGAGCAAGCTGCCCGAGACGCAGGGGAAGGAGGATGAGGGCCCTGGGGATGAGCTGGGGTGAAC
+8:CAGGCTCCCTTTCCTTTGCAGGTGCGAAGCCCAGCGGTGCAGAGTCCAGCAAAGGTGCAGGTATGAGGATGGACC
+10:GCCATCAGGAAGGCCAGCCTGCTCCCCACCTGATCCTCCCAAACCCAGAGCCACCTGATGCCTGCCCCTCTGCTC
+11:CACAGCCTTTGTGTCCAAGCAGGAGGGCAGCGAGGTAGTGAAGAGACCCAGGCGCTACCTGTATCAATGGCTGGG
+12:GTGAGAGAAAAGGCAGAGCTGGGCCAAGGCCCTGCCTCTCCGGGATGGTCTGTGGGGGAGCTGCAGCAGGGAGTG
+13:GCCTCTCTGGGTTGTGGTGGGGGTACAGGCAGCCTGCCCTGGTGGGCACCCTGGAGCCCCATGTGTAGGGAGAGG
+14:AGGGATGGGCATTTTGCACGGGGGCTGATGCCACCACGTCGGGTGTCTCAGAGCCCCAGTCCCCTACCCGGATCC
+15:CCTGGAGCCCAGGAGGGAGGTGTGTGAGCTCAATCCGGACTGTGACGAGTTGGCTGACCACATCGGCTTTCAGGA
+16:GGCCTATCGGCGCTTCTACGGCCCGGTCTAGGGTGTCGCTCTGCTGGCCTGGCCGGCAACCCCAGTTCTGCTCCT
+17:CTCCAGGCACCCTTCTTTCCTCTTCCCCTTGCCCTTGCCCTGACCTCCCAGCCCTATGGATGTGGGGTCCCCATC
+18:ATCCCAGCTGCTCCCAAATAAACTCCAGAAG
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep <span class="s2">&quot;GA*TT.*CA&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GGCAGATTCCCCCTAGACCCGCCCGCACCATGGTCAGGCATGCCCCTCCTCATCGCTGGGCACAGCCCAGAGGGT
+GCTGGCAGTCCCTTTGCAGTCTAACCACCTTGTTGCAGGCTCAATCCATTTGCCCCAGCTCTGCCCTTGCAGAGG
+TGATGGGTTCCTGGACCCTCCCCTCTCACCCTGGTCCCTCAGTCTCATTCCCCCACTCCTGCCACCTCCTGTCTG
+GCCTCTCTGGGTTGTGGTGGGGGTACAGGCAGCCTGCCCTGGTGGGCACCCTGGAGCCCCATGTGTAGGGAGAGG
+CCTGGAGCCCAGGAGGGAGGTGTGTGAGCTCAATCCGGACTGTGACGAGTTGGCTGACCACATCGGCTTTCAGGA
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -E <span class="s2">&quot;^C&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CACCTCCCCTCAGGCCGCATTGCAGTGGGGGCTGAGAGGAGGAAGCACCATGGCCCACCTCTTCTCACCCCTTTG
+CAGGCTCCCTTTCCTTTGCAGGTGCGAAGCCCAGCGGTGCAGAGTCCAGCAAAGGTGCAGGTATGAGGATGGACC
+CACAGCCTTTGTGTCCAAGCAGGAGGGCAGCGAGGTAGTGAAGAGACCCAGGCGCTACCTGTATCAATGGCTGGG
+CCTGGAGCCCAGGAGGGAGGTGTGTGAGCTCAATCCGGACTGTGACGAGTTGGCTGACCACATCGGCTTTCAGGA
+CTCCAGGCACCCTTCTTTCCTCTTCCCCTTGCCCTTGCCCTGACCTCCCAGCCCTATGGATGTGGGGTCCCCATC
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -E <span class="s2">&quot;G</span>$<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CACCTCCCCTCAGGCCGCATTGCAGTGGGGGCTGAGAGGAGGAAGCACCATGGCCCACCTCTTCTCACCCCTTTG
+GCTGGCAGTCCCTTTGCAGTCTAACCACCTTGTTGCAGGCTCAATCCATTTGCCCCAGCTCTGCCCTTGCAGAGG
+TGATGGGTTCCTGGACCCTCCCCTCTCACCCTGGTCCCTCAGTCTCATTCCCCCACTCCTGCCACCTCCTGTCTG
+CACAGCCTTTGTGTCCAAGCAGGAGGGCAGCGAGGTAGTGAAGAGACCCAGGCGCTACCTGTATCAATGGCTGGG
+GTGAGAGAAAAGGCAGAGCTGGGCCAAGGCCCTGCCTCTCCGGGATGGTCTGTGGGGGAGCTGCAGCAGGGAGTG
+GCCTCTCTGGGTTGTGGTGGGGGTACAGGCAGCCTGCCCTGGTGGGCACCCTGGAGCCCCATGTGTAGGGAGAGG
+ATCCCAGCTGCTCCCAAATAAACTCCAGAAG
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -E <span class="s2">&quot;^C.*G</span>$<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CACCTCCCCTCAGGCCGCATTGCAGTGGGGGCTGAGAGGAGGAAGCACCATGGCCCACCTCTTCTCACCCCTTTG
+CACAGCCTTTGTGTCCAAGCAGGAGGGCAGCGAGGTAGTGAAGAGACCCAGGCGCTACCTGTATCAATGGCTGGG
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -o <span class="s2">&quot;GA*TT.*CA&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GATTCCCCCTAGACCCGCCCGCACCATGGTCAGGCATGCCCCTCCTCATCGCTGGGCACAGCCCA
+GTTGCAGGCTCAATCCATTTGCCCCAGCTCTGCCCTTGCA
+GTTCCTGGACCCTCCCCTCTCACCCTGGTCCCTCAGTCTCATTCCCCCACTCCTGCCA
+GTTGTGGTGGGGGTACAGGCAGCCTGCCCTGGTGGGCACCCTGGAGCCCCA
+GTTGGCTGACCACATCGGCTTTCA
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -E <span class="s2">&quot;(GCAT)+&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GGCAGATTCCCCCTAGACCCGCCCGCACCATGGTCAGGCATGCCCCTCCTCATCGCTGGGCACAGCCCAGAGGGT
+ATGAGAGCCCTCACACTCCTCGCCCTATTGGCCCTGGCCGCACTTTGCATCGCTGGCCAGGCAGGTGAGTGCCCC
+CACCTCCCCTCAGGCCGCATTGCAGTGGGGGCTGAGAGGAGGAAGCACCATGGCCCACCTCTTCTCACCCCTTTG
+AGGGATGGGCATTTTGCACGGGGGCTGATGCCACCACGTCGGGTGTCTCAGAGCCCCAGTCCCCTACCCGGATCC
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -Eon <span class="s2">&quot;(GCA){2,}&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+3:GCAGCA
+12:GCAGCA
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Transliteration">
+<h2>Transliteration<a class="headerlink" href="#Transliteration" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -E <span class="s2">&quot;^C.*G</span>$<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CACCTCCCCTCAGGCCGCATTGCAGTGGGGGCTGAGAGGAGGAAGCACCATGGCCCACCTCTTCTCACCCCTTTG
+CACAGCCTTTGTGTCCAAGCAGGAGGGCAGCGAGGTAGTGAAGAGACCCAGGCGCTACCTGTATCAATGGCTGGG
+</pre></div></div>
+</div>
+<div class="section" id="Complement">
+<h3>Complement<a class="headerlink" href="#Complement" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -E <span class="s2">&quot;^C.*G</span>$<span class="s2">&quot;</span> <span class="p">|</span>
+tr ACTG TAGC
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ATAAGAAAAGATCCAACATGGCATCGCCCCCAGCTCTCCTCCTTCATAATGCCAAATAAGAGGAGATAAAAGGGC
+ATATCAAGGGCGCGAATTCATCCTCCCATCACTCCGTCGCTTCTCTAAATCCACAGTAAGCGTGATTGCCAGCCC
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Reverse-complement">
+<h3>Reverse complement<a class="headerlink" href="#Reverse-complement" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -E <span class="s2">&quot;^C.*G</span>$<span class="s2">&quot;</span> <span class="p">|</span>
+tr ACTG TAGC <span class="p">|</span>
+rev
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CGGGAAAATAGAGGAGAATAAACCGTAATACTTCCTCCTCTCGACCCCCGCTACGGTACAACCTAGAAAAGAATA
+CCCGACCGTTAGTGCGAATGACACCTAAATCTCTTCGCTGCCTCACTACCCTCCTACTTAAGCGCGGGAACTATA
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Sorting">
+<h2>Sorting<a class="headerlink" href="#Sorting" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -v <span class="s2">&quot;^&gt;&quot;</span> <span class="p">|</span>
+sort
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+AGGGATGGGCATTTTGCACGGGGGCTGATGCCACCACGTCGGGTGTCTCAGAGCCCCAGTCCCCTACCCGGATCC
+ATAAACAGTGCTGGAGGCTGGCGGGGCAGGCCAGCTGAGTCCTGAGCAGCAGCCCAGCGCAGCCACCGAGACACC
+ATCCCAGCTGCTCCCAAATAAACTCCAGAAG
+ATGAGAGCCCTCACACTCCTCGCCCTATTGGCCCTGGCCGCACTTTGCATCGCTGGCCAGGCAGGTGAGTGCCCC
+CACAGCCTTTGTGTCCAAGCAGGAGGGCAGCGAGGTAGTGAAGAGACCCAGGCGCTACCTGTATCAATGGCTGGG
+CACCTCCCCTCAGGCCGCATTGCAGTGGGGGCTGAGAGGAGGAAGCACCATGGCCCACCTCTTCTCACCCCTTTG
+CAGGCTCCCTTTCCTTTGCAGGTGCGAAGCCCAGCGGTGCAGAGTCCAGCAAAGGTGCAGGTATGAGGATGGACC
+CCTGGAGCCCAGGAGGGAGGTGTGTGAGCTCAATCCGGACTGTGACGAGTTGGCTGACCACATCGGCTTTCAGGA
+CTCCAGGCACCCTTCTTTCCTCTTCCCCTTGCCCTTGCCCTGACCTCCCAGCCCTATGGATGTGGGGTCCCCATC
+GAGAGGAGGGAAGAGCAAGCTGCCCGAGACGCAGGGGAAGGAGGATGAGGGCCCTGGGGATGAGCTGGGGTGAAC
+GCCATCAGGAAGGCCAGCCTGCTCCCCACCTGATCCTCCCAAACCCAGAGCCACCTGATGCCTGCCCCTCTGCTC
+GCCTCTCTGGGTTGTGGTGGGGGTACAGGCAGCCTGCCCTGGTGGGCACCCTGGAGCCCCATGTGTAGGGAGAGG
+GCTGGCAGTCCCTTTGCAGTCTAACCACCTTGTTGCAGGCTCAATCCATTTGCCCCAGCTCTGCCCTTGCAGAGG
+GGCAGATTCCCCCTAGACCCGCCCGCACCATGGTCAGGCATGCCCCTCCTCATCGCTGGGCACAGCCCAGAGGGT
+GGCCTATCGGCGCTTCTACGGCCCGGTCTAGGGTGTCGCTCTGCTGGCCTGGCCGGCAACCCCAGTTCTGCTCCT
+GTGAGAGAAAAGGCAGAGCTGGGCCAAGGCCCTGCCTCTCCGGGATGGTCTGTGGGGGAGCTGCAGCAGGGAGTG
+TGATGGGTTCCTGGACCCTCCCCTCTCACCCTGGTCCCTCAGTCTCATTCCCCCACTCCTGCCACCTCCTGTCTG
+</pre></div></div>
+</div>
+<div class="section" id="Sort-by-default-uses-lexicographic-order">
+<h3>Sort by default uses lexicographic order<a class="headerlink" href="#Sort-by-default-uses-lexicographic-order" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -nv <span class="s2">&quot;^&gt;&quot;</span> <span class="p">|</span>
+sort
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+10:GCCATCAGGAAGGCCAGCCTGCTCCCCACCTGATCCTCCCAAACCCAGAGCCACCTGATGCCTGCCCCTCTGCTC
+11:CACAGCCTTTGTGTCCAAGCAGGAGGGCAGCGAGGTAGTGAAGAGACCCAGGCGCTACCTGTATCAATGGCTGGG
+12:GTGAGAGAAAAGGCAGAGCTGGGCCAAGGCCCTGCCTCTCCGGGATGGTCTGTGGGGGAGCTGCAGCAGGGAGTG
+13:GCCTCTCTGGGTTGTGGTGGGGGTACAGGCAGCCTGCCCTGGTGGGCACCCTGGAGCCCCATGTGTAGGGAGAGG
+14:AGGGATGGGCATTTTGCACGGGGGCTGATGCCACCACGTCGGGTGTCTCAGAGCCCCAGTCCCCTACCCGGATCC
+15:CCTGGAGCCCAGGAGGGAGGTGTGTGAGCTCAATCCGGACTGTGACGAGTTGGCTGACCACATCGGCTTTCAGGA
+16:GGCCTATCGGCGCTTCTACGGCCCGGTCTAGGGTGTCGCTCTGCTGGCCTGGCCGGCAACCCCAGTTCTGCTCCT
+17:CTCCAGGCACCCTTCTTTCCTCTTCCCCTTGCCCTTGCCCTGACCTCCCAGCCCTATGGATGTGGGGTCCCCATC
+18:ATCCCAGCTGCTCCCAAATAAACTCCAGAAG
+2:GGCAGATTCCCCCTAGACCCGCCCGCACCATGGTCAGGCATGCCCCTCCTCATCGCTGGGCACAGCCCAGAGGGT
+3:ATAAACAGTGCTGGAGGCTGGCGGGGCAGGCCAGCTGAGTCCTGAGCAGCAGCCCAGCGCAGCCACCGAGACACC
+4:ATGAGAGCCCTCACACTCCTCGCCCTATTGGCCCTGGCCGCACTTTGCATCGCTGGCCAGGCAGGTGAGTGCCCC
+5:CACCTCCCCTCAGGCCGCATTGCAGTGGGGGCTGAGAGGAGGAAGCACCATGGCCCACCTCTTCTCACCCCTTTG
+6:GCTGGCAGTCCCTTTGCAGTCTAACCACCTTGTTGCAGGCTCAATCCATTTGCCCCAGCTCTGCCCTTGCAGAGG
+7:GAGAGGAGGGAAGAGCAAGCTGCCCGAGACGCAGGGGAAGGAGGATGAGGGCCCTGGGGATGAGCTGGGGTGAAC
+8:CAGGCTCCCTTTCCTTTGCAGGTGCGAAGCCCAGCGGTGCAGAGTCCAGCAAAGGTGCAGGTATGAGGATGGACC
+9:TGATGGGTTCCTGGACCCTCCCCTCTCACCCTGGTCCCTCAGTCTCATTCCCCCACTCCTGCCACCTCCTGTCTG
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="use--n-flag-for-numeric-order">
+<h3>use <code class="docutils literal notranslate"><span class="pre">-n</span></code> flag for numeric order<a class="headerlink" href="#use--n-flag-for-numeric-order" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -nv <span class="s2">&quot;^&gt;&quot;</span> <span class="p">|</span>
+sort -n
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2:GGCAGATTCCCCCTAGACCCGCCCGCACCATGGTCAGGCATGCCCCTCCTCATCGCTGGGCACAGCCCAGAGGGT
+3:ATAAACAGTGCTGGAGGCTGGCGGGGCAGGCCAGCTGAGTCCTGAGCAGCAGCCCAGCGCAGCCACCGAGACACC
+4:ATGAGAGCCCTCACACTCCTCGCCCTATTGGCCCTGGCCGCACTTTGCATCGCTGGCCAGGCAGGTGAGTGCCCC
+5:CACCTCCCCTCAGGCCGCATTGCAGTGGGGGCTGAGAGGAGGAAGCACCATGGCCCACCTCTTCTCACCCCTTTG
+6:GCTGGCAGTCCCTTTGCAGTCTAACCACCTTGTTGCAGGCTCAATCCATTTGCCCCAGCTCTGCCCTTGCAGAGG
+7:GAGAGGAGGGAAGAGCAAGCTGCCCGAGACGCAGGGGAAGGAGGATGAGGGCCCTGGGGATGAGCTGGGGTGAAC
+8:CAGGCTCCCTTTCCTTTGCAGGTGCGAAGCCCAGCGGTGCAGAGTCCAGCAAAGGTGCAGGTATGAGGATGGACC
+9:TGATGGGTTCCTGGACCCTCCCCTCTCACCCTGGTCCCTCAGTCTCATTCCCCCACTCCTGCCACCTCCTGTCTG
+10:GCCATCAGGAAGGCCAGCCTGCTCCCCACCTGATCCTCCCAAACCCAGAGCCACCTGATGCCTGCCCCTCTGCTC
+11:CACAGCCTTTGTGTCCAAGCAGGAGGGCAGCGAGGTAGTGAAGAGACCCAGGCGCTACCTGTATCAATGGCTGGG
+12:GTGAGAGAAAAGGCAGAGCTGGGCCAAGGCCCTGCCTCTCCGGGATGGTCTGTGGGGGAGCTGCAGCAGGGAGTG
+13:GCCTCTCTGGGTTGTGGTGGGGGTACAGGCAGCCTGCCCTGGTGGGCACCCTGGAGCCCCATGTGTAGGGAGAGG
+14:AGGGATGGGCATTTTGCACGGGGGCTGATGCCACCACGTCGGGTGTCTCAGAGCCCCAGTCCCCTACCCGGATCC
+15:CCTGGAGCCCAGGAGGGAGGTGTGTGAGCTCAATCCGGACTGTGACGAGTTGGCTGACCACATCGGCTTTCAGGA
+16:GGCCTATCGGCGCTTCTACGGCCCGGTCTAGGGTGTCGCTCTGCTGGCCTGGCCGGCAACCCCAGTTCTGCTCCT
+17:CTCCAGGCACCCTTCTTTCCTCTTCCCCTTGCCCTTGCCCTGACCTCCCAGCCCTATGGATGTGGGGTCCCCATC
+18:ATCCCAGCTGCTCCCAAATAAACTCCAGAAG
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Sort-descending">
+<h3>Sort descending<a class="headerlink" href="#Sort-descending" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -nv <span class="s2">&quot;^&gt;&quot;</span> <span class="p">|</span>
+sort -rn
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+18:ATCCCAGCTGCTCCCAAATAAACTCCAGAAG
+17:CTCCAGGCACCCTTCTTTCCTCTTCCCCTTGCCCTTGCCCTGACCTCCCAGCCCTATGGATGTGGGGTCCCCATC
+16:GGCCTATCGGCGCTTCTACGGCCCGGTCTAGGGTGTCGCTCTGCTGGCCTGGCCGGCAACCCCAGTTCTGCTCCT
+15:CCTGGAGCCCAGGAGGGAGGTGTGTGAGCTCAATCCGGACTGTGACGAGTTGGCTGACCACATCGGCTTTCAGGA
+14:AGGGATGGGCATTTTGCACGGGGGCTGATGCCACCACGTCGGGTGTCTCAGAGCCCCAGTCCCCTACCCGGATCC
+13:GCCTCTCTGGGTTGTGGTGGGGGTACAGGCAGCCTGCCCTGGTGGGCACCCTGGAGCCCCATGTGTAGGGAGAGG
+12:GTGAGAGAAAAGGCAGAGCTGGGCCAAGGCCCTGCCTCTCCGGGATGGTCTGTGGGGGAGCTGCAGCAGGGAGTG
+11:CACAGCCTTTGTGTCCAAGCAGGAGGGCAGCGAGGTAGTGAAGAGACCCAGGCGCTACCTGTATCAATGGCTGGG
+10:GCCATCAGGAAGGCCAGCCTGCTCCCCACCTGATCCTCCCAAACCCAGAGCCACCTGATGCCTGCCCCTCTGCTC
+9:TGATGGGTTCCTGGACCCTCCCCTCTCACCCTGGTCCCTCAGTCTCATTCCCCCACTCCTGCCACCTCCTGTCTG
+8:CAGGCTCCCTTTCCTTTGCAGGTGCGAAGCCCAGCGGTGCAGAGTCCAGCAAAGGTGCAGGTATGAGGATGGACC
+7:GAGAGGAGGGAAGAGCAAGCTGCCCGAGACGCAGGGGAAGGAGGATGAGGGCCCTGGGGATGAGCTGGGGTGAAC
+6:GCTGGCAGTCCCTTTGCAGTCTAACCACCTTGTTGCAGGCTCAATCCATTTGCCCCAGCTCTGCCCTTGCAGAGG
+5:CACCTCCCCTCAGGCCGCATTGCAGTGGGGGCTGAGAGGAGGAAGCACCATGGCCCACCTCTTCTCACCCCTTTG
+4:ATGAGAGCCCTCACACTCCTCGCCCTATTGGCCCTGGCCGCACTTTGCATCGCTGGCCAGGCAGGTGAGTGCCCC
+3:ATAAACAGTGCTGGAGGCTGGCGGGGCAGGCCAGCTGAGTCCTGAGCAGCAGCCCAGCGCAGCCACCGAGACACC
+2:GGCAGATTCCCCCTAGACCCGCCCGCACCATGGTCAGGCATGCCCCTCCTCATCGCTGGGCACAGCCCAGAGGGT
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Downloading-files">
+<h2>Downloading files<a class="headerlink" href="#Downloading-files" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>wget ftp://ftp.ensemblgenomes.org/pub/release-39/fungi/gtf/fungi_basidiomycota1_collection/cryptococcus_neoformans_var_grubii_h99/Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf.gz
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--2019-06-26 09:17:00--  ftp://ftp.ensemblgenomes.org/pub/release-39/fungi/gtf/fungi_basidiomycota1_collection/cryptococcus_neoformans_var_grubii_h99/Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf.gz
+           =&gt; ‘Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf.gz’
+Resolving ftp.ensemblgenomes.org (ftp.ensemblgenomes.org)... 193.62.197.94
+Connecting to ftp.ensemblgenomes.org (ftp.ensemblgenomes.org)|193.62.197.94|:21... connected.
+Logging in as anonymous ... Logged in!
+==&gt; SYST ... done.    ==&gt; PWD ... done.
+==&gt; TYPE I ... done.  ==&gt; CWD (1) /pub/release-39/fungi/gtf/fungi_basidiomycota1_collection/cryptococcus_neoformans_var_grubii_h99 ... done.
+==&gt; SIZE Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf.gz ... 1796344
+==&gt; PASV ... done.    ==&gt; RETR Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf.gz ... done.
+Length: 1796344 (1.7M) (unauthoritative)
+
+Cryptococcus_neofor 100%[===================&gt;]   1.71M  2.44MB/s    in 0.7s
+
+2019-06-26 09:17:02 (2.44 MB/s) - ‘Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf.gz’ saved [1796344]
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+a.txt
+bgp.fasta
+b.txt
+<span class="ansi-red-intense-fg ansi-bold">Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf.gz</span>
+c.txt
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+hello.md5
+hello.txt
+lsd1.txt
+lsd2.txt
+lsd3.txt
+MD5_CHECKSUM
+MD5SUM
+<span class="ansi-red-intense-fg ansi-bold">notebooks.tar.gz</span>
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="File-compression/uncompression">
+<h2>File compression/uncompression<a class="headerlink" href="#File-compression/uncompression" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls -lh Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf.gz
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+-rw-r--r-- 1 jovyan users 1.8M Jun 26 09:17 <span class="ansi-red-intense-fg ansi-bold">Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf.gz</span>
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>gunzip Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf.gz
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls -lh
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+total 39M
+-rw-r--r-- 1 jovyan users    6 Jun 26 09:16 a.txt
+-rw-r--r-- 1 jovyan users 1.3K Jun 26 09:16 bgp.fasta
+-rw-r--r-- 1 jovyan users    6 Jun 26 09:16 b.txt
+-rw-r--r-- 1 jovyan users  32M Jun 26 09:17 Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf
+-rw-r--r-- 1 jovyan users    6 Jun 26 09:16 c.txt
+drwxr-xr-x 2 jovyan users 4.0K Jun 25 15:34 <span class="ansi-blue-intense-fg ansi-bold">data</span>
+drwxr-xr-x 2 jovyan users 4.0K Jun 26 08:52 <span class="ansi-blue-intense-fg ansi-bold">figs</span>
+-rw-r--r-- 1 jovyan users   44 Jun 26 09:16 hello.md5
+-rw-r--r-- 1 jovyan users   45 Jun 26 09:16 hello.txt
+-rw-r--r-- 1 jovyan users  107 Jun 26 09:15 lsd1.txt
+-rw-r--r-- 1 jovyan users  107 Jun 26 09:15 lsd2.txt
+-rw-r--r-- 1 jovyan users  107 Jun 26 09:15 lsd3.txt
+-rw-r--r-- 1 jovyan users 2.2K Jun 26 09:16 MD5_CHECKSUM
+-rw-r--r-- 1 jovyan users  120 Jun 26 09:16 MD5SUM
+-rw-r--r-- 1 jovyan users 2.8M Jun 26 09:16 <span class="ansi-red-intense-fg ansi-bold">notebooks.tar.gz</span>
+-rw-r--r-- 1 jovyan users  20K Jun 26 08:42 R00_Review_Basics.ipynb
+-rw-r--r-- 1 jovyan users 2.9K Jun 25 15:34 R00_Review_Basics_Scratch.ipynb
+-rw-r--r-- 1 jovyan users  11K Jun 25 15:34 R01_Data_Manipulation.ipynb
+-rw-r--r-- 1 jovyan users 7.1K Jun 25 15:34 R01_Data_Manipulation_Scratch.ipynb
+-rw-r--r-- 1 jovyan users 117K Jun 26 08:43 R01_Data_Manipulation_Solutions.ipynb
+-rw-r--r-- 1 jovyan users 3.5K Jun 25 15:34 R01_Manipulating_Data_In_R.ipynb
+-rw-r--r-- 1 jovyan users  40K Jun 25 15:34 R02_Tidying_Data_In_R.ipynb
+-rw-r--r-- 1 jovyan users 4.8K Jun 25 15:34 R02_Tidying_Data.ipynb
+-rw-r--r-- 1 jovyan users  64K Jun 26 08:45 R02_Tidying_Data_Solutions.ipynb
+-rw-r--r-- 1 jovyan users  23K Jun 26 08:46 R03_FileIO.ipynb
+-rw-r--r-- 1 jovyan users 1.2M Jun 26 08:55 R04_Unsupervised_Learning.ipynb
+-rw-r--r-- 1 jovyan users  12K Jun 25 15:34 R04_Unsupervised_Learning_Scratch.ipynb
+-rw-r--r-- 1 jovyan users 1.1M Jun 26 08:55 R05_Unsupervised_Learning_More_Examples.ipynb
+-rw-r--r-- 1 jovyan users 154K Jun 26 08:55 R06_Graphics_Overview.ipynb
+-rw-r--r-- 1 jovyan users 210K Jun 26 08:55 R07_Graphics_Base.ipynb
+-rw-r--r-- 1 jovyan users 1.4M Jun 26 08:55 R08_Graphics_ggplot2.ipynb
+-rw-r--r-- 1 jovyan users 4.9K Jun 26 08:55 R09_Graphics_Exercise.ipynb
+-rw-r--r-- 1 jovyan users 102K Jun 26 08:55 R09_Graphics_Exercise_Solutions.ipynb
+drwxr-xr-x 2 jovyan users 4.0K Jun 25 15:34 <span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+-rw-r--r-- 1 jovyan users  11K Jun 25 15:34 Unix01_File_And_Directory.ipynb
+-rw-r--r-- 1 jovyan users  39K Jun 26 09:14 Unix01_File_And_Directory_Solutions.ipynb
+-rw-r--r-- 1 jovyan users  12K Jun 25 15:34 Unix02_FileIO.ipynb
+-rw-r--r-- 1 jovyan users  32K Jun 26 09:15 Unix02_FileIO_Solutions.ipynb
+-rw-r--r-- 1 jovyan users 7.9K Jun 25 15:34 Unix03_File_Storage.ipynb
+-rw-r--r-- 1 jovyan users  27K Jun 26 09:16 Unix03_File_Storage_Solutions.ipynb
+-rw-r--r-- 1 jovyan users  11K Jun 25 15:34 Unix04_Text_Manipulation.ipynb
+-rw-r--r-- 1 jovyan users  12K Jun 25 15:34 Unix04_Text_Manipulation_Solutinos.ipynb
+-rw-r--r-- 1 jovyan users  16K Jun 25 15:34 Unix05_Variables.ipynb
+-rw-r--r-- 1 jovyan users  16K Jun 25 15:34 Unix05_Variables_Solutions.ipynb
+-rw-r--r-- 1 jovyan users  37K Jun 25 15:34 Unix06_Bash_Bioinformatics.ipynb
+-rw-r--r-- 1 jovyan users 5.3K Jun 25 15:34 Unix07_Capstone_Exercise.ipynb
+-rw-r--r-- 1 jovyan users 8.1K Jun 25 15:34 Unix07_Capstone_Exercise_Solutions.ipynb
+-rw-r--r-- 1 jovyan users  11K Jun 25 15:34 Unix_Appendix01_Regular_Expressions.ipynb
+-rw-r--r-- 1 jovyan users 5.9K Jun 25 15:34 Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Inspecting-the-GTF-file">
+<h2>Inspecting the GTF file<a class="headerlink" href="#Inspecting-the-GTF-file" title="Permalink to this headline">¶</a></h2>
+<p>A GTF file has some header lines, followed by tabular data in 9 columns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>chromosome name &gt; chr{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,X,Y,M}
+annotation source &gt; {ENSEMBL,HAVANA}
+feature-type &gt; {gene,transcript,exon,CDS,UTR,start_codon,stop_codon,Selenocysteine}
+genomic start location &gt; integer-value (1-based)
+genomic end location &gt; integer-value
+score (not used) &gt; .
+genomic strand &gt; {+,-}
+genomic phase (for CDS features) &gt; {0,1,2,.}
+additional information as key-value pairs &gt; (format: key “value”;)
+</pre></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>head Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+#!genome-build CNA3
+#!genome-version CNA3
+#!genome-date 2015-11
+#!genome-build-accession GCA_000149245.3
+#!genebuild-last-updated 2015-11
+1       ena     gene    100     5645    .       -       .       gene_id &#34;CNAG_04548&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;;
+1       ena     transcript      100     5645    .       -       .       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;;
+1       ena     exon    5494    5645    .       -       .       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;1&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; exon_id &#34;AFR92135-1&#34;;
+1       ena     CDS     5494    5645    .       -       0       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;1&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; protein_id &#34;AFR92135&#34;; protein_version &#34;1&#34;;
+1       ena     start_codon     5643    5645    .       -       0       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;1&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>tail Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Mt      ena     stop_codon      23840   23842   .       +       0       gene_id &#34;CNAG_09011&#34;; transcript_id &#34;AFR99113&#34;; exon_number &#34;1&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;;
+Mt      Ensembl_Fungi   gene    23909   23980   .       +       .       gene_id &#34;ENSRNA049545749&#34;; gene_name &#34;tRNA-Val&#34;; gene_source &#34;Ensembl_Fungi&#34;; gene_biotype &#34;tRNA&#34;;
+Mt      Ensembl_Fungi   transcript      23909   23980   .       +       .       gene_id &#34;ENSRNA049545749&#34;; transcript_id &#34;ENSRNA049545749-T1&#34;; gene_name &#34;tRNA-Val&#34;; gene_source &#34;Ensembl_Fungi&#34;; gene_biotype &#34;tRNA&#34;; transcript_source &#34;Ensembl_Fungi&#34;; transcript_biotype &#34;tRNA&#34;;
+Mt      Ensembl_Fungi   exon    23909   23980   .       +       .       gene_id &#34;ENSRNA049545749&#34;; transcript_id &#34;ENSRNA049545749-T1&#34;; exon_number &#34;1&#34;; gene_name &#34;tRNA-Val&#34;; gene_source &#34;Ensembl_Fungi&#34;; gene_biotype &#34;tRNA&#34;; transcript_source &#34;Ensembl_Fungi&#34;; transcript_biotype &#34;tRNA&#34;; exon_id &#34;ENSRNA049545749-E1&#34;;
+Mt      ena     gene    24096   24851   .       +       .       gene_id &#34;CNAG_09012&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;;
+Mt      ena     transcript      24096   24851   .       +       .       gene_id &#34;CNAG_09012&#34;; transcript_id &#34;AFR99114&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;;
+Mt      ena     exon    24096   24851   .       +       .       gene_id &#34;CNAG_09012&#34;; transcript_id &#34;AFR99114&#34;; exon_number &#34;1&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; exon_id &#34;AFR99114-1&#34;;
+Mt      ena     CDS     24096   24848   .       +       0       gene_id &#34;CNAG_09012&#34;; transcript_id &#34;AFR99114&#34;; exon_number &#34;1&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; protein_id &#34;AFR99114&#34;; protein_version &#34;1&#34;;
+Mt      ena     start_codon     24096   24098   .       +       0       gene_id &#34;CNAG_09012&#34;; transcript_id &#34;AFR99114&#34;; exon_number &#34;1&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;;
+Mt      ena     stop_codon      24849   24851   .       +       0       gene_id &#34;CNAG_09012&#34;; transcript_id &#34;AFR99114&#34;; exon_number &#34;1&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;;
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Remove-comment-lines">
+<h2>Remove comment lines<a class="headerlink" href="#Remove-comment-lines" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>tail +6 Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf <span class="p">|</span> head -3
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1       ena     gene    100     5645    .       -       .       gene_id &#34;CNAG_04548&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;;
+1       ena     transcript      100     5645    .       -       .       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;;
+1       ena     exon    5494    5645    .       -       .       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;1&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; exon_id &#34;AFR92135-1&#34;;
+tail: error writing &#39;standard output&#39;: Broken pipe
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf <span class="p">|</span>
+grep -v <span class="s1">&#39;^#&#39;</span> <span class="p">|</span>
+head -3
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1       ena     gene    100     5645    .       -       .       gene_id &#34;CNAG_04548&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;;
+1       ena     transcript      100     5645    .       -       .       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;;
+1       ena     exon    5494    5645    .       -       .       gene_id &#34;CNAG_04548&#34;; transcript_id &#34;AFR92135&#34;; exon_number &#34;1&#34;; gene_source &#34;ena&#34;; gene_biotype &#34;protein_coding&#34;; transcript_source &#34;ena&#34;; transcript_biotype &#34;protein_coding&#34;; exon_id &#34;AFR92135-1&#34;;
+grep: write error: Broken pipe
+cat: write error: Broken pipe
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Spliting-columns">
+<h2>Spliting columns<a class="headerlink" href="#Spliting-columns" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>File compression and archivalcat Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf <span class="p">|</span>
+grep -v <span class="s1">&#39;^#&#39;</span> <span class="p">|</span>
+cut -f3 <span class="p">|</span>
+head -3
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+bash: File: command not found
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf <span class="p">|</span>
+grep -v <span class="s1">&#39;^#&#39;</span> <span class="p">|</span>
+cut -f4-5 <span class="p">|</span>
+head -3
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+100     5645
+100     5645
+5494    5645
+cut: write error: Broken pipe
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf <span class="p">|</span>
+grep -v <span class="s1">&#39;^#&#39;</span> <span class="p">|</span>
+cut -f2,4-5 <span class="p">|</span>
+head -3
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ena     100     5645
+ena     100     5645
+ena     5494    5645
+cut: write error: Broken pipe
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Exercises">
+<h2>Exercises<a class="headerlink" href="#Exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Waht is the mRNA version of bgp.fasta?</p></li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -v <span class="s1">&#39;^&gt;&#39;</span> <span class="p">|</span>
+tr T U
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GGCAGAUUCCCCCUAGACCCGCCCGCACCAUGGUCAGGCAUGCCCCUCCUCAUCGCUGGGCACAGCCCAGAGGGU
+AUAAACAGUGCUGGAGGCUGGCGGGGCAGGCCAGCUGAGUCCUGAGCAGCAGCCCAGCGCAGCCACCGAGACACC
+AUGAGAGCCCUCACACUCCUCGCCCUAUUGGCCCUGGCCGCACUUUGCAUCGCUGGCCAGGCAGGUGAGUGCCCC
+CACCUCCCCUCAGGCCGCAUUGCAGUGGGGGCUGAGAGGAGGAAGCACCAUGGCCCACCUCUUCUCACCCCUUUG
+GCUGGCAGUCCCUUUGCAGUCUAACCACCUUGUUGCAGGCUCAAUCCAUUUGCCCCAGCUCUGCCCUUGCAGAGG
+GAGAGGAGGGAAGAGCAAGCUGCCCGAGACGCAGGGGAAGGAGGAUGAGGGCCCUGGGGAUGAGCUGGGGUGAAC
+CAGGCUCCCUUUCCUUUGCAGGUGCGAAGCCCAGCGGUGCAGAGUCCAGCAAAGGUGCAGGUAUGAGGAUGGACC
+UGAUGGGUUCCUGGACCCUCCCCUCUCACCCUGGUCCCUCAGUCUCAUUCCCCCACUCCUGCCACCUCCUGUCUG
+GCCAUCAGGAAGGCCAGCCUGCUCCCCACCUGAUCCUCCCAAACCCAGAGCCACCUGAUGCCUGCCCCUCUGCUC
+CACAGCCUUUGUGUCCAAGCAGGAGGGCAGCGAGGUAGUGAAGAGACCCAGGCGCUACCUGUAUCAAUGGCUGGG
+GUGAGAGAAAAGGCAGAGCUGGGCCAAGGCCCUGCCUCUCCGGGAUGGUCUGUGGGGGAGCUGCAGCAGGGAGUG
+GCCUCUCUGGGUUGUGGUGGGGGUACAGGCAGCCUGCCCUGGUGGGCACCCUGGAGCCCCAUGUGUAGGGAGAGG
+AGGGAUGGGCAUUUUGCACGGGGGCUGAUGCCACCACGUCGGGUGUCUCAGAGCCCCAGUCCCCUACCCGGAUCC
+CCUGGAGCCCAGGAGGGAGGUGUGUGAGCUCAAUCCGGACUGUGACGAGUUGGCUGACCACAUCGGCUUUCAGGA
+GGCCUAUCGGCGCUUCUACGGCCCGGUCUAGGGUGUCGCUCUGCUGGCCUGGCCGGCAACCCCAGUUCUGCUCCU
+CUCCAGGCACCCUUCUUUCCUCUUCCCCUUGCCCUUGCCCUGACCUCCCAGCCCUAUGGAUGUGGGGUCCCCAUC
+AUCCCAGCUGCUCCCAAAUAAACUCCAGAAG
+</pre></div></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Extract the nucleotides in positions 5,10 and 15 of each line of bgp.fasta.</p></li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat bgp.fasta <span class="p">|</span>
+grep -v <span class="s1">&#39;^&gt;&#39;</span> <span class="p">|</span>
+cut -c5,10,15
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GCA
+AGA
+GCA
+TTC
+GCT
+GGG
+CTT
+GCA
+TAC
+GTC
+GAA
+CGT
+ACT
+GCG
+TGT
+ACC
+CGC
+</pre></div></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Find the number of mitochondrial exons in the GTF file.</p></li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cat Cryptococcus_neoformans_var_grubii_h99.CNA3.39.gtf <span class="p">|</span>
+grep <span class="s1">&#39;^M&#39;</span> <span class="p">|</span>
+cut -f3 <span class="p">|</span>
+grep <span class="s2">&quot;exon&quot;</span> <span class="p">|</span>
+wc -l
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+45
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Unix05_Variables_Solutions.html" class="btn btn-neutral float-right" title="Unix Variables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Unix03_File_Storage_Solutions.html" class="btn btn-neutral float-left" title="File archival and recovery" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

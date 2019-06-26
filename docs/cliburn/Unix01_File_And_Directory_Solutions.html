@@ -1,0 +1,1837 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Working with Unix &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="File I/O" href="Unix02_FileIO_Solutions.html" />
+    <link rel="prev" title="Slide sets" href="../slides.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Working with Unix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#File-and-directory-navigation">File and directory navigation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Where-am-I?">Where am I?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#List-files">List files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Globbing">Globbing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Make-directories">Make directories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Removing-empty-directories">Removing empty directories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Making-nested-directories-in-one-step">Making nested directories in one step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Create-empty-files">Create empty files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Copying-files">Copying files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Moving-files">Moving files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Navigating-between-directories">Navigating between directories</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Deleting-a-file">Deleting a file</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Move-back">Move back</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Go-home">Go home</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Go-last-position">Go last position</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Quick-and-dangerous-recursive-deletion">Quick and dangerous recursive deletion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Exercises">Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix03_File_Storage_Solutions.html">File archival and recovery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix04_Text_Manipulation_Solutinos.html">Working with text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Working with Unix</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/cliburn/Unix01_File_And_Directory_Solutions.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Working-with-Unix">
+<h1>Working with Unix<a class="headerlink" href="#Working-with-Unix" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="File-and-directory-navigation">
+<h2>File and directory navigation<a class="headerlink" href="#File-and-directory-navigation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pwd</span>   <span class="n">Print</span> <span class="n">working</span> <span class="n">direcoory</span>
+<span class="n">ls</span>    <span class="n">List</span> <span class="n">files</span>
+<span class="n">mkdir</span> <span class="n">Make</span> <span class="n">directory</span>
+<span class="n">rmdir</span> <span class="n">Remove</span> <span class="n">directory</span>
+<span class="n">cd</span>    <span class="n">Change</span> <span class="n">directory</span>
+<span class="n">rm</span>    <span class="n">Remove</span> <span class="n">file</span>
+<span class="n">touch</span> <span class="n">Create</span> <span class="n">empty</span> <span class="n">file</span>
+<span class="n">cp</span>    <span class="n">Copy</span> <span class="n">file</span>
+<span class="n">mv</span>    <span class="n">Move</span> <span class="n">file</span>
+</pre></div>
+</div>
+<div class="section" id="Where-am-I?">
+<h3>Where am I?<a class="headerlink" href="#Where-am-I?" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">pwd</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/home/jovyan/work/Duke_HTS2019/cliburn
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="List-files">
+<h3>List files<a class="headerlink" href="#List-files" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls -a
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-blue-intense-fg ansi-bold">.</span>
+<span class="ansi-blue-intense-fg ansi-bold">..</span>
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+.gitignore
+<span class="ansi-blue-intense-fg ansi-bold">.ipynb_checkpoints</span>
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls -l
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+total 4680
+drwxr-xr-x 2 jovyan users    4096 Jun 25 15:34 <span class="ansi-blue-intense-fg ansi-bold">data</span>
+drwxr-xr-x 2 jovyan users    4096 Jun 26 08:52 <span class="ansi-blue-intense-fg ansi-bold">figs</span>
+-rw-r--r-- 1 jovyan users   20314 Jun 26 08:42 R00_Review_Basics.ipynb
+-rw-r--r-- 1 jovyan users    2889 Jun 25 15:34 R00_Review_Basics_Scratch.ipynb
+-rw-r--r-- 1 jovyan users   10478 Jun 25 15:34 R01_Data_Manipulation.ipynb
+-rw-r--r-- 1 jovyan users    7169 Jun 25 15:34 R01_Data_Manipulation_Scratch.ipynb
+-rw-r--r-- 1 jovyan users  119305 Jun 26 08:43 R01_Data_Manipulation_Solutions.ipynb
+-rw-r--r-- 1 jovyan users    3535 Jun 25 15:34 R01_Manipulating_Data_In_R.ipynb
+-rw-r--r-- 1 jovyan users   40260 Jun 25 15:34 R02_Tidying_Data_In_R.ipynb
+-rw-r--r-- 1 jovyan users    4912 Jun 25 15:34 R02_Tidying_Data.ipynb
+-rw-r--r-- 1 jovyan users   64595 Jun 26 08:45 R02_Tidying_Data_Solutions.ipynb
+-rw-r--r-- 1 jovyan users   23158 Jun 26 08:46 R03_FileIO.ipynb
+-rw-r--r-- 1 jovyan users 1207248 Jun 26 08:55 R04_Unsupervised_Learning.ipynb
+-rw-r--r-- 1 jovyan users   11822 Jun 25 15:34 R04_Unsupervised_Learning_Scratch.ipynb
+-rw-r--r-- 1 jovyan users 1137154 Jun 26 08:55 R05_Unsupervised_Learning_More_Examples.ipynb
+-rw-r--r-- 1 jovyan users  157680 Jun 26 08:55 R06_Graphics_Overview.ipynb
+-rw-r--r-- 1 jovyan users  214118 Jun 26 08:55 R07_Graphics_Base.ipynb
+-rw-r--r-- 1 jovyan users 1394754 Jun 26 08:55 R08_Graphics_ggplot2.ipynb
+-rw-r--r-- 1 jovyan users    4931 Jun 26 08:55 R09_Graphics_Exercise.ipynb
+-rw-r--r-- 1 jovyan users  104001 Jun 26 08:55 R09_Graphics_Exercise_Solutions.ipynb
+drwxr-xr-x 2 jovyan users    4096 Jun 25 15:34 <span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+-rw-r--r-- 1 jovyan users   10940 Jun 25 15:34 Unix01_File_And_Directory.ipynb
+-rw-r--r-- 1 jovyan users   21469 Jun 26 09:14 Unix01_File_And_Directory_Solutions.ipynb
+-rw-r--r-- 1 jovyan users   11715 Jun 25 15:34 Unix02_FileIO.ipynb
+-rw-r--r-- 1 jovyan users   12232 Jun 25 15:34 Unix02_FileIO_Solutions.ipynb
+-rw-r--r-- 1 jovyan users    8037 Jun 25 15:34 Unix03_File_Storage.ipynb
+-rw-r--r-- 1 jovyan users    8477 Jun 25 15:34 Unix03_File_Storage_Solutions.ipynb
+-rw-r--r-- 1 jovyan users   10875 Jun 25 15:34 Unix04_Text_Manipulation.ipynb
+-rw-r--r-- 1 jovyan users   11276 Jun 25 15:34 Unix04_Text_Manipulation_Solutinos.ipynb
+-rw-r--r-- 1 jovyan users   15609 Jun 25 15:34 Unix05_Variables.ipynb
+-rw-r--r-- 1 jovyan users   15609 Jun 25 15:34 Unix05_Variables_Solutions.ipynb
+-rw-r--r-- 1 jovyan users   36904 Jun 25 15:34 Unix06_Bash_Bioinformatics.ipynb
+-rw-r--r-- 1 jovyan users    5387 Jun 25 15:34 Unix07_Capstone_Exercise.ipynb
+-rw-r--r-- 1 jovyan users    8226 Jun 25 15:34 Unix07_Capstone_Exercise_Solutions.ipynb
+-rw-r--r-- 1 jovyan users   11089 Jun 25 15:34 Unix_Appendix01_Regular_Expressions.ipynb
+-rw-r--r-- 1 jovyan users    6000 Jun 25 15:34 Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+<p>Fields returned by <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">-l</span></code>:</p>
+<ul class="simple">
+<li><p>Permissions</p></li>
+<li><p>Number of hardlinks</p></li>
+<li><p>File owner</p></li>
+<li><p>File group</p></li>
+<li><p>File size</p></li>
+<li><p>Modification time</p></li>
+<li><p>Filename</p></li>
+</ul>
+<p>Interpreation of permissions</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>
+
+<span class="o">-</span>   <span class="n">Regular</span> <span class="n">file</span>
+<span class="n">rw</span><span class="o">-</span> <span class="n">Owner</span> <span class="n">has</span> <span class="n">Read</span> <span class="ow">and</span> <span class="n">Write</span> <span class="n">permission</span>
+<span class="n">r</span><span class="o">--</span> <span class="n">Group</span> <span class="n">has</span> <span class="n">Read</span> <span class="n">permission</span>
+<span class="n">r</span><span class="o">--</span> <span class="n">Other</span> <span class="n">has</span> <span class="n">Read</span> <span class="n">permission</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Globbing">
+<h3>Globbing<a class="headerlink" href="#Globbing" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls *ipynb
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls U*
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls *nix*Exercise*
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Unix07_Capstone_Exercise.ipynb  Unix07_Capstone_Exercise_Solutions.ipynb
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Make-directories">
+<h3>Make directories<a class="headerlink" href="#Make-directories" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>mkdir a
+mkdir a/b
+mkdir a/b/c
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-blue-intense-fg ansi-bold">a</span>
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls -R
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+.:
+<span class="ansi-blue-intense-fg ansi-bold">a</span>
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+
+./a:
+<span class="ansi-blue-intense-fg ansi-bold">b</span>
+
+./a/b:
+<span class="ansi-blue-intense-fg ansi-bold">c</span>
+
+./a/b/c:
+
+./data:
+gene_counts_raw.txt  gene_counts.txt
+
+./figs:
+<span class="ansi-magenta-intense-fg ansi-bold">box.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig1.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig2.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig3.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig4.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig5.png</span>  g3.pdf  <span class="ansi-magenta-intense-fg ansi-bold">lm.png</span>
+
+./seqs:
+CM000046.1.fa  CM000047.1.fa
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Removing-empty-directories">
+<h3>Removing empty directories<a class="headerlink" href="#Removing-empty-directories" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>rmdir a/b/c
+rmdir a/b
+rmdir a
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Making-nested-directories-in-one-step">
+<h3>Making nested directories in one step<a class="headerlink" href="#Making-nested-directories-in-one-step" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>mkdir -p a/b/c a/b/d a/b/e
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Create-empty-files">
+<h3>Create empty files<a class="headerlink" href="#Create-empty-files" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>touch a/b/c/foo.txt a/b/d/bar.txt a/b/e/baz.txt
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls -R
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+.:
+<span class="ansi-blue-intense-fg ansi-bold">a</span>
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+
+./a:
+<span class="ansi-blue-intense-fg ansi-bold">b</span>
+
+./a/b:
+<span class="ansi-blue-intense-fg ansi-bold">c</span>  <span class="ansi-blue-intense-fg ansi-bold">d</span>  <span class="ansi-blue-intense-fg ansi-bold">e</span>
+
+./a/b/c:
+foo.txt
+
+./a/b/d:
+bar.txt
+
+./a/b/e:
+baz.txt
+
+./data:
+gene_counts_raw.txt  gene_counts.txt
+
+./figs:
+<span class="ansi-magenta-intense-fg ansi-bold">box.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig1.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig2.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig3.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig4.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig5.png</span>  g3.pdf  <span class="ansi-magenta-intense-fg ansi-bold">lm.png</span>
+
+./seqs:
+CM000046.1.fa  CM000047.1.fa
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Copying-files">
+<h3>Copying files<a class="headerlink" href="#Copying-files" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>cp a/b/c/foo.txt foo_copy1.txt
+cp a/b/c/foo.txt a/foo_copy2.txt
+cp a/b/c/foo.txt a/b/foo_copy3.txt
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls -R
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+.:
+<span class="ansi-blue-intense-fg ansi-bold">a</span>
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+foo_copy1.txt
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+
+./a:
+<span class="ansi-blue-intense-fg ansi-bold">b</span>  foo_copy2.txt
+
+./a/b:
+<span class="ansi-blue-intense-fg ansi-bold">c</span>  <span class="ansi-blue-intense-fg ansi-bold">d</span>  <span class="ansi-blue-intense-fg ansi-bold">e</span>  foo_copy3.txt
+
+./a/b/c:
+foo.txt
+
+./a/b/d:
+bar.txt
+
+./a/b/e:
+baz.txt
+
+./data:
+gene_counts_raw.txt  gene_counts.txt
+
+./figs:
+<span class="ansi-magenta-intense-fg ansi-bold">box.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig1.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig2.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig3.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig4.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig5.png</span>  g3.pdf  <span class="ansi-magenta-intense-fg ansi-bold">lm.png</span>
+
+./seqs:
+CM000046.1.fa  CM000047.1.fa
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Moving-files">
+<h3>Moving files<a class="headerlink" href="#Moving-files" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>mv a/b/c/foo.txt a/b/c/oof.txt
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls a/b/c
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+oof.txt
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>mv a/b/c/oof.txt oof.txt
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls a/b/c
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-blue-intense-fg ansi-bold">a</span>
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+foo_copy1.txt
+oof.txt
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Navigating-between-directories">
+<h3>Navigating between directories<a class="headerlink" href="#Navigating-between-directories" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">cd</span> a/b/
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-blue-intense-fg ansi-bold">c</span>  <span class="ansi-blue-intense-fg ansi-bold">d</span>  <span class="ansi-blue-intense-fg ansi-bold">e</span>  foo_copy3.txt
+</pre></div></div>
+</div>
+<div class="section" id="Deleting-a-file">
+<h4>Deleting a file<a class="headerlink" href="#Deleting-a-file" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>rm foo_copy3.txt
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-blue-intense-fg ansi-bold">c</span>  <span class="ansi-blue-intense-fg ansi-bold">d</span>  <span class="ansi-blue-intense-fg ansi-bold">e</span>
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Move-back">
+<h3>Move back<a class="headerlink" href="#Move-back" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">pwd</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/home/jovyan/work/Duke_HTS2019/cliburn/a/b
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">cd</span> ..
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">pwd</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/home/jovyan/work/Duke_HTS2019/cliburn/a
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">cd</span> ..
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">pwd</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/home/jovyan/work/Duke_HTS2019/cliburn
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">cd</span> a/b/c
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">pwd</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/home/jovyan/work/Duke_HTS2019/cliburn/a/b/c
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">cd</span> ../../../
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">pwd</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/home/jovyan/work/Duke_HTS2019/cliburn
+</pre></div></div>
+</div>
+<div class="section" id="Go-home">
+<h4>Go home<a class="headerlink" href="#Go-home" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">cd</span> ~
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">pwd</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/home/jovyan
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Go-last-position">
+<h4>Go last position<a class="headerlink" href="#Go-last-position" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">cd</span> -
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/home/jovyan/work/Duke_HTS2019/cliburn
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Quick-and-dangerous-recursive-deletion">
+<h3>Quick and dangerous recursive deletion<a class="headerlink" href="#Quick-and-dangerous-recursive-deletion" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>rm -r a
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+foo_copy1.txt
+oof.txt
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>rm *txt
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-blue-intense-fg ansi-bold">data</span>
+<span class="ansi-blue-intense-fg ansi-bold">figs</span>
+R00_Review_Basics.ipynb
+R00_Review_Basics_Scratch.ipynb
+R01_Data_Manipulation.ipynb
+R01_Data_Manipulation_Scratch.ipynb
+R01_Data_Manipulation_Solutions.ipynb
+R01_Manipulating_Data_In_R.ipynb
+R02_Tidying_Data_In_R.ipynb
+R02_Tidying_Data.ipynb
+R02_Tidying_Data_Solutions.ipynb
+R03_FileIO.ipynb
+R04_Unsupervised_Learning.ipynb
+R04_Unsupervised_Learning_Scratch.ipynb
+R05_Unsupervised_Learning_More_Examples.ipynb
+R06_Graphics_Overview.ipynb
+R07_Graphics_Base.ipynb
+R08_Graphics_ggplot2.ipynb
+R09_Graphics_Exercise.ipynb
+R09_Graphics_Exercise_Solutions.ipynb
+<span class="ansi-blue-intense-fg ansi-bold">seqs</span>
+Unix01_File_And_Directory.ipynb
+Unix01_File_And_Directory_Solutions.ipynb
+Unix02_FileIO.ipynb
+Unix02_FileIO_Solutions.ipynb
+Unix03_File_Storage.ipynb
+Unix03_File_Storage_Solutions.ipynb
+Unix04_Text_Manipulation.ipynb
+Unix04_Text_Manipulation_Solutinos.ipynb
+Unix05_Variables.ipynb
+Unix05_Variables_Solutions.ipynb
+Unix06_Bash_Bioinformatics.ipynb
+Unix07_Capstone_Exercise.ipynb
+Unix07_Capstone_Exercise_Solutions.ipynb
+Unix_Appendix01_Regular_Expressions.ipynb
+Unix_Appendix02_Review.ipynb
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Exercises">
+<h2>Exercises<a class="headerlink" href="#Exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Create the following structure including empty files using <code class="docutils literal notranslate"><span class="pre">mkdir</span></code> and <code class="docutils literal notranslate"><span class="pre">touch</span></code> commands.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">crytococcus</span>
+    <span class="n">data</span>
+        <span class="n">fake1</span><span class="o">.</span><span class="n">fq</span>
+        <span class="n">fake2</span><span class="o">.</span><span class="n">fq</span>
+    <span class="n">notebooks</span>
+        <span class="n">my_analysis</span><span class="o">.</span><span class="n">R</span>
+        <span class="n">your_analysis</span><span class="o">.</span><span class="n">R</span>
+        <span class="n">fake3</span><span class="o">.</span><span class="n">fq</span>
+    <span class="n">results</span>
+        <span class="n">table1</span><span class="o">.</span><span class="n">csv</span>
+        <span class="n">table2</span><span class="o">.</span><span class="n">csv</span>
+        <span class="n">fig1</span><span class="o">.</span><span class="n">png</span>
+        <span class="n">fig2</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>rm -rf crytococcus
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>mkdir cryptococcus
+<span class="nb">cd</span> cryptococcus
+mkdir data noteboooks results
+<span class="nb">cd</span> data
+touch fake1.fq fake2.fg
+<span class="nb">cd</span> ../noteboooks
+touch my_analysis.R your_analysis.R fake3.fq
+<span class="nb">cd</span> ../results
+touch table1.csv table2.csv fig1.png fig2.png
+<span class="nb">cd</span> ../..
+ls -R cryptococcus
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+cryptococcus:
+<span class="ansi-blue-intense-fg ansi-bold">data</span>  <span class="ansi-blue-intense-fg ansi-bold">noteboooks</span>  <span class="ansi-blue-intense-fg ansi-bold">results</span>
+
+cryptococcus/data:
+fake1.fq  fake2.fg
+
+cryptococcus/noteboooks:
+fake3.fq  my_analysis.R  your_analysis.R
+
+cryptococcus/results:
+<span class="ansi-magenta-intense-fg ansi-bold">fig1.png</span>  <span class="ansi-magenta-intense-fg ansi-bold">fig2.png</span>  table1.csv  table2.csv
+</pre></div></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Navigate into the folder <code class="docutils literal notranslate"><span class="pre">cryptococcus/results</span></code> and find the size of <code class="docutils literal notranslate"><span class="pre">fig1.png</span></code>. Next make a copy of <code class="docutils literal notranslate"><span class="pre">table2.csv</span></code> with name <code class="docutils literal notranslate"><span class="pre">table3.csv</span></code>. Finally, navigate back to the same directory where this notebook is found.</p></li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">cd</span> cryptococcus/results
+ls -lh fig1.png
+<span class="nb">cd</span> -
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+-rw-r--r-- 1 jovyan users 0 Jun 26 09:14 <span class="ansi-magenta-intense-fg ansi-bold">fig1.png</span>
+/home/jovyan/work/Duke_HTS2019/cliburn
+</pre></div></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Move th file <code class="docutils literal notranslate"><span class="pre">fake3.fq</span></code> from the <code class="docutils literal notranslate"><span class="pre">notebooks</span></code> to the <code class="docutils literal notranslate"><span class="pre">data</span></code> directory.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>mv cryptococcus/noteboooks/fake3.fq cryptococcus/data
+</pre></div>
+</div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>List all files recursively that have the extension <code class="docutils literal notranslate"><span class="pre">.R</span></code></p></li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls -R <span class="p">|</span> grep <span class="s2">&quot;\.R</span>$<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+my_analysis.R
+your_analysis.R
+</pre></div></div>
+</div>
+<p>Find is a useful command that I did not have time to cover in the lecture.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>find . -name <span class="s2">&quot;*.R&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+./cryptococcus/noteboooks/my_analysis.R
+./cryptococcus/noteboooks/your_analysis.R
+</pre></div></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Delete the results directory and all files in it (non-recursively).</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>rm cryptococcus/results/*
+rmdir cryptococcus/results
+</pre></div>
+</div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Delete the <code class="docutils literal notranslate"><span class="pre">cryptococcus</span></code> directory recursively.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>rm -r cryptococcus
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Unix02_FileIO_Solutions.html" class="btn btn-neutral float-right" title="File I/O" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../slides.html" class="btn btn-neutral float-left" title="Slide sets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

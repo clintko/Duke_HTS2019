@@ -37,7 +37,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="HTS2019 Source Materials" href="../index.html" /> 
+    <link rel="next" title="Data Manipulation in the tidyverse" href="R01_Data_Manipulation_Solutions.html" />
+    <link rel="prev" title="Slide sets" href="../slides.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -81,7 +82,11 @@
               
             
             
-              <p class="caption"><span class="caption-text">Unix Shell</span></p>
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Basics of R (Review)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#Assignment">Assignment</a></li>
@@ -103,6 +108,42 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Basics of R (Review)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Assignment">Assignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Custom-function">Custom function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Vectors">Vectors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Named-vectors">Named vectors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Lists">Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Data-Frames">Data Frames</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Basic-Data-Frame-manipulation">Basic Data Frame manipulation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Get-columns">Get columns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Get-rows">Get rows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Get-cell">Get cell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Get-sub-frame">Get sub-frame</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
 </ul>
 
             
@@ -591,11 +632,11 @@ b <span class="o">&lt;-</span> <span class="m">3</span>
     <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
 </thead>
 <tbody>
-    <tr><td>1</td><td> 6</td><td> 0.1428163</td></tr>
-    <tr><td>2</td><td> 7</td><td> 0.6514806</td></tr>
-    <tr><td>3</td><td> 8</td><td>-1.4378783</td></tr>
-    <tr><td>4</td><td> 9</td><td> 0.1142797</td></tr>
-    <tr><td>5</td><td>10</td><td> 0.1789805</td></tr>
+    <tr><td>1</td><td> 6</td><td>-0.2701866</td></tr>
+    <tr><td>2</td><td> 7</td><td> 0.4624501</td></tr>
+    <tr><td>3</td><td> 8</td><td> 0.1019228</td></tr>
+    <tr><td>4</td><td> 9</td><td>-1.5094554</td></tr>
+    <tr><td>5</td><td>10</td><td> 0.4304919</td></tr>
 </tbody>
 </table></div>
 </div>
@@ -630,11 +671,11 @@ b <span class="o">&lt;-</span> <span class="m">3</span>
     <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
 </thead>
 <tbody>
-    <tr><td>1</td><td> 6</td><td> 0.7803170</td></tr>
-    <tr><td>2</td><td> 7</td><td>-0.1422173</td></tr>
-    <tr><td>3</td><td> 8</td><td> 0.2105514</td></tr>
-    <tr><td>4</td><td> 9</td><td> 1.3438621</td></tr>
-    <tr><td>5</td><td>10</td><td> 1.4136451</td></tr>
+    <tr><td>1</td><td> 6</td><td> 0.5207780</td></tr>
+    <tr><td>2</td><td> 7</td><td>-1.5697044</td></tr>
+    <tr><td>3</td><td> 8</td><td> 0.3914048</td></tr>
+    <tr><td>4</td><td> 9</td><td>-0.5415737</td></tr>
+    <tr><td>5</td><td>10</td><td>-0.9471250</td></tr>
 </tbody>
 </table></div>
 </div>
@@ -726,7 +767,7 @@ b <span class="o">&lt;-</span> <span class="m">3</span>
     <tr><th></th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
 </thead>
 <tbody>
-    <tr><th scope=row>3</th><td>3</td><td>8</td><td>0.2105514</td></tr>
+    <tr><th scope=row>3</th><td>3</td><td>8</td><td>0.3914048</td></tr>
 </tbody>
 </table></div>
 </div>
@@ -750,8 +791,8 @@ b <span class="o">&lt;-</span> <span class="m">3</span>
     <tr><th></th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
 </thead>
 <tbody>
-    <tr><th scope=row>1</th><td>1</td><td>6</td><td>0.7803170</td></tr>
-    <tr><th scope=row>3</th><td>3</td><td>8</td><td>0.2105514</td></tr>
+    <tr><th scope=row>1</th><td>1</td><td>6</td><td>0.5207780</td></tr>
+    <tr><th scope=row>3</th><td>3</td><td>8</td><td>0.3914048</td></tr>
 </tbody>
 </table></div>
 </div>
@@ -771,7 +812,7 @@ b <span class="o">&lt;-</span> <span class="m">3</span>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
--0.142217298039633</div>
+-1.56970441859343</div>
 </div>
 </div>
 <div class="section" id="Get-sub-frame">
@@ -796,11 +837,11 @@ b <span class="o">&lt;-</span> <span class="m">3</span>
     <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
 </thead>
 <tbody>
-    <tr><td>1</td><td> 0.7803170</td></tr>
-    <tr><td>2</td><td>-0.1422173</td></tr>
-    <tr><td>3</td><td> 0.2105514</td></tr>
-    <tr><td>4</td><td> 1.3438621</td></tr>
-    <tr><td>5</td><td> 1.4136451</td></tr>
+    <tr><td>1</td><td> 0.5207780</td></tr>
+    <tr><td>2</td><td>-1.5697044</td></tr>
+    <tr><td>3</td><td> 0.3914048</td></tr>
+    <tr><td>4</td><td>-0.5415737</td></tr>
+    <tr><td>5</td><td>-0.9471250</td></tr>
 </tbody>
 </table></div>
 </div>
@@ -824,8 +865,8 @@ b <span class="o">&lt;-</span> <span class="m">3</span>
     <tr><th></th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
 </thead>
 <tbody>
-    <tr><th scope=row>1</th><td>6</td><td>0.7803170</td></tr>
-    <tr><th scope=row>3</th><td>8</td><td>0.2105514</td></tr>
+    <tr><th scope=row>1</th><td>6</td><td>0.5207780</td></tr>
+    <tr><th scope=row>3</th><td>8</td><td>0.3914048</td></tr>
 </tbody>
 </table></div>
 </div>
@@ -851,8 +892,10 @@ b <span class="o">&lt;-</span> <span class="m">3</span>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="R01_Data_Manipulation_Solutions.html" class="btn btn-neutral float-right" title="Data Manipulation in the tidyverse" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="../index.html" class="btn btn-neutral float-left" title="HTS2019 Source Materials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="../slides.html" class="btn btn-neutral float-left" title="Slide sets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -1,0 +1,171 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# R Graphics Exercise\n",
+    "\n",
+    "Do exercises 1-4 and if you have lots of time, exercise 5. In each case, your aim is to create a figure similar to the one shown for the pilot data set."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Registered S3 methods overwritten by 'ggplot2':\n",
+      "  method         from \n",
+      "  [.quosures     rlang\n",
+      "  c.quosures     rlang\n",
+      "  print.quosures rlang\n",
+      "── \u001b[1mAttaching packages\u001b[22m ─────────────────────────────────────── tidyverse 1.2.1 ──\n",
+      "\u001b[32m✔\u001b[39m \u001b[34mggplot2\u001b[39m 3.1.1     \u001b[32m✔\u001b[39m \u001b[34mpurrr  \u001b[39m 0.3.2\n",
+      "\u001b[32m✔\u001b[39m \u001b[34mtibble \u001b[39m 2.1.2     \u001b[32m✔\u001b[39m \u001b[34mdplyr  \u001b[39m 0.8.1\n",
+      "\u001b[32m✔\u001b[39m \u001b[34mtidyr  \u001b[39m 0.8.3     \u001b[32m✔\u001b[39m \u001b[34mstringr\u001b[39m 1.4.0\n",
+      "\u001b[32m✔\u001b[39m \u001b[34mreadr  \u001b[39m 1.3.1     \u001b[32m✔\u001b[39m \u001b[34mforcats\u001b[39m 0.4.0\n",
+      "── \u001b[1mConflicts\u001b[22m ────────────────────────────────────────── tidyverse_conflicts() ──\n",
+      "\u001b[31m✖\u001b[39m \u001b[34mdplyr\u001b[39m::\u001b[32mfilter()\u001b[39m masks \u001b[34mstats\u001b[39m::filter()\n",
+      "\u001b[31m✖\u001b[39m \u001b[34mdplyr\u001b[39m::\u001b[32mlag()\u001b[39m    masks \u001b[34mstats\u001b[39m::lag()\n"
+     ]
+    }
+   ],
+   "source": [
+    "library(tidyverse)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "options(repr.plot.width=4, repr.plot.height=3)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Parsed with column specification:\n",
+      "cols(\n",
+      "  .default = col_double(),\n",
+      "  Label = \u001b[31mcol_character()\u001b[39m,\n",
+      "  Media = \u001b[31mcol_character()\u001b[39m,\n",
+      "  Strain = \u001b[31mcol_character()\u001b[39m\n",
+      ")\n",
+      "See spec(...) for full column specifications.\n"
+     ]
+    }
+   ],
+   "source": [
+    "data <- read_tsv('data/gene_counts_raw.txt')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**0**. The `Label` column has 3 pieces of information `Sample`, `Method` andd `Person` in a single cell. Fix this and save the tidy DataFrame as `df`."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**1**. Plot a scatter plot of gene100 against gene 1001. Color points by the method used. Save the image as a PNG file 'fig1.png' in the 'figs' folder."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<img src=\"figs/fig1.png\" alt=\"Fig1\" width=400>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**2**. Make a boxplot plot of gene100 counts by method."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<img src=\"figs/fig2.png\" alt=\"Fig2\" width=400>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**3**. Make a jitter plot of gene100 counts by Media and color the points by method. Set the jitter width to be 0.2."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<img src=\"figs/fig3.png\" alt=\"Fig3\" width=400>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**4**. Make a grid of histograms of counts for gene100, with rows showing the person and columns showing the method used."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<img src=\"figs/fig4.png\" alt=\"Fig4\" width=400>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**5**. Make a row of boxplots of log counts of the top 5 genes where each column shows a different method.\n",
+    "\n",
+    "**Warning**: This involves quite a bit of data processing."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<img src=\"figs/fig5.png\" alt=\"Fig5\" width=400>"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "R",
+   "language": "R",
+   "name": "ir"
+  },
+  "language_info": {
+   "codemirror_mode": "r",
+   "file_extension": ".r",
+   "mimetype": "text/x-r-source",
+   "name": "R",
+   "pygments_lexer": "r",
+   "version": "3.6.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

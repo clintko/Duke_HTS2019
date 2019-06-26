@@ -19,11 +19,24 @@ Source materials can bd cloned from the `HTS2019 GitLab Repository <https://gitl
    :maxdepth: 2
    :caption: Unix Shell
 
-   cliburn/R00_Review_Basics.ipynb
+
 
 .. toctree::
    :maxdepth: 2
    :caption: R Graphics and Data Manipulation
+
+   cliburn/R00_Review_Basics.ipynb
+   cliburn/R00_Review_Basics.ipynb
+   cliburn/R01_Data_Manipulation_Solutions.ipynb
+   cliburn/R02_Tidying_Data_Solutions.ipynb
+   cliburn/R03_FileIO.ipynb
+   cliburn/R04_Unsupervised_Learning.ipynb
+   cliburn/R05_Unsupervised_Learning_More_Examples.ipynb
+   cliburn/R06_Graphics_Overview.ipynb
+   cliburn/R07_Graphics_Base.ipynb
+   cliburn/R08_Graphics_ggplot2.ipynb
+   cliburn/R09_Graphics_Exercise.ipynb
+   cliburn/R09_Graphics_Exercise_Solutions.ipynb
 
 .. toctree::
    :maxdepth: 2

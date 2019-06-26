@@ -1,0 +1,1632 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Unsupervised Learning &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="R Graphics" href="R06_Graphics_Overview.html" />
+    <link rel="prev" title="Unsupervised Learning" href="R04_Unsupervised_Learning.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Unsupervised Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Golub-data-set">Golub data set</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Extract-gene-expression-values">Extract gene expression values</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Distances">Distances</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Pairwise-distance-between-first-3-patinets">Pairwise distance between first 3 patinets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Manual-calculation">Manual calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Ordination">Ordination</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#MDS">MDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#PCA">PCA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Preserving-the-distances">Preserving the distances</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Scale-to-have-zero-mean-and-unit-standard-deviation">Scale to have zero mean and unit standard deviation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Check">Check</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Using-dplyr">Using <code class="docutils literal notranslate"><span class="pre">dplyr</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Clustering">Clustering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Agglomerative-hierarchical-clustering-(AHC)">Agglomerative hierarchical clustering (AHC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Road-trip-USA">Road-trip USA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#A-trip-to-Europe">A trip to Europe</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Find-clusters-by-height">Find clusters by height</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Find-clusters-by-number">Find clusters by number</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#k-means-clustering">k-means clustering</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Grouped-by-data-source">Grouped by data source</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Semi-supervised-learning-(Noise-discovery)">Semi-supervised learning (Noise discovery)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Simulate-noise-data-set">Simulate noise data set</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Find-genes-that-are-different-across-group-at-specified-significance-level">Find genes that are different across group at specified significance level</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Show-heatmap-and-AHC-clustering-for-top-genes">Show heatmap and AHC clustering for top genes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Simple-version-of-heatmap">Simple version of heatmap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Fancy-version-of-heatmap">Fancy version of heatmap</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#MDS-of-top-genes">MDS of top genes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Unsupervised Learning</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/cliburn/R05_Unsupervised_Learning_More_Examples.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Unsupervised-Learning">
+<h1>Unsupervised Learning<a class="headerlink" href="#Unsupervised-Learning" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Golub-data-set">
+<h2>Golub data set<a class="headerlink" href="#Golub-data-set" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">suppressPackageStartupMessages</span><span class="p">(</span><span class="kn">library</span><span class="p">(</span>multtest<span class="p">))</span>
+<span class="kp">suppressPackageStartupMessages</span><span class="p">(</span><span class="kn">library</span><span class="p">(</span>golubEsets<span class="p">))</span>
+<span class="kp">suppressPackageStartupMessages</span><span class="p">(</span><span class="kn">library</span><span class="p">(</span>tidyverse<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>data<span class="p">(</span>Golub_Merge<span class="p">)</span>
+<span class="kp">dim</span><span class="p">(</span>Golub_Merge<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<dl class=dl-horizontal>
+    <dt>Features</dt>
+            <dd>7129</dd>
+    <dt>Samples</dt>
+            <dd>72</dd>
+</dl></div>
+</div>
+<div class="section" id="Extract-gene-expression-values">
+<h3>Extract gene expression values<a class="headerlink" href="#Extract-gene-expression-values" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>golub <span class="o">&lt;-</span> exprs<span class="p">(</span>Golub_Merge<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>There are 72 patients and 7192 probe sets.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">dim</span><span class="p">(</span>golub<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>7129</li>
+    <li>72</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">head</span><span class="p">(</span>golub<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 6 × 72 of type dbl</caption>
+<thead>
+    <tr><th></th><th scope=col>39</th><th scope=col>40</th><th scope=col>42</th><th scope=col>47</th><th scope=col>48</th><th scope=col>49</th><th scope=col>41</th><th scope=col>43</th><th scope=col>44</th><th scope=col>45</th><th scope=col>⋯</th><th scope=col>35</th><th scope=col>36</th><th scope=col>37</th><th scope=col>38</th><th scope=col>28</th><th scope=col>29</th><th scope=col>30</th><th scope=col>31</th><th scope=col>32</th><th scope=col>33</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>AFFX-BioB-5_at</th><td>-342</td><td> -87</td><td>  22</td><td>-243</td><td>-130</td><td>-256</td><td> -62</td><td>  86</td><td>-146</td><td>-187</td><td>⋯</td><td>   7</td><td>-213</td><td> -25</td><td> -72</td><td>  -4</td><td>  15</td><td>-318</td><td> -32</td><td>-124</td><td>-135</td></tr>
+    <tr><th scope=row>AFFX-BioB-M_at</th><td>-200</td><td>-248</td><td>-153</td><td>-218</td><td>-177</td><td>-249</td><td> -23</td><td> -36</td><td> -74</td><td>-187</td><td>⋯</td><td>-100</td><td>-252</td><td> -20</td><td>-139</td><td>-116</td><td>-114</td><td>-192</td><td> -49</td><td> -79</td><td>-186</td></tr>
+    <tr><th scope=row>AFFX-BioB-3_at</th><td>  41</td><td> 262</td><td>  17</td><td>-163</td><td> -28</td><td>-410</td><td>  -7</td><td>-141</td><td> 170</td><td> 312</td><td>⋯</td><td> -57</td><td> 136</td><td> 124</td><td>  -1</td><td>-125</td><td>   2</td><td> -95</td><td>  49</td><td> -37</td><td> -70</td></tr>
+    <tr><th scope=row>AFFX-BioC-5_at</th><td> 328</td><td> 295</td><td> 276</td><td> 182</td><td> 266</td><td>  24</td><td> 142</td><td> 252</td><td> 174</td><td> 142</td><td>⋯</td><td> 132</td><td> 318</td><td> 325</td><td> 392</td><td> 241</td><td> 193</td><td> 312</td><td> 230</td><td> 330</td><td> 337</td></tr>
+    <tr><th scope=row>AFFX-BioC-3_at</th><td>-224</td><td>-226</td><td>-211</td><td>-289</td><td>-170</td><td>-535</td><td>-233</td><td>-201</td><td> -32</td><td> 114</td><td>⋯</td><td>-377</td><td>-209</td><td>-396</td><td>-324</td><td>-191</td><td> -51</td><td>-139</td><td>-367</td><td>-188</td><td>-407</td></tr>
+    <tr><th scope=row>AFFX-BioDn-5_at</th><td>-427</td><td>-493</td><td>-250</td><td>-268</td><td>-326</td><td>-810</td><td>-284</td><td>-384</td><td>-318</td><td>-148</td><td>⋯</td><td>-478</td><td>-557</td><td>-464</td><td>-510</td><td>-411</td><td>-155</td><td>-344</td><td>-508</td><td>-423</td><td>-566</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>For this exercise, we consider the probe values to be variables and the patients to be observations, so it is convenient to work with the matrix transpose.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>golub <span class="o">&lt;-</span> <span class="kp">t</span><span class="p">(</span>golub<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">dim</span><span class="p">(</span>golub<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>72</li>
+    <li>7129</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>golub<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">,</span> <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 3 × 7129 of type dbl</caption>
+<thead>
+    <tr><th></th><th scope=col>AFFX-BioB-5_at</th><th scope=col>AFFX-BioB-M_at</th><th scope=col>AFFX-BioB-3_at</th><th scope=col>AFFX-BioC-5_at</th><th scope=col>AFFX-BioC-3_at</th><th scope=col>AFFX-BioDn-5_at</th><th scope=col>AFFX-BioDn-3_at</th><th scope=col>AFFX-CreX-5_at</th><th scope=col>AFFX-CreX-3_at</th><th scope=col>AFFX-BioB-5_st</th><th scope=col>⋯</th><th scope=col>U48730_at</th><th scope=col>U58516_at</th><th scope=col>U73738_at</th><th scope=col>X06956_at</th><th scope=col>X16699_at</th><th scope=col>X83863_at</th><th scope=col>Z17240_at</th><th scope=col>L49218_f_at</th><th scope=col>M71243_f_at</th><th scope=col>Z78285_f_at</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>39</th><td>-342</td><td>-200</td><td> 41</td><td>328</td><td>-224</td><td>-427</td><td>-656</td><td>-292</td><td>137</td><td>-144</td><td>⋯</td><td>277</td><td>1023</td><td>  67</td><td>214</td><td>-135</td><td>1074</td><td>475</td><td> 48</td><td> 168</td><td>-70</td></tr>
+    <tr><th scope=row>40</th><td> -87</td><td>-248</td><td>262</td><td>295</td><td>-226</td><td>-493</td><td> 367</td><td>-452</td><td>194</td><td> 162</td><td>⋯</td><td> 83</td><td> 529</td><td>-295</td><td>352</td><td> -67</td><td>  67</td><td>263</td><td>-33</td><td> -33</td><td>-21</td></tr>
+    <tr><th scope=row>42</th><td>  22</td><td>-153</td><td> 17</td><td>276</td><td>-211</td><td>-250</td><td>  55</td><td>-141</td><td>  0</td><td> 500</td><td>⋯</td><td>413</td><td> 399</td><td>  16</td><td>558</td><td>  24</td><td> 893</td><td>297</td><td>  6</td><td>1971</td><td>-42</td></tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="section" id="Distances">
+<h2>Distances<a class="headerlink" href="#Distances" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Pairwise-distance-between-first-3-patinets">
+<h3>Pairwise distance between first 3 patinets<a class="headerlink" href="#Pairwise-distance-between-first-3-patinets" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dist<span class="p">(</span>golub<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">,])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>          39        40
+40 101530.75
+42  94405.04  89502.29
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dist<span class="p">(</span>golub<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">,],</span> diag <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>          39        40        42
+39      0.00
+40 101530.75      0.00
+42  94405.04  89502.29      0.00
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dist<span class="p">(</span>golub<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">,],</span> diag <span class="o">=</span> <span class="kc">TRUE</span><span class="p">,</span> upper<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>          39        40        42
+39      0.00 101530.75  94405.04
+40 101530.75      0.00  89502.29
+42  94405.04  89502.29      0.00
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Manual-calculation">
+<h3>Manual calculation<a class="headerlink" href="#Manual-calculation" title="Permalink to this headline">¶</a></h3>
+<p>Euclidean distance is just the n-dimensional application of Pythagoras theorem.</p>
+<p>If we have points <span class="math notranslate nohighlight">\(x = (0,0)\)</span> and <span class="math notranslate nohighlight">\(y = (3, 4)\)</span>, then the distance between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[\sqrt{(3-0)^2 + (4-0)^2} = 5\]</div>
+<p>We write a vectorized calculation of the above.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>distance <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">,</span> y<span class="p">)</span> <span class="p">{</span> <span class="kp">sqrt</span><span class="p">(</span><span class="kp">sum</span><span class="p">((</span>x <span class="o">-</span> y<span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">))}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>x <span class="o">&lt;-</span> golub<span class="p">[</span><span class="m">1</span><span class="p">,]</span>
+y <span class="o">&lt;-</span> golub<span class="p">[</span><span class="m">2</span><span class="p">,]</span>
+<span class="kp">round</span><span class="p">(</span>distance<span class="p">(</span>x<span class="p">,</span> y<span class="p">),</span> <span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+101530.75</div>
+</div>
+</div>
+</div>
+<div class="section" id="Ordination">
+<h2>Ordination<a class="headerlink" href="#Ordination" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="MDS">
+<h3>MDS<a class="headerlink" href="#MDS" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>mds <span class="o">&lt;-</span> <span class="kp">as.data.frame</span><span class="p">(</span>cmdscale<span class="p">(</span>dist<span class="p">(</span>golub<span class="p">),</span> k <span class="o">=</span> <span class="m">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">dim</span><span class="p">(</span>mds<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>72</li>
+    <li>2</li>
+</ol></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>phenotype <span class="o">&lt;-</span> Golub_Merge<span class="o">@</span>phenoData<span class="o">@</span>data<span class="o">$</span>ALL.AML
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>mds <span class="o">&lt;-</span> mds <span class="o">%&gt;%</span> mutate<span class="p">(</span>phenotype<span class="o">=</span>phenotype<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">head</span><span class="p">(</span>mds<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 6 × 3</caption>
+<thead>
+    <tr><th scope=col>V1</th><th scope=col>V2</th><th scope=col>phenotype</th></tr>
+    <tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td> 23228.24839</td><td>-10207.142</td><td>ALL</td></tr>
+    <tr><td>  7327.10741</td><td> -8114.544</td><td>ALL</td></tr>
+    <tr><td> -5088.36719</td><td> -2548.717</td><td>ALL</td></tr>
+    <tr><td> 46738.68452</td><td> -8792.756</td><td>ALL</td></tr>
+    <tr><td>-39906.71218</td><td>-23179.919</td><td>ALL</td></tr>
+    <tr><td>   -37.91955</td><td> -9771.907</td><td>ALL</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>plot<span class="p">(</span>mds<span class="o">$</span>V1<span class="p">,</span> mds<span class="o">$</span>V2<span class="p">,</span> type<span class="o">=</span><span class="s">&quot;n&quot;</span><span class="p">)</span>
+text<span class="p">(</span>mds<span class="o">$</span>V1<span class="p">,</span> mds<span class="o">$</span>V2<span class="p">,</span> labels <span class="o">=</span> mds<span class="o">$</span>phenotype<span class="p">,</span> col<span class="o">=</span><span class="kp">as.integer</span><span class="p">(</span>mds<span class="o">$</span>phenotype<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_28_0.png" src="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_28_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="PCA">
+<h3>PCA<a class="headerlink" href="#PCA" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>pca <span class="o">&lt;-</span> <span class="kp">as.data.frame</span><span class="p">(</span>prcomp<span class="p">(</span>golub<span class="p">,</span> center<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> scale<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> rank<span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">$</span>x<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">dim</span><span class="p">(</span>pca<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>72</li>
+    <li>2</li>
+</ol></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>pca <span class="o">&lt;-</span> pca <span class="o">%&gt;%</span> mutate<span class="p">(</span>phenotype<span class="o">=</span>phenotype<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">head</span><span class="p">(</span>pca<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 6 × 3</caption>
+<thead>
+    <tr><th scope=col>PC1</th><th scope=col>PC2</th><th scope=col>phenotype</th></tr>
+    <tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td> -5.829016</td><td> 18.985914</td><td>ALL</td></tr>
+    <tr><td> -8.364993</td><td> 22.877479</td><td>ALL</td></tr>
+    <tr><td> 12.928473</td><td> -3.996856</td><td>ALL</td></tr>
+    <tr><td> 32.254056</td><td> -5.525024</td><td>ALL</td></tr>
+    <tr><td> -4.218081</td><td>-56.824360</td><td>ALL</td></tr>
+    <tr><td>-65.275849</td><td> 22.817599</td><td>ALL</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>plot<span class="p">(</span>pca<span class="o">$</span>PC1<span class="p">,</span> pca<span class="o">$</span>PC2<span class="p">,</span> type<span class="o">=</span><span class="s">&quot;n&quot;</span><span class="p">)</span>
+text<span class="p">(</span>pca<span class="o">$</span>PC1<span class="p">,</span> pca<span class="o">$</span>PC2<span class="p">,</span> labels <span class="o">=</span> pca<span class="o">$</span>phenotype<span class="p">,</span> col<span class="o">=</span><span class="kp">as.integer</span><span class="p">(</span>pca<span class="o">$</span>phenotype<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_34_0.png" src="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_34_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Preserving-the-distances">
+<h2>Preserving the distances<a class="headerlink" href="#Preserving-the-distances" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Scale-to-have-zero-mean-and-unit-standard-deviation">
+<h3>Scale to have zero mean and unit standard deviation<a class="headerlink" href="#Scale-to-have-zero-mean-and-unit-standard-deviation" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>scexpdat <span class="o">&lt;-</span> <span class="kp">scale</span><span class="p">(</span>golub<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">dim</span><span class="p">(</span>scexpdat<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>72</li>
+    <li>7129</li>
+</ol></div>
+</div>
+</div>
+<div class="section" id="Check">
+<h3>Check<a class="headerlink" href="#Check" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">apply</span><span class="p">(</span>scexpdat<span class="p">[,</span> <span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">],</span> <span class="m">2</span><span class="p">,</span> <span class="kp">mean</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<dl class=dl-horizontal>
+    <dt>AFFX-BioB-5_at</dt>
+            <dd>-7.84141692068388e-17</dd>
+    <dt>AFFX-BioB-M_at</dt>
+            <dd>-4.46028727069731e-18</dd>
+    <dt>AFFX-BioB-3_at</dt>
+            <dd>1.49183207261304e-17</dd>
+    <dt>AFFX-BioC-5_at</dt>
+            <dd>-5.05117745470191e-17</dd>
+</dl></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">apply</span><span class="p">(</span>scexpdat<span class="p">[,</span> <span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">],</span> <span class="m">2</span><span class="p">,</span> sd<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<dl class=dl-horizontal>
+    <dt>AFFX-BioB-5_at</dt>
+            <dd>1</dd>
+    <dt>AFFX-BioB-M_at</dt>
+            <dd>1</dd>
+    <dt>AFFX-BioB-3_at</dt>
+            <dd>1</dd>
+    <dt>AFFX-BioC-5_at</dt>
+            <dd>1</dd>
+</dl></div>
+</div>
+</div>
+<div class="section" id="Using-dplyr">
+<h3>Using <code class="docutils literal notranslate"><span class="pre">dplyr</span></code><a class="headerlink" href="#Using-dplyr" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">as.data.frame</span><span class="p">(</span>scexpdat<span class="p">)</span> <span class="o">%&gt;%</span>
+select<span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">)</span> <span class="o">%&gt;%</span>
+summarise_all<span class="p">(</span><span class="kp">mean</span><span class="p">)</span> <span class="o">%&gt;%</span>
+<span class="kp">round</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 1 × 4</caption>
+<thead>
+    <tr><th scope=col>AFFX-BioB-5_at</th><th scope=col>AFFX-BioB-M_at</th><th scope=col>AFFX-BioB-3_at</th><th scope=col>AFFX-BioC-5_at</th></tr>
+    <tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">as.data.frame</span><span class="p">(</span>scexpdat<span class="p">)</span> <span class="o">%&gt;%</span>
+select<span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">)</span> <span class="o">%&gt;%</span>
+summarise_all<span class="p">(</span>sd<span class="p">)</span> <span class="o">%&gt;%</span>
+<span class="kp">round</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 1 × 4</caption>
+<thead>
+    <tr><th scope=col>AFFX-BioB-5_at</th><th scope=col>AFFX-BioB-M_at</th><th scope=col>AFFX-BioB-3_at</th><th scope=col>AFFX-BioC-5_at</th></tr>
+    <tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="section" id="Clustering">
+<h2>Clustering<a class="headerlink" href="#Clustering" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Agglomerative-hierarchical-clustering-(AHC)">
+<h3>Agglomerative hierarchical clustering (AHC)<a class="headerlink" href="#Agglomerative-hierarchical-clustering-(AHC)" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>names <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;ATL&quot;</span><span class="p">,</span> <span class="s">&quot;BOS&quot;</span><span class="p">,</span> <span class="s">&quot;ORD&quot;</span><span class="p">,</span> <span class="s">&quot;DCA&quot;</span><span class="p">)</span>
+airports <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">934</span><span class="p">,</span> <span class="m">585</span><span class="p">,</span> <span class="m">542</span><span class="p">,</span> <span class="m">934</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">853</span><span class="p">,</span> <span class="m">392</span><span class="p">,</span>
+              <span class="m">585</span><span class="p">,</span> <span class="m">853</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">598</span><span class="p">,</span> <span class="m">542</span><span class="p">,</span> <span class="m">392</span><span class="p">,</span> <span class="m">598</span><span class="p">,</span> <span class="m">0</span><span class="p">)</span>
+airports <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span>airports<span class="p">,</span> ncol<span class="o">=</span><span class="m">4</span><span class="p">,</span> byrow<span class="o">=</span><span class="bp">F</span><span class="p">,</span> dimnames <span class="o">=</span> <span class="kt">list</span><span class="p">(</span><span class="kp">names</span><span class="p">,</span> <span class="kp">names</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>airports
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 4 × 4 of type dbl</caption>
+<thead>
+    <tr><th></th><th scope=col>ATL</th><th scope=col>BOS</th><th scope=col>ORD</th><th scope=col>DCA</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>ATL</th><td>  0</td><td>934</td><td>585</td><td>542</td></tr>
+    <tr><th scope=row>BOS</th><td>934</td><td>  0</td><td>853</td><td>392</td></tr>
+    <tr><th scope=row>ORD</th><td>585</td><td>853</td><td>  0</td><td>598</td></tr>
+    <tr><th scope=row>DCA</th><td>542</td><td>392</td><td>598</td><td>  0</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>as.dist<span class="p">(</span>airports<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>    ATL BOS ORD
+BOS 934
+ORD 585 853
+DCA 542 392 598
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>tree <span class="o">&lt;-</span> hclust<span class="p">(</span>as.dist<span class="p">(</span>airports<span class="p">),</span> method<span class="o">=</span><span class="s">&quot;single&quot;</span><span class="p">)</span>
+plot<span class="p">(</span>tree<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_50_0.png" src="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_50_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>tree <span class="o">&lt;-</span> hclust<span class="p">(</span>as.dist<span class="p">(</span>airports<span class="p">),</span> method<span class="o">=</span><span class="s">&quot;complete&quot;</span><span class="p">)</span>
+plot<span class="p">(</span>tree<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_51_0.png" src="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_51_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Road-trip-USA">
+<h3>Road-trip USA<a class="headerlink" href="#Road-trip-USA" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>plot<span class="p">(</span>hclust<span class="p">(</span>UScitiesD<span class="p">,</span> method<span class="o">=</span><span class="s">&quot;complete&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_53_0.png" src="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_53_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="A-trip-to-Europe">
+<h3>A trip to Europe<a class="headerlink" href="#A-trip-to-Europe" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>plot<span class="p">(</span>hclust<span class="p">(</span>eurodist<span class="p">,</span> method<span class="o">=</span><span class="s">&quot;complete&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_55_0.png" src="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_55_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>eurotree <span class="o">&lt;-</span> hclust<span class="p">(</span>eurodist<span class="p">,</span> method<span class="o">=</span><span class="s">&quot;complete&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Find-clusters-by-height">
+<h4>Find clusters by height<a class="headerlink" href="#Find-clusters-by-height" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>groups <span class="o">&lt;-</span> cutree<span class="p">(</span>tree <span class="o">=</span> eurotree<span class="p">,</span> h <span class="o">=</span> <span class="m">1500</span><span class="p">)</span>
+<span class="kt">data.frame</span><span class="p">(</span>groups<span class="p">)</span> <span class="o">%&gt;%</span>
+rownames_to_column<span class="p">(</span><span class="s">&quot;city&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span>
+arrange<span class="p">(</span>groups<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 21 × 2</caption>
+<thead>
+    <tr><th scope=col>city</th><th scope=col>groups</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>Athens         </td><td>1</td></tr>
+    <tr><td>Rome           </td><td>1</td></tr>
+    <tr><td>Barcelona      </td><td>2</td></tr>
+    <tr><td>Geneva         </td><td>2</td></tr>
+    <tr><td>Lyons          </td><td>2</td></tr>
+    <tr><td>Marseilles     </td><td>2</td></tr>
+    <tr><td>Milan          </td><td>2</td></tr>
+    <tr><td>Brussels       </td><td>3</td></tr>
+    <tr><td>Calais         </td><td>3</td></tr>
+    <tr><td>Cherbourg      </td><td>3</td></tr>
+    <tr><td>Cologne        </td><td>3</td></tr>
+    <tr><td>Hook of Holland</td><td>3</td></tr>
+    <tr><td>Paris          </td><td>3</td></tr>
+    <tr><td>Copenhagen     </td><td>4</td></tr>
+    <tr><td>Hamburg        </td><td>4</td></tr>
+    <tr><td>Stockholm      </td><td>4</td></tr>
+    <tr><td>Gibraltar      </td><td>5</td></tr>
+    <tr><td>Lisbon         </td><td>5</td></tr>
+    <tr><td>Madrid         </td><td>5</td></tr>
+    <tr><td>Munich         </td><td>6</td></tr>
+    <tr><td>Vienna         </td><td>6</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>plot<span class="p">(</span>eurotree<span class="p">)</span>
+rect.hclust<span class="p">(</span>eurotree<span class="p">,</span> h<span class="o">=</span><span class="m">1500</span><span class="p">,</span> border <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_59_0.png" src="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_59_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Find-clusters-by-number">
+<h4>Find clusters by number<a class="headerlink" href="#Find-clusters-by-number" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>groups <span class="o">&lt;-</span> cutree<span class="p">(</span>tree <span class="o">=</span> eurotree<span class="p">,</span> k <span class="o">=</span> <span class="m">8</span><span class="p">)</span>
+<span class="kt">data.frame</span><span class="p">(</span>groups<span class="p">)</span> <span class="o">%&gt;%</span>
+rownames_to_column<span class="p">(</span><span class="s">&quot;city&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span>
+arrange<span class="p">(</span>groups<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 21 × 2</caption>
+<thead>
+    <tr><th scope=col>city</th><th scope=col>groups</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>Athens         </td><td>1</td></tr>
+    <tr><td>Rome           </td><td>1</td></tr>
+    <tr><td>Barcelona      </td><td>2</td></tr>
+    <tr><td>Marseilles     </td><td>2</td></tr>
+    <tr><td>Brussels       </td><td>3</td></tr>
+    <tr><td>Calais         </td><td>3</td></tr>
+    <tr><td>Cherbourg      </td><td>3</td></tr>
+    <tr><td>Cologne        </td><td>3</td></tr>
+    <tr><td>Hook of Holland</td><td>3</td></tr>
+    <tr><td>Paris          </td><td>3</td></tr>
+    <tr><td>Copenhagen     </td><td>4</td></tr>
+    <tr><td>Hamburg        </td><td>4</td></tr>
+    <tr><td>Geneva         </td><td>5</td></tr>
+    <tr><td>Lyons          </td><td>5</td></tr>
+    <tr><td>Milan          </td><td>5</td></tr>
+    <tr><td>Gibraltar      </td><td>6</td></tr>
+    <tr><td>Lisbon         </td><td>6</td></tr>
+    <tr><td>Madrid         </td><td>6</td></tr>
+    <tr><td>Munich         </td><td>7</td></tr>
+    <tr><td>Vienna         </td><td>7</td></tr>
+    <tr><td>Stockholm      </td><td>8</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>plot<span class="p">(</span>eurotree<span class="p">)</span>
+rect.hclust<span class="p">(</span>eurotree<span class="p">,</span> k<span class="o">=</span><span class="m">8</span><span class="p">,</span> border <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_62_0.png" src="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_62_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="k-means-clustering">
+<h3>k-means clustering<a class="headerlink" href="#k-means-clustering" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>kmeans.golub <span class="o">&lt;-</span> kmeans<span class="p">(</span>golub<span class="p">,</span> centers<span class="o">=</span><span class="m">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>plot<span class="p">(</span>mds<span class="o">$</span>V1<span class="p">,</span> mds<span class="o">$</span>V2<span class="p">,</span> type<span class="o">=</span><span class="s">&quot;n&quot;</span><span class="p">)</span>
+text<span class="p">(</span>mds<span class="o">$</span>V1<span class="p">,</span> mds<span class="o">$</span>V2<span class="p">,</span> labels <span class="o">=</span> mds<span class="o">$</span>phenotype<span class="p">,</span> col<span class="o">=</span><span class="kp">as.integer</span><span class="p">(</span>kmeans.golub<span class="o">$</span>cluster<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_65_0.png" src="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_65_0.png" />
+</div>
+</div>
+<div class="section" id="Grouped-by-data-source">
+<h4>Grouped by data source<a class="headerlink" href="#Grouped-by-data-source" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>plot<span class="p">(</span>mds<span class="o">$</span>V1<span class="p">,</span> mds<span class="o">$</span>V2<span class="p">,</span> type<span class="o">=</span><span class="s">&quot;n&quot;</span><span class="p">)</span>
+text<span class="p">(</span>mds<span class="o">$</span>V1<span class="p">,</span> mds<span class="o">$</span>V2<span class="p">,</span> labels <span class="o">=</span> mds<span class="o">$</span>phenotype<span class="p">,</span>
+     col<span class="o">=</span><span class="kp">as.integer</span><span class="p">(</span>Golub_Merge<span class="o">@</span>phenoData<span class="o">@</span>data<span class="o">$</span>Source<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_67_0.png" src="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_67_0.png" />
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Semi-supervised-learning-(Noise-discovery)">
+<h2>Semi-supervised learning (Noise discovery)<a class="headerlink" href="#Semi-supervised-learning-(Noise-discovery)" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">suppressPackageStartupMessages</span><span class="p">(</span><span class="kn">library</span><span class="p">(</span>genefilter<span class="p">))</span>
+<span class="kp">suppressPackageStartupMessages</span><span class="p">(</span><span class="kn">library</span><span class="p">(</span>pheatmap<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Simulate-noise-data-set">
+<h3>Simulate noise data set<a class="headerlink" href="#Simulate-noise-data-set" title="Permalink to this headline">¶</a></h3>
+<p>Note that EVERY expression value is drawn from a standard normal distribution. Hence there should not be any meaningful distinction between the “groups”.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>m <span class="o">&lt;-</span> <span class="m">20000</span> <span class="c1"># number of genes</span>
+n <span class="o">&lt;-</span> <span class="m">20</span> <span class="c1"># number of subjects</span>
+alpha <span class="o">&lt;-</span> <span class="m">0.005</span>
+
+grp <span class="o">&lt;-</span> <span class="kp">factor</span><span class="p">(</span><span class="kp">rep</span><span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="s">&#39;Y&#39;</span><span class="p">),</span> <span class="kt">c</span><span class="p">(</span>n<span class="p">,</span> n<span class="p">)))</span>
+genes <span class="o">&lt;-</span> <span class="kp">paste</span><span class="p">(</span><span class="s">&quot;Gene&quot;</span><span class="p">,</span> <span class="m">1</span><span class="o">:</span>m<span class="p">,</span> sep<span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+subjects <span class="o">&lt;-</span> <span class="kp">paste</span><span class="p">(</span><span class="s">&quot;PID&quot;</span><span class="p">,</span> <span class="m">1</span><span class="o">:</span><span class="p">(</span><span class="m">2</span><span class="o">*</span>n<span class="p">),</span> sep<span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+expr <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span>rnorm<span class="p">(</span><span class="m">2</span> <span class="o">*</span> n <span class="o">*</span> m<span class="p">),</span> m<span class="p">,</span> <span class="m">2</span> <span class="o">*</span> n<span class="p">)</span>
+<span class="kp">rownames</span><span class="p">(</span>expr<span class="p">)</span> <span class="o">&lt;-</span> genes
+<span class="kp">colnames</span><span class="p">(</span>expr<span class="p">)</span> <span class="o">&lt;-</span> subjects
+</pre></div>
+</div>
+</div>
+<div class="section" id="Find-genes-that-are-different-across-group-at-specified-significance-level">
+<h4>Find genes that are different across group at specified significance level<a class="headerlink" href="#Find-genes-that-are-different-across-group-at-specified-significance-level" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>pvals <span class="o">&lt;-</span> rowttests<span class="p">(</span>expr<span class="p">,</span> grp<span class="p">)</span><span class="o">$</span>p.value
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>df <span class="o">&lt;-</span> <span class="kt">data.frame</span><span class="p">(</span>expr<span class="p">,</span> pvals<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>top.genes <span class="o">&lt;-</span> df <span class="o">%&gt;%</span>
+filter<span class="p">(</span>pvals <span class="o">&lt;</span> alpha<span class="p">)</span> <span class="o">%&gt;%</span>
+select<span class="p">(</span><span class="o">-</span>pvals<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">dim</span><span class="p">(</span>top.genes<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>92</li>
+    <li>40</li>
+</ol></div>
+</div>
+</div>
+<div class="section" id="Show-heatmap-and-AHC-clustering-for-top-genes">
+<h4>Show heatmap and AHC clustering for top genes<a class="headerlink" href="#Show-heatmap-and-AHC-clustering-for-top-genes" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>annot <span class="o">&lt;-</span> <span class="kt">data.frame</span><span class="p">(</span>grp<span class="o">=</span>grp<span class="p">,</span> row.names<span class="o">=</span><span class="kp">colnames</span><span class="p">(</span>top.genes<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">head</span><span class="p">(</span>annot<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 6 × 1</caption>
+<thead>
+    <tr><th></th><th scope=col>grp</th></tr>
+    <tr><th></th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>PID1</th><td>N</td></tr>
+    <tr><th scope=row>PID2</th><td>N</td></tr>
+    <tr><th scope=row>PID3</th><td>N</td></tr>
+    <tr><th scope=row>PID4</th><td>N</td></tr>
+    <tr><th scope=row>PID5</th><td>N</td></tr>
+    <tr><th scope=row>PID6</th><td>N</td></tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="section" id="Simple-version-of-heatmap">
+<h4>Simple version of heatmap<a class="headerlink" href="#Simple-version-of-heatmap" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>pheatmap<span class="p">(</span>top.genes<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_81_0.png" src="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_81_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Fancy-version-of-heatmap">
+<h4>Fancy version of heatmap<a class="headerlink" href="#Fancy-version-of-heatmap" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>pheatmap<span class="p">(</span>top.genes<span class="p">,</span>
+         annotation_col <span class="o">=</span> annot<span class="p">,</span>
+         color <span class="o">=</span> colorRampPalette<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;red3&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">,</span> <span class="s">&quot;green3&quot;</span><span class="p">))(</span><span class="m">50</span><span class="p">),</span>
+         annotation_colors <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>grp <span class="o">=</span> <span class="kt">c</span><span class="p">(</span>Y <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> N <span class="o">=</span> <span class="s">&quot;yellow&quot;</span><span class="p">)),</span>
+         show_rownames <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span> show_colnames <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_83_0.png" src="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_83_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="MDS-of-top-genes">
+<h3>MDS of top genes<a class="headerlink" href="#MDS-of-top-genes" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>mds <span class="o">&lt;-</span> cmdscale<span class="p">(</span>dist<span class="p">(</span><span class="kp">t</span><span class="p">(</span>top.genes<span class="p">)))</span>
+plot<span class="p">(</span>mds<span class="p">,</span> col<span class="o">=</span><span class="kp">as.integer</span><span class="p">(</span>grp<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_85_0.png" src="../_images/cliburn_R05_Unsupervised_Learning_More_Examples_85_0.png" />
+</div>
+</div>
+<p><strong>Exercise 1</strong></p>
+<p>Load the <code class="docutils literal notranslate"><span class="pre">iris</span></code> data set. Each row has 4 features and a Species label.</p>
+<ul class="simple">
+<li><p>Reduce the dimensionality of the features to 2 using each of the methods described above (PCA, MDS).</p></li>
+<li><p>Plot scatter plots for each method, coloring by Species.</p></li>
+<li><p>Are the Species separate in these dimensionality-reduced plots?</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<p><strong>Exercise 2</strong></p>
+<p>Load the <code class="docutils literal notranslate"><span class="pre">iris</span></code> data set. Each row has 4 features and a Species label.</p>
+<ul class="simple">
+<li><p>Scale the data to have zero mean and unit standard deviation</p></li>
+<li><p>Calculate a pairwise distance matrix (explore different distance measures)</p></li>
+<li><p>Perform hierarchical clustering (explore different linkage measures)</p></li>
+<li><p>Plot a dendrogram for the hierarchical clustering, showing 3 clusters (see the <code class="docutils literal notranslate"><span class="pre">rect.hclust</span></code> function)</p></li>
+<li><p>Create a scatter plot of the first two features colored by the cluster label (see teh <code class="docutils literal notranslate"><span class="pre">cutree</span></code> function)</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<p><strong>Exercise 3</strong></p>
+<p>Load the <code class="docutils literal notranslate"><span class="pre">iris</span></code> data set. Each row has 4 features and a Species label.</p>
+<ul class="simple">
+<li><p>Scale the data to have zero mean and unit standard deviation</p></li>
+<li><p>Perform k-means clustering using 2,3,4 and 10 clusters</p></li>
+<li><p>Create a scatter plot of the first two features colored by the cluster label for each cluster number</p></li>
+<li><p>How could you assess how many clusters is appropriate?</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="R06_Graphics_Overview.html" class="btn btn-neutral float-right" title="R Graphics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="R04_Unsupervised_Learning.html" class="btn btn-neutral float-left" title="Unsupervised Learning" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

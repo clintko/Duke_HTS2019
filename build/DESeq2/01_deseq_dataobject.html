@@ -1,0 +1,1363 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>DESeq2: Create Data Objects &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DESeq2: Basic Differential Expression (DE) analysis" href="02_deseq_DE.html" />
+    <link rel="prev" title="DESeq2: Create count matrix and metadata data frame" href="00_deseq_prepare_data.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Quick Intro of Analysis Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../janice/1_IntroToCompBoot.html">Duke HTS Summer Course 2018</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/2_Intro_to_Unix_and_bash.html">Introduction to Unix and bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/3_IntroductionToR.html">Introduction to R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/4_Rlibraries_and_bioconductor.html">R libraries and Bioconductor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/5_Tidyverse_HandsOn-Filled.html">Hands-On Tidyverse - with count data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/6_Statistical_Inference.html">Simulations and Statistical Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/7_Statistical_Inference_Solutions.html">Estimation and Hypothesis Testing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix01_File_And_Directory_Solutions.html">Working with Unix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix03_File_Storage_Solutions.html">File archival and recovery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix04_Text_Manipulation_Solutinos.html">Working with text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Analysis of Pilot Data (Gene Count, DESeq2 &amp; DE Analysis)</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="8_Pilot2019_getstarcounts-KO.html">Get Star Count of the Pilot 2019 Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00_deseq_prepare_data.html">DESeq2: Create count matrix and metadata data frame</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">DESeq2: Create Data Objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Objective:-Create-a-DESeqDataSet-object">Objective: Create a DESeqDataSet object</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Initial-note">Initial note</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Load-packages">Load packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Load-the-2019-pilot-count-objects-from-the-image-file">Load the 2019 pilot count objects from the image file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Check-dimensions-of-the-two-objects">Check dimensions of the two objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Create-columnData-object">Create columnData object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Reorder-the-columns-of-the-count-matrix-according-to-the-order-of-Label-in-columnData">Reorder the columns of the count matrix according to the order of Label in columnData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Reorder-the-columns-of-countData">Reorder the columns of countData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#make-sure-that-labels-match">make sure that labels match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Make-DESeq-object-on-the-basis-of-the-counts">Make DESeq object on the basis of the counts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="02_deseq_DE.html">DESeq2: Basic Differential Expression (DE) analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_deseq_interaction.html">DESeq2: Basic Differential Expression (DE) analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-deseq2-plots.html">Generate figures from DESEq2 analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>DESeq2: Create Data Objects</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/DESeq2/01_deseq_dataobject.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="DESeq2:-Create-Data-Objects">
+<h1>DESeq2: Create Data Objects<a class="headerlink" href="#DESeq2:-Create-Data-Objects" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Objective:-Create-a-DESeqDataSet-object">
+<h2>Objective: Create a DESeqDataSet object<a class="headerlink" href="#Objective:-Create-a-DESeqDataSet-object" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Initial-note">
+<h3>Initial note<a class="headerlink" href="#Initial-note" title="Permalink to this headline">¶</a></h3>
+<p>First step is to create a countData and colData object (see ? DESeqDataSet)</p>
+<p>countData: for matrix input: a matrix of non-negative integers</p>
+<p>colData: for matrix input: a ‘DataFrame’ or ‘data.frame’ with at least a single column. Rows of colData correspond to columns of countData</p>
+</div>
+<div class="section" id="Load-packages">
+<h3>Load packages<a class="headerlink" href="#Load-packages" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">library</span><span class="p">(</span>tidyverse<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>DESeq2<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Registered S3 methods overwritten by &#39;ggplot2&#39;:
+  method         from
+  [.quosures     rlang
+  c.quosures     rlang
+  print.quosures rlang
+── <span class="ansi-bold">Attaching packages</span> ─────────────────────────────────────── tidyverse 1.2.1 ──
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">ggplot2</span> 3.1.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">purrr  </span> 0.3.2
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tibble </span> 2.1.2     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">dplyr  </span> 0.8.1
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tidyr  </span> 0.8.3     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">stringr</span> 1.4.0
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">readr  </span> 1.3.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">forcats</span> 0.4.0
+── <span class="ansi-bold">Conflicts</span> ────────────────────────────────────────── tidyverse_conflicts() ──
+<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">filter()</span> masks <span class="ansi-blue-fg">stats</span>::filter()
+<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">lag()</span>    masks <span class="ansi-blue-fg">stats</span>::lag()
+Loading required package: S4Vectors
+Loading required package: stats4
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:dplyr’:
+
+    combine, intersect, setdiff, union
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+    union, unique, unsplit, which, which.max, which.min
+
+
+Attaching package: ‘S4Vectors’
+
+The following objects are masked from ‘package:dplyr’:
+
+    first, rename
+
+The following object is masked from ‘package:tidyr’:
+
+    expand
+
+The following object is masked from ‘package:base’:
+
+    expand.grid
+
+Loading required package: IRanges
+
+Attaching package: ‘IRanges’
+
+The following objects are masked from ‘package:dplyr’:
+
+    collapse, desc, slice
+
+The following object is masked from ‘package:purrr’:
+
+    reduce
+
+Loading required package: GenomicRanges
+Loading required package: GenomeInfoDb
+Loading required package: SummarizedExperiment
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    &#39;browseVignettes()&#39;. To cite Bioconductor, see
+    &#39;citation(&#34;Biobase&#34;)&#39;, and for packages &#39;citation(&#34;pkgname&#34;)&#39;.
+
+Loading required package: DelayedArray
+Loading required package: matrixStats
+
+Attaching package: ‘matrixStats’
+
+The following objects are masked from ‘package:Biobase’:
+
+    anyMissing, rowMedians
+
+The following object is masked from ‘package:dplyr’:
+
+    count
+
+Loading required package: BiocParallel
+
+Attaching package: ‘DelayedArray’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges
+
+The following object is masked from ‘package:purrr’:
+
+    simplify
+
+The following objects are masked from ‘package:base’:
+
+    aperm, apply, rowsum
+
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Load-the-2019-pilot-count-objects-from-the-image-file">
+<h3>Load the 2019 pilot count objects from the image file<a class="headerlink" href="#Load-the-2019-pilot-count-objects-from-the-image-file" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>curdir <span class="o">&lt;-</span> <span class="s">&quot;/home/jovyan/work/scratch/analysis_output&quot;</span>
+
+imgdir <span class="o">&lt;-</span> <span class="kp">file.path</span><span class="p">(</span>curdir<span class="p">,</span> <span class="s">&quot;img&quot;</span><span class="p">)</span>
+
+imgfile <span class="o">&lt;-</span> <span class="kp">file.path</span><span class="p">(</span>imgdir<span class="p">,</span> <span class="s">&quot;pilotcnt2019.RData&quot;</span><span class="p">)</span>
+
+imgfile
+
+<span class="kn">attach</span><span class="p">(</span>imgfile<span class="p">)</span>
+
+tools<span class="o">::</span>md5sum<span class="p">(</span>imgfile<span class="p">)</span>
+
+<span class="c1">### List the objects that have been attached</span>
+<span class="kp">ls</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
+
+cnt2019 <span class="o">&lt;-</span> cnt2019
+mtdf2019 <span class="o">&lt;-</span> mtdf2019
+
+<span class="kn">detach</span><span class="p">(</span>pos <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+'/home/jovyan/work/scratch/analysis_output/img/pilotcnt2019.RData'</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<strong>/home/jovyan/work/scratch/analysis_output/img/pilotcnt2019.RData:</strong> '0d1cdfc8bb97baf52ca4f8f33e2c0ae4'</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>'cnt2019'</li>
+    <li>'mtdf2019'</li>
+</ol></div>
+</div>
+</div>
+<div class="section" id="Check-dimensions-of-the-two-objects">
+<h3>Check dimensions of the two objects<a class="headerlink" href="#Check-dimensions-of-the-two-objects" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">dim</span><span class="p">(</span>cnt2019<span class="p">)</span>
+<span class="kp">dim</span><span class="p">(</span>mtdf2019<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>24</li>
+    <li>8500</li>
+</ol></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>24</li>
+    <li>22</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>mtdf2019 <span class="o">%&gt;%</span> <span class="kp">head</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 6 × 22</caption>
+<thead>
+    <tr><th scope=col>Label</th><th scope=col>sample_year</th><th scope=col>group</th><th scope=col>enrich_rep</th><th scope=col>RNA_sample_num</th><th scope=col>genotype</th><th scope=col>condition</th><th scope=col>libprep_person</th><th scope=col>enrichment_method</th><th scope=col>enrichment_short</th><th scope=col>⋯</th><th scope=col>i5_primer</th><th scope=col>i7_primer</th><th scope=col>library_num</th><th scope=col>bio_replicate</th><th scope=col>Nanodrop_260_280</th><th scope=col>Nanodrop_260_230</th><th scope=col>Nanodrop_concentration_ng_ul</th><th scope=col>Bioanalyzer_concentration_ng_ul</th><th scope=col>RIN_normal_threshold</th><th scope=col>RIN_lowered_threshold</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>⋯</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>1_2019_P_M1</td><td>2019</td><td>P</td><td>1</td><td>1</td><td>WT</td><td>pH4</td><td>C</td><td>mRNA</td><td>M</td><td>⋯</td><td>i501</td><td>i701</td><td>1</td><td>1</td><td>2.14</td><td>1.52</td><td>293</td><td>197</td><td>N/A</td><td> 9.8</td></tr>
+    <tr><td>2_2019_P_M1</td><td>2019</td><td>P</td><td>1</td><td>2</td><td>WT</td><td>pH4</td><td>C</td><td>mRNA</td><td>M</td><td>⋯</td><td>i502</td><td>i701</td><td>2</td><td>2</td><td>2.12</td><td>1.79</td><td>290</td><td>225</td><td>N/A</td><td> 9.9</td></tr>
+    <tr><td>3_2019_P_M1</td><td>2019</td><td>P</td><td>1</td><td>3</td><td>WT</td><td>pH4</td><td>C</td><td>mRNA</td><td>M</td><td>⋯</td><td>i503</td><td>i701</td><td>3</td><td>3</td><td>2.11</td><td>2.49</td><td>302</td><td>241</td><td>N/A</td><td> 9.9</td></tr>
+    <tr><td>4_2019_P_M1</td><td>2019</td><td>P</td><td>1</td><td>4</td><td>WT</td><td>pH4</td><td>P</td><td>mRNA</td><td>M</td><td>⋯</td><td>i504</td><td>i701</td><td>4</td><td>4</td><td>2.13</td><td>1.15</td><td>296</td><td>189</td><td>N/A</td><td> 9.7</td></tr>
+    <tr><td>5_2019_P_M1</td><td>2019</td><td>P</td><td>1</td><td>5</td><td>WT</td><td>pH4</td><td>P</td><td>mRNA</td><td>M</td><td>⋯</td><td>i505</td><td>i701</td><td>5</td><td>5</td><td>2.09</td><td>2.42</td><td>337</td><td>268</td><td>10 </td><td>10.0</td></tr>
+    <tr><td>6_2019_P_M1</td><td>2019</td><td>P</td><td>1</td><td>6</td><td>WT</td><td>pH4</td><td>P</td><td>mRNA</td><td>M</td><td>⋯</td><td>i506</td><td>i701</td><td>6</td><td>6</td><td>2.08</td><td>2.40</td><td>319</td><td>276</td><td>10 </td><td>10.0</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>cnt2019<span class="p">[,</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 24 × 5</caption>
+<thead>
+    <tr><th scope=col>Label</th><th scope=col>CNAG_00001</th><th scope=col>CNAG_00002</th><th scope=col>CNAG_00003</th><th scope=col>CNAG_00004</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>1_2019_P_M1 </td><td>0</td><td>158</td><td>201</td><td>904</td></tr>
+    <tr><td>10_2019_P_M1</td><td>0</td><td>119</td><td>131</td><td>513</td></tr>
+    <tr><td>11_2019_P_M1</td><td>0</td><td> 90</td><td>121</td><td>573</td></tr>
+    <tr><td>12_2019_P_M1</td><td>0</td><td> 81</td><td>151</td><td>533</td></tr>
+    <tr><td>13_2019_P_M1</td><td>0</td><td>188</td><td>215</td><td>474</td></tr>
+    <tr><td>14_2019_P_M1</td><td>0</td><td>177</td><td>154</td><td>440</td></tr>
+    <tr><td>15_2019_P_M1</td><td>0</td><td>216</td><td>197</td><td>425</td></tr>
+    <tr><td>16_2019_P_M1</td><td>0</td><td>224</td><td>195</td><td>548</td></tr>
+    <tr><td>17_2019_P_M1</td><td>0</td><td>234</td><td>211</td><td>517</td></tr>
+    <tr><td>18_2019_P_M1</td><td>0</td><td>338</td><td>201</td><td>464</td></tr>
+    <tr><td>19_2019_P_M1</td><td>0</td><td>191</td><td>118</td><td>458</td></tr>
+    <tr><td>2_2019_P_M1 </td><td>0</td><td>204</td><td>156</td><td>902</td></tr>
+    <tr><td>20_2019_P_M1</td><td>0</td><td>201</td><td>133</td><td>405</td></tr>
+    <tr><td>21_2019_P_M1</td><td>0</td><td>192</td><td>109</td><td>339</td></tr>
+    <tr><td>22_2019_P_M1</td><td>0</td><td>166</td><td>113</td><td>406</td></tr>
+    <tr><td>23_2019_P_M1</td><td>0</td><td>202</td><td>154</td><td>442</td></tr>
+    <tr><td>24_2019_P_M1</td><td>0</td><td>235</td><td>169</td><td>523</td></tr>
+    <tr><td>3_2019_P_M1 </td><td>0</td><td>149</td><td>161</td><td>941</td></tr>
+    <tr><td>4_2019_P_M1 </td><td>0</td><td>176</td><td>171</td><td>795</td></tr>
+    <tr><td>5_2019_P_M1 </td><td>0</td><td>161</td><td>162</td><td>849</td></tr>
+    <tr><td>6_2019_P_M1 </td><td>0</td><td>148</td><td>103</td><td>688</td></tr>
+    <tr><td>7_2019_P_M1 </td><td>0</td><td>172</td><td>172</td><td>768</td></tr>
+    <tr><td>8_2019_P_M1 </td><td>0</td><td>169</td><td>170</td><td>744</td></tr>
+    <tr><td>9_2019_P_M1 </td><td>0</td><td>124</td><td>175</td><td>659</td></tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="section" id="Create-columnData-object">
+<h3>Create columnData object<a class="headerlink" href="#Create-columnData-object" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># columnData --- metadata</span>
+mtdf2019 <span class="o">%&gt;%</span>
+    DataFrame <span class="o">-&gt;</span>
+        columnData2019
+
+<span class="c1">### Add the labels as rownames</span>
+<span class="kp">rownames</span><span class="p">(</span>columnData2019<span class="p">)</span> <span class="o">&lt;-</span> columnData2019<span class="p">[[</span><span class="s">&quot;Label&quot;</span><span class="p">]]</span>
+
+columnData2019<span class="p">[,</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;Label&quot;</span><span class="p">,</span> <span class="s">&quot;genotype&quot;</span><span class="p">,</span> <span class="s">&quot;condition&quot;</span><span class="p">)]</span> <span class="o">%&gt;%</span> <span class="kp">head</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>DataFrame with 6 rows and 3 columns
+                  Label    genotype   condition
+            &lt;character&gt; &lt;character&gt; &lt;character&gt;
+1_2019_P_M1 1_2019_P_M1          WT         pH4
+2_2019_P_M1 2_2019_P_M1          WT         pH4
+3_2019_P_M1 3_2019_P_M1          WT         pH4
+4_2019_P_M1 4_2019_P_M1          WT         pH4
+5_2019_P_M1 5_2019_P_M1          WT         pH4
+6_2019_P_M1 6_2019_P_M1          WT         pH4
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Note that libraries are across rows and libraries across columns</span>
+<span class="c1">### DESeq2 requires that the matrix is transposed as that the gene names become row names</span>
+cnt2019<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">,</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 4 × 5</caption>
+<thead>
+    <tr><th scope=col>Label</th><th scope=col>CNAG_00001</th><th scope=col>CNAG_00002</th><th scope=col>CNAG_00003</th><th scope=col>CNAG_00004</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>1_2019_P_M1 </td><td>0</td><td>158</td><td>201</td><td>904</td></tr>
+    <tr><td>10_2019_P_M1</td><td>0</td><td>119</td><td>131</td><td>513</td></tr>
+    <tr><td>11_2019_P_M1</td><td>0</td><td> 90</td><td>121</td><td>573</td></tr>
+    <tr><td>12_2019_P_M1</td><td>0</td><td> 81</td><td>151</td><td>533</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Transpose the count matrix (so that libraries are across the columns and genes across rows)</span>
+<span class="c1">### Note that as.matrix() converts the tibble to a matrix object</span>
+cnt2019 <span class="o">%&gt;%</span>
+    gather<span class="p">(</span>key <span class="o">=</span> gene<span class="p">,</span> value <span class="o">=</span> value<span class="p">,</span> <span class="m">2</span><span class="o">:</span><span class="kp">ncol</span><span class="p">(</span>cnt2019<span class="p">))</span> <span class="o">%&gt;%</span>
+            spread_<span class="p">(</span>key <span class="o">=</span> <span class="kp">names</span><span class="p">(</span>cnt2019<span class="p">)[</span><span class="m">1</span><span class="p">],</span>value <span class="o">=</span> <span class="s">&#39;value&#39;</span><span class="p">)</span> <span class="o">%&gt;%</span>
+                column_to_rownames<span class="p">(</span><span class="s">&quot;gene&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span>
+                    as.matrix <span class="o">-&gt;</span>
+                        countData2019
+
+countData2019<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="m">1</span><span class="o">:</span><span class="m">6</span><span class="p">]</span>
+
+
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 5 × 6 of type int</caption>
+<thead>
+    <tr><th></th><th scope=col>1_2019_P_M1</th><th scope=col>10_2019_P_M1</th><th scope=col>11_2019_P_M1</th><th scope=col>12_2019_P_M1</th><th scope=col>13_2019_P_M1</th><th scope=col>14_2019_P_M1</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>CNAG_00001</th><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td></tr>
+    <tr><th scope=row>CNAG_00002</th><td>158</td><td>119</td><td> 90</td><td> 81</td><td>188</td><td>177</td></tr>
+    <tr><th scope=row>CNAG_00003</th><td>201</td><td>131</td><td>121</td><td>151</td><td>215</td><td>154</td></tr>
+    <tr><th scope=row>CNAG_00004</th><td>904</td><td>513</td><td>573</td><td>533</td><td>474</td><td>440</td></tr>
+    <tr><th scope=row>CNAG_00005</th><td> 22</td><td> 24</td><td> 18</td><td> 20</td><td> 25</td><td> 13</td></tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="section" id="Reorder-the-columns-of-the-count-matrix-according-to-the-order-of-Label-in-columnData">
+<h3>Reorder the columns of the count matrix according to the order of Label in columnData<a class="headerlink" href="#Reorder-the-columns-of-the-count-matrix-according-to-the-order-of-Label-in-columnData" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### The two sets coincide</span>
+<span class="kp">setequal</span><span class="p">(</span>columnData2019<span class="p">[[</span><span class="s">&quot;Label&quot;</span><span class="p">]],</span> <span class="kp">colnames</span><span class="p">(</span>countData2019<span class="p">))</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+TRUE</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### but they are identical as they follow different orders</span>
+<span class="kp">identical</span><span class="p">(</span>columnData2019<span class="p">[[</span><span class="s">&quot;Label&quot;</span><span class="p">]],</span> <span class="kp">colnames</span><span class="p">(</span>countData2019<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+FALSE</div>
+</div>
+</div>
+<div class="section" id="Reorder-the-columns-of-countData">
+<h3>Reorder the columns of countData<a class="headerlink" href="#Reorder-the-columns-of-countData" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>countData2019 <span class="o">&lt;-</span> countData2019<span class="p">[,</span>columnData2019<span class="p">[[</span><span class="s">&quot;Label&quot;</span><span class="p">]]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>countData2019<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">,</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 4 × 5 of type int</caption>
+<thead>
+    <tr><th></th><th scope=col>1_2019_P_M1</th><th scope=col>2_2019_P_M1</th><th scope=col>3_2019_P_M1</th><th scope=col>4_2019_P_M1</th><th scope=col>5_2019_P_M1</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>CNAG_00001</th><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td></tr>
+    <tr><th scope=row>CNAG_00002</th><td>158</td><td>204</td><td>149</td><td>176</td><td>161</td></tr>
+    <tr><th scope=row>CNAG_00003</th><td>201</td><td>156</td><td>161</td><td>171</td><td>162</td></tr>
+    <tr><th scope=row>CNAG_00004</th><td>904</td><td>902</td><td>941</td><td>795</td><td>849</td></tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="section" id="make-sure-that-labels-match">
+<h3>make sure that labels match<a class="headerlink" href="#make-sure-that-labels-match" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### The two variables coincide</span>
+<span class="kp">setequal</span><span class="p">(</span>columnData2019<span class="p">[[</span><span class="s">&quot;Label&quot;</span><span class="p">]],</span> <span class="kp">colnames</span><span class="p">(</span>countData2019<span class="p">))</span>
+<span class="c1">### but they are identical as they follow different orders</span>
+<span class="kp">identical</span><span class="p">(</span>columnData2019<span class="p">[[</span><span class="s">&quot;Label&quot;</span><span class="p">]],</span> <span class="kp">colnames</span><span class="p">(</span>countData2019<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+TRUE</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+TRUE</div>
+</div>
+</div>
+<div class="section" id="Make-DESeq-object-on-the-basis-of-the-counts">
+<h3>Make DESeq object on the basis of the counts<a class="headerlink" href="#Make-DESeq-object-on-the-basis-of-the-counts" title="Permalink to this headline">¶</a></h3>
+<p>The design option allows you to specify an additive or a multiplicitive model</p>
+<p>Additive model</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds_add <span class="o">&lt;-</span> DESeqDataSetFromMatrix<span class="p">(</span>
+    countData2019<span class="p">,</span>                      <span class="c1"># Count matrix</span>
+    columnData2019<span class="p">,</span>                     <span class="c1"># metadata</span>
+    <span class="o">~</span> condition <span class="o">+</span> genotype<span class="p">)</span>             <span class="c1"># design formula</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Warning message in DESeqDataSet(se, design = design, ignoreRank):
+“some variables in design formula are characters, converting to factors”
+</pre></div></div>
+</div>
+<p>Inspect object</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds_add
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class: DESeqDataSet
+dim: 8499 24
+metadata(1): version
+assays(1): counts
+rownames(8499): CNAG_00001 CNAG_00002 ... large_MTrRNA small_MTrRNA
+rowData names(0):
+colnames(24): 1_2019_P_M1 2_2019_P_M1 ... 23_2019_P_M1 24_2019_P_M1
+colData names(22): Label sample_year ... RIN_normal_threshold
+  RIN_lowered_threshold
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>slotNames<span class="p">(</span>dds_add<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>'design'</li>
+    <li>'dispersionFunction'</li>
+    <li>'rowRanges'</li>
+    <li>'colData'</li>
+    <li>'assays'</li>
+    <li>'NAMES'</li>
+    <li>'elementMetadata'</li>
+    <li>'metadata'</li>
+</ol></div>
+</div>
+<p>Check design</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds_add<span class="o">@</span>design
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>~condition + genotype
+</pre></div>
+</div>
+</div>
+<p>Check column data</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds_add<span class="o">@</span>colData
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>DataFrame with 24 rows and 22 columns
+                    Label sample_year       group enrich_rep RNA_sample_num
+              &lt;character&gt;   &lt;numeric&gt; &lt;character&gt;  &lt;numeric&gt;      &lt;numeric&gt;
+1_2019_P_M1   1_2019_P_M1        2019           P          1              1
+2_2019_P_M1   2_2019_P_M1        2019           P          1              2
+3_2019_P_M1   3_2019_P_M1        2019           P          1              3
+4_2019_P_M1   4_2019_P_M1        2019           P          1              4
+5_2019_P_M1   5_2019_P_M1        2019           P          1              5
+...                   ...         ...         ...        ...            ...
+20_2019_P_M1 20_2019_P_M1        2019           P          1             20
+21_2019_P_M1 21_2019_P_M1        2019           P          1             21
+22_2019_P_M1 22_2019_P_M1        2019           P          1             22
+23_2019_P_M1 23_2019_P_M1        2019           P          1             23
+24_2019_P_M1 24_2019_P_M1        2019           P          1             24
+             genotype condition libprep_person enrichment_method
+             &lt;factor&gt;  &lt;factor&gt;    &lt;character&gt;       &lt;character&gt;
+1_2019_P_M1        WT       pH4              C              mRNA
+2_2019_P_M1        WT       pH4              C              mRNA
+3_2019_P_M1        WT       pH4              C              mRNA
+4_2019_P_M1        WT       pH4              P              mRNA
+5_2019_P_M1        WT       pH4              P              mRNA
+...               ...       ...            ...               ...
+20_2019_P_M1    sre1d       pH8              C              mRNA
+21_2019_P_M1    sre1d       pH8              C              mRNA
+22_2019_P_M1    sre1d       pH8              P              mRNA
+23_2019_P_M1    sre1d       pH8              P              mRNA
+24_2019_P_M1    sre1d       pH8              P              mRNA
+             enrichment_short    i7_index    i5_index   i5_primer   i7_primer
+                  &lt;character&gt; &lt;character&gt; &lt;character&gt; &lt;character&gt; &lt;character&gt;
+1_2019_P_M1                 M    ATTACTCG    AGGCTATA        i501        i701
+2_2019_P_M1                 M    ATTACTCG    GCCTCTAT        i502        i701
+3_2019_P_M1                 M    ATTACTCG    AGGATAGG        i503        i701
+4_2019_P_M1                 M    ATTACTCG    TCAGAGCC        i504        i701
+5_2019_P_M1                 M    ATTACTCG    CTTCGCCT        i505        i701
+...                       ...         ...         ...         ...         ...
+20_2019_P_M1                M    CGCTCATT    TCAGAGCC        i504        i703
+21_2019_P_M1                M    CGCTCATT    CTTCGCCT        i505        i703
+22_2019_P_M1                M    CGCTCATT    TAAGATTA        i506        i703
+23_2019_P_M1                M    CGCTCATT    ACGTCCTG        i507        i703
+24_2019_P_M1                M    CGCTCATT    GTCAGTAC        i508        i703
+             library_num bio_replicate Nanodrop_260_280 Nanodrop_260_230
+               &lt;numeric&gt;     &lt;numeric&gt;        &lt;numeric&gt;        &lt;numeric&gt;
+1_2019_P_M1            1             1             2.14             1.52
+2_2019_P_M1            2             2             2.12             1.79
+3_2019_P_M1            3             3             2.11             2.49
+4_2019_P_M1            4             4             2.13             1.15
+5_2019_P_M1            5             5             2.09             2.42
+...                  ...           ...              ...              ...
+20_2019_P_M1          20             2             2.14             2.39
+21_2019_P_M1          21             3             2.01             2.22
+22_2019_P_M1          22             4             2.22             2.33
+23_2019_P_M1          23             5             2.13             2.56
+24_2019_P_M1          24             6             2.11             2.16
+             Nanodrop_concentration_ng_ul Bioanalyzer_concentration_ng_ul
+                                &lt;numeric&gt;                       &lt;numeric&gt;
+1_2019_P_M1                           293                             197
+2_2019_P_M1                           290                             225
+3_2019_P_M1                           302                             241
+4_2019_P_M1                           296                             189
+5_2019_P_M1                           337                             268
+...                                   ...                             ...
+20_2019_P_M1                          172                             131
+21_2019_P_M1                          397                             295
+22_2019_P_M1                          567                             499
+23_2019_P_M1                          254                             206
+24_2019_P_M1                          215                             336
+             RIN_normal_threshold RIN_lowered_threshold
+                      &lt;character&gt;             &lt;numeric&gt;
+1_2019_P_M1                   N/A                   9.8
+2_2019_P_M1                   N/A                   9.9
+3_2019_P_M1                   N/A                   9.9
+4_2019_P_M1                   N/A                   9.7
+5_2019_P_M1                    10                    10
+...                           ...                   ...
+20_2019_P_M1                  N/A                    10
+21_2019_P_M1                  N/A                    10
+22_2019_P_M1                   10                    10
+23_2019_P_M1                  N/A                    10
+24_2019_P_M1                   10                    10
+</pre></div>
+</div>
+</div>
+<p>Get count matrix</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>counts<span class="p">(</span>dds_add<span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">,</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 10 × 10 of type int</caption>
+<thead>
+    <tr><th></th><th scope=col>1_2019_P_M1</th><th scope=col>2_2019_P_M1</th><th scope=col>3_2019_P_M1</th><th scope=col>4_2019_P_M1</th><th scope=col>5_2019_P_M1</th><th scope=col>6_2019_P_M1</th><th scope=col>7_2019_P_M1</th><th scope=col>8_2019_P_M1</th><th scope=col>9_2019_P_M1</th><th scope=col>10_2019_P_M1</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>CNAG_00001</th><td>   0</td><td>   0</td><td>   0</td><td>   0</td><td>   0</td><td>   0</td><td>   0</td><td>   0</td><td>   0</td><td>   0</td></tr>
+    <tr><th scope=row>CNAG_00002</th><td> 158</td><td> 204</td><td> 149</td><td> 176</td><td> 161</td><td> 148</td><td> 172</td><td> 169</td><td> 124</td><td> 119</td></tr>
+    <tr><th scope=row>CNAG_00003</th><td> 201</td><td> 156</td><td> 161</td><td> 171</td><td> 162</td><td> 103</td><td> 172</td><td> 170</td><td> 175</td><td> 131</td></tr>
+    <tr><th scope=row>CNAG_00004</th><td> 904</td><td> 902</td><td> 941</td><td> 795</td><td> 849</td><td> 688</td><td> 768</td><td> 744</td><td> 659</td><td> 513</td></tr>
+    <tr><th scope=row>CNAG_00005</th><td>  22</td><td>  33</td><td>  12</td><td>  15</td><td>  26</td><td>  13</td><td>  29</td><td>  33</td><td>  21</td><td>  24</td></tr>
+    <tr><th scope=row>CNAG_00006</th><td>5964</td><td>4854</td><td>4362</td><td>4489</td><td>4368</td><td>4171</td><td>4859</td><td>4267</td><td>4239</td><td>3712</td></tr>
+    <tr><th scope=row>CNAG_00007</th><td>3119</td><td>3496</td><td>2628</td><td>2437</td><td>2498</td><td>2594</td><td>2505</td><td>2383</td><td>2086</td><td>2021</td></tr>
+    <tr><th scope=row>CNAG_00008</th><td>1481</td><td>1744</td><td>1602</td><td>1391</td><td>1433</td><td>1183</td><td>1313</td><td>1389</td><td> 981</td><td> 934</td></tr>
+    <tr><th scope=row>CNAG_00009</th><td> 494</td><td> 750</td><td> 541</td><td> 436</td><td> 502</td><td> 522</td><td> 490</td><td> 470</td><td> 404</td><td> 433</td></tr>
+    <tr><th scope=row>CNAG_00010</th><td>1527</td><td>1613</td><td>1564</td><td>1319</td><td>1286</td><td>1020</td><td> 949</td><td>1227</td><td> 757</td><td> 682</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>Change design: multiplicative model</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds_mult <span class="o">&lt;-</span> DESeqDataSetFromMatrix<span class="p">(</span>
+    countData2019<span class="p">,</span>                       <span class="c1"># Count matrix</span>
+    columnData2019<span class="p">,</span>                      <span class="c1"># metadata</span>
+    <span class="o">~</span> condition <span class="o">+</span> genotype <span class="o">+</span> condition<span class="o">:</span>genotype<span class="p">)</span> <span class="c1"># design formula</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Warning message in DESeqDataSet(se, design = design, ignoreRank):
+“some variables in design formula are characters, converting to factors”
+</pre></div></div>
+</div>
+<p>In the following demonstration, we will use the additive model. The multiplicitive model will be illustrated in the appendix below.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds2019 <span class="o">&lt;-</span> dds_add
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>curdir <span class="o">&lt;-</span> <span class="s">&quot;/home/jovyan/work/scratch/analysis_output&quot;</span>
+imgdir <span class="o">&lt;-</span> <span class="kp">file.path</span><span class="p">(</span>curdir<span class="p">,</span> <span class="s">&quot;img&quot;</span><span class="p">)</span>
+
+imgfile <span class="o">&lt;-</span> <span class="kp">file.path</span><span class="p">(</span>imgdir<span class="p">,</span> <span class="s">&quot;pilotdds2019.RData&quot;</span><span class="p">)</span>
+
+imgfile
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+'/home/jovyan/work/scratch/analysis_output/img/pilotdds2019.RData'</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">save</span><span class="p">(</span>dds2019<span class="p">,</span> file <span class="o">=</span> imgfile<span class="p">)</span>
+tools<span class="o">::</span>md5sum<span class="p">(</span>imgfile<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<strong>/home/jovyan/work/scratch/analysis_output/img/pilotdds2019.RData:</strong> '6632de5c8a2eed06d8c40c958e6f5d03'</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>sessionInfo<span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>R version 3.6.0 (2019-04-26)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Debian GNU/Linux 9 (stretch)
+
+Matrix products: default
+BLAS:   /usr/lib/openblas-base/libblas.so.3
+LAPACK: /usr/lib/libopenblasp-r0.2.19.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C
+
+attached base packages:
+[1] parallel  stats4    stats     graphics  grDevices utils     datasets
+[8] methods   base
+
+other attached packages:
+ [1] DESeq2_1.24.0               SummarizedExperiment_1.14.0
+ [3] DelayedArray_0.10.0         BiocParallel_1.18.0
+ [5] matrixStats_0.54.0          Biobase_2.44.0
+ [7] GenomicRanges_1.36.0        GenomeInfoDb_1.20.0
+ [9] IRanges_2.18.1              S4Vectors_0.22.0
+[11] BiocGenerics_0.30.0         forcats_0.4.0
+[13] stringr_1.4.0               dplyr_0.8.1
+[15] purrr_0.3.2                 readr_1.3.1
+[17] tidyr_0.8.3                 tibble_2.1.2
+[19] ggplot2_3.1.1               tidyverse_1.2.1
+
+loaded via a namespace (and not attached):
+ [1] nlme_3.1-139           bitops_1.0-6           bit64_0.9-7
+ [4] lubridate_1.7.4        RColorBrewer_1.1-2     httr_1.4.0
+ [7] repr_1.0.1             tools_3.6.0            backports_1.1.4
+[10] R6_2.4.0               rpart_4.1-15           DBI_1.0.0
+[13] Hmisc_4.2-0            lazyeval_0.2.2         colorspace_1.4-1
+[16] nnet_7.3-12            withr_2.1.2            tidyselect_0.2.5
+[19] gridExtra_2.3          bit_1.1-14             compiler_3.6.0
+[22] cli_1.1.0              rvest_0.3.4            htmlTable_1.13.1
+[25] xml2_1.2.0             scales_1.0.0           checkmate_1.9.3
+[28] genefilter_1.66.0      pbdZMQ_0.3-3           digest_0.6.19
+[31] foreign_0.8-71         XVector_0.24.0         base64enc_0.1-3
+[34] pkgconfig_2.0.2        htmltools_0.3.6        htmlwidgets_1.3
+[37] rlang_0.3.4            readxl_1.3.1           RSQLite_2.1.1
+[40] rstudioapi_0.10        generics_0.0.2         jsonlite_1.6
+[43] acepack_1.4.1          RCurl_1.95-4.12        magrittr_1.5
+[46] GenomeInfoDbData_1.2.1 Formula_1.2-3          Matrix_1.2-17
+[49] Rcpp_1.0.1             IRkernel_1.0.1         munsell_0.5.0
+[52] stringi_1.4.3          zlibbioc_1.30.0        plyr_1.8.4
+[55] blob_1.1.1             grid_3.6.0             crayon_1.3.4
+[58] lattice_0.20-38        IRdisplay_0.7.0        haven_2.1.0
+[61] splines_3.6.0          annotate_1.62.0        hms_0.4.2
+[64] locfit_1.5-9.1         zeallot_0.1.0          knitr_1.23
+[67] pillar_1.4.1           uuid_0.1-2             geneplotter_1.62.0
+[70] XML_3.98-1.19          glue_1.3.1             evaluate_0.14
+[73] latticeExtra_0.6-28    data.table_1.12.2      modelr_0.1.4
+[76] vctrs_0.1.0            cellranger_1.1.0       gtable_0.3.0
+[79] assertthat_0.2.1       xfun_0.7               xtable_1.8-4
+[82] broom_0.5.2            survival_2.44-1.1      memoise_1.1.0
+[85] AnnotationDbi_1.46.0   cluster_2.0.8
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="02_deseq_DE.html" class="btn btn-neutral float-right" title="DESeq2: Basic Differential Expression (DE) analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="00_deseq_prepare_data.html" class="btn btn-neutral float-left" title="DESeq2: Create count matrix and metadata data frame" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

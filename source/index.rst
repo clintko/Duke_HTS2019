@@ -66,7 +66,14 @@ Source materials can bd cloned from the `HTS2019 GitLab Repository <https://gitl
 
 .. toctree::
    :maxdepth: 2
-   :caption: Gene Count & DESeq2
+   :caption: Analysis of Pilot Data (Gene Count, DESeq2 & DE Analysis)
+
+   DESeq2/8_Pilot2019_getstarcounts-KO.ipynb
+   DESeq2/00_deseq_prepare_data.ipynb
+   DESeq2/01_deseq_dataobject.ipynb
+   DESeq2/02_deseq_DE.ipynb
+   DESeq2/03_deseq_interaction.ipynb
+   DESeq2/04-deseq2-plots.ipynb
 
 .. toctree::
    :maxdepth: 2
@@ -76,9 +83,7 @@ Source materials can bd cloned from the `HTS2019 GitLab Repository <https://gitl
    computing/git_lesson.ipynb
    computing/git_in_class.ipynb
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Analysis of Pilot Data
+
 
 
 Indices and tables

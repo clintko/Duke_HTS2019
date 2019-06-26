@@ -1,0 +1,2485 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>DESeq2: Basic Differential Expression (DE) analysis &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DESeq2: Basic Differential Expression (DE) analysis" href="03_deseq_interaction.html" />
+    <link rel="prev" title="DESeq2: Create Data Objects" href="01_deseq_dataobject.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Quick Intro of Analysis Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../janice/1_IntroToCompBoot.html">Duke HTS Summer Course 2018</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/2_Intro_to_Unix_and_bash.html">Introduction to Unix and bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/3_IntroductionToR.html">Introduction to R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/4_Rlibraries_and_bioconductor.html">R libraries and Bioconductor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/5_Tidyverse_HandsOn-Filled.html">Hands-On Tidyverse - with count data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/6_Statistical_Inference.html">Simulations and Statistical Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/7_Statistical_Inference_Solutions.html">Estimation and Hypothesis Testing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix01_File_And_Directory_Solutions.html">Working with Unix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix03_File_Storage_Solutions.html">File archival and recovery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix04_Text_Manipulation_Solutinos.html">Working with text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Analysis of Pilot Data (Gene Count, DESeq2 &amp; DE Analysis)</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="8_Pilot2019_getstarcounts-KO.html">Get Star Count of the Pilot 2019 Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00_deseq_prepare_data.html">DESeq2: Create count matrix and metadata data frame</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_deseq_dataobject.html">DESeq2: Create Data Objects</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">DESeq2: Basic Differential Expression (DE) analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Objective:-Carry-out-a-basic-set-of-DE-analyses-using-DESeq2-and-visualize-the-results">Objective: Carry out a basic set of DE analyses using DESeq2 and visualize the results</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Load-packages">Load packages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Load-the-2019-pilot-dds-object-from-image-file">Load the 2019 pilot dds object from image file</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Check-dimensions-of-the-two-objects">Check dimensions of the two objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Inspect-object-&amp;-Slots-of-an-S4-class">Inspect object &amp; Slots of an S4 class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Estimate-Size-Factors-and-Dispersion-Parameters">Estimate Size Factors and Dispersion Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#01-Size-Factors">01 Size Factors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#02-Dispersion-Parameters">02 Dispersion Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Differential-Expression-Analysis">Differential Expression Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Look-at-some-of-the-results-(tidy-version)">Look at some of the results (tidy version)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Visualize-DE-effect">Visualize DE effect</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Clustering">Clustering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Regularized-log-transformation">Regularized log transformation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Dendrogram-of-samples:-showing-strain-&amp;-media-of-each-sample">Dendrogram of samples: showing strain &amp; media of each sample</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Customize-presentation">Customize presentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03_deseq_interaction.html">DESeq2: Basic Differential Expression (DE) analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-deseq2-plots.html">Generate figures from DESEq2 analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>DESeq2: Basic Differential Expression (DE) analysis</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/DESeq2/02_deseq_DE.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="DESeq2:-Basic-Differential-Expression-(DE)-analysis">
+<h1>DESeq2: Basic Differential Expression (DE) analysis<a class="headerlink" href="#DESeq2:-Basic-Differential-Expression-(DE)-analysis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Objective:-Carry-out-a-basic-set-of-DE-analyses-using-DESeq2-and-visualize-the-results">
+<h2>Objective: Carry out a basic set of DE analyses using DESeq2 and visualize the results<a class="headerlink" href="#Objective:-Carry-out-a-basic-set-of-DE-analyses-using-DESeq2-and-visualize-the-results" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Load-packages">
+<h3>Load packages<a class="headerlink" href="#Load-packages" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">library</span><span class="p">(</span>tidyverse<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>DESeq2<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>dendextend<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>RColorBrewer<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Registered S3 methods overwritten by &#39;ggplot2&#39;:
+  method         from
+  [.quosures     rlang
+  c.quosures     rlang
+  print.quosures rlang
+── <span class="ansi-bold">Attaching packages</span> ─────────────────────────────────────── tidyverse 1.2.1 ──
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">ggplot2</span> 3.1.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">purrr  </span> 0.3.2
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tibble </span> 2.1.2     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">dplyr  </span> 0.8.1
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tidyr  </span> 0.8.3     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">stringr</span> 1.4.0
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">readr  </span> 1.3.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">forcats</span> 0.4.0
+── <span class="ansi-bold">Conflicts</span> ────────────────────────────────────────── tidyverse_conflicts() ──
+<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">filter()</span> masks <span class="ansi-blue-fg">stats</span>::filter()
+<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">lag()</span>    masks <span class="ansi-blue-fg">stats</span>::lag()
+Loading required package: S4Vectors
+Loading required package: stats4
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:dplyr’:
+
+    combine, intersect, setdiff, union
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+    union, unique, unsplit, which, which.max, which.min
+
+
+Attaching package: ‘S4Vectors’
+
+The following objects are masked from ‘package:dplyr’:
+
+    first, rename
+
+The following object is masked from ‘package:tidyr’:
+
+    expand
+
+The following object is masked from ‘package:base’:
+
+    expand.grid
+
+Loading required package: IRanges
+
+Attaching package: ‘IRanges’
+
+The following objects are masked from ‘package:dplyr’:
+
+    collapse, desc, slice
+
+The following object is masked from ‘package:purrr’:
+
+    reduce
+
+Loading required package: GenomicRanges
+Loading required package: GenomeInfoDb
+Loading required package: SummarizedExperiment
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    &#39;browseVignettes()&#39;. To cite Bioconductor, see
+    &#39;citation(&#34;Biobase&#34;)&#39;, and for packages &#39;citation(&#34;pkgname&#34;)&#39;.
+
+Loading required package: DelayedArray
+Loading required package: matrixStats
+
+Attaching package: ‘matrixStats’
+
+The following objects are masked from ‘package:Biobase’:
+
+    anyMissing, rowMedians
+
+The following object is masked from ‘package:dplyr’:
+
+    count
+
+Loading required package: BiocParallel
+
+Attaching package: ‘DelayedArray’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges
+
+The following object is masked from ‘package:purrr’:
+
+    simplify
+
+The following objects are masked from ‘package:base’:
+
+    aperm, apply, rowsum
+
+
+---------------------
+Welcome to dendextend version 1.12.0
+Type citation(&#39;dendextend&#39;) for how to cite the package.
+
+Type browseVignettes(package = &#39;dendextend&#39;) for the package vignette.
+The github page is: https://github.com/talgalili/dendextend/
+
+Suggestions and bug-reports can be submitted at: https://github.com/talgalili/dendextend/issues
+Or contact: &lt;tal.galili@gmail.com&gt;
+
+        To suppress this message use:  suppressPackageStartupMessages(library(dendextend))
+---------------------
+
+
+Attaching package: ‘dendextend’
+
+The following object is masked from ‘package:stats’:
+
+    cutree
+
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Load-the-2019-pilot-dds-object-from-image-file">
+<h2>Load the 2019 pilot dds object from image file<a class="headerlink" href="#Load-the-2019-pilot-dds-object-from-image-file" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+
+<span></span>curdir <span class="o">&lt;-</span> <span class="s">&quot;/home/jovyan/work/scratch/analysis_output&quot;</span>
+imgdir <span class="o">&lt;-</span> <span class="kp">file.path</span><span class="p">(</span>curdir<span class="p">,</span> <span class="s">&quot;img&quot;</span><span class="p">)</span>
+
+imgfile <span class="o">&lt;-</span> <span class="kp">file.path</span><span class="p">(</span>imgdir<span class="p">,</span> <span class="s">&quot;pilotdds2019.RData&quot;</span><span class="p">)</span>
+
+imgfile
+
+<span class="kn">attach</span><span class="p">(</span>imgfile<span class="p">)</span>
+
+tools<span class="o">::</span>md5sum<span class="p">(</span>imgfile<span class="p">)</span>
+
+<span class="c1">### List the objects that have been attached</span>
+<span class="kp">ls</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
+
+dds2019 <span class="o">&lt;-</span> dds2019
+
+<span class="kn">detach</span><span class="p">(</span>pos <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+'/home/jovyan/work/scratch/analysis_output/img/pilotdds2019.RData'</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<strong>/home/jovyan/work/scratch/analysis_output/img/pilotdds2019.RData:</strong> '6632de5c8a2eed06d8c40c958e6f5d03'</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+'dds2019'</div>
+</div>
+<div class="section" id="Check-dimensions-of-the-two-objects">
+<h3>Check dimensions of the two objects<a class="headerlink" href="#Check-dimensions-of-the-two-objects" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="Inspect-object-&amp;-Slots-of-an-S4-class">
+<h3>Inspect object &amp; Slots of an S4 class<a class="headerlink" href="#Inspect-object-&-Slots-of-an-S4-class" title="Permalink to this headline">¶</a></h3>
+<p>Let’s has a look at the object we have created.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds2019
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class: DESeqDataSet
+dim: 8499 24
+metadata(1): version
+assays(1): counts
+rownames(8499): CNAG_00001 CNAG_00002 ... large_MTrRNA small_MTrRNA
+rowData names(0):
+colnames(24): 1_2019_P_M1 2_2019_P_M1 ... 23_2019_P_M1 24_2019_P_M1
+colData names(22): Label sample_year ... RIN_normal_threshold
+  RIN_lowered_threshold
+</pre></div>
+</div>
+</div>
+<p>see the class of dds object</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">class</span><span class="p">(</span>dds2019<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+'DESeqDataSet'</div>
+</div>
+<p>DESeqDataSet is a S4 object. Recall that a S4 object was taught when introducing bioconductor. Note that S4 objects allow users to wrap up multiple elements into a single variables where each element is called a slot.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>slotNames<span class="p">(</span>dds2019<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>'design'</li>
+    <li>'dispersionFunction'</li>
+    <li>'rowRanges'</li>
+    <li>'colData'</li>
+    <li>'assays'</li>
+    <li>'NAMES'</li>
+    <li>'elementMetadata'</li>
+    <li>'metadata'</li>
+</ol></div>
+</div>
+<p>The metadata (columnData) is stored in the slot <code class="docutils literal notranslate"><span class="pre">colData</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds2019<span class="o">@</span>colData <span class="o">%&gt;%</span> as.data.frame <span class="o">%&gt;%</span> <span class="kp">head</span><span class="p">(</span><span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 3 × 22</caption>
+<thead>
+    <tr><th></th><th scope=col>Label</th><th scope=col>sample_year</th><th scope=col>group</th><th scope=col>enrich_rep</th><th scope=col>RNA_sample_num</th><th scope=col>genotype</th><th scope=col>condition</th><th scope=col>libprep_person</th><th scope=col>enrichment_method</th><th scope=col>enrichment_short</th><th scope=col>⋯</th><th scope=col>i5_primer</th><th scope=col>i7_primer</th><th scope=col>library_num</th><th scope=col>bio_replicate</th><th scope=col>Nanodrop_260_280</th><th scope=col>Nanodrop_260_230</th><th scope=col>Nanodrop_concentration_ng_ul</th><th scope=col>Bioanalyzer_concentration_ng_ul</th><th scope=col>RIN_normal_threshold</th><th scope=col>RIN_lowered_threshold</th></tr>
+    <tr><th></th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>⋯</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>1_2019_P_M1</th><td>1_2019_P_M1</td><td>2019</td><td>P</td><td>1</td><td>1</td><td>WT</td><td>pH4</td><td>C</td><td>mRNA</td><td>M</td><td>⋯</td><td>i501</td><td>i701</td><td>1</td><td>1</td><td>2.14</td><td>1.52</td><td>293</td><td>197</td><td>N/A</td><td>9.8</td></tr>
+    <tr><th scope=row>2_2019_P_M1</th><td>2_2019_P_M1</td><td>2019</td><td>P</td><td>1</td><td>2</td><td>WT</td><td>pH4</td><td>C</td><td>mRNA</td><td>M</td><td>⋯</td><td>i502</td><td>i701</td><td>2</td><td>2</td><td>2.12</td><td>1.79</td><td>290</td><td>225</td><td>N/A</td><td>9.9</td></tr>
+    <tr><th scope=row>3_2019_P_M1</th><td>3_2019_P_M1</td><td>2019</td><td>P</td><td>1</td><td>3</td><td>WT</td><td>pH4</td><td>C</td><td>mRNA</td><td>M</td><td>⋯</td><td>i503</td><td>i701</td><td>3</td><td>3</td><td>2.11</td><td>2.49</td><td>302</td><td>241</td><td>N/A</td><td>9.9</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>The design formula is stored in the slot <code class="docutils literal notranslate"><span class="pre">design</span></code>. The design holds the R formula which expresses how the counts depend on the variables in colData.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds2019<span class="o">@</span>design
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>~condition + genotype
+</pre></div>
+</div>
+</div>
+<p>The first thing you may want to do is <strong>have a look at the raw counts</strong> you have imported. The <code class="docutils literal notranslate"><span class="pre">DESeq2::counts</span></code> function extracts a matrix of counts (with the genes along the rows and samples along the columns). Let us first verify the dimension of this matrix.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">dim</span><span class="p">(</span>counts<span class="p">(</span>dds2019<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>8499</li>
+    <li>24</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">head</span><span class="p">(</span>counts<span class="p">(</span>dds2019<span class="p">),</span><span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 3 × 24 of type int</caption>
+<thead>
+    <tr><th></th><th scope=col>1_2019_P_M1</th><th scope=col>2_2019_P_M1</th><th scope=col>3_2019_P_M1</th><th scope=col>4_2019_P_M1</th><th scope=col>5_2019_P_M1</th><th scope=col>6_2019_P_M1</th><th scope=col>7_2019_P_M1</th><th scope=col>8_2019_P_M1</th><th scope=col>9_2019_P_M1</th><th scope=col>10_2019_P_M1</th><th scope=col>⋯</th><th scope=col>15_2019_P_M1</th><th scope=col>16_2019_P_M1</th><th scope=col>17_2019_P_M1</th><th scope=col>18_2019_P_M1</th><th scope=col>19_2019_P_M1</th><th scope=col>20_2019_P_M1</th><th scope=col>21_2019_P_M1</th><th scope=col>22_2019_P_M1</th><th scope=col>23_2019_P_M1</th><th scope=col>24_2019_P_M1</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>CNAG_00001</th><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>⋯</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td><td>  0</td></tr>
+    <tr><th scope=row>CNAG_00002</th><td>158</td><td>204</td><td>149</td><td>176</td><td>161</td><td>148</td><td>172</td><td>169</td><td>124</td><td>119</td><td>⋯</td><td>216</td><td>224</td><td>234</td><td>338</td><td>191</td><td>201</td><td>192</td><td>166</td><td>202</td><td>235</td></tr>
+    <tr><th scope=row>CNAG_00003</th><td>201</td><td>156</td><td>161</td><td>171</td><td>162</td><td>103</td><td>172</td><td>170</td><td>175</td><td>131</td><td>⋯</td><td>197</td><td>195</td><td>211</td><td>201</td><td>118</td><td>133</td><td>109</td><td>113</td><td>154</td><td>169</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>This slot returns gene specific information (it will be populated later)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds2019<span class="o">@</span>dispersionFunction
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre class=language-r><code>function ()
+NULL</code></pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Estimate-Size-Factors-and-Dispersion-Parameters">
+<h2>Estimate Size Factors and Dispersion Parameters<a class="headerlink" href="#Estimate-Size-Factors-and-Dispersion-Parameters" title="Permalink to this headline">¶</a></h2>
+<p>You recall that DESeq requires that we have estimates for sample specific size factors and gene specific dispersion factors. More specifically, recall that DESeq models the count <span class="math notranslate nohighlight">\(K_{ij}\)</span> (gene <span class="math notranslate nohighlight">\(i\)</span>, sample <span class="math notranslate nohighlight">\(j\)</span>) as negative binomial with mean <span class="math notranslate nohighlight">\(\mu_{ij}\)</span> and dispersion parameter <span class="math notranslate nohighlight">\(\alpha_i\)</span>. Here <span class="math notranslate nohighlight">\(\mu_{ij}=s_j q_{ij}\)</span> where <span class="math notranslate nohighlight">\(\log_2(q_{ij}) = \beta_{0i} + \beta_{1i} z_j\)</span>. Here <span class="math notranslate nohighlight">\(s_j\)</span> is the sample <span class="math notranslate nohighlight">\(j\)</span> specific size factor.</p>
+<p><strong>Summarize of notation</strong> - <span class="math notranslate nohighlight">\(K_{ij}\)</span> denotes the observed <strong>number of reads</strong> mapped to gene <span class="math notranslate nohighlight">\(i\)</span> for sample <span class="math notranslate nohighlight">\(j\)</span> - <span class="math notranslate nohighlight">\(K_{ij}\)</span> follows a <strong>negative binomial distribution</strong> with - <strong>Mean</strong> <span class="math notranslate nohighlight">\(\mu_{ij}\)</span> - <strong>Dispersion parameter</strong> <span class="math notranslate nohighlight">\(\alpha_i\)</span> - Modelling - <span class="math notranslate nohighlight">\(K_{ij} \sim NB(\mu_{ij}, \alpha_i)\)</span> - <span class="math notranslate nohighlight">\(\mu_{ij} = s_{j}q_{ij}\)</span> - <span class="math notranslate nohighlight">\(s_j\)</span> is sample <span class="math notranslate nohighlight">\(j\)</span> specific normalization constant - <span class="math notranslate nohighlight">\(\log_2(q_{ij}) = \beta_{0i} + \beta_{1i} z_j\)</span></p>
+<div class="section" id="01-Size-Factors">
+<h3>01 Size Factors<a class="headerlink" href="#01-Size-Factors" title="Permalink to this headline">¶</a></h3>
+<p>We begin by estimating the size factors <span class="math notranslate nohighlight">\(s_1,\ldots,s_n\)</span>:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds2019 <span class="o">&lt;-</span> estimateSizeFactors<span class="p">(</span>dds2019<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Now, compare the dds object to that of before applying the estimateSizeFactors() function. What has changed? What remains unchanged?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds2019
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class: DESeqDataSet
+dim: 8499 24
+metadata(1): version
+assays(1): counts
+rownames(8499): CNAG_00001 CNAG_00002 ... large_MTrRNA small_MTrRNA
+rowData names(0):
+colnames(24): 1_2019_P_M1 2_2019_P_M1 ... 23_2019_P_M1 24_2019_P_M1
+colData names(23): Label sample_year ... RIN_lowered_threshold
+  sizeFactor
+</pre></div>
+</div>
+</div>
+<p>Note that there is a <strong>sizeFactor</strong> added to <strong>colData</strong>. Let’s look at it more carefully</p>
+<p>``` &gt; dds # (before estimateSizeFactors) class: DESeqDataSet class: DESeqDataSet dim: 8499 24 metadata(1): version assays(1): counts rownames(8499): CNAG_00001 CNAG_00002 … large_MTrRNA small_MTrRNA rowData names(0): colnames(24): 1_2019_P_M1 2_2019_P_M1 … 23_2019_P_M1 24_2019_P_M1 colData names(22): Label sample_year … RIN_normal_threshold RIN_lowered_threshold</p>
+<blockquote>
+<div><p>dds # (after estimateSizeFactors) class: DESeqDataSet dim: 8499 24 metadata(1): version assays(1): counts rownames(8499): CNAG_00001 CNAG_00002 … large_MTrRNA small_MTrRNA rowData names(0): colnames(24): 1_2019_P_M1 2_2019_P_M1 … 23_2019_P_M1 24_2019_P_M1 colData names(23): Label sample_year … RIN_lowered_threshold sizeFactor</p>
+</div></blockquote>
+<p>You can also get the size factors directly</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>sizeFactors<span class="p">(</span>dds2019<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<dl class=dl-horizontal>
+    <dt>1_2019_P_M1</dt>
+            <dd>1.5916393221245</dd>
+    <dt>2_2019_P_M1</dt>
+            <dd>1.65871103315141</dd>
+    <dt>3_2019_P_M1</dt>
+            <dd>1.51289455728943</dd>
+    <dt>4_2019_P_M1</dt>
+            <dd>1.41966861598247</dd>
+    <dt>5_2019_P_M1</dt>
+            <dd>1.43738473025559</dd>
+    <dt>6_2019_P_M1</dt>
+            <dd>1.23710002282889</dd>
+    <dt>7_2019_P_M1</dt>
+            <dd>1.40148291158442</dd>
+    <dt>8_2019_P_M1</dt>
+            <dd>1.44217254922035</dd>
+    <dt>9_2019_P_M1</dt>
+            <dd>1.17444094436861</dd>
+    <dt>10_2019_P_M1</dt>
+            <dd>1.07636468283386</dd>
+    <dt>11_2019_P_M1</dt>
+            <dd>1.04216270302148</dd>
+    <dt>12_2019_P_M1</dt>
+            <dd>0.971238282275506</dd>
+    <dt>13_2019_P_M1</dt>
+            <dd>0.770986843971703</dd>
+    <dt>14_2019_P_M1</dt>
+            <dd>0.752382049912615</dd>
+    <dt>15_2019_P_M1</dt>
+            <dd>0.717679610028228</dd>
+    <dt>16_2019_P_M1</dt>
+            <dd>0.897840290244175</dd>
+    <dt>17_2019_P_M1</dt>
+            <dd>0.89364164432414</dd>
+    <dt>18_2019_P_M1</dt>
+            <dd>0.931618100592125</dd>
+    <dt>19_2019_P_M1</dt>
+            <dd>0.749435710766038</dd>
+    <dt>20_2019_P_M1</dt>
+            <dd>0.775571527912074</dd>
+    <dt>21_2019_P_M1</dt>
+            <dd>0.583832529967166</dd>
+    <dt>22_2019_P_M1</dt>
+            <dd>0.634399759403834</dd>
+    <dt>23_2019_P_M1</dt>
+            <dd>0.755186085659437</dd>
+    <dt>24_2019_P_M1</dt>
+            <dd>0.808836405192349</dd>
+</dl></div>
+</div>
+<p>It is preferable to limit the number of decimal places. Next show the size factors rounded to 3 decimal places</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">round</span><span class="p">(</span>sizeFactors<span class="p">(</span>dds2019<span class="p">),</span><span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<dl class=dl-horizontal>
+    <dt>1_2019_P_M1</dt>
+            <dd>1.592</dd>
+    <dt>2_2019_P_M1</dt>
+            <dd>1.659</dd>
+    <dt>3_2019_P_M1</dt>
+            <dd>1.513</dd>
+    <dt>4_2019_P_M1</dt>
+            <dd>1.42</dd>
+    <dt>5_2019_P_M1</dt>
+            <dd>1.437</dd>
+    <dt>6_2019_P_M1</dt>
+            <dd>1.237</dd>
+    <dt>7_2019_P_M1</dt>
+            <dd>1.401</dd>
+    <dt>8_2019_P_M1</dt>
+            <dd>1.442</dd>
+    <dt>9_2019_P_M1</dt>
+            <dd>1.174</dd>
+    <dt>10_2019_P_M1</dt>
+            <dd>1.076</dd>
+    <dt>11_2019_P_M1</dt>
+            <dd>1.042</dd>
+    <dt>12_2019_P_M1</dt>
+            <dd>0.971</dd>
+    <dt>13_2019_P_M1</dt>
+            <dd>0.771</dd>
+    <dt>14_2019_P_M1</dt>
+            <dd>0.752</dd>
+    <dt>15_2019_P_M1</dt>
+            <dd>0.718</dd>
+    <dt>16_2019_P_M1</dt>
+            <dd>0.898</dd>
+    <dt>17_2019_P_M1</dt>
+            <dd>0.894</dd>
+    <dt>18_2019_P_M1</dt>
+            <dd>0.932</dd>
+    <dt>19_2019_P_M1</dt>
+            <dd>0.749</dd>
+    <dt>20_2019_P_M1</dt>
+            <dd>0.776</dd>
+    <dt>21_2019_P_M1</dt>
+            <dd>0.584</dd>
+    <dt>22_2019_P_M1</dt>
+            <dd>0.634</dd>
+    <dt>23_2019_P_M1</dt>
+            <dd>0.755</dd>
+    <dt>24_2019_P_M1</dt>
+            <dd>0.809</dd>
+</dl></div>
+</div>
+<p>Summarize size factors</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">summary</span><span class="p">(</span>sizeFactors<span class="p">(</span>dds2019<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>  Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+0.5838  0.7670  0.9514  1.0515  1.4060  1.6587
+</pre></div>
+</div>
+</div>
+<p>Do you see a trend?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>sizeFactors<span class="p">(</span>dds2019<span class="p">)</span> <span class="o">%&gt;%</span>
+    as.data.frame <span class="o">%&gt;%</span>
+        rownames_to_column <span class="o">%&gt;%</span>
+            mutate<span class="p">(</span>libnum <span class="o">=</span> <span class="kp">as.integer</span><span class="p">(</span>str_remove<span class="p">(</span>rowname<span class="p">,</span> <span class="s">&quot;_2019_P_M1&quot;</span><span class="p">)))</span> <span class="o">-&gt;</span> mydf
+
+<span class="kp">colnames</span><span class="p">(</span>mydf<span class="p">)[</span><span class="m">2</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="s">&quot;sizefac&quot;</span>
+
+mydf
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 24 × 3</caption>
+<thead>
+    <tr><th scope=col>rowname</th><th scope=col>sizefac</th><th scope=col>libnum</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>1_2019_P_M1 </td><td>1.5916393</td><td> 1</td></tr>
+    <tr><td>2_2019_P_M1 </td><td>1.6587110</td><td> 2</td></tr>
+    <tr><td>3_2019_P_M1 </td><td>1.5128946</td><td> 3</td></tr>
+    <tr><td>4_2019_P_M1 </td><td>1.4196686</td><td> 4</td></tr>
+    <tr><td>5_2019_P_M1 </td><td>1.4373847</td><td> 5</td></tr>
+    <tr><td>6_2019_P_M1 </td><td>1.2371000</td><td> 6</td></tr>
+    <tr><td>7_2019_P_M1 </td><td>1.4014829</td><td> 7</td></tr>
+    <tr><td>8_2019_P_M1 </td><td>1.4421725</td><td> 8</td></tr>
+    <tr><td>9_2019_P_M1 </td><td>1.1744409</td><td> 9</td></tr>
+    <tr><td>10_2019_P_M1</td><td>1.0763647</td><td>10</td></tr>
+    <tr><td>11_2019_P_M1</td><td>1.0421627</td><td>11</td></tr>
+    <tr><td>12_2019_P_M1</td><td>0.9712383</td><td>12</td></tr>
+    <tr><td>13_2019_P_M1</td><td>0.7709868</td><td>13</td></tr>
+    <tr><td>14_2019_P_M1</td><td>0.7523820</td><td>14</td></tr>
+    <tr><td>15_2019_P_M1</td><td>0.7176796</td><td>15</td></tr>
+    <tr><td>16_2019_P_M1</td><td>0.8978403</td><td>16</td></tr>
+    <tr><td>17_2019_P_M1</td><td>0.8936416</td><td>17</td></tr>
+    <tr><td>18_2019_P_M1</td><td>0.9316181</td><td>18</td></tr>
+    <tr><td>19_2019_P_M1</td><td>0.7494357</td><td>19</td></tr>
+    <tr><td>20_2019_P_M1</td><td>0.7755715</td><td>20</td></tr>
+    <tr><td>21_2019_P_M1</td><td>0.5838325</td><td>21</td></tr>
+    <tr><td>22_2019_P_M1</td><td>0.6343998</td><td>22</td></tr>
+    <tr><td>23_2019_P_M1</td><td>0.7551861</td><td>23</td></tr>
+    <tr><td>24_2019_P_M1</td><td>0.8088364</td><td>24</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>ggplot<span class="p">(</span>mydf<span class="p">,</span> aes<span class="p">(</span>x <span class="o">=</span> libnum<span class="p">,</span> y <span class="o">=</span> sizefac<span class="p">))</span> <span class="o">+</span> geom_point<span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_02_deseq_DE_38_0.png" src="../_images/DESeq2_02_deseq_DE_38_0.png" />
+</div>
+</div>
+<p>Now that the size factors have been estimated, we can get “normalized” counts (DESeq2 normalizes against size factor)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># original counts for libraries 1 and 24</span>
+counts<span class="p">(</span>dds2019<span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span><span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">24</span><span class="p">)]</span>
+
+<span class="c1"># normalized count</span>
+counts<span class="p">(</span>dds2019<span class="p">,</span> normalize <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">24</span><span class="p">)]</span>
+
+<span class="c1"># Size factor</span>
+
+sizeFactors<span class="p">(</span>dds2019<span class="p">)[</span><span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">24</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 5 × 2 of type int</caption>
+<thead>
+    <tr><th></th><th scope=col>1_2019_P_M1</th><th scope=col>24_2019_P_M1</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>CNAG_00001</th><td>  0</td><td>  0</td></tr>
+    <tr><th scope=row>CNAG_00002</th><td>158</td><td>235</td></tr>
+    <tr><th scope=row>CNAG_00003</th><td>201</td><td>169</td></tr>
+    <tr><th scope=row>CNAG_00004</th><td>904</td><td>523</td></tr>
+    <tr><th scope=row>CNAG_00005</th><td> 22</td><td> 40</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 5 × 2 of type dbl</caption>
+<thead>
+    <tr><th></th><th scope=col>1_2019_P_M1</th><th scope=col>24_2019_P_M1</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>CNAG_00001</th><td>  0.00000</td><td>  0.00000</td></tr>
+    <tr><th scope=row>CNAG_00002</th><td> 99.26872</td><td>290.54083</td></tr>
+    <tr><th scope=row>CNAG_00003</th><td>126.28489</td><td>208.94213</td></tr>
+    <tr><th scope=row>CNAG_00004</th><td>567.96787</td><td>646.60789</td></tr>
+    <tr><th scope=row>CNAG_00005</th><td> 13.82223</td><td> 49.45376</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<dl class=dl-horizontal>
+    <dt>1_2019_P_M1</dt>
+            <dd>1.5916393221245</dd>
+    <dt>24_2019_P_M1</dt>
+            <dd>0.808836405192349</dd>
+</dl></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># normalized manually using size factors for library 1</span>
+counts<span class="p">(</span>dds2019<span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="m">1</span><span class="p">]</span> <span class="o">/</span> sizeFactors<span class="p">(</span>dds2019<span class="p">)[</span><span class="m">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<dl class=dl-horizontal>
+    <dt>CNAG_00001</dt>
+            <dd>0</dd>
+    <dt>CNAG_00002</dt>
+            <dd>99.2687211252757</dd>
+    <dt>CNAG_00003</dt>
+            <dd>126.284892064433</dd>
+    <dt>CNAG_00004</dt>
+            <dd>567.9678727674</dd>
+    <dt>CNAG_00005</dt>
+            <dd>13.822226992127</dd>
+</dl></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># normalized manually using size factors for library 24</span>
+counts<span class="p">(</span>dds2019<span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="m">24</span><span class="p">]</span> <span class="o">/</span> sizeFactors<span class="p">(</span>dds2019<span class="p">)[</span><span class="m">24</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<dl class=dl-horizontal>
+    <dt>CNAG_00001</dt>
+            <dd>0</dd>
+    <dt>CNAG_00002</dt>
+            <dd>290.54082938331</dd>
+    <dt>CNAG_00003</dt>
+            <dd>208.942128365019</dd>
+    <dt>CNAG_00004</dt>
+            <dd>646.607888372217</dd>
+    <dt>CNAG_00005</dt>
+            <dd>49.4537581929038</dd>
+</dl></div>
+</div>
+<p>How do you get the raw counts for gene “GeneID: CNAG_05845”?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>counts<span class="p">(</span>dds2019<span class="p">,</span> normalize <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)[</span><span class="s">&quot;CNAG_05845&quot;</span><span class="p">,]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<dl class=dl-horizontal>
+    <dt>1_2019_P_M1</dt>
+            <dd>1753.53797886484</dd>
+    <dt>2_2019_P_M1</dt>
+            <dd>1483.68217900155</dd>
+    <dt>3_2019_P_M1</dt>
+            <dd>1395.99946990619</dd>
+    <dt>4_2019_P_M1</dt>
+            <dd>1526.41255544016</dd>
+    <dt>5_2019_P_M1</dt>
+            <dd>1540.99313383281</dd>
+    <dt>6_2019_P_M1</dt>
+            <dd>1662.7596492127</dd>
+    <dt>7_2019_P_M1</dt>
+            <dd>1483.42871883441</dd>
+    <dt>8_2019_P_M1</dt>
+            <dd>1396.50418466832</dd>
+    <dt>9_2019_P_M1</dt>
+            <dd>1611.83072599508</dd>
+    <dt>10_2019_P_M1</dt>
+            <dd>1532.00864567435</dd>
+    <dt>11_2019_P_M1</dt>
+            <dd>1625.46596139805</dd>
+    <dt>12_2019_P_M1</dt>
+            <dd>1693.71412764532</dd>
+    <dt>13_2019_P_M1</dt>
+            <dd>1629.08097566201</dd>
+    <dt>14_2019_P_M1</dt>
+            <dd>1600.25083019968</dd>
+    <dt>15_2019_P_M1</dt>
+            <dd>1574.51874654145</dd>
+    <dt>16_2019_P_M1</dt>
+            <dd>1551.50087953968</dd>
+    <dt>17_2019_P_M1</dt>
+            <dd>1732.23798357198</dd>
+    <dt>18_2019_P_M1</dt>
+            <dd>1523.15632242235</dd>
+    <dt>19_2019_P_M1</dt>
+            <dd>1822.70471019287</dd>
+    <dt>20_2019_P_M1</dt>
+            <dd>1799.96293025118</dd>
+    <dt>21_2019_P_M1</dt>
+            <dd>1872.1121963887</dd>
+    <dt>22_2019_P_M1</dt>
+            <dd>1692.93885137862</dd>
+    <dt>23_2019_P_M1</dt>
+            <dd>1832.66088488836</dd>
+    <dt>24_2019_P_M1</dt>
+            <dd>1791.46239053794</dd>
+</dl></div>
+</div>
+</div>
+<div class="section" id="02-Dispersion-Parameters">
+<h3>02 Dispersion Parameters<a class="headerlink" href="#02-Dispersion-Parameters" title="Permalink to this headline">¶</a></h3>
+<p>Next, we get the dispersion factors <span class="math notranslate nohighlight">\(\alpha_1,\ldots,\alpha_{m}\)</span></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds2019 <span class="o">&lt;-</span> estimateDispersions<span class="p">(</span>dds2019<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+gene-wise dispersion estimates
+mean-dispersion relationship
+final dispersion estimates
+</pre></div></div>
+</div>
+<div class="line-block">
+<div class="line">Now inspect the dds object again and note that the rowRanges slot has extra information (“metadata column names(0):” before versus “column names(9): baseMean baseVar … dispOutlier dispMAP”) - before: - <code class="docutils literal notranslate"><span class="pre">metadata</span> <span class="pre">column</span> <span class="pre">names(0):</span></code> - after:</div>
+<div class="line">- <code class="docutils literal notranslate"><span class="pre">column</span> <span class="pre">names(9):</span> <span class="pre">baseMean</span> <span class="pre">baseVar</span> <span class="pre">...</span></code></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds2019
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class: DESeqDataSet
+dim: 8499 24
+metadata(1): version
+assays(2): counts mu
+rownames(8499): CNAG_00001 CNAG_00002 ... large_MTrRNA small_MTrRNA
+rowData names(10): baseMean baseVar ... dispOutlier dispMAP
+colnames(24): 1_2019_P_M1 2_2019_P_M1 ... 23_2019_P_M1 24_2019_P_M1
+colData names(23): Label sample_year ... RIN_lowered_threshold
+  sizeFactor
+</pre></div>
+</div>
+</div>
+<p>Can you notice the difference?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">dds</span> <span class="p">(</span><span class="n">before</span> <span class="n">dispersion</span><span class="p">)</span>
+<span class="n">class</span><span class="p">:</span> <span class="n">DESeqDataSet</span>
+<span class="n">dim</span><span class="p">:</span> <span class="mi">8499</span> <span class="mi">24</span>
+<span class="n">metadata</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span> <span class="n">version</span>
+<span class="n">assays</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span> <span class="n">counts</span>
+<span class="n">rownames</span><span class="p">(</span><span class="mi">8499</span><span class="p">):</span> <span class="n">CNAG_00001</span> <span class="n">CNAG_00002</span> <span class="o">...</span> <span class="n">large_MTrRNA</span> <span class="n">small_MTrRNA</span>
+<span class="n">rowData</span> <span class="n">names</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span>
+<span class="n">colnames</span><span class="p">(</span><span class="mi">24</span><span class="p">):</span> <span class="mi">1</span><span class="n">_2019_P_M1</span> <span class="mi">2</span><span class="n">_2019_P_M1</span> <span class="o">...</span> <span class="mi">23</span><span class="n">_2019_P_M1</span> <span class="mi">24</span><span class="n">_2019_P_M1</span>
+<span class="n">colData</span> <span class="n">names</span><span class="p">(</span><span class="mi">23</span><span class="p">):</span> <span class="n">Label</span> <span class="n">sample_year</span> <span class="o">...</span> <span class="n">RIN_lowered_threshold</span>
+  <span class="n">sizeFactor</span>
+
+<span class="o">&gt;</span> <span class="n">dds</span> <span class="p">(</span><span class="n">after</span> <span class="n">dispersion</span><span class="p">)</span>
+<span class="n">class</span><span class="p">:</span> <span class="n">DESeqDataSet</span>
+<span class="n">dim</span><span class="p">:</span> <span class="mi">8499</span> <span class="mi">24</span>
+<span class="n">metadata</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span> <span class="n">version</span>
+<span class="n">assays</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span> <span class="n">counts</span> <span class="n">mu</span>
+<span class="n">rownames</span><span class="p">(</span><span class="mi">8499</span><span class="p">):</span> <span class="n">CNAG_00001</span> <span class="n">CNAG_00002</span> <span class="o">...</span> <span class="n">large_MTrRNA</span> <span class="n">small_MTrRNA</span>
+<span class="n">rowData</span> <span class="n">names</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span> <span class="n">baseMean</span> <span class="n">baseVar</span> <span class="o">...</span> <span class="n">dispOutlier</span> <span class="n">dispMAP</span>
+<span class="n">colnames</span><span class="p">(</span><span class="mi">24</span><span class="p">):</span> <span class="mi">1</span><span class="n">_2019_P_M1</span> <span class="mi">2</span><span class="n">_2019_P_M1</span> <span class="o">...</span> <span class="mi">23</span><span class="n">_2019_P_M1</span> <span class="mi">24</span><span class="n">_2019_P_M1</span>
+<span class="n">colData</span> <span class="n">names</span><span class="p">(</span><span class="mi">23</span><span class="p">):</span> <span class="n">Label</span> <span class="n">sample_year</span> <span class="o">...</span> <span class="n">RIN_lowered_threshold</span>
+  <span class="n">sizeFactor</span>
+</pre></div>
+</div>
+<p>Note that the dispersionfunction slot is now populated</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>dds2019<span class="o">@</span>dispersionFunction
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<pre class=language-r><code>structure(function (q)
+coefs[1] + coefs[2]/q, coefficients = c(asymptDisp = 0.0141803487671824,
+extraPois = 0.87630661036897), fitType = "parametric", varLogDispEsts = 0.902466256228483, dispPriorVar = 0.802549300169356)</code></pre></div>
+</div>
+<p>We can extract the gene specific dispersion factors using dispersions(). Note that there will be one number per gene. We look at the first four genes (rounded to 4 decimal places)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>alphas <span class="o">&lt;-</span> dispersions<span class="p">(</span>dds2019<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Verify that the number of dispersion factors equals the number of genes</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># number of disperion factors</span>
+<span class="kp">length</span><span class="p">(</span>alphas<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+8499</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">round</span><span class="p">(</span>alphas<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">],</span> <span class="m">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>&lt;NA&gt;</li>
+    <li>0.0132</li>
+    <li>0.0231</li>
+    <li>0.0044</li>
+</ol></div>
+</div>
+<p>Extract the metadata using mcols() for the first four genes</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 77%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Terms</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>baseMean</p></td>
+<td><p>mean of normalized counts for all samples</p></td>
+</tr>
+<tr class="row-odd"><td><p>baseVar</p></td>
+<td><p>variance of normalized counts for all samples</p></td>
+</tr>
+<tr class="row-even"><td><p>allZero</p></td>
+<td><p>all counts for a gene are zero</p></td>
+</tr>
+<tr class="row-odd"><td><p>dispGeneEst</p></td>
+<td><p>gene-wise estimates of dispersion</p></td>
+</tr>
+<tr class="row-even"><td><p>dispFit</p></td>
+<td><p>fitted values of dispersion</p></td>
+</tr>
+<tr class="row-odd"><td><p>dispersion</p></td>
+<td><p>final estimate of dispersion</p></td>
+</tr>
+<tr class="row-even"><td><p>dispIter</p></td>
+<td><p>number of iterations</p></td>
+</tr>
+<tr class="row-odd"><td><p>dispOut</p></td>
+<td><p>dispersion flagged as outlier</p></td>
+</tr>
+<tr class="row-even"><td><p>dispMAP</p></td>
+<td><p>maximum a posteriori estimate</p></td>
+</tr>
+</tbody>
+</table>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>mcols<span class="p">(</span>dds2019<span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">,]</span> <span class="o">%&gt;%</span> <span class="kp">as.data.frame</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 4 × 10</caption>
+<thead>
+    <tr><th></th><th scope=col>baseMean</th><th scope=col>baseVar</th><th scope=col>allZero</th><th scope=col>dispGeneEst</th><th scope=col>dispGeneIter</th><th scope=col>dispFit</th><th scope=col>dispersion</th><th scope=col>dispIter</th><th scope=col>dispOutlier</th><th scope=col>dispMAP</th></tr>
+    <tr><th></th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;lgl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;lgl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>CNAG_00001</th><td>  0.0000</td><td>   0.000</td><td> TRUE</td><td>         NA</td><td>NA</td><td>        NA</td><td>         NA</td><td>NA</td><td>   NA</td><td>         NA</td></tr>
+    <tr><th scope=row>CNAG_00002</th><td>192.4564</td><td>8133.183</td><td>FALSE</td><td>0.012090962</td><td> 9</td><td>0.01873362</td><td>0.013202310</td><td> 9</td><td>FALSE</td><td>0.013202310</td></tr>
+    <tr><th scope=row>CNAG_00003</th><td>164.9908</td><td>3089.489</td><td>FALSE</td><td>0.023820456</td><td>10</td><td>0.01949159</td><td>0.023065791</td><td> 7</td><td>FALSE</td><td>0.023065791</td></tr>
+    <tr><th scope=row>CNAG_00004</th><td>571.0547</td><td>1819.185</td><td>FALSE</td><td>0.003107148</td><td> 5</td><td>0.01571489</td><td>0.004430586</td><td>12</td><td>FALSE</td><td>0.004430586</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>Summarize the dispersion factors using a box plot (may want to log transform)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>boxplot<span class="p">(</span><span class="kp">log</span><span class="p">(</span>dispersions<span class="p">(</span>dds2019<span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_02_deseq_DE_60_0.png" src="../_images/DESeq2_02_deseq_DE_60_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Differential-Expression-Analysis">
+<h2>Differential Expression Analysis<a class="headerlink" href="#Differential-Expression-Analysis" title="Permalink to this headline">¶</a></h2>
+<p>We can now conduct a differential expression analysis using the DESeq() function. Keep in mind that to get to this step, we first estimated the size factors and then the dispersion parameters.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Carry out DE analysis</span>
+ddsDE <span class="o">&lt;-</span> DESeq<span class="p">(</span>dds2019<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+using pre-existing size factors
+estimating dispersions
+found already estimated dispersions, replacing these
+gene-wise dispersion estimates
+mean-dispersion relationship
+final dispersion estimates
+fitting model and testing
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Look at object</span>
+ddsDE
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class: DESeqDataSet
+dim: 8499 24
+metadata(1): version
+assays(4): counts mu H cooks
+rownames(8499): CNAG_00001 CNAG_00002 ... large_MTrRNA small_MTrRNA
+rowData names(26): baseMean baseVar ... deviance maxCooks
+colnames(24): 1_2019_P_M1 2_2019_P_M1 ... 23_2019_P_M1 24_2019_P_M1
+colData names(23): Label sample_year ... RIN_lowered_threshold
+  sizeFactor
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Look at some of the results</span>
+results<span class="p">(</span>ddsDE<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>log2 fold change (MLE): genotype WT vs sre1d
+Wald test p-value: genotype WT vs sre1d
+DataFrame with 8499 rows and 6 columns
+                        baseMean     log2FoldChange              lfcSE
+                       &lt;numeric&gt;          &lt;numeric&gt;          &lt;numeric&gt;
+CNAG_00001                     0                 NA                 NA
+CNAG_00002      192.456384076694 0.0459290105698189 0.0812849125012254
+CNAG_00003      164.990819436254 0.0432979308487266  0.101045100070341
+CNAG_00004      571.054651467718 0.0347715410374543 0.0464312203030827
+CNAG_00005      28.7106195205257 -0.377056805602812  0.192347436642309
+...                          ...                ...                ...
+ENSRNA049551942                0                 NA                 NA
+ENSRNA049551964                0                 NA                 NA
+ENSRNA049551993                0                 NA                 NA
+large_MTrRNA    5333.97356461621 -0.396337460272526   0.13434088145007
+small_MTrRNA    1705.75472334291 -0.436802837852531  0.295538981353034
+                             stat              pvalue                padj
+                        &lt;numeric&gt;           &lt;numeric&gt;           &lt;numeric&gt;
+CNAG_00001                     NA                  NA                  NA
+CNAG_00002      0.565037337883909   0.572048368119426   0.675469542016723
+CNAG_00003      0.428501043777338   0.668286373790347   0.756450803050288
+CNAG_00004      0.748882773497678   0.453927864041203   0.566263547566551
+CNAG_00005      -1.96029025488907  0.0499618744055703   0.094333851813714
+...                           ...                 ...                 ...
+ENSRNA049551942                NA                  NA                  NA
+ENSRNA049551964                NA                  NA                  NA
+ENSRNA049551993                NA                  NA                  NA
+large_MTrRNA    -2.95023715785154 0.00317530091247218 0.00896807960414441
+small_MTrRNA     -1.4779872213566   0.139411198621898   0.221714577729148
+</pre></div>
+</div>
+</div>
+<p>Note that currently, the model we have is an additive model, which does not include the interaction term of <code class="docutils literal notranslate"><span class="pre">Media</span></code> and <code class="docutils literal notranslate"><span class="pre">Strain</span></code></p>
+<div class="section" id="Look-at-some-of-the-results-(tidy-version)">
+<h3>Look at some of the results (tidy version)<a class="headerlink" href="#Look-at-some-of-the-results-(tidy-version)" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>results<span class="p">(</span>ddsDE<span class="p">,</span> tidy <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 8499 × 7</caption>
+<thead>
+    <tr><th scope=col>row</th><th scope=col>baseMean</th><th scope=col>log2FoldChange</th><th scope=col>lfcSE</th><th scope=col>stat</th><th scope=col>pvalue</th><th scope=col>padj</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>CNAG_00001</td><td>   0.00000</td><td>           NA</td><td>        NA</td><td>           NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>CNAG_00002</td><td> 192.45638</td><td> 0.0459290106</td><td>0.08128491</td><td>  0.565037338</td><td>5.720484e-01</td><td>6.754695e-01</td></tr>
+    <tr><td>CNAG_00003</td><td> 164.99082</td><td> 0.0432979308</td><td>0.10104510</td><td>  0.428501044</td><td>6.682864e-01</td><td>7.564508e-01</td></tr>
+    <tr><td>CNAG_00004</td><td> 571.05465</td><td> 0.0347715410</td><td>0.04643122</td><td>  0.748882773</td><td>4.539279e-01</td><td>5.662635e-01</td></tr>
+    <tr><td>CNAG_00005</td><td>  28.71062</td><td>-0.3770568056</td><td>0.19234744</td><td> -1.960290255</td><td>4.996187e-02</td><td>9.433385e-02</td></tr>
+    <tr><td>CNAG_00006</td><td>3147.39964</td><td>-0.1313696927</td><td>0.04955489</td><td> -2.650993457</td><td>8.025540e-03</td><td>1.995982e-02</td></tr>
+    <tr><td>CNAG_00007</td><td>1484.87545</td><td>-0.2511214344</td><td>0.08051906</td><td> -3.118782455</td><td>1.816000e-03</td><td>5.492473e-03</td></tr>
+    <tr><td>CNAG_00008</td><td> 938.01932</td><td>-0.0095775568</td><td>0.04760749</td><td> -0.201177504</td><td>8.405598e-01</td><td>8.873725e-01</td></tr>
+    <tr><td>CNAG_00009</td><td> 305.19881</td><td>-0.1866458870</td><td>0.09952871</td><td> -1.875296922</td><td>6.075189e-02</td><td>1.116044e-01</td></tr>
+    <tr><td>CNAG_00010</td><td> 989.04227</td><td> 0.2991011506</td><td>0.06322330</td><td>  4.730868797</td><td>2.235610e-06</td><td>1.474309e-05</td></tr>
+    <tr><td>CNAG_00011</td><td>1001.75238</td><td>-0.0150629941</td><td>0.08611946</td><td> -0.174908133</td><td>8.611518e-01</td><td>9.032619e-01</td></tr>
+    <tr><td>CNAG_00012</td><td> 773.99385</td><td> 0.1947487902</td><td>0.05765064</td><td>  3.378085337</td><td>7.299243e-04</td><td>2.477973e-03</td></tr>
+    <tr><td>CNAG_00013</td><td> 485.75319</td><td>-0.0002823069</td><td>0.07949652</td><td> -0.003551185</td><td>9.971666e-01</td><td>9.974113e-01</td></tr>
+    <tr><td>CNAG_00014</td><td> 180.53988</td><td> 0.0489307250</td><td>0.06795183</td><td>  0.720079553</td><td>4.714760e-01</td><td>5.825377e-01</td></tr>
+    <tr><td>CNAG_00015</td><td> 318.87538</td><td>-0.5225627661</td><td>0.04948141</td><td>-10.560789734</td><td>4.528359e-26</td><td>6.591188e-24</td></tr>
+    <tr><td>CNAG_00016</td><td> 901.25567</td><td>-0.1743972099</td><td>0.04458282</td><td> -3.911758549</td><td>9.162649e-05</td><td>3.953666e-04</td></tr>
+    <tr><td>CNAG_00017</td><td> 184.65031</td><td> 0.2501141367</td><td>0.08576066</td><td>  2.916420444</td><td>3.540730e-03</td><td>9.829867e-03</td></tr>
+    <tr><td>CNAG_00018</td><td> 876.12980</td><td> 0.0533671855</td><td>0.03737492</td><td>  1.427887678</td><td>1.533242e-01</td><td>2.399204e-01</td></tr>
+    <tr><td>CNAG_00019</td><td>1208.90542</td><td>-0.0376199793</td><td>0.05412226</td><td> -0.695092485</td><td>4.869973e-01</td><td>5.980888e-01</td></tr>
+    <tr><td>CNAG_00020</td><td> 968.39030</td><td> 0.1633467817</td><td>0.06202149</td><td>  2.633712498</td><td>8.445697e-03</td><td>2.079157e-02</td></tr>
+    <tr><td>CNAG_00021</td><td> 539.92676</td><td> 0.3455959860</td><td>0.05392145</td><td>  6.409249293</td><td>1.462379e-10</td><td>2.337226e-09</td></tr>
+    <tr><td>CNAG_00022</td><td> 746.84601</td><td>-0.0338002495</td><td>0.06149652</td><td> -0.549628633</td><td>5.825741e-01</td><td>6.837382e-01</td></tr>
+    <tr><td>CNAG_00023</td><td> 278.87826</td><td>-1.4600937656</td><td>0.26611238</td><td> -5.486756279</td><td>4.093813e-08</td><td>3.977196e-07</td></tr>
+    <tr><td>CNAG_00024</td><td>7703.04647</td><td>-0.1074959195</td><td>0.04323925</td><td> -2.486072815</td><td>1.291615e-02</td><td>3.001984e-02</td></tr>
+    <tr><td>CNAG_00025</td><td>2021.99612</td><td>-0.0966388995</td><td>0.09609375</td><td> -1.005673059</td><td>3.145729e-01</td><td>4.265652e-01</td></tr>
+    <tr><td>CNAG_00026</td><td>2237.77134</td><td>-0.2217950575</td><td>0.06090899</td><td> -3.641417339</td><td>2.711412e-04</td><td>1.034194e-03</td></tr>
+    <tr><td>CNAG_00027</td><td> 425.60765</td><td> 0.1226841378</td><td>0.06051990</td><td>  2.027170038</td><td>4.264503e-02</td><td>8.258484e-02</td></tr>
+    <tr><td>CNAG_00028</td><td> 381.48552</td><td>-0.1052942893</td><td>0.05837561</td><td> -1.803737692</td><td>7.127244e-02</td><td>1.274834e-01</td></tr>
+    <tr><td>CNAG_00029</td><td>  52.66523</td><td>-0.0698792034</td><td>0.10076540</td><td> -0.693484135</td><td>4.880058e-01</td><td>5.990298e-01</td></tr>
+    <tr><td>CNAG_00030</td><td>  76.57328</td><td>-0.3288112337</td><td>0.12296567</td><td> -2.674008451</td><td>7.495056e-03</td><td>1.881006e-02</td></tr>
+    <tr><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td></tr>
+    <tr><td>ENSRNA049550980</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551037</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551063</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551074</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551126</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551197</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551244</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551269</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551298</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551337</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551365</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551391</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551484</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551550</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551574</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551598</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551636</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551673</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551717</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551745</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551774</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551798</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551814</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551862</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551899</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551942</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551964</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>ENSRNA049551993</td><td>   0.000</td><td>        NA</td><td>       NA</td><td>       NA</td><td>         NA</td><td>        NA</td></tr>
+    <tr><td>large_MTrRNA   </td><td>5333.974</td><td>-0.3963375</td><td>0.1343409</td><td>-2.950237</td><td>0.003175301</td><td>0.00896808</td></tr>
+    <tr><td>small_MTrRNA   </td><td>1705.755</td><td>-0.4368028</td><td>0.2955390</td><td>-1.477987</td><td>0.139411199</td><td>0.22171458</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>We can get the results for the differential expression analysis using results(). Here, we can compare two group of samples specified by the contrast. (If not, the default contrast would be the last term in your additive model <code class="docutils literal notranslate"><span class="pre">design(dds)</span></code>).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># DE with respect to condition</span>
+myres_condition4v8 <span class="o">&lt;-</span> results<span class="p">(</span>ddsDE<span class="p">,</span> contrast <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;condition&quot;</span><span class="p">,</span> <span class="s">&quot;pH4&quot;</span><span class="p">,</span> <span class="s">&quot;pH8&quot;</span><span class="p">))</span>
+myres_condition4v8
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>log2 fold change (MLE): condition pH4 vs pH8
+Wald test p-value: condition pH4 vs pH8
+DataFrame with 8499 rows and 6 columns
+                        baseMean      log2FoldChange              lfcSE
+                       &lt;numeric&gt;           &lt;numeric&gt;          &lt;numeric&gt;
+CNAG_00001                     0                  NA                 NA
+CNAG_00002      192.456384076694   -1.34351851614176 0.0813854454817818
+CNAG_00003      164.990819436254  -0.831905577724638  0.101018400723969
+CNAG_00004      571.054651467718 -0.0871138906737344 0.0465166816365353
+CNAG_00005      28.7106195205257   -1.29275886849841  0.192729463777133
+...                          ...                 ...                ...
+ENSRNA049551942                0                  NA                 NA
+ENSRNA049551964                0                  NA                 NA
+ENSRNA049551993                0                  NA                 NA
+large_MTrRNA    5333.97356461621  -0.948564278537808  0.134340883270906
+small_MTrRNA    1705.75472334291  -0.691472418621256  0.295538979277226
+                             stat               pvalue                 padj
+                        &lt;numeric&gt;            &lt;numeric&gt;            &lt;numeric&gt;
+CNAG_00001                     NA                   NA                   NA
+CNAG_00002      -16.5080931631996 3.20862403991611e-61 2.87085560366149e-60
+CNAG_00003      -8.23518855735805 1.79275046151211e-16 4.79576928512805e-16
+CNAG_00004      -1.87274516601186   0.0611035831980367    0.074895534834165
+CNAG_00005      -6.70763485334717 1.97804137561036e-11 4.32020773113613e-11
+...                           ...                  ...                  ...
+ENSRNA049551942                NA                   NA                   NA
+ENSRNA049551964                NA                   NA                   NA
+ENSRNA049551993                NA                   NA                   NA
+large_MTrRNA    -7.06087570248421 1.65456549165796e-12 3.75246614426935e-12
+small_MTrRNA    -2.33969955608675   0.0192992582107572   0.0250291573072207
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># DE with respect to condition (flip order)</span>
+myres_condition8v4 <span class="o">&lt;-</span> results<span class="p">(</span>ddsDE<span class="p">,</span> contrast <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;condition&quot;</span><span class="p">,</span> <span class="s">&quot;pH8&quot;</span><span class="p">,</span> <span class="s">&quot;pH4&quot;</span><span class="p">))</span>
+myres_condition8v4
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>log2 fold change (MLE): condition pH8 vs pH4
+Wald test p-value: condition pH8 vs pH4
+DataFrame with 8499 rows and 6 columns
+                        baseMean     log2FoldChange              lfcSE
+                       &lt;numeric&gt;          &lt;numeric&gt;          &lt;numeric&gt;
+CNAG_00001                     0                 NA                 NA
+CNAG_00002      192.456384076694   1.34351851614176 0.0813854454817818
+CNAG_00003      164.990819436254  0.831905577724638  0.101018400723969
+CNAG_00004      571.054651467718 0.0871138906737344 0.0465166816365353
+CNAG_00005      28.7106195205257   1.29275886849841  0.192729463777133
+...                          ...                ...                ...
+ENSRNA049551942                0                 NA                 NA
+ENSRNA049551964                0                 NA                 NA
+ENSRNA049551993                0                 NA                 NA
+large_MTrRNA    5333.97356461621  0.948564278537808  0.134340883270906
+small_MTrRNA    1705.75472334291  0.691472418621256  0.295538979277226
+                            stat               pvalue                 padj
+                       &lt;numeric&gt;            &lt;numeric&gt;            &lt;numeric&gt;
+CNAG_00001                    NA                   NA                   NA
+CNAG_00002      16.5080931631996 3.20862403991611e-61 2.87085560366149e-60
+CNAG_00003      8.23518855735805 1.79275046151211e-16 4.79576928512805e-16
+CNAG_00004      1.87274516601186   0.0611035831980367    0.074895534834165
+CNAG_00005      6.70763485334717 1.97804137561036e-11 4.32020773113613e-11
+...                          ...                  ...                  ...
+ENSRNA049551942               NA                   NA                   NA
+ENSRNA049551964               NA                   NA                   NA
+ENSRNA049551993               NA                   NA                   NA
+large_MTrRNA    7.06087570248421 1.65456549165796e-12 3.75246614426935e-12
+small_MTrRNA    2.33969955608675   0.0192992582107572   0.0250291573072207
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### DE with respect to genotype</span>
+myres_strainvWT <span class="o">&lt;-</span> results<span class="p">(</span>ddsDE<span class="p">,</span> contrast <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;genotype&quot;</span><span class="p">,</span> <span class="s">&quot;sre1d&quot;</span><span class="p">,</span> <span class="s">&quot;WT&quot;</span><span class="p">))</span>
+myres_strainvWT
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>log2 fold change (MLE): genotype sre1d vs WT
+Wald test p-value: genotype sre1d vs WT
+DataFrame with 8499 rows and 6 columns
+                        baseMean      log2FoldChange              lfcSE
+                       &lt;numeric&gt;           &lt;numeric&gt;          &lt;numeric&gt;
+CNAG_00001                     0                  NA                 NA
+CNAG_00002      192.456384076694 -0.0459290105698189 0.0812849125012254
+CNAG_00003      164.990819436254 -0.0432979308487266  0.101045100070341
+CNAG_00004      571.054651467718 -0.0347715410374543 0.0464312203030827
+CNAG_00005      28.7106195205257   0.377056805602812  0.192347436642309
+...                          ...                 ...                ...
+ENSRNA049551942                0                  NA                 NA
+ENSRNA049551964                0                  NA                 NA
+ENSRNA049551993                0                  NA                 NA
+large_MTrRNA    5333.97356461621   0.396337460272526   0.13434088145007
+small_MTrRNA    1705.75472334291   0.436802837852531  0.295538981353034
+                              stat              pvalue                padj
+                         &lt;numeric&gt;           &lt;numeric&gt;           &lt;numeric&gt;
+CNAG_00001                      NA                  NA                  NA
+CNAG_00002      -0.565037337883909   0.572048368119426   0.675469542016723
+CNAG_00003      -0.428501043777338   0.668286373790347   0.756450803050288
+CNAG_00004      -0.748882773497678   0.453927864041203   0.566263547566551
+CNAG_00005        1.96029025488907  0.0499618744055703   0.094333851813714
+...                            ...                 ...                 ...
+ENSRNA049551942                 NA                  NA                  NA
+ENSRNA049551964                 NA                  NA                  NA
+ENSRNA049551993                 NA                  NA                  NA
+large_MTrRNA      2.95023715785154 0.00317530091247218 0.00896807960414441
+small_MTrRNA       1.4779872213566   0.139411198621898   0.221714577729148
+</pre></div>
+</div>
+</div>
+<p>Let’s look at the results for the first four genes</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Tidy the results</span>
+myres_condition8v4 <span class="o">&lt;-</span> results<span class="p">(</span>ddsDE<span class="p">,</span> contrast <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;condition&quot;</span><span class="p">,</span> <span class="s">&quot;pH8&quot;</span><span class="p">,</span> <span class="s">&quot;pH4&quot;</span><span class="p">),</span> tidy <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+myres_condition8v4
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 8499 × 7</caption>
+<thead>
+    <tr><th scope=col>row</th><th scope=col>baseMean</th><th scope=col>log2FoldChange</th><th scope=col>lfcSE</th><th scope=col>stat</th><th scope=col>pvalue</th><th scope=col>padj</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>CNAG_00001</td><td>   0.00000</td><td>          NA</td><td>        NA</td><td>         NA</td><td>           NA</td><td>           NA</td></tr>
+    <tr><td>CNAG_00002</td><td> 192.45638</td><td> 1.343518516</td><td>0.08138545</td><td> 16.5080932</td><td> 3.208624e-61</td><td> 2.870856e-60</td></tr>
+    <tr><td>CNAG_00003</td><td> 164.99082</td><td> 0.831905578</td><td>0.10101840</td><td>  8.2351886</td><td> 1.792750e-16</td><td> 4.795769e-16</td></tr>
+    <tr><td>CNAG_00004</td><td> 571.05465</td><td> 0.087113891</td><td>0.04651668</td><td>  1.8727452</td><td> 6.110358e-02</td><td> 7.489553e-02</td></tr>
+    <tr><td>CNAG_00005</td><td>  28.71062</td><td> 1.292758868</td><td>0.19272946</td><td>  6.7076349</td><td> 1.978041e-11</td><td> 4.320208e-11</td></tr>
+    <tr><td>CNAG_00006</td><td>3147.39964</td><td>-0.139327775</td><td>0.04956000</td><td> -2.8112951</td><td> 4.934250e-03</td><td> 6.756102e-03</td></tr>
+    <tr><td>CNAG_00007</td><td>1484.87545</td><td>-0.747920328</td><td>0.08053624</td><td> -9.2867544</td><td> 1.590647e-20</td><td> 4.927921e-20</td></tr>
+    <tr><td>CNAG_00008</td><td> 938.01932</td><td>-0.079110196</td><td>0.04765929</td><td> -1.6599115</td><td> 9.693226e-02</td><td> 1.159517e-01</td></tr>
+    <tr><td>CNAG_00009</td><td> 305.19881</td><td>-0.558838066</td><td>0.09968395</td><td> -5.6060989</td><td> 2.069377e-08</td><td> 3.933651e-08</td></tr>
+    <tr><td>CNAG_00010</td><td> 989.04227</td><td> 0.537893668</td><td>0.06321490</td><td>  8.5089694</td><td> 1.754861e-17</td><td> 4.868574e-17</td></tr>
+    <tr><td>CNAG_00011</td><td>1001.75238</td><td>-2.148894367</td><td>0.08634115</td><td>-24.8884142</td><td>9.932146e-137</td><td>2.998405e-135</td></tr>
+    <tr><td>CNAG_00012</td><td> 773.99385</td><td> 0.161412817</td><td>0.05766095</td><td>  2.7993437</td><td> 5.120661e-03</td><td> 6.994889e-03</td></tr>
+    <tr><td>CNAG_00013</td><td> 485.75319</td><td>-0.722966497</td><td>0.07965037</td><td> -9.0767500</td><td> 1.118652e-19</td><td> 3.374959e-19</td></tr>
+    <tr><td>CNAG_00014</td><td> 180.53988</td><td>-0.295886560</td><td>0.06870554</td><td> -4.3065895</td><td> 1.657908e-05</td><td> 2.684468e-05</td></tr>
+    <tr><td>CNAG_00015</td><td> 318.87538</td><td>-0.328599588</td><td>0.05019105</td><td> -6.5469752</td><td> 5.871409e-11</td><td> 1.252823e-10</td></tr>
+    <tr><td>CNAG_00016</td><td> 901.25567</td><td> 0.312717596</td><td>0.04460378</td><td>  7.0110118</td><td> 2.366008e-12</td><td> 5.340717e-12</td></tr>
+    <tr><td>CNAG_00017</td><td> 184.65031</td><td> 0.316683243</td><td>0.08573971</td><td>  3.6935425</td><td> 2.211516e-04</td><td> 3.341873e-04</td></tr>
+    <tr><td>CNAG_00018</td><td> 876.12980</td><td> 0.155211001</td><td>0.03742605</td><td>  4.1471376</td><td> 3.366577e-05</td><td> 5.348074e-05</td></tr>
+    <tr><td>CNAG_00019</td><td>1208.90542</td><td> 0.747123679</td><td>0.05412045</td><td> 13.8048310</td><td> 2.383308e-43</td><td> 1.414883e-42</td></tr>
+    <tr><td>CNAG_00020</td><td> 968.39030</td><td>-0.470164125</td><td>0.06206999</td><td> -7.5747418</td><td> 3.598425e-14</td><td> 8.737196e-14</td></tr>
+    <tr><td>CNAG_00021</td><td> 539.92676</td><td> 0.007922036</td><td>0.05395599</td><td>  0.1468240</td><td> 8.832709e-01</td><td> 8.975865e-01</td></tr>
+    <tr><td>CNAG_00022</td><td> 746.84601</td><td> 0.020299074</td><td>0.06152583</td><td>  0.3299277</td><td> 7.414546e-01</td><td> 7.689054e-01</td></tr>
+    <tr><td>CNAG_00023</td><td> 278.87826</td><td> 0.232063963</td><td>0.26610452</td><td>  0.8720782</td><td> 3.831657e-01</td><td> 4.210277e-01</td></tr>
+    <tr><td>CNAG_00024</td><td>7703.04647</td><td> 0.997043384</td><td>0.04323929</td><td> 23.0587381</td><td>1.202071e-117</td><td>2.760023e-116</td></tr>
+    <tr><td>CNAG_00025</td><td>2021.99612</td><td> 0.881055403</td><td>0.09609371</td><td>  9.1687104</td><td> 4.787115e-20</td><td> 1.463607e-19</td></tr>
+    <tr><td>CNAG_00026</td><td>2237.77134</td><td> 0.167433512</td><td>0.06091140</td><td>  2.7488043</td><td> 5.981308e-03</td><td> 8.132384e-03</td></tr>
+    <tr><td>CNAG_00027</td><td> 425.60765</td><td>-0.929646998</td><td>0.06112216</td><td>-15.2096555</td><td> 3.051445e-52</td><td> 2.273522e-51</td></tr>
+    <tr><td>CNAG_00028</td><td> 381.48552</td><td>-0.817422940</td><td>0.05910049</td><td>-13.8310684</td><td> 1.655433e-43</td><td> 9.892547e-43</td></tr>
+    <tr><td>CNAG_00029</td><td>  52.66523</td><td>-3.316030881</td><td>0.16631275</td><td>-19.9385244</td><td> 1.885448e-88</td><td> 2.729713e-87</td></tr>
+    <tr><td>CNAG_00030</td><td>  76.57328</td><td>-1.103647498</td><td>0.12592110</td><td> -8.7645955</td><td> 1.874484e-18</td><td> 5.414216e-18</td></tr>
+    <tr><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td></tr>
+    <tr><td>ENSRNA049550980</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551037</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551063</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551074</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551126</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551197</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551244</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551269</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551298</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551337</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551365</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551391</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551484</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551550</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551574</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551598</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551636</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551673</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551717</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551745</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551774</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551798</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551814</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551862</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551899</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551942</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551964</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>ENSRNA049551993</td><td>   0.000</td><td>       NA</td><td>       NA</td><td>      NA</td><td>          NA</td><td>          NA</td></tr>
+    <tr><td>large_MTrRNA   </td><td>5333.974</td><td>0.9485643</td><td>0.1343409</td><td>7.060876</td><td>1.654565e-12</td><td>3.752466e-12</td></tr>
+    <tr><td>small_MTrRNA   </td><td>1705.755</td><td>0.6914724</td><td>0.2955390</td><td>2.339700</td><td>1.929926e-02</td><td>2.502916e-02</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Tidy the results for DE with respect to condition</span>
+<span class="c1">### Results are sorted in ascending order by adjusted p-value</span>
+<span class="c1">### Here ph4 is the reference level</span>
+<span class="c1">### log2FC &gt; 0 suggests that higher pH (pH8) is associated with increased expression</span>
+<span class="c1">### log2FC &lt; 0 suggests that higher pH (pH8) is associated with lower expression</span>
+myres_condition8v4 <span class="o">&lt;-</span> results<span class="p">(</span>ddsDE<span class="p">,</span> contrast <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;condition&quot;</span><span class="p">,</span> <span class="s">&quot;pH8&quot;</span><span class="p">,</span> <span class="s">&quot;pH4&quot;</span><span class="p">),</span> tidy <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+
+myres_condition8v4 <span class="o">%&gt;%</span>
+    arrange<span class="p">(</span>desc<span class="p">(</span><span class="o">-</span>padj<span class="p">))</span> <span class="o">%&gt;%</span>
+        <span class="kp">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 10 × 7</caption>
+<thead>
+    <tr><th scope=col>row</th><th scope=col>baseMean</th><th scope=col>log2FoldChange</th><th scope=col>lfcSE</th><th scope=col>stat</th><th scope=col>pvalue</th><th scope=col>padj</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>CNAG_00275</td><td> 1072.9219</td><td>-4.048106</td><td>0.10667356</td><td>-37.94854</td><td>0</td><td>0</td></tr>
+    <tr><td>CNAG_00309</td><td>  539.1312</td><td>-3.331524</td><td>0.08444635</td><td>-39.45137</td><td>0</td><td>0</td></tr>
+    <tr><td>CNAG_00409</td><td> 1093.4775</td><td>-5.030655</td><td>0.07452918</td><td>-67.49913</td><td>0</td><td>0</td></tr>
+    <tr><td>CNAG_00531</td><td>15371.8856</td><td> 3.563691</td><td>0.05663035</td><td> 62.92900</td><td>0</td><td>0</td></tr>
+    <tr><td>CNAG_00601</td><td>  506.4752</td><td> 4.661577</td><td>0.09625726</td><td> 48.42832</td><td>0</td><td>0</td></tr>
+    <tr><td>CNAG_00897</td><td>12255.8281</td><td> 4.856924</td><td>0.07970883</td><td> 60.93332</td><td>0</td><td>0</td></tr>
+    <tr><td>CNAG_01272</td><td>49334.5209</td><td> 1.961009</td><td>0.04521777</td><td> 43.36812</td><td>0</td><td>0</td></tr>
+    <tr><td>CNAG_01275</td><td> 2534.1015</td><td> 2.273088</td><td>0.04888985</td><td> 46.49406</td><td>0</td><td>0</td></tr>
+    <tr><td>CNAG_01344</td><td> 3528.6160</td><td>-1.582122</td><td>0.04028591</td><td>-39.27234</td><td>0</td><td>0</td></tr>
+    <tr><td>CNAG_01713</td><td> 9652.4535</td><td> 2.016486</td><td>0.05310869</td><td> 37.96904</td><td>0</td><td>0</td></tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="section" id="Visualize-DE-effect">
+<h3>Visualize DE effect<a class="headerlink" href="#Visualize-DE-effect" title="Permalink to this headline">¶</a></h3>
+<p>Looking at the results for these two genes:</p>
+<ul class="simple">
+<li><p>The estimated log2FC for CNAG_00275 is negative. We will verify visually that ph8, compared to pH4, is associated with lower expression</p></li>
+<li><p>The estimated log2FC for CNAG_00531 is positive. We will verify visually that ph8, compared to pH4, is associated with higher expression</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>results<span class="p">(</span>ddsDE<span class="p">,</span> tidy <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span> <span class="o">%&gt;%</span>
+    filter<span class="p">(</span>row <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;CNAG_00275&quot;</span><span class="p">,</span><span class="s">&quot;CNAG_00531&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 2 × 7</caption>
+<thead>
+    <tr><th scope=col>row</th><th scope=col>baseMean</th><th scope=col>log2FoldChange</th><th scope=col>lfcSE</th><th scope=col>stat</th><th scope=col>pvalue</th><th scope=col>padj</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>CNAG_00275</td><td> 1072.922</td><td>-0.3268490</td><td>0.10536149</td><td>-3.102167</td><td>0.0019210943</td><td>0.005769654</td></tr>
+    <tr><td>CNAG_00531</td><td>15371.886</td><td> 0.1902424</td><td>0.05662427</td><td> 3.359733</td><td>0.0007801794</td><td>0.002625616</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### This dot plot verify visually that exposure to ph8, compared to pH4,  is associated with lower expression</span>
+plotCounts<span class="p">(</span>dds2019<span class="p">,</span> <span class="s">&quot;CNAG_00275&quot;</span><span class="p">,</span> intgroup <span class="o">=</span> <span class="s">&quot;condition&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_02_deseq_DE_78_0.png" src="../_images/DESeq2_02_deseq_DE_78_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### This dot plot verify visually that exposure to ph8, compared to pH4,  is associated with higher expression</span>
+plotCounts<span class="p">(</span>dds2019<span class="p">,</span> <span class="s">&quot;CNAG_00531&quot;</span><span class="p">,</span> intgroup <span class="o">=</span> <span class="s">&quot;condition&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_02_deseq_DE_79_0.png" src="../_images/DESeq2_02_deseq_DE_79_0.png" />
+</div>
+</div>
+<p>Volcano plot</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Volcano plot for con effect</span>
+ggplot<span class="p">(</span>results<span class="p">(</span>ddsDE<span class="p">,</span> contrast <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;condition&quot;</span><span class="p">,</span> <span class="s">&quot;pH4&quot;</span><span class="p">,</span> <span class="s">&quot;pH8&quot;</span><span class="p">),</span> tidy <span class="o">=</span> <span class="kc">TRUE</span><span class="p">),</span>
+       aes<span class="p">(</span>x <span class="o">=</span> log2FoldChange<span class="p">,</span> y <span class="o">=</span> <span class="o">-</span><span class="kp">log10</span><span class="p">(</span>padj<span class="p">)))</span> <span class="o">+</span> geom_point<span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Warning message:
+“Removed 348 rows containing missing values (geom_point).”
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_02_deseq_DE_81_1.png" src="../_images/DESeq2_02_deseq_DE_81_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Genotype Effect</span>
+ggplot<span class="p">(</span>results<span class="p">(</span>ddsDE<span class="p">,</span> contrast <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;genotype&quot;</span><span class="p">,</span> <span class="s">&quot;sre1d&quot;</span><span class="p">,</span> <span class="s">&quot;WT&quot;</span><span class="p">),</span> tidy <span class="o">=</span> <span class="kc">TRUE</span><span class="p">),</span>
+       aes<span class="p">(</span>x <span class="o">=</span> log2FoldChange<span class="p">,</span> y <span class="o">=</span> <span class="o">-</span><span class="kp">log10</span><span class="p">(</span>padj<span class="p">)))</span> <span class="o">+</span> geom_point<span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Warning message:
+“Removed 348 rows containing missing values (geom_point).”
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_02_deseq_DE_82_1.png" src="../_images/DESeq2_02_deseq_DE_82_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Clustering">
+<h2>Clustering<a class="headerlink" href="#Clustering" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Regularized-log-transformation">
+<h3>Regularized log transformation<a class="headerlink" href="#Regularized-log-transformation" title="Permalink to this headline">¶</a></h3>
+<p>The regularized log transform can be obtained using the <a class="reference external" href="https://rdrr.io/bioc/DESeq2/man/rlog.html">rlog() function</a>. Note that an important argument for this function is blind (TRUE by default). The default “blinds” the normalization to the design. This is very important so as to not bias the analyses (e.g. class discovery)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>rld <span class="o">&lt;-</span> rlog<span class="p">(</span>dds2019<span class="p">,</span> blind <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Dendrogram-of-samples:-showing-strain-&amp;-media-of-each-sample">
+<h3>Dendrogram of samples: showing strain &amp; media of each sample<a class="headerlink" href="#Dendrogram-of-samples:-showing-strain-&-media-of-each-sample" title="Permalink to this headline">¶</a></h3>
+<p>Hierarchical clustering using rlog transformation</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">options</span><span class="p">(</span>repr.plot.width <span class="o">=</span> <span class="m">9</span><span class="p">,</span> repr.plot.height <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
+dists <span class="o">&lt;-</span> dist<span class="p">(</span><span class="kp">t</span><span class="p">(</span>assay<span class="p">(</span>rld<span class="p">)))</span>
+plot<span class="p">(</span>hclust<span class="p">(</span>dists<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_02_deseq_DE_88_0.png" src="../_images/DESeq2_02_deseq_DE_88_0.png" />
+</div>
+</div>
+<p>Store the dendrogram of samples using hierarchical clustering</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>assay<span class="p">(</span>rld<span class="p">)</span> <span class="o">%&gt;%</span>
+    <span class="kp">t</span><span class="p">()</span> <span class="o">%&gt;%</span>
+    dist <span class="o">%&gt;%</span>
+    hclust<span class="p">(</span>method <span class="o">=</span> <span class="s">&quot;complete&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span>
+    as.dendrogram <span class="o">-&gt;</span>
+    mydend
+</pre></div>
+</div>
+</div>
+<p>Dendrogram of samples: showing strain of each sample</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+
+<span></span>dendplot <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>mydend<span class="p">,</span> columndata<span class="p">,</span> labvar<span class="p">,</span> colvar<span class="p">,</span> pchvar<span class="p">)</span> <span class="p">{</span>
+    cols <span class="o">&lt;-</span> <span class="kp">factor</span><span class="p">(</span>columndata<span class="p">[[</span>colvar<span class="p">]][</span>order.dendrogram<span class="p">(</span>mydend<span class="p">)])</span>
+    collab <span class="o">&lt;-</span> brewer.pal<span class="p">(</span><span class="kp">max</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="kp">nlevels</span><span class="p">(</span>cols<span class="p">)),</span><span class="s">&quot;Set1&quot;</span><span class="p">)[</span>cols<span class="p">]</span>
+    pchs <span class="o">&lt;-</span> <span class="kp">factor</span><span class="p">(</span>columndata<span class="p">[[</span>pchvar<span class="p">]][</span>order.dendrogram<span class="p">(</span>mydend<span class="p">)])</span>
+    pchlab <span class="o">&lt;-</span> <span class="kp">seq_len</span><span class="p">(</span><span class="kp">nlevels</span><span class="p">(</span>pchs<span class="p">))[</span>pchs<span class="p">]</span>
+    lablab <span class="o">&lt;-</span> columndata<span class="p">[[</span>labvar<span class="p">]][</span>order.dendrogram<span class="p">(</span>mydend<span class="p">)]</span>
+
+    mydend <span class="o">%&gt;%</span>
+        set<span class="p">(</span><span class="s">&quot;labels_cex&quot;</span><span class="p">,</span><span class="m">1</span><span class="p">)</span> <span class="o">%&gt;%</span>
+        set<span class="p">(</span><span class="s">&quot;labels_col&quot;</span><span class="p">,</span>collab<span class="p">)</span> <span class="o">%&gt;%</span>
+        set<span class="p">(</span><span class="s">&quot;leaves_pch&quot;</span><span class="p">,</span>pchlab<span class="p">)</span> <span class="o">%&gt;%</span>
+        set<span class="p">(</span><span class="s">&quot;labels&quot;</span><span class="p">,</span> lablab<span class="p">)</span>
+<span class="p">}</span>
+
+
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">options</span><span class="p">(</span>repr.plot.width <span class="o">=</span> <span class="m">9</span><span class="p">,</span> repr.plot.height <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
+dendplot<span class="p">(</span>mydend<span class="p">,</span> dds2019<span class="o">@</span>colData<span class="p">,</span>
+         <span class="s">&quot;genotype&quot;</span><span class="p">,</span>    <span class="c1"># variable that show in label</span>
+         <span class="s">&quot;genotype&quot;</span><span class="p">,</span>    <span class="c1"># variable that define color</span>
+         <span class="s">&quot;condition&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="c1"># variable that define shape of points</span>
+    plot
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_02_deseq_DE_93_0.png" src="../_images/DESeq2_02_deseq_DE_93_0.png" />
+</div>
+</div>
+<p>Dendrogram of samples: showing media of each sample</p>
+</div>
+<div class="section" id="Customize-presentation">
+<h3>Customize presentation<a class="headerlink" href="#Customize-presentation" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Merge gene expression with meta data</span>
+myDEplotData <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>mydds<span class="p">,</span> geneid<span class="p">,</span> mergelab<span class="p">)</span> <span class="p">{</span>
+    counts<span class="p">(</span>mydds<span class="p">,</span> normalize <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span> <span class="o">%&gt;%</span>
+        as_tibble<span class="p">(</span>rownames<span class="o">=</span><span class="s">&quot;gene&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span>
+        filter<span class="p">(</span>gene <span class="o">==</span> geneid<span class="p">)</span> <span class="o">%&gt;%</span>
+        gather<span class="p">(</span>Label<span class="p">,</span> geneexp<span class="p">,</span> <span class="o">-</span>gene<span class="p">)</span> <span class="o">%&gt;%</span>
+        select<span class="p">(</span><span class="o">-</span>gene<span class="p">)</span> <span class="o">-&gt;</span> genedat
+
+    colData<span class="p">(</span>mydds<span class="p">)</span> <span class="o">%&gt;%</span>
+        as.data.frame <span class="o">%&gt;%</span>
+        as_tibble <span class="o">%&gt;%</span>
+        full_join<span class="p">(</span>genedat<span class="p">,</span> by <span class="o">=</span> mergelab<span class="p">)</span> <span class="o">-&gt;</span> genedat
+
+    <span class="kr">return</span><span class="p">(</span>genedat<span class="p">)</span>
+<span class="p">}</span>
+
+myDEplotData<span class="p">(</span>dds2019<span class="p">,</span> <span class="s">&quot;CNAG_00003&quot;</span><span class="p">,</span> <span class="s">&quot;Label&quot;</span><span class="p">)[,</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;Label&quot;</span><span class="p">,</span> <span class="s">&quot;genotype&quot;</span><span class="p">,</span> <span class="s">&quot;condition&quot;</span> <span class="p">,</span> <span class="s">&quot;geneexp&quot;</span><span class="p">)]</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 24 × 4</caption>
+<thead>
+    <tr><th scope=col>Label</th><th scope=col>genotype</th><th scope=col>condition</th><th scope=col>geneexp</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>1_2019_P_M1 </td><td>WT   </td><td>pH4</td><td>126.28489</td></tr>
+    <tr><td>2_2019_P_M1 </td><td>WT   </td><td>pH4</td><td> 94.04893</td></tr>
+    <tr><td>3_2019_P_M1 </td><td>WT   </td><td>pH4</td><td>106.41852</td></tr>
+    <tr><td>4_2019_P_M1 </td><td>WT   </td><td>pH4</td><td>120.45064</td></tr>
+    <tr><td>5_2019_P_M1 </td><td>WT   </td><td>pH4</td><td>112.70469</td></tr>
+    <tr><td>6_2019_P_M1 </td><td>WT   </td><td>pH4</td><td> 83.25923</td></tr>
+    <tr><td>7_2019_P_M1 </td><td>sre1d</td><td>pH4</td><td>122.72715</td></tr>
+    <tr><td>8_2019_P_M1 </td><td>sre1d</td><td>pH4</td><td>117.87771</td></tr>
+    <tr><td>9_2019_P_M1 </td><td>sre1d</td><td>pH4</td><td>149.00707</td></tr>
+    <tr><td>10_2019_P_M1</td><td>sre1d</td><td>pH4</td><td>121.70596</td></tr>
+    <tr><td>11_2019_P_M1</td><td>sre1d</td><td>pH4</td><td>116.10471</td></tr>
+    <tr><td>12_2019_P_M1</td><td>sre1d</td><td>pH4</td><td>155.47163</td></tr>
+    <tr><td>13_2019_P_M1</td><td>WT   </td><td>pH8</td><td>278.86338</td></tr>
+    <tr><td>14_2019_P_M1</td><td>WT   </td><td>pH8</td><td>204.68325</td></tr>
+    <tr><td>15_2019_P_M1</td><td>WT   </td><td>pH8</td><td>274.49575</td></tr>
+    <tr><td>16_2019_P_M1</td><td>WT   </td><td>pH8</td><td>217.18785</td></tr>
+    <tr><td>17_2019_P_M1</td><td>WT   </td><td>pH8</td><td>236.11254</td></tr>
+    <tr><td>18_2019_P_M1</td><td>WT   </td><td>pH8</td><td>215.75364</td></tr>
+    <tr><td>19_2019_P_M1</td><td>sre1d</td><td>pH8</td><td>157.45180</td></tr>
+    <tr><td>20_2019_P_M1</td><td>sre1d</td><td>pH8</td><td>171.48644</td></tr>
+    <tr><td>21_2019_P_M1</td><td>sre1d</td><td>pH8</td><td>186.69737</td></tr>
+    <tr><td>22_2019_P_M1</td><td>sre1d</td><td>pH8</td><td>178.12113</td></tr>
+    <tr><td>23_2019_P_M1</td><td>sre1d</td><td>pH8</td><td>203.92325</td></tr>
+    <tr><td>24_2019_P_M1</td><td>sre1d</td><td>pH8</td><td>208.94213</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Basic function</span>
+
+myDEplot <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>mydds<span class="p">,</span> geneid<span class="p">,</span> mergelab<span class="p">)</span> <span class="p">{</span>
+    mydat <span class="o">&lt;-</span> myDEplotData<span class="p">(</span>mydds<span class="p">,</span> geneid<span class="p">,</span> mergelab<span class="p">)</span>
+    ggplot<span class="p">(</span>mydat<span class="p">,</span> aes<span class="p">(</span>x <span class="o">=</span> condition<span class="p">,</span> y <span class="o">=</span> geneexp<span class="p">))</span><span class="o">+</span> geom_point<span class="p">()</span>
+<span class="p">}</span>
+
+
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Allow for grouping by any factor in dataframe</span>
+
+myDEplot <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>mydds<span class="p">,</span> geneid<span class="p">,</span> grpvar<span class="p">,</span> mergelab<span class="p">)</span> <span class="p">{</span>
+    mydat <span class="o">&lt;-</span> myDEplotData<span class="p">(</span>mydds<span class="p">,</span> geneid<span class="p">,</span> mergelab<span class="p">)</span>
+    ggplot<span class="p">(</span>mydat<span class="p">,</span> aes_string<span class="p">(</span>x<span class="o">=</span>grpvar<span class="p">,</span> y <span class="o">=</span> <span class="s">&quot;geneexp&quot;</span><span class="p">))</span><span class="o">+</span> geom_point<span class="p">()</span>
+<span class="p">}</span>
+
+myDEplot<span class="p">(</span>dds2019<span class="p">,</span> <span class="s">&quot;CNAG_00003&quot;</span><span class="p">,</span> <span class="s">&quot;genotype&quot;</span><span class="p">,</span> <span class="s">&quot;Label&quot;</span><span class="p">)</span>
+myDEplot<span class="p">(</span>dds2019<span class="p">,</span> <span class="s">&quot;CNAG_00003&quot;</span><span class="p">,</span> <span class="s">&quot;condition&quot;</span><span class="p">,</span> <span class="s">&quot;Label&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_02_deseq_DE_98_0.png" src="../_images/DESeq2_02_deseq_DE_98_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_02_deseq_DE_98_1.png" src="../_images/DESeq2_02_deseq_DE_98_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Add color</span>
+
+myDEplot <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>mydds<span class="p">,</span> geneid<span class="p">,</span> grpvar<span class="p">,</span> mergelab<span class="p">)</span> <span class="p">{</span>
+    mydat <span class="o">&lt;-</span> myDEplotData<span class="p">(</span>mydds<span class="p">,</span> geneid<span class="p">,</span> mergelab<span class="p">)</span>
+    ggplot<span class="p">(</span>mydat<span class="p">,</span> aes_string<span class="p">(</span>x<span class="o">=</span>grpvar<span class="p">,</span> y <span class="o">=</span> <span class="s">&quot;geneexp&quot;</span><span class="p">,</span> col <span class="o">=</span> grpvar<span class="p">))</span><span class="o">+</span> geom_point<span class="p">()</span>
+<span class="p">}</span>
+myDEplot<span class="p">(</span>dds2019<span class="p">,</span> <span class="s">&quot;CNAG_00003&quot;</span><span class="p">,</span> <span class="s">&quot;condition&quot;</span><span class="p">,</span> <span class="s">&quot;Label&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_02_deseq_DE_99_0.png" src="../_images/DESeq2_02_deseq_DE_99_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Alow for coloring with respect to another factor</span>
+myDEplot <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>mydds<span class="p">,</span> geneid<span class="p">,</span> grpvar<span class="p">,</span> colvar<span class="p">,</span> mergelab<span class="p">)</span> <span class="p">{</span>
+    mydat <span class="o">&lt;-</span> myDEplotData<span class="p">(</span>mydds<span class="p">,</span> geneid<span class="p">,</span> mergelab<span class="p">)</span>
+    ggplot<span class="p">(</span>mydat<span class="p">,</span> aes_string<span class="p">(</span>x<span class="o">=</span>grpvar<span class="p">,</span> y <span class="o">=</span> <span class="s">&quot;geneexp&quot;</span><span class="p">,</span> col <span class="o">=</span> colvar<span class="p">))</span><span class="o">+</span> geom_point<span class="p">()</span>
+<span class="p">}</span>
+myDEplot<span class="p">(</span>dds2019<span class="p">,</span> <span class="s">&quot;CNAG_00003&quot;</span><span class="p">,</span> <span class="s">&quot;condition&quot;</span><span class="p">,</span> <span class="s">&quot;genotype&quot;</span><span class="p">,</span> <span class="s">&quot;Label&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_02_deseq_DE_100_0.png" src="../_images/DESeq2_02_deseq_DE_100_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>sessionInfo<span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>R version 3.6.0 (2019-04-26)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Debian GNU/Linux 9 (stretch)
+
+Matrix products: default
+BLAS:   /usr/lib/openblas-base/libblas.so.3
+LAPACK: /usr/lib/libopenblasp-r0.2.19.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C
+
+attached base packages:
+[1] parallel  stats4    stats     graphics  grDevices utils     datasets
+[8] methods   base
+
+other attached packages:
+ [1] RColorBrewer_1.1-2          dendextend_1.12.0
+ [3] DESeq2_1.24.0               SummarizedExperiment_1.14.0
+ [5] DelayedArray_0.10.0         BiocParallel_1.18.0
+ [7] matrixStats_0.54.0          Biobase_2.44.0
+ [9] GenomicRanges_1.36.0        GenomeInfoDb_1.20.0
+[11] IRanges_2.18.1              S4Vectors_0.22.0
+[13] BiocGenerics_0.30.0         forcats_0.4.0
+[15] stringr_1.4.0               dplyr_0.8.1
+[17] purrr_0.3.2                 readr_1.3.1
+[19] tidyr_0.8.3                 tibble_2.1.2
+[21] ggplot2_3.1.1               tidyverse_1.2.1
+
+loaded via a namespace (and not attached):
+ [1] colorspace_1.4-1       IRdisplay_0.7.0        htmlTable_1.13.1
+ [4] XVector_0.24.0         base64enc_0.1-3        rstudioapi_0.10
+ [7] bit64_0.9-7            AnnotationDbi_1.46.0   lubridate_1.7.4
+[10] xml2_1.2.0             splines_3.6.0          geneplotter_1.62.0
+[13] knitr_1.23             zeallot_0.1.0          IRkernel_1.0.1
+[16] Formula_1.2-3          jsonlite_1.6           broom_0.5.2
+[19] annotate_1.62.0        cluster_2.0.8          compiler_3.6.0
+[22] httr_1.4.0             backports_1.1.4        assertthat_0.2.1
+[25] Matrix_1.2-17          lazyeval_0.2.2         cli_1.1.0
+[28] acepack_1.4.1          htmltools_0.3.6        tools_3.6.0
+[31] gtable_0.3.0           glue_1.3.1             GenomeInfoDbData_1.2.1
+[34] Rcpp_1.0.1             cellranger_1.1.0       vctrs_0.1.0
+[37] nlme_3.1-139           xfun_0.7               rvest_0.3.4
+[40] XML_3.98-1.19          zlibbioc_1.30.0        scales_1.0.0
+[43] hms_0.4.2              memoise_1.1.0          gridExtra_2.3
+[46] rpart_4.1-15           latticeExtra_0.6-28    stringi_1.4.3
+[49] RSQLite_2.1.1          genefilter_1.66.0      checkmate_1.9.3
+[52] repr_1.0.1             rlang_0.3.4            pkgconfig_2.0.2
+[55] bitops_1.0-6           evaluate_0.14          lattice_0.20-38
+[58] labeling_0.3           htmlwidgets_1.3        bit_1.1-14
+[61] tidyselect_0.2.5       plyr_1.8.4             magrittr_1.5
+[64] R6_2.4.0               generics_0.0.2         Hmisc_4.2-0
+[67] pbdZMQ_0.3-3           DBI_1.0.0              pillar_1.4.1
+[70] haven_2.1.0            foreign_0.8-71         withr_2.1.2
+[73] survival_2.44-1.1      RCurl_1.95-4.12        nnet_7.3-12
+[76] modelr_0.1.4           crayon_1.3.4           uuid_0.1-2
+[79] viridis_0.5.1          locfit_1.5-9.1         grid_3.6.0
+[82] readxl_1.3.1           data.table_1.12.2      blob_1.1.1
+[85] digest_0.6.19          xtable_1.8-4           munsell_0.5.0
+[88] viridisLite_0.3.0
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="03_deseq_interaction.html" class="btn btn-neutral float-right" title="DESeq2: Basic Differential Expression (DE) analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="01_deseq_dataobject.html" class="btn btn-neutral float-left" title="DESeq2: Create Data Objects" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

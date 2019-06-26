@@ -1,0 +1,1220 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Generate figures from DESEq2 analysis &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data handling Demo" href="../computing/data_handling_demo.html" />
+    <link rel="prev" title="DESeq2: Basic Differential Expression (DE) analysis" href="03_deseq_interaction.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Quick Intro of Analysis Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../janice/1_IntroToCompBoot.html">Duke HTS Summer Course 2018</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/2_Intro_to_Unix_and_bash.html">Introduction to Unix and bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/3_IntroductionToR.html">Introduction to R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/4_Rlibraries_and_bioconductor.html">R libraries and Bioconductor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/5_Tidyverse_HandsOn-Filled.html">Hands-On Tidyverse - with count data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/6_Statistical_Inference.html">Simulations and Statistical Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/7_Statistical_Inference_Solutions.html">Estimation and Hypothesis Testing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix01_File_And_Directory_Solutions.html">Working with Unix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix03_File_Storage_Solutions.html">File archival and recovery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix04_Text_Manipulation_Solutinos.html">Working with text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Analysis of Pilot Data (Gene Count, DESeq2 &amp; DE Analysis)</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="8_Pilot2019_getstarcounts-KO.html">Get Star Count of the Pilot 2019 Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00_deseq_prepare_data.html">DESeq2: Create count matrix and metadata data frame</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_deseq_dataobject.html">DESeq2: Create Data Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_deseq_DE.html">DESeq2: Basic Differential Expression (DE) analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_deseq_interaction.html">DESeq2: Basic Differential Expression (DE) analysis</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Generate figures from DESEq2 analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Load-data-and-generate-DE-results">Load data and generate DE results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Dot-Plots">Dot Plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Volcano-plots">Volcano plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Get-&quot;expression&quot;-data-from-counts">Get “expression” data from counts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Principal-Components-Analysis">Principal Components Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Clustering">Clustering</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Generate figures from DESEq2 analysis</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/DESeq2/04-deseq2-plots.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Generate-figures-from-DESEq2-analysis">
+<h1>Generate figures from DESEq2 analysis<a class="headerlink" href="#Generate-figures-from-DESEq2-analysis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Load-data-and-generate-DE-results">
+<h2>Load data and generate DE results<a class="headerlink" href="#Load-data-and-generate-DE-results" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">library</span><span class="p">(</span>tidyverse<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>DESeq2<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>dendextend<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>RColorBrewer<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Registered S3 methods overwritten by &#39;ggplot2&#39;:
+  method         from
+  [.quosures     rlang
+  c.quosures     rlang
+  print.quosures rlang
+── <span class="ansi-bold">Attaching packages</span> ─────────────────────────────────────── tidyverse 1.2.1 ──
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">ggplot2</span> 3.1.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">purrr  </span> 0.3.2
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tibble </span> 2.1.2     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">dplyr  </span> 0.8.1
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tidyr  </span> 0.8.3     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">stringr</span> 1.4.0
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">readr  </span> 1.3.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">forcats</span> 0.4.0
+── <span class="ansi-bold">Conflicts</span> ────────────────────────────────────────── tidyverse_conflicts() ──
+<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">filter()</span> masks <span class="ansi-blue-fg">stats</span>::filter()
+<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">lag()</span>    masks <span class="ansi-blue-fg">stats</span>::lag()
+Loading required package: S4Vectors
+Loading required package: stats4
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:dplyr’:
+
+    combine, intersect, setdiff, union
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+    union, unique, unsplit, which, which.max, which.min
+
+
+Attaching package: ‘S4Vectors’
+
+The following objects are masked from ‘package:dplyr’:
+
+    first, rename
+
+The following object is masked from ‘package:tidyr’:
+
+    expand
+
+The following object is masked from ‘package:base’:
+
+    expand.grid
+
+Loading required package: IRanges
+
+Attaching package: ‘IRanges’
+
+The following objects are masked from ‘package:dplyr’:
+
+    collapse, desc, slice
+
+The following object is masked from ‘package:purrr’:
+
+    reduce
+
+Loading required package: GenomicRanges
+Loading required package: GenomeInfoDb
+Loading required package: SummarizedExperiment
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    &#39;browseVignettes()&#39;. To cite Bioconductor, see
+    &#39;citation(&#34;Biobase&#34;)&#39;, and for packages &#39;citation(&#34;pkgname&#34;)&#39;.
+
+Loading required package: DelayedArray
+Loading required package: matrixStats
+
+Attaching package: ‘matrixStats’
+
+The following objects are masked from ‘package:Biobase’:
+
+    anyMissing, rowMedians
+
+The following object is masked from ‘package:dplyr’:
+
+    count
+
+Loading required package: BiocParallel
+
+Attaching package: ‘DelayedArray’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges
+
+The following object is masked from ‘package:purrr’:
+
+    simplify
+
+The following objects are masked from ‘package:base’:
+
+    aperm, apply, rowsum
+
+
+---------------------
+Welcome to dendextend version 1.12.0
+Type citation(&#39;dendextend&#39;) for how to cite the package.
+
+Type browseVignettes(package = &#39;dendextend&#39;) for the package vignette.
+The github page is: https://github.com/talgalili/dendextend/
+
+Suggestions and bug-reports can be submitted at: https://github.com/talgalili/dendextend/issues
+Or contact: &lt;tal.galili@gmail.com&gt;
+
+        To suppress this message use:  suppressPackageStartupMessages(library(dendextend))
+---------------------
+
+
+Attaching package: ‘dendextend’
+
+The following object is masked from ‘package:stats’:
+
+    cutree
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>curdir <span class="o">&lt;-</span> <span class="s">&quot;/home/jovyan/work/scratch/analysis_output&quot;</span>
+imgdir <span class="o">&lt;-</span> <span class="kp">file.path</span><span class="p">(</span>curdir<span class="p">,</span> <span class="s">&quot;img&quot;</span><span class="p">)</span>
+
+imgfile <span class="o">&lt;-</span> <span class="kp">file.path</span><span class="p">(</span>imgdir<span class="p">,</span> <span class="s">&quot;pilotdds2019.RData&quot;</span><span class="p">)</span>
+
+imgfile
+
+<span class="kn">attach</span><span class="p">(</span>imgfile<span class="p">)</span>
+
+tools<span class="o">::</span>md5sum<span class="p">(</span>imgfile<span class="p">)</span>
+
+<span class="c1">### List the objects that have been attached</span>
+<span class="kp">ls</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
+
+ddsadd <span class="o">&lt;-</span> dds2019
+
+<span class="kn">detach</span><span class="p">(</span>pos <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+'/home/jovyan/work/scratch/analysis_output/img/pilotdds2019.RData'</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<strong>/home/jovyan/work/scratch/analysis_output/img/pilotdds2019.RData:</strong> '6632de5c8a2eed06d8c40c958e6f5d03'</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+'dds2019'</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+
+<span></span><span class="c1">### Estimate Size Factors</span>
+ddsadd <span class="o">&lt;-</span> estimateSizeFactors<span class="p">(</span>ddsadd<span class="p">)</span>
+<span class="c1">### Estimate Dispersion parameters (for each gene)</span>
+ddsadd <span class="o">&lt;-</span> estimateDispersions<span class="p">(</span>ddsadd<span class="p">)</span>
+<span class="c1">### Fit NB MLE model</span>
+ddsadd <span class="o">&lt;-</span> DESeq<span class="p">(</span>ddsadd<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+gene-wise dispersion estimates
+mean-dispersion relationship
+final dispersion estimates
+using pre-existing size factors
+estimating dispersions
+found already estimated dispersions, replacing these
+gene-wise dispersion estimates
+mean-dispersion relationship
+final dispersion estimates
+fitting model and testing
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Dot-Plots">
+<h2>Dot Plots<a class="headerlink" href="#Dot-Plots" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Merge gene expression with meta data</span>
+myDEplotData <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>mydds<span class="p">,</span> geneid<span class="p">,</span> mergelab<span class="p">)</span> <span class="p">{</span>
+    counts<span class="p">(</span>mydds<span class="p">,</span> normalize <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span> <span class="o">%&gt;%</span>
+        as_tibble<span class="p">(</span>rownames<span class="o">=</span><span class="s">&quot;gene&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span>
+        filter<span class="p">(</span>gene <span class="o">==</span> geneid<span class="p">)</span> <span class="o">%&gt;%</span>
+        gather<span class="p">(</span>Label<span class="p">,</span> geneexp<span class="p">,</span> <span class="o">-</span>gene<span class="p">)</span> <span class="o">%&gt;%</span>
+        select<span class="p">(</span><span class="o">-</span>gene<span class="p">)</span> <span class="o">-&gt;</span> genedat
+
+    colData<span class="p">(</span>mydds<span class="p">)</span> <span class="o">%&gt;%</span>
+        as.data.frame <span class="o">%&gt;%</span>
+        as_tibble <span class="o">%&gt;%</span>
+        full_join<span class="p">(</span>genedat<span class="p">,</span> by <span class="o">=</span> mergelab<span class="p">)</span> <span class="o">-&gt;</span> genedat
+
+    <span class="kr">return</span><span class="p">(</span>genedat<span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">### Plot using a single factor</span>
+myDEplot0 <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>mydds<span class="p">,</span> geneid<span class="p">,</span> grpvar<span class="p">,</span> mergelab<span class="p">)</span> <span class="p">{</span>
+    mydat <span class="o">&lt;-</span> myDEplotData<span class="p">(</span>mydds<span class="p">,</span> geneid<span class="p">,</span> mergelab<span class="p">)</span>
+    ggplot<span class="p">(</span>mydat<span class="p">,</span> aes_string<span class="p">(</span>x<span class="o">=</span>grpvar<span class="p">,</span> y <span class="o">=</span> <span class="s">&quot;geneexp&quot;</span><span class="p">,</span> col <span class="o">=</span> grpvar<span class="p">))</span><span class="o">+</span> geom_point<span class="p">()</span>
+<span class="p">}</span>
+
+
+<span class="c1">### Allow for coloring with respect to another factor</span>
+myDEplot <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>mydds<span class="p">,</span> geneid<span class="p">,</span> grpvar<span class="p">,</span> colvar<span class="p">,</span> mergelab<span class="p">)</span> <span class="p">{</span>
+    mydat <span class="o">&lt;-</span> myDEplotData<span class="p">(</span>mydds<span class="p">,</span> geneid<span class="p">,</span> mergelab<span class="p">)</span>
+    ggplot<span class="p">(</span>mydat<span class="p">,</span> aes_string<span class="p">(</span>x<span class="o">=</span>grpvar<span class="p">,</span> y <span class="o">=</span> <span class="s">&quot;geneexp&quot;</span><span class="p">,</span> col <span class="o">=</span> colvar<span class="p">))</span><span class="o">+</span> geom_point<span class="p">()</span>
+<span class="p">}</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Stratify by condition color by genotype</span>
+myDEplot<span class="p">(</span>ddsadd<span class="p">,</span> <span class="s">&quot;CNAG_00003&quot;</span><span class="p">,</span> <span class="s">&quot;condition&quot;</span><span class="p">,</span> <span class="s">&quot;genotype&quot;</span><span class="p">,</span> <span class="s">&quot;Label&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_04-deseq2-plots_7_0.png" src="../_images/DESeq2_04-deseq2-plots_7_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Stratify by genotype color by conditon</span>
+myDEplot<span class="p">(</span>ddsadd<span class="p">,</span> <span class="s">&quot;CNAG_00003&quot;</span><span class="p">,</span> <span class="s">&quot;genotype&quot;</span><span class="p">,</span> <span class="s">&quot;condition&quot;</span><span class="p">,</span> <span class="s">&quot;Label&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_04-deseq2-plots_8_0.png" src="../_images/DESeq2_04-deseq2-plots_8_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Stratify by genotype</span>
+myDEplot0<span class="p">(</span>ddsadd<span class="p">,</span> <span class="s">&quot;CNAG_00003&quot;</span><span class="p">,</span> <span class="s">&quot;genotype&quot;</span><span class="p">,</span> <span class="s">&quot;Label&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_04-deseq2-plots_9_0.png" src="../_images/DESeq2_04-deseq2-plots_9_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Volcano-plots">
+<h2>Volcano plots<a class="headerlink" href="#Volcano-plots" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Volcano plot for condition effect</span>
+ggplot<span class="p">(</span>results<span class="p">(</span>ddsadd<span class="p">,</span> contrast <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;condition&quot;</span><span class="p">,</span> <span class="s">&quot;pH4&quot;</span><span class="p">,</span> <span class="s">&quot;pH8&quot;</span><span class="p">),</span> tidy <span class="o">=</span> <span class="kc">TRUE</span><span class="p">),</span>
+       aes<span class="p">(</span>x <span class="o">=</span> log2FoldChange<span class="p">,</span> y <span class="o">=</span> <span class="o">-</span><span class="kp">log10</span><span class="p">(</span>padj<span class="p">)))</span> <span class="o">+</span> geom_point<span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Warning message:
+“Removed 348 rows containing missing values (geom_point).”
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_04-deseq2-plots_11_1.png" src="../_images/DESeq2_04-deseq2-plots_11_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Volcano plot for genotype effect</span>
+ggplot<span class="p">(</span>results<span class="p">(</span>ddsadd<span class="p">,</span> contrast <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;genotype&quot;</span><span class="p">,</span> <span class="s">&quot;sre1d&quot;</span><span class="p">,</span> <span class="s">&quot;WT&quot;</span><span class="p">),</span> tidy <span class="o">=</span> <span class="kc">TRUE</span><span class="p">),</span>
+       aes<span class="p">(</span>x <span class="o">=</span> log2FoldChange<span class="p">,</span> y <span class="o">=</span> <span class="o">-</span><span class="kp">log10</span><span class="p">(</span>padj<span class="p">)))</span> <span class="o">+</span> geom_point<span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Warning message:
+“Removed 348 rows containing missing values (geom_point).”
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_04-deseq2-plots_12_1.png" src="../_images/DESeq2_04-deseq2-plots_12_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Get-&quot;expression&quot;-data-from-counts">
+<h2>Get “expression” data from counts<a class="headerlink" href="#Get-"expression"-data-from-counts" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Normalized counts</span>
+normexp <span class="o">&lt;-</span> assay<span class="p">(</span>ddsadd<span class="p">,</span> normalize<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="kp">class</span><span class="p">(</span>normexp<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+'matrix'</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### rlog transform</span>
+rlexp <span class="o">&lt;-</span> rlog<span class="p">(</span>ddsadd<span class="p">,</span> blind <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+<span class="kp">class</span><span class="p">(</span>rlexp<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+'DESeqTransform'</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>vstexp <span class="o">&lt;-</span> vst<span class="p">(</span>ddsadd<span class="p">)</span>
+<span class="kp">class</span><span class="p">(</span>vstexp<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+'DESeqTransform'</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### FPM</span>
+fpmexp <span class="o">&lt;-</span> fpm<span class="p">(</span>ddsadd<span class="p">)</span>
+<span class="kp">class</span><span class="p">(</span>normexp<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+'matrix'</div>
+</div>
+</div>
+<div class="section" id="Principal-Components-Analysis">
+<h2>Principal Components Analysis<a class="headerlink" href="#Principal-Components-Analysis" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">###  Color by condition</span>
+plotPCA<span class="p">(</span>rlexp<span class="p">,</span> intgroup <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;condition&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_04-deseq2-plots_19_0.png" src="../_images/DESeq2_04-deseq2-plots_19_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">###  Color by genotype</span>
+plotPCA<span class="p">(</span>rlexp<span class="p">,</span> intgroup <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;genotype&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_04-deseq2-plots_20_0.png" src="../_images/DESeq2_04-deseq2-plots_20_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Color by condition and genotype using rlog and then vst transformed counts</span>
+plotPCA<span class="p">(</span>rlexp<span class="p">,</span> intgroup <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;condition&quot;</span><span class="p">,</span> <span class="s">&quot;genotype&quot;</span><span class="p">))</span>
+plotPCA<span class="p">(</span>vstexp<span class="p">,</span> intgroup <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;condition&quot;</span><span class="p">,</span> <span class="s">&quot;genotype&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_04-deseq2-plots_21_0.png" src="../_images/DESeq2_04-deseq2-plots_21_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_04-deseq2-plots_21_1.png" src="../_images/DESeq2_04-deseq2-plots_21_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Clustering">
+<h2>Clustering<a class="headerlink" href="#Clustering" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Simple dendogram with no annotation</span>
+<span class="kp">options</span><span class="p">(</span>repr.plot.width <span class="o">=</span> <span class="m">9</span><span class="p">,</span> repr.plot.height <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
+dists <span class="o">&lt;-</span> dist<span class="p">(</span><span class="kp">t</span><span class="p">(</span>assay<span class="p">(</span>rlexp<span class="p">)))</span>
+plot<span class="p">(</span>hclust<span class="p">(</span>dists<span class="p">,</span> metho <span class="o">=</span> <span class="s">&quot;complete&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_04-deseq2-plots_24_0.png" src="../_images/DESeq2_04-deseq2-plots_24_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Create dendogram object</span>
+assay<span class="p">(</span>rlexp<span class="p">)</span> <span class="o">%&gt;%</span>
+    <span class="kp">t</span><span class="p">()</span> <span class="o">%&gt;%</span>
+        dist <span class="o">%&gt;%</span>
+            hclust<span class="p">(</span>method <span class="o">=</span> <span class="s">&quot;complete&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span>
+                as.dendrogram <span class="o">-&gt;</span> mydend
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Plot dendogram object</span>
+plot<span class="p">(</span>mydend<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_04-deseq2-plots_26_0.png" src="../_images/DESeq2_04-deseq2-plots_26_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Function to annotate dendogram object</span>
+dendplot <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>mydend<span class="p">,</span> columndata<span class="p">,</span> labvar<span class="p">,</span> colvar<span class="p">,</span> pchvar<span class="p">)</span> <span class="p">{</span>
+    cols <span class="o">&lt;-</span> <span class="kp">factor</span><span class="p">(</span>columndata<span class="p">[[</span>colvar<span class="p">]][</span>order.dendrogram<span class="p">(</span>mydend<span class="p">)])</span>
+    collab <span class="o">&lt;-</span> brewer.pal<span class="p">(</span><span class="kp">max</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="kp">nlevels</span><span class="p">(</span>cols<span class="p">)),</span><span class="s">&quot;Set1&quot;</span><span class="p">)[</span>cols<span class="p">]</span>
+    pchs <span class="o">&lt;-</span> <span class="kp">factor</span><span class="p">(</span>columndata<span class="p">[[</span>pchvar<span class="p">]][</span>order.dendrogram<span class="p">(</span>mydend<span class="p">)])</span>
+    pchlab <span class="o">&lt;-</span> <span class="kp">seq_len</span><span class="p">(</span><span class="kp">nlevels</span><span class="p">(</span>pchs<span class="p">))[</span>pchs<span class="p">]</span>
+    lablab <span class="o">&lt;-</span> columndata<span class="p">[[</span>labvar<span class="p">]][</span>order.dendrogram<span class="p">(</span>mydend<span class="p">)]</span>
+
+    mydend <span class="o">%&gt;%</span>
+        set<span class="p">(</span><span class="s">&quot;labels_cex&quot;</span><span class="p">,</span><span class="m">1</span><span class="p">)</span> <span class="o">%&gt;%</span>
+        set<span class="p">(</span><span class="s">&quot;labels_col&quot;</span><span class="p">,</span>collab<span class="p">)</span> <span class="o">%&gt;%</span>
+        set<span class="p">(</span><span class="s">&quot;leaves_pch&quot;</span><span class="p">,</span>pchlab<span class="p">)</span> <span class="o">%&gt;%</span>
+        set<span class="p">(</span><span class="s">&quot;labels&quot;</span><span class="p">,</span> lablab<span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Annotate genotype only</span>
+dendplot<span class="p">(</span>mydend<span class="p">,</span> ddsadd<span class="o">@</span>colData<span class="p">,</span>
+         <span class="s">&quot;genotype&quot;</span><span class="p">,</span>    <span class="c1"># variable that show in label</span>
+         <span class="s">&quot;genotype&quot;</span><span class="p">,</span>    <span class="c1"># variable that define color</span>
+         <span class="s">&quot;genotype&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="c1"># variable that define shape of points</span>
+    plot
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_04-deseq2-plots_28_0.png" src="../_images/DESeq2_04-deseq2-plots_28_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Annotate condition only</span>
+dendplot<span class="p">(</span>mydend<span class="p">,</span> ddsadd<span class="o">@</span>colData<span class="p">,</span>
+         <span class="s">&quot;condition&quot;</span><span class="p">,</span>    <span class="c1"># variable that show in label</span>
+         <span class="s">&quot;condition&quot;</span><span class="p">,</span>    <span class="c1"># variable that define color</span>
+         <span class="s">&quot;condition&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="c1"># variable that define shape of points</span>
+    plot
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_04-deseq2-plots_29_0.png" src="../_images/DESeq2_04-deseq2-plots_29_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Annotate condition and genotype</span>
+dendplot<span class="p">(</span>mydend<span class="p">,</span> ddsadd<span class="o">@</span>colData<span class="p">,</span>
+         <span class="s">&quot;condition&quot;</span><span class="p">,</span>    <span class="c1"># variable that show in label</span>
+         <span class="s">&quot;condition&quot;</span><span class="p">,</span>    <span class="c1"># variable that define color</span>
+         <span class="s">&quot;genotype&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="c1"># variable that define shape of points</span>
+    plot
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/DESeq2_04-deseq2-plots_30_0.png" src="../_images/DESeq2_04-deseq2-plots_30_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>sessionInfo<span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>R version 3.6.0 (2019-04-26)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Debian GNU/Linux 9 (stretch)
+
+Matrix products: default
+BLAS:   /usr/lib/openblas-base/libblas.so.3
+LAPACK: /usr/lib/libopenblasp-r0.2.19.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C
+
+attached base packages:
+[1] parallel  stats4    stats     graphics  grDevices utils     datasets
+[8] methods   base
+
+other attached packages:
+ [1] RColorBrewer_1.1-2          dendextend_1.12.0
+ [3] DESeq2_1.24.0               SummarizedExperiment_1.14.0
+ [5] DelayedArray_0.10.0         BiocParallel_1.18.0
+ [7] matrixStats_0.54.0          Biobase_2.44.0
+ [9] GenomicRanges_1.36.0        GenomeInfoDb_1.20.0
+[11] IRanges_2.18.1              S4Vectors_0.22.0
+[13] BiocGenerics_0.30.0         forcats_0.4.0
+[15] stringr_1.4.0               dplyr_0.8.1
+[17] purrr_0.3.2                 readr_1.3.1
+[19] tidyr_0.8.3                 tibble_2.1.2
+[21] ggplot2_3.1.1               tidyverse_1.2.1
+
+loaded via a namespace (and not attached):
+ [1] nlme_3.1-139           bitops_1.0-6           bit64_0.9-7
+ [4] lubridate_1.7.4        httr_1.4.0             repr_1.0.1
+ [7] tools_3.6.0            backports_1.1.4        R6_2.4.0
+[10] rpart_4.1-15           DBI_1.0.0              Hmisc_4.2-0
+[13] lazyeval_0.2.2         colorspace_1.4-1       nnet_7.3-12
+[16] withr_2.1.2            tidyselect_0.2.5       gridExtra_2.3
+[19] bit_1.1-14             compiler_3.6.0         cli_1.1.0
+[22] rvest_0.3.4            htmlTable_1.13.1       xml2_1.2.0
+[25] labeling_0.3           scales_1.0.0           checkmate_1.9.3
+[28] genefilter_1.66.0      pbdZMQ_0.3-3           digest_0.6.19
+[31] foreign_0.8-71         XVector_0.24.0         base64enc_0.1-3
+[34] pkgconfig_2.0.2        htmltools_0.3.6        htmlwidgets_1.3
+[37] rlang_0.3.4            readxl_1.3.1           RSQLite_2.1.1
+[40] rstudioapi_0.10        generics_0.0.2         jsonlite_1.6
+[43] acepack_1.4.1          RCurl_1.95-4.12        magrittr_1.5
+[46] GenomeInfoDbData_1.2.1 Formula_1.2-3          Matrix_1.2-17
+[49] Rcpp_1.0.1             IRkernel_1.0.1         munsell_0.5.0
+[52] viridis_0.5.1          stringi_1.4.3          zlibbioc_1.30.0
+[55] plyr_1.8.4             blob_1.1.1             grid_3.6.0
+[58] crayon_1.3.4           lattice_0.20-38        IRdisplay_0.7.0
+[61] haven_2.1.0            splines_3.6.0          annotate_1.62.0
+[64] hms_0.4.2              locfit_1.5-9.1         knitr_1.23
+[67] pillar_1.4.1           uuid_0.1-2             geneplotter_1.62.0
+[70] XML_3.98-1.19          glue_1.3.1             evaluate_0.14
+[73] latticeExtra_0.6-28    data.table_1.12.2      modelr_0.1.4
+[76] cellranger_1.1.0       gtable_0.3.0           assertthat_0.2.1
+[79] xfun_0.7               xtable_1.8-4           broom_0.5.2
+[82] viridisLite_0.3.0      survival_2.44-1.1      memoise_1.1.0
+[85] AnnotationDbi_1.46.0   cluster_2.0.8
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../computing/data_handling_demo.html" class="btn btn-neutral float-right" title="Data handling Demo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="03_deseq_interaction.html" class="btn btn-neutral float-left" title="DESeq2: Basic Differential Expression (DE) analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

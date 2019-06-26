@@ -1,0 +1,1854 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Simulations and Statistical Inference &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Estimation and Hypothesis Testing" href="7_Statistical_Inference_Solutions.html" />
+    <link rel="prev" title="Hands-On Tidyverse - with count data" href="5_Tidyverse_HandsOn-Filled.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Quick Intro of Analysis Tools</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="2_Intro_to_Unix_and_bash.html">Introduction to Unix and bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3_IntroductionToR.html">Introduction to R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4_Rlibraries_and_bioconductor.html">R libraries and Bioconductor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5_Tidyverse_HandsOn-Filled.html">Hands-On Tidyverse - with count data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Simulations and Statistical Inference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Set-random-number-seed-for-reproducibility">Set random number seed for reproducibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Generating-numbers">Generating numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Using-rep">Using <code class="docutils literal notranslate"><span class="pre">rep</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Using-sample">Using <code class="docutils literal notranslate"><span class="pre">sample</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Random-number-generators">Random number generators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Discrete-distributions">Discrete distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Continuous-distributions">Continuous distributions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Looping">Looping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Using-replicate">Using <code class="docutils literal notranslate"><span class="pre">replicate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Using-for-loop">Using for loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Using-replicate">Using replicate</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Making-a-data.frame-or-tibble-of-simulated-data">Making a <code class="docutils literal notranslate"><span class="pre">data.frame</span></code> or <code class="docutils literal notranslate"><span class="pre">tibble</span></code> of simulated data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Breakdown-of-simulation">Breakdown of simulation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="7_Statistical_Inference_Solutions.html">Estimation and Hypothesis Testing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix01_File_And_Directory_Solutions.html">Working with Unix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix03_File_Storage_Solutions.html">File archival and recovery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix04_Text_Manipulation_Solutinos.html">Working with text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Simulations and Statistical Inference</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/janice/6_Statistical_Inference.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Simulations-and-Statistical-Inference">
+<h1>Simulations and Statistical Inference<a class="headerlink" href="#Simulations-and-Statistical-Inference" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">library</span><span class="p">(</span>tidyverse<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Registered S3 methods overwritten by &#39;ggplot2&#39;:
+  method         from
+  [.quosures     rlang
+  c.quosures     rlang
+  print.quosures rlang
+── <span class="ansi-bold">Attaching packages</span> ─────────────────────────────────────── tidyverse 1.2.1 ──
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">ggplot2</span> 3.1.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">purrr  </span> 0.3.2
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tibble </span> 2.1.2     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">dplyr  </span> 0.8.1
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tidyr  </span> 0.8.3     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">stringr</span> 1.4.0
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">readr  </span> 1.3.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">forcats</span> 0.4.0
+── <span class="ansi-bold">Conflicts</span> ────────────────────────────────────────── tidyverse_conflicts() ──
+<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">filter()</span> masks <span class="ansi-blue-fg">stats</span>::filter()
+<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">lag()</span>    masks <span class="ansi-blue-fg">stats</span>::lag()
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">options</span><span class="p">(</span>repr.plot.width<span class="o">=</span><span class="m">4</span><span class="p">,</span> repr.plot.height<span class="o">=</span><span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Set-random-number-seed-for-reproducibility">
+<h2>Set random number seed for reproducibility<a class="headerlink" href="#Set-random-number-seed-for-reproducibility" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Generating-numbers">
+<h2>Generating numbers<a class="headerlink" href="#Generating-numbers" title="Permalink to this headline">¶</a></h2>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">c</span></code> function</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">8</span><span class="p">,</span><span class="m">13</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>5</li>
+    <li>8</li>
+    <li>13</li>
+</ol></div>
+</div>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">:</span></code> operator</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="m">1</span><span class="o">:</span><span class="m">10</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+    <li>10</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="m">10</span><span class="o">:</span><span class="m">1</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>10</li>
+    <li>9</li>
+    <li>8</li>
+    <li>7</li>
+    <li>6</li>
+    <li>5</li>
+    <li>4</li>
+    <li>3</li>
+    <li>2</li>
+    <li>1</li>
+</ol></div>
+</div>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">seq</span></code> function</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+    <li>10</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>1</li>
+    <li>3</li>
+    <li>5</li>
+    <li>7</li>
+    <li>9</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">seq</span><span class="p">(</span><span class="m">10</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">-1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>10</li>
+    <li>9</li>
+    <li>8</li>
+    <li>7</li>
+    <li>6</li>
+    <li>5</li>
+    <li>4</li>
+    <li>3</li>
+    <li>2</li>
+    <li>1</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">seq</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> length.out <span class="o">=</span> <span class="m">11</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>0</li>
+    <li>0.1</li>
+    <li>0.2</li>
+    <li>0.3</li>
+    <li>0.4</li>
+    <li>0.5</li>
+    <li>0.6</li>
+    <li>0.7</li>
+    <li>0.8</li>
+    <li>0.9</li>
+    <li>1</li>
+</ol></div>
+</div>
+</div>
+<div class="section" id="Using-rep">
+<h2>Using <code class="docutils literal notranslate"><span class="pre">rep</span></code><a class="headerlink" href="#Using-rep" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">rep</span></code> is useful for generating repeating data patterns.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">rep</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>3</li>
+    <li>3</li>
+    <li>3</li>
+    <li>3</li>
+    <li>3</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">rep</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">,</span> times<span class="o">=</span><span class="m">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">rep</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">,</span> each<span class="o">=</span><span class="m">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>1</li>
+    <li>1</li>
+    <li>1</li>
+    <li>1</li>
+    <li>1</li>
+    <li>2</li>
+    <li>2</li>
+    <li>2</li>
+    <li>2</li>
+    <li>2</li>
+    <li>3</li>
+    <li>3</li>
+    <li>3</li>
+    <li>3</li>
+    <li>3</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">rep</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">,</span> length.out<span class="o">=</span><span class="m">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>1</li>
+</ol></div>
+</div>
+</div>
+<div class="section" id="Using-sample">
+<h2>Using <code class="docutils literal notranslate"><span class="pre">sample</span></code><a class="headerlink" href="#Using-sample" title="Permalink to this headline">¶</a></h2>
+<p>Simulate <code class="docutils literal notranslate"><span class="pre">n</span></code> tooses of a coin</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>n <span class="o">&lt;-</span> <span class="m">10</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>t1 <span class="o">&lt;-</span> <span class="kp">sample</span><span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&#39;H&#39;</span><span class="p">,</span> <span class="s">&#39;T&#39;</span><span class="p">),</span> n<span class="p">,</span> replace <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+t1
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>'H'</li>
+    <li>'H'</li>
+    <li>'H'</li>
+    <li>'H'</li>
+    <li>'T'</li>
+    <li>'T'</li>
+    <li>'T'</li>
+    <li>'T'</li>
+    <li>'H'</li>
+    <li>'T'</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">table</span><span class="p">(</span>t1<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>t1
+H T
+5 5
+</pre></div>
+</div>
+</div>
+<p>Simulate <code class="docutils literal notranslate"><span class="pre">n</span></code> tosses of a biased coin</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>t2 <span class="o">&lt;-</span> <span class="kp">sample</span><span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&#39;H&#39;</span><span class="p">,</span> <span class="s">&#39;T&#39;</span><span class="p">),</span> n<span class="p">,</span> replace <span class="o">=</span> <span class="kc">TRUE</span><span class="p">,</span> prob <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">0.3</span><span class="p">,</span> <span class="m">0.7</span><span class="p">))</span>
+t2
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>'T'</li>
+    <li>'H'</li>
+    <li>'H'</li>
+    <li>'T'</li>
+    <li>'T'</li>
+    <li>'H'</li>
+    <li>'H'</li>
+    <li>'T'</li>
+    <li>'T'</li>
+    <li>'T'</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">table</span><span class="p">(</span>t2<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>t2
+H T
+4 6
+</pre></div>
+</div>
+</div>
+<p>Simulate <code class="docutils literal notranslate"><span class="pre">n</span></code> rolls of a 6-sided die</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>n <span class="o">&lt;-</span> <span class="m">100</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>d1 <span class="o">&lt;-</span> <span class="kp">sample</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">6</span><span class="p">,</span> n<span class="p">,</span> replace<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+d1
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>3</li>
+    <li>1</li>
+    <li>1</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>5</li>
+    <li>5</li>
+    <li>4</li>
+    <li>2</li>
+    <li>4</li>
+    <li>3</li>
+    <li>2</li>
+    <li>1</li>
+    <li>2</li>
+    <li>6</li>
+    <li>3</li>
+    <li>6</li>
+    <li>2</li>
+    <li>4</li>
+    <li>4</li>
+    <li>6</li>
+    <li>2</li>
+    <li>5</li>
+    <li>4</li>
+    <li>5</li>
+    <li>4</li>
+    <li>2</li>
+    <li>2</li>
+    <li>3</li>
+    <li>1</li>
+    <li>5</li>
+    <li>2</li>
+    <li>2</li>
+    <li>6</li>
+    <li>6</li>
+    <li>2</li>
+    <li>4</li>
+    <li>3</li>
+    <li>6</li>
+    <li>5</li>
+    <li>2</li>
+    <li>6</li>
+    <li>2</li>
+    <li>2</li>
+    <li>5</li>
+    <li>1</li>
+    <li>1</li>
+    <li>4</li>
+    <li>5</li>
+    <li>2</li>
+    <li>1</li>
+    <li>5</li>
+    <li>4</li>
+    <li>4</li>
+    <li>1</li>
+    <li>3</li>
+    <li>3</li>
+    <li>5</li>
+    <li>5</li>
+    <li>4</li>
+    <li>6</li>
+    <li>5</li>
+    <li>4</li>
+    <li>6</li>
+    <li>2</li>
+    <li>2</li>
+    <li>1</li>
+    <li>2</li>
+    <li>5</li>
+    <li>6</li>
+    <li>5</li>
+    <li>4</li>
+    <li>1</li>
+    <li>4</li>
+    <li>2</li>
+    <li>2</li>
+    <li>3</li>
+    <li>5</li>
+    <li>5</li>
+    <li>6</li>
+    <li>3</li>
+    <li>6</li>
+    <li>4</li>
+    <li>5</li>
+    <li>1</li>
+    <li>4</li>
+    <li>1</li>
+    <li>1</li>
+    <li>5</li>
+    <li>6</li>
+    <li>3</li>
+    <li>1</li>
+    <li>2</li>
+    <li>5</li>
+    <li>6</li>
+    <li>1</li>
+    <li>5</li>
+    <li>6</li>
+    <li>5</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">table</span><span class="p">(</span>d1<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>d1
+ 1  2  3  4  5  6
+15 20 11 17 22 15
+</pre></div>
+</div>
+</div>
+<p>Sampling without replacement. For example, if we wanted to assiggn 16 samples to treatment A or B at random such that exactly half had each treatment.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">sample</span><span class="p">(</span><span class="kp">rep</span><span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&#39;A&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">),</span> each<span class="o">=</span><span class="m">8</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>'B'</li>
+    <li>'A'</li>
+    <li>'B'</li>
+    <li>'B'</li>
+    <li>'B'</li>
+    <li>'B'</li>
+    <li>'A'</li>
+    <li>'A'</li>
+    <li>'A'</li>
+    <li>'B'</li>
+    <li>'A'</li>
+    <li>'B'</li>
+    <li>'B'</li>
+    <li>'A'</li>
+    <li>'A'</li>
+    <li>'A'</li>
+</ol></div>
+</div>
+</div>
+<div class="section" id="Random-number-generators">
+<h2>Random number generators<a class="headerlink" href="#Random-number-generators" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Discrete-distributions">
+<h3>Discrete distributions<a class="headerlink" href="#Discrete-distributions" title="Permalink to this headline">¶</a></h3>
+<p>Sampling from a Bernoullli distribution returns TRUE for success and FALSE for failure.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>rbernoulli<span class="p">(</span>n<span class="o">=</span><span class="m">10</span><span class="p">,</span> p<span class="o">=</span><span class="m">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>TRUE</li>
+    <li>TRUE</li>
+    <li>FALSE</li>
+    <li>TRUE</li>
+    <li>FALSE</li>
+    <li>FALSE</li>
+    <li>FALSE</li>
+    <li>FALSE</li>
+    <li>FALSE</li>
+    <li>TRUE</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">as.integer</span><span class="p">(</span>rbernoulli<span class="p">(</span>n<span class="o">=</span><span class="m">10</span><span class="p">,</span> p<span class="o">=</span><span class="m">0.5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>0</li>
+    <li>0</li>
+    <li>0</li>
+    <li>0</li>
+    <li>0</li>
+    <li>1</li>
+    <li>1</li>
+    <li>1</li>
+    <li>1</li>
+    <li>1</li>
+</ol></div>
+</div>
+<p>Sampling from a Binomial distribution returns the number of <strong>successes</strong> in <code class="docutils literal notranslate"><span class="pre">size</span></code> trials for <code class="docutils literal notranslate"><span class="pre">n</span></code> experiments.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>rbinom<span class="p">(</span>n<span class="o">=</span><span class="m">10</span><span class="p">,</span> p<span class="o">=</span><span class="m">0.5</span><span class="p">,</span> size<span class="o">=</span><span class="m">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>4</li>
+    <li>2</li>
+    <li>2</li>
+    <li>3</li>
+    <li>3</li>
+    <li>4</li>
+    <li>3</li>
+    <li>1</li>
+    <li>2</li>
+    <li>2</li>
+</ol></div>
+</div>
+<p>Sampling from a negative binomial distribution returns the number of <strong>failures</strong> until <code class="docutils literal notranslate"><span class="pre">size</span></code> succcesses are observed for <code class="docutils literal notranslate"><span class="pre">n</span></code> experiemnts.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>rnbinom<span class="p">(</span>n<span class="o">=</span><span class="m">10</span><span class="p">,</span> size<span class="o">=</span><span class="m">5</span><span class="p">,</span> prob<span class="o">=</span><span class="m">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>4</li>
+    <li>0</li>
+    <li>9</li>
+    <li>4</li>
+    <li>2</li>
+    <li>4</li>
+    <li>6</li>
+    <li>5</li>
+    <li>5</li>
+    <li>4</li>
+</ol></div>
+</div>
+<p>Sampling from a Poisson distribution returns the number of <strong>successes</strong> in <code class="docutils literal notranslate"><span class="pre">n</span></code> experiments if the average success rate per experiment is <code class="docutils literal notranslate"><span class="pre">lambda</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>rpois<span class="p">(</span>n<span class="o">=</span><span class="m">10</span><span class="p">,</span> lambda <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>5</li>
+    <li>2</li>
+    <li>1</li>
+    <li>0</li>
+    <li>2</li>
+    <li>2</li>
+    <li>1</li>
+    <li>2</li>
+    <li>0</li>
+    <li>9</li>
+</ol></div>
+</div>
+<p><strong>Note</strong>: We can give different parameters for each experiment in these distributions.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>rpois<span class="p">(</span>n<span class="o">=</span><span class="m">10</span><span class="p">,</span> lambda<span class="o">=</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>2</li>
+    <li>0</li>
+    <li>5</li>
+    <li>4</li>
+    <li>4</li>
+    <li>3</li>
+    <li>7</li>
+    <li>4</li>
+    <li>7</li>
+    <li>10</li>
+</ol></div>
+</div>
+</div>
+<div class="section" id="Continuous-distributions">
+<h3>Continuous distributions<a class="headerlink" href="#Continuous-distributions" title="Permalink to this headline">¶</a></h3>
+<p>Sampling from a standard uniform distribution.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>runif<span class="p">(</span><span class="m">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>0.159469854552299</li>
+    <li>0.149578995071352</li>
+    <li>0.499272880377248</li>
+    <li>0.940564878052101</li>
+    <li>0.334231326589361</li>
+</ol></div>
+</div>
+<p>Sampling form a uniform distribution, with values between 90 and 100.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>runif<span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">90</span><span class="p">,</span> <span class="m">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>91.8843432958238</li>
+    <li>92.6971617829986</li>
+    <li>95.3074407810345</li>
+    <li>90.2145022852346</li>
+    <li>97.987603074871</li>
+</ol></div>
+</div>
+<p>Sampling from a standard normal distribution.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>rnorm<span class="p">(</span><span class="m">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>-1.22474795035999</li>
+    <li>0.179516441117938</li>
+    <li>0.567620594423535</li>
+    <li>-0.492877353553475</li>
+    <li>6.28840653511241e-05</li>
+</ol></div>
+</div>
+</div>
+</div>
+<div class="section" id="Looping">
+<h2>Looping<a class="headerlink" href="#Looping" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kp">print</span><span class="p">(</span><span class="kp">mean</span><span class="p">(</span>rnorm<span class="p">(</span><span class="m">10</span><span class="p">)))</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1] 0.06091411
+[1] -0.1028669
+[1] -0.3117706
+[1] 0.09639036
+[1] 0.2010454
+[1] -0.2384309
+[1] 0.1271087
+[1] -0.2115652
+[1] -0.01946474
+[1] -0.04661421
+</pre></div></div>
+</div>
+<p>Saving variables generated in a loop</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>n <span class="o">&lt;-</span> <span class="m">10</span>
+vars <span class="o">&lt;-</span> <span class="kt">numeric</span><span class="p">(</span>n<span class="p">)</span>
+<span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span>n<span class="p">)</span> <span class="p">{</span>
+    vars<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="kp">mean</span><span class="p">(</span>rnorm<span class="p">(</span><span class="m">10</span><span class="p">))</span>
+<span class="p">}</span>
+vars
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>0.102869685091412</li>
+    <li>0.0394963601049801</li>
+    <li>0.0587241371393688</li>
+    <li>-0.208039597462606</li>
+    <li>0.175088960315561</li>
+    <li>-0.0224984001571429</li>
+    <li>0.157365195356717</li>
+    <li>-0.11380999366832</li>
+    <li>-0.151701911199645</li>
+    <li>0.0806058319328881</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">lapply</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">,</span>FUN <span class="o">=</span> rnorm<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol>
+    <li>0.152764106747895</li>
+    <li><ol class=list-inline>
+    <li>0.988596845178799</li>
+    <li>-0.073458334672174</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>-1.38702655355974</li>
+    <li>-1.30667590437536</li>
+    <li>-0.768395325077939</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>-0.527108125374458</li>
+    <li>-0.0214270650416246</li>
+    <li>0.670498070996282</li>
+    <li>-0.434617038572407</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>-1.11387978331285</li>
+    <li>0.6071059948785</li>
+    <li>0.275456968739591</li>
+    <li>1.15734706941474</li>
+    <li>-1.68248085947826</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>0.0873190888948744</li>
+    <li>1.35336189394267</li>
+    <li>0.724173800683369</li>
+    <li>-0.832552825764212</li>
+    <li>0.732528486768414</li>
+    <li>-0.871926869997213</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>-0.453397511229793</li>
+    <li>1.18753427862908</li>
+    <li>-0.290145311790079</li>
+    <li>0.828546144965436</li>
+    <li>-0.291227708779169</li>
+    <li>-1.57636240474791</li>
+    <li>-0.848815696948922</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>-1.0885198619572</li>
+    <li>-0.484290571117173</li>
+    <li>-0.336311209009573</li>
+    <li>-0.153357890661644</li>
+    <li>-0.243247228574846</li>
+    <li>1.89220204160011</li>
+    <li>-1.38599833728542</li>
+    <li>-0.41482430070778</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>0.349081528106831</li>
+    <li>1.62844226581541</li>
+    <li>0.0885218957136163</li>
+    <li>1.23915070840056</li>
+    <li>-1.64455553575371</li>
+    <li>1.44635652537848</li>
+    <li>-0.690560171665183</li>
+    <li>-0.276431085453852</li>
+    <li>-1.10941875989944</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>0.133869316429452</li>
+    <li>1.78533905173155</li>
+    <li>2.42216335525159</li>
+    <li>-1.07682890211841</li>
+    <li>0.485941110403099</li>
+    <li>1.38852173874429</li>
+    <li>-0.195656817284544</li>
+    <li>-0.218174797706211</li>
+    <li>-0.304777954546445</li>
+    <li>0.597832724111443</li>
+</ol>
+</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">lapply</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">,</span> FUN <span class="o">=</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> <span class="kp">mean</span><span class="p">(</span>rnorm<span class="p">(</span>x<span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol>
+    <li>1.39742941081576</li>
+    <li>0.503903887768466</li>
+    <li>-0.117686052712023</li>
+    <li>0.375071580419853</li>
+    <li>0.239310604458899</li>
+    <li>0.100315651769656</li>
+    <li>-0.976662058729188</li>
+    <li>-0.279974621278527</li>
+    <li>0.203381481503197</li>
+    <li>0.0364462992139071</li>
+</ol></div>
+</div>
+</div>
+<div class="section" id="Using-replicate">
+<h2>Using <code class="docutils literal notranslate"><span class="pre">replicate</span></code><a class="headerlink" href="#Using-replicate" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">replicate</span></code> is like <code class="docutils literal notranslate"><span class="pre">rep</span></code> but works for a function (such as a random number generator)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">replicate</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> rnorm<span class="p">(</span><span class="m">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 5 × 3 of type dbl</caption>
+<tbody>
+    <tr><td>-0.8673179</td><td>-0.2785431</td><td>-0.4034675</td></tr>
+    <tr><td> 0.9506517</td><td> 0.5461152</td><td> 0.1046594</td></tr>
+    <tr><td>-0.5850115</td><td>-1.3038212</td><td>-0.3188808</td></tr>
+    <tr><td> 0.3209575</td><td>-0.2509145</td><td> 1.6183439</td></tr>
+    <tr><td>-0.2993960</td><td> 0.1710074</td><td> 0.7141886</td></tr>
+</tbody>
+</table></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">replicate</span></code> is quite useful for simulations. For example, suppose we want to know the distribution of the sample mean if we sampled 100 numbers from the standard normal distribution 1,000 times.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>n_expts <span class="o">&lt;-</span> <span class="m">1000</span>
+n <span class="o">&lt;-</span> <span class="m">100</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Using-for-loop">
+<h3>Using for loop<a class="headerlink" href="#Using-for-loop" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+mus <span class="o">&lt;-</span> <span class="kt">numeric</span><span class="p">(</span>n_expts<span class="p">)</span>
+<span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span>n_expts<span class="p">)</span> <span class="p">{</span>
+    mus<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="kp">mean</span><span class="p">(</span>rnorm<span class="p">(</span>n<span class="p">))</span>
+<span class="p">}</span>
+hist<span class="p">(</span>mus<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/janice_6_Statistical_Inference_66_0.png" src="../_images/janice_6_Statistical_Inference_66_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Using-replicate">
+<h3>Using replicate<a class="headerlink" href="#Using-replicate" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+mus <span class="o">&lt;-</span> <span class="kp">replicate</span><span class="p">(</span>n_expts<span class="p">,</span> <span class="kp">mean</span><span class="p">(</span>rnorm<span class="p">(</span>n<span class="p">)))</span>
+hist<span class="p">(</span>mus<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/janice_6_Statistical_Inference_68_0.png" src="../_images/janice_6_Statistical_Inference_68_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Making-a-data.frame-or-tibble-of-simulated-data">
+<h2>Making a <code class="docutils literal notranslate"><span class="pre">data.frame</span></code> or <code class="docutils literal notranslate"><span class="pre">tibble</span></code> of simulated data<a class="headerlink" href="#Making-a-data.frame-or-tibble-of-simulated-data" title="Permalink to this headline">¶</a></h2>
+<p>Let’s simulate the following experiment.</p>
+<ul class="simple">
+<li><p>There are 10 subjects in Group A and 10 subjects in Group B with random PIDs from 10000-99999</p></li>
+<li><p>We measure 5 genes in each subject. The genes have the same distribution for each subject, but different genes have different distribtutions:</p>
+<ul>
+<li><p>gene1 <span class="math notranslate nohighlight">\(\sim N(10, 1)\)</span></p></li>
+<li><p>gene2 <span class="math notranslate nohighlight">\(\sim N(11, 2)\)</span></p></li>
+<li><p>gene3 <span class="math notranslate nohighlight">\(\sim N(12, 3)\)</span></p></li>
+<li><p>gene4 <span class="math notranslate nohighlight">\(\sim N(13, 4)\)</span></p></li>
+<li><p>gene5 <span class="math notranslate nohighlight">\(\sim (N(14, 5)\)</span></p></li>
+</ul>
+</li>
+</ul>
+<p>NB: This is for illustration purposes! Our gene counts (even if ‘normalized’) are not normally distributed!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">replicate</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> rnorm<span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="m">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 3 × 5 of type dbl</caption>
+<tbody>
+    <tr><td>1.264993</td><td>0.9467906</td><td>1.076689</td><td>-1.503406</td><td>1.069951</td></tr>
+    <tr><td>3.830747</td><td>2.4379042</td><td>2.455073</td><td> 1.404136</td><td>3.169101</td></tr>
+    <tr><td>2.940622</td><td>4.3374490</td><td>3.873871</td><td> 2.264472</td><td>1.632268</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>n <span class="o">&lt;-</span> <span class="m">10</span>
+n_genes <span class="o">&lt;-</span> <span class="m">5</span>
+min_pid <span class="o">&lt;-</span> <span class="m">10000</span>
+max_pid <span class="o">&lt;-</span> <span class="m">99999</span>
+groupings <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">&#39;A&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">)</span>
+n_groups <span class="o">&lt;-</span> <span class="kp">length</span><span class="p">(</span>groupings<span class="p">)</span>
+gene_mus <span class="o">&lt;-</span> <span class="m">10</span><span class="o">:</span><span class="m">14</span>
+gene_sigmas <span class="o">&lt;-</span> <span class="m">1</span><span class="o">:</span><span class="m">5</span>
+pad_width <span class="o">&lt;-</span> <span class="m">3</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>pids <span class="o">&lt;-</span> <span class="kp">sample</span><span class="p">(</span>min_pid<span class="o">:</span>max_pid<span class="p">,</span> n_groups<span class="o">*</span>n<span class="p">)</span>
+groups <span class="o">&lt;-</span> <span class="kp">sample</span><span class="p">(</span><span class="kp">rep</span><span class="p">(</span>groupings<span class="p">,</span> each<span class="o">=</span>n<span class="p">))</span>
+genes <span class="o">&lt;-</span> <span class="kp">t</span><span class="p">(</span><span class="kp">replicate</span><span class="p">(</span>n_groups<span class="o">*</span>n<span class="p">,</span> rnorm<span class="p">(</span>n_genes<span class="p">,</span> gene_mus<span class="p">,</span> gene_sigmas<span class="p">)))</span>
+gene_names <span class="o">&lt;-</span> <span class="kp">paste</span><span class="p">(</span><span class="s">&#39;gene&#39;</span><span class="p">,</span> str_pad<span class="p">(</span><span class="m">1</span><span class="o">:</span>n_genes<span class="p">,</span> width <span class="o">=</span> pad_width<span class="p">,</span> pad<span class="o">=</span><span class="s">&#39;0&#39;</span><span class="p">),</span> sep<span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+<span class="kp">colnames</span><span class="p">(</span>genes<span class="p">)</span> <span class="o">&lt;-</span> gene_names
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>df <span class="o">&lt;-</span> tibble<span class="p">(</span>
+    pid <span class="o">=</span> pids<span class="p">,</span>
+    grp <span class="o">=</span> groups<span class="p">,</span>
+    genes
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>sample_n<span class="p">(</span>df<span class="p">,</span> <span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 3 × 3</caption>
+<thead>
+    <tr><th scope=col>pid</th><th scope=col>grp</th><th scope=col>genes</th></tr>
+    <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl[,5]&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>97320</td><td>A</td><td> 9.532829, 11.047354, 14.08499, 14.35483, 22.422266</td></tr>
+    <tr><td>50148</td><td>B</td><td>10.046358, 11.926989, 14.43202, 14.20053, 14.613053</td></tr>
+    <tr><td>86850</td><td>A</td><td> 9.535037,  9.418596, 13.01083, 13.11000,  9.554716</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="section" id="Breakdown-of-simulation">
+<h3>Breakdown of simulation<a class="headerlink" href="#Breakdown-of-simulation" title="Permalink to this headline">¶</a></h3>
+<p>Set up simulation configration parameters.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>n <span class="o">&lt;-</span> <span class="m">10</span>
+n_genes <span class="o">&lt;-</span> <span class="m">5</span>
+min_pid <span class="o">&lt;-</span> <span class="m">10000</span>
+max_pid <span class="o">&lt;-</span> <span class="m">99999</span>
+groupings <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">&#39;A&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">)</span>
+n_groups <span class="o">&lt;-</span> <span class="kp">length</span><span class="p">(</span>groupings<span class="p">)</span>
+gene_mus <span class="o">&lt;-</span> <span class="m">10</span><span class="o">:</span><span class="m">14</span>
+gene_sigmas <span class="o">&lt;-</span> <span class="m">1</span><span class="o">:</span><span class="m">5</span>
+pad_width <span class="o">&lt;-</span> <span class="m">3</span>
+</pre></div>
+</div>
+</div>
+<p>Create unique PIDs for each subject</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>pids <span class="o">&lt;-</span> <span class="kp">sample</span><span class="p">(</span>min_pid<span class="o">:</span>max_pid<span class="p">,</span> n_groups<span class="o">*</span>n<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Assign a group to each subject at random</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>groups <span class="o">&lt;-</span> <span class="kp">sample</span><span class="p">(</span><span class="kp">rep</span><span class="p">(</span>groupings<span class="p">,</span> each<span class="o">=</span>n<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<p>Make up 5 genes from different distributions for each subject</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>genes <span class="o">&lt;-</span> <span class="kp">t</span><span class="p">(</span><span class="kp">replicate</span><span class="p">(</span>n_groups<span class="o">*</span>n<span class="p">,</span> rnorm<span class="p">(</span>n_genes<span class="p">,</span> gene_mus<span class="p">,</span> gene_sigmas<span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<p>Make nice names for each gene</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>gene_names <span class="o">&lt;-</span> <span class="kp">paste</span><span class="p">(</span><span class="s">&#39;gene&#39;</span><span class="p">,</span> str_pad<span class="p">(</span><span class="m">1</span><span class="o">:</span>n_genes<span class="p">,</span> width <span class="o">=</span> pad_width<span class="p">,</span> pad<span class="o">=</span><span class="s">&#39;0&#39;</span><span class="p">),</span> sep<span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Assign names to gene columns</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">colnames</span><span class="p">(</span>genes<span class="p">)</span> <span class="o">&lt;-</span> gene_names
+</pre></div>
+</div>
+</div>
+<p>Create <code class="docutils literal notranslate"><span class="pre">tibble</span></code> to store simulated data</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>df <span class="o">&lt;-</span> tibble<span class="p">(</span>
+    pid <span class="o">=</span> pids<span class="p">,</span>
+    grp <span class="o">=</span> groups<span class="p">,</span>
+    genes
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Peek into <code class="docutils literal notranslate"><span class="pre">tibble</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>sample_n<span class="p">(</span>df<span class="p">,</span> <span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 3 × 3</caption>
+<thead>
+    <tr><th scope=col>pid</th><th scope=col>grp</th><th scope=col>genes</th></tr>
+    <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl[,5]&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>48611</td><td>A</td><td>11.118810, 10.281882,  9.460913, 21.654971, 12.769903</td></tr>
+    <tr><td>82193</td><td>B</td><td> 9.250903, 12.410494, 10.502977,  8.569185, 15.181737</td></tr>
+    <tr><td>66967</td><td>A</td><td>11.680328,  9.572095, 13.354410,  9.423921,  6.070365</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="7_Statistical_Inference_Solutions.html" class="btn btn-neutral float-right" title="Estimation and Hypothesis Testing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="5_Tidyverse_HandsOn-Filled.html" class="btn btn-neutral float-left" title="Hands-On Tidyverse - with count data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,652 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction to Unix and bash &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Introduction to R" href="3_IntroductionToR.html" />
+    <link rel="prev" title="Slide sets" href="../slides.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Quick Intro of Analysis Tools</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to Unix and bash</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#What-is-an-operating-system?">What is an operating system?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#We-usually-interact-with-the-OS-using-a-Graphical-User-Interface-(GUI).">We usually interact with the OS using a Graphical User Interface (GUI).</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Another-way---the-command-line">Another way - the command line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#The-unix-command-line-interpreter-is-an-interactive-program">The unix command line interpreter is an interactive program</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sh?-Why-the-hush?">sh? Why the hush?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#The-main-features-of-a-shell">The main features of a shell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Exercises---basic-commands">Exercises - basic commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Command-glossary">Command glossary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meta-characters">meta characters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Programming-constructs-in-bash">Programming constructs in bash</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#loops">loops</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Exercises-for-loops-and-conditionals">Exercises for loops and conditionals</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Linking-programs-together---pipes-and-I/O-redirection">Linking programs together - pipes and I/O redirection</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#I/O-streams">I/O streams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#I/O-redirections-using-|,-&gt;,-&lt;">I/O redirections using <code class="docutils literal notranslate"><span class="pre">|</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Exercises">Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Putting-it-all-together---scripting">Putting it all together - scripting</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="3_IntroductionToR.html">Introduction to R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4_Rlibraries_and_bioconductor.html">R libraries and Bioconductor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5_Tidyverse_HandsOn-Filled.html">Hands-On Tidyverse - with count data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="6_Statistical_Inference.html">Simulations and Statistical Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7_Statistical_Inference_Solutions.html">Estimation and Hypothesis Testing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix01_File_And_Directory_Solutions.html">Working with Unix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix03_File_Storage_Solutions.html">File archival and recovery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix04_Text_Manipulation_Solutinos.html">Working with text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction to Unix and bash</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/janice/2_Intro_to_Unix_and_bash.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Introduction-to-Unix-and-bash">
+<h1>Introduction to Unix and bash<a class="headerlink" href="#Introduction-to-Unix-and-bash" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="What-is-an-operating-system?">
+<h2>What is an operating system?<a class="headerlink" href="#What-is-an-operating-system?" title="Permalink to this headline">¶</a></h2>
+<p>Most of you probably know that Unix (Linux), like Windows and MacOS, is an operating system (OS). An operating system is essentially the interface between applications (such as Word or your browser) and the computer itself (devices, memory, etc.)</p>
+<div class="section" id="We-usually-interact-with-the-OS-using-a-Graphical-User-Interface-(GUI).">
+<h3>We usually interact with the OS using a Graphical User Interface (GUI).<a class="headerlink" href="#We-usually-interact-with-the-OS-using-a-Graphical-User-Interface-(GUI)." title="Permalink to this headline">¶</a></h3>
+<p>Those are the ‘windows’ that made microsoft into the giant it is today. We open windows into the OS (formally known as DOS). We point and click to find files, open programs, etc. This has the advantage that it is natural for the user. A disadvantage is that pointing and clicking isn’t exactly ‘reproducible’. We don’t have a record of everything we have done - and that is something we really want when analyzing data.</p>
+</div>
+<div class="section" id="Another-way---the-command-line">
+<h3>Another way - the command line<a class="headerlink" href="#Another-way---the-command-line" title="Permalink to this headline">¶</a></h3>
+<p>Unix, Windows and MacOS all have command line interfaces. We can access them via ‘terminal’ windows. The Jupyter environment offers two different ways to use the command line (in our case, we will use the bash shell - more on that later). There is a terminal window under the tab on the left hand side, but there is also a bash <em>kernel</em>, so that you can write commands in a notebook code cell and have them interpreted as unix commands. You will learn to use both in this course.</p>
+</div>
+<div class="section" id="The-unix-command-line-interpreter-is-an-interactive-program">
+<h3>The unix command line interpreter is an interactive program<a class="headerlink" href="#The-unix-command-line-interpreter-is-an-interactive-program" title="Permalink to this headline">¶</a></h3>
+<p>The interpreter parses the strings you enter and calls the appropriate executable program. There are different versions of this program, of which ‘bash’ is one. ‘sh’ was the original version, written in the 1970s by Ken Thompson. It was updated over the years and finally completely re-written in 1979 by Stephen Bourne. In 1989, another shell was built on the Bourne ‘sh’ - and it was named ‘bash’ - for Bourne Again sh. There are several other flavors, but we will be using bash.</p>
+<div class="section" id="sh?-Why-the-hush?">
+<h4>sh? Why the hush?<a class="headerlink" href="#sh?-Why-the-hush?" title="Permalink to this headline">¶</a></h4>
+<p>sh is short for ‘shell’. The reason for this terminology is because you can think of this programs as hosting an environment (variables can be saved and refered to later, among other things). But shells can run any program, including other shells. So there is a notion of ‘inheritance’ from the environment - each subsequently called shell is contained in the other.</p>
+</div>
+</div>
+<div class="section" id="The-main-features-of-a-shell">
+<h3>The main features of a shell<a class="headerlink" href="#The-main-features-of-a-shell" title="Permalink to this headline">¶</a></h3>
+<p>The basic features a shell program has are some basic programming constructs (loops, conditionals, etc.) and ways to link programs together (pipes and redirections). Before we examine those, let’s get a little experience working in the command line. We’ll learn how to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="nb">print</span> <span class="n">the</span> <span class="n">current</span> <span class="n">directory</span>
+<span class="o">-</span> <span class="nb">list</span> <span class="n">the</span> <span class="n">contents</span>
+<span class="o">-</span> <span class="n">make</span> <span class="n">a</span> <span class="n">new</span> <span class="n">directory</span>
+<span class="o">-</span> <span class="n">copy</span> <span class="ow">and</span> <span class="n">rename</span> <span class="n">files</span>
+<span class="o">-</span> <span class="n">examine</span> <span class="n">the</span> <span class="n">content</span> <span class="n">of</span> <span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="n">files</span>
+<span class="o">-</span> <span class="n">Use</span> <span class="n">tab</span> <span class="n">completion</span>
+<span class="o">-</span> <span class="n">Use</span> <span class="n">meta</span> <span class="n">characters</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Exercises---basic-commands">
+<h3>Exercises - basic commands<a class="headerlink" href="#Exercises---basic-commands" title="Permalink to this headline">¶</a></h3>
+<p>From the terminal screen</p>
+<ol class="arabic simple">
+<li><p>Print the current directory</p></li>
+<li><p>Make a directory called ‘mydir’</p></li>
+<li><p>Change directory to ‘mydir’</p></li>
+<li><p>Copy this notebook to mydir.</p></li>
+<li><p>Make another copy of this notebook named ‘copy’</p></li>
+<li><p>List the contents of the directory</p></li>
+<li><p>List the contents of the directory in long form with permissions and modification times</p></li>
+<li><p>Sort the list by time.</p></li>
+<li><p>Sort the list in reverse order.</p></li>
+<li><p>List all files in the parent directory.</p></li>
+<li><p>List all files in the parent directory with extension <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code></p></li>
+<li><p>List all files in the parent directory that have an ‘_’ as the second character in the name.</p></li>
+</ol>
+<div class="section" id="Command-glossary">
+<h4>Command glossary<a class="headerlink" href="#Command-glossary" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>ls (list)</p></li>
+<li><p>mkdir (make directory)</p></li>
+<li><p>cp (copy file)</p></li>
+<li><p>mv (rename file)</p></li>
+<li><p>pwd (print working directory)</p></li>
+</ul>
+</div>
+<div class="section" id="meta-characters">
+<h4>meta characters<a class="headerlink" href="#meta-characters" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">*</span></code> matches all</p></li>
+<li><p>? matches a single character</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="Programming-constructs-in-bash">
+<h3>Programming constructs in bash<a class="headerlink" href="#Programming-constructs-in-bash" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="loops">
+<h4>loops<a class="headerlink" href="#loops" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p><strong>for loops</strong></p>
+<p>Use for iterating over a fixed number of items (may be unknown at time of coding)</p>
+<p><code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">$(</span> <span class="pre">ls</span> <span class="pre">);</span> <span class="pre">do</span></code> echo item: $i <code class="docutils literal notranslate"><span class="pre">done</span></code></p>
+</li>
+<li><p><strong>while loops</strong></p>
+<p>Use for iterating until a certain condition is met</p>
+<p><code class="docutils literal notranslate"><span class="pre">while</span> <span class="pre">true;</span> <span class="pre">do</span></code> echo ‘hello’ <code class="docutils literal notranslate"><span class="pre">done</span></code></p>
+</li>
+<li><p><strong>until</strong> (really doesn’t do any more than <code class="docutils literal notranslate"><span class="pre">for</span></code> or <code class="docutils literal notranslate"><span class="pre">while</span></code></p></li>
+</ul>
+<p>#### Conditionals (sometimes called ‘flow control’)</p>
+<ul class="simple">
+<li><p>Simple <strong>if-then</strong></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">[</span> <span class="pre">&quot;foo&quot;</span> <span class="pre">=</span> <span class="pre">&quot;foo&quot;</span> <span class="pre">];</span> <span class="pre">then</span></code> echo expression evaluated as true <code class="docutils literal notranslate"><span class="pre">fi</span></code></p>
+<ul class="simple">
+<li><p><strong>if-then-else</strong></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">[</span> <span class="pre">&quot;foo&quot;</span> <span class="pre">=</span> <span class="pre">&quot;foo&quot;</span> <span class="pre">];</span> <span class="pre">then</span></code> echo expression evaluated as true <code class="docutils literal notranslate"><span class="pre">else</span></code> echo expression evaluated as false <code class="docutils literal notranslate"><span class="pre">fi</span></code></p>
+</div>
+<div class="section" id="Exercises-for-loops-and-conditionals">
+<h4>Exercises for loops and conditionals<a class="headerlink" href="#Exercises-for-loops-and-conditionals" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Write a for loop to repeat ‘hello world’ 10 times. Print the number of iteration so the output looks like:</p>
+<ol class="arabic simple">
+<li><p>hello world</p></li>
+<li><p>hello world</p></li>
+<li><p>hello world etc.</p></li>
+</ol>
+</li>
+<li><p>Modify the above to add the word ‘again’ as many times as the number of current iterations:</p></li>
+<li><p>hello world</p></li>
+<li><p>hello world again</p></li>
+<li><p>hello world again again etc.</p></li>
+<li><p>Modify 2 to stop after 3 iterations, after printing ‘enough already’.</p></li>
+<li><p>Modify 3 to use a while loop.</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="Linking-programs-together---pipes-and-I/O-redirection">
+<h3>Linking programs together - pipes and I/O redirection<a class="headerlink" href="#Linking-programs-together---pipes-and-I/O-redirection" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="I/O-streams">
+<h4>I/O streams<a class="headerlink" href="#I/O-streams" title="Permalink to this headline">¶</a></h4>
+<p>There are three standard I/O streams in Unix:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">stdin</span></code> or standard input. The default is the parent process - usually the keyboard</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stdout</span></code> or standard output. The default is the parent process - usually the terminal screen</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stderr</span></code> or standard error. Also defaults to the parent, and usually the terminal screen. The important point is that errors and output may be treated separately.</p></li>
+</ul>
+</div>
+<div class="section" id="I/O-redirections-using-|,-&gt;,-&lt;">
+<h4>I/O redirections using <code class="docutils literal notranslate"><span class="pre">|</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code><a class="headerlink" href="#I/O-redirections-using-|,->,-<" title="Permalink to this headline">¶</a></h4>
+<p>A program’s input and output can be redirected from the standard streams in many powerful ways:</p>
+<ul class="simple">
+<li><p>We can store a program’s output in a file to be saved. We can separately save errors (<code class="docutils literal notranslate"><span class="pre">&gt;</span></code>).</p></li>
+<li><p>We can direct a program to take input from a file rather than the keyboard (<code class="docutils literal notranslate"><span class="pre">&lt;</span></code>).</p></li>
+<li><p>We can direct a program’s output to be another program’s input (<code class="docutils literal notranslate"><span class="pre">|</span></code>). This allows linking of several programs to form a workflow.</p></li>
+</ul>
+</div>
+<div class="section" id="Exercises">
+<h4>Exercises<a class="headerlink" href="#Exercises" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">ps</span> <span class="pre">-aef</span></code> command shows all processes currently running. Use <code class="docutils literal notranslate"><span class="pre">|</span></code> and the program <code class="docutils literal notranslate"><span class="pre">grep</span></code> to find the processes you are running (your user name is ‘joyvan’)</p></li>
+<li><p>Create a list with the filenames in the current directly using <code class="docutils literal notranslate"><span class="pre">ls</span></code> and <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>. Use <code class="docutils literal notranslate"><span class="pre">cat</span></code> to see the contents.</p></li>
+<li><p>What happens if you repeat the above using <code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code>?</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="Putting-it-all-together---scripting">
+<h3>Putting it all together - scripting<a class="headerlink" href="#Putting-it-all-together---scripting" title="Permalink to this headline">¶</a></h3>
+<p>The next lesson will teach you to write what are called ‘scripts’. These are lists of commands saved in a file that can be executed. This makes a workflow reproducible. All of the steps are saved and can be run again in <em>exactly</em> the same manner.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="3_IntroductionToR.html" class="btn btn-neutral float-right" title="Introduction to R" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../slides.html" class="btn btn-neutral float-left" title="Slide sets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

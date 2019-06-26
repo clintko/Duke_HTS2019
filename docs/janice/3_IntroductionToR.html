@@ -1,0 +1,1762 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction to R &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="R libraries and Bioconductor" href="4_Rlibraries_and_bioconductor.html" />
+    <link rel="prev" title="Introduction to Unix and bash" href="2_Intro_to_Unix_and_bash.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Quick Intro of Analysis Tools</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="2_Intro_to_Unix_and_bash.html">Introduction to Unix and bash</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to R</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#R-as-simple-calculator">R as simple calculator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Printing-results">Printing results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Getting-help">Getting help</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Creating-and-using-sequences">Creating and using sequences</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Basic-Programming-Concepts">Basic Programming Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Style">Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Variable-Assignment">Variable Assignment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Assigning-to-variables">Assigning to variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Data-Types">Data Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Operators">Operators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Basic-Programming-continued">Basic Programming continued</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Loops-and-Branching">Loops and Branching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#The-Next-Level---vectors,-matrices,-functions,-etc.">The Next Level - vectors, matrices, functions, etc.</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Avoiding-loops:-Vectorization">Avoiding loops: Vectorization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Vectors,-lists,-and-matrices">Vectors, lists, and matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Common-Operations-on-Vectors-and-Matrices">Common Operations on Vectors and Matrices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Functions">Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Lists-and-Data-Frames">Lists and Data Frames</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Simple-list">Simple list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Data-frames">Data frames</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="4_Rlibraries_and_bioconductor.html">R libraries and Bioconductor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5_Tidyverse_HandsOn-Filled.html">Hands-On Tidyverse - with count data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="6_Statistical_Inference.html">Simulations and Statistical Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7_Statistical_Inference_Solutions.html">Estimation and Hypothesis Testing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix01_File_And_Directory_Solutions.html">Working with Unix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix03_File_Storage_Solutions.html">File archival and recovery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix04_Text_Manipulation_Solutinos.html">Working with text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction to R</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/janice/3_IntroductionToR.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Introduction-to-R">
+<h1>Introduction to R<a class="headerlink" href="#Introduction-to-R" title="Permalink to this headline">¶</a></h1>
+<p>R is an interpreted language, which means it can be used interactively: we can type some code, hit execute and see the results instantly. This is different from compiled languages such as C or C++ where you must first compile code into an executable file, then run it.</p>
+<div class="section" id="R-as-simple-calculator">
+<h2>R as simple calculator<a class="headerlink" href="#R-as-simple-calculator" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="m">2</span> <span class="o">+</span> <span class="m">3</span><span class="o">^</span><span class="m">5</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+245</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="m">7</span> <span class="o">%/%</span> <span class="m">3</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+2</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">sin</span><span class="p">(</span><span class="m">0.5</span><span class="o">*</span><span class="kc">pi</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+1</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="m">1.23e3</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+1230</div>
+</div>
+<div class="section" id="Printing-results">
+<h3>Printing results<a class="headerlink" href="#Printing-results" title="Permalink to this headline">¶</a></h3>
+<p>By default, the result on the last line is displayed in the Jupyter notebook. To see other lines, use the <code class="docutils literal notranslate"><span class="pre">print</span></code> function.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">print</span><span class="p">(</span><span class="m">1</span> <span class="o">*</span> <span class="m">2</span> <span class="o">*</span> <span class="m">3</span> <span class="o">*</span><span class="m">4</span><span class="p">)</span>
+<span class="kp">print</span><span class="p">(</span><span class="m">11</span> <span class="o">%%</span> <span class="m">3</span> <span class="o">==</span> <span class="m">1</span><span class="p">)</span>
+<span class="m">10</span> <span class="o">&gt;</span> <span class="m">1</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1] 24
+[1] FALSE
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+TRUE</div>
+</div>
+</div>
+<div class="section" id="Getting-help">
+<h3>Getting help<a class="headerlink" href="#Getting-help" title="Permalink to this headline">¶</a></h3>
+<p>Type something and hit the tab key - this will either complete the R command for you (if unique) or present a list of opitons.</p>
+<p>Use ?topic to get a description of <code class="docutils literal notranslate"><span class="pre">topic</span></code>, or more verbosely, you can also use <code class="docutils literal notranslate"><span class="pre">help(topic)</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="o">?</span><span class="kp">seq</span>
+</pre></div>
+</div>
+</div>
+<p>Use example to see usage examples.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>example<span class="p">(</span><span class="kp">seq</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+seq&gt; seq(0, 1, length.out = 11)
+ [1] 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
+
+seq&gt; seq(stats::rnorm(20)) # effectively &#39;along&#39;
+ [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+
+seq&gt; seq(1, 9, by = 2)     # matches &#39;end&#39;
+[1] 1 3 5 7 9
+
+seq&gt; seq(1, 9, by = pi)    # stays below &#39;end&#39;
+[1] 1.000000 4.141593 7.283185
+
+seq&gt; seq(1, 6, by = 3)
+[1] 1 4
+
+seq&gt; seq(1.575, 5.125, by = 0.05)
+ [1] 1.575 1.625 1.675 1.725 1.775 1.825 1.875 1.925 1.975 2.025 2.075 2.125
+[13] 2.175 2.225 2.275 2.325 2.375 2.425 2.475 2.525 2.575 2.625 2.675 2.725
+[25] 2.775 2.825 2.875 2.925 2.975 3.025 3.075 3.125 3.175 3.225 3.275 3.325
+[37] 3.375 3.425 3.475 3.525 3.575 3.625 3.675 3.725 3.775 3.825 3.875 3.925
+[49] 3.975 4.025 4.075 4.125 4.175 4.225 4.275 4.325 4.375 4.425 4.475 4.525
+[61] 4.575 4.625 4.675 4.725 4.775 4.825 4.875 4.925 4.975 5.025 5.075 5.125
+
+seq&gt; seq(17) # same as 1:17, or even better seq_len(17)
+ [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
+</pre></div></div>
+</div>
+<p>To search for all functions with the phrase <code class="docutils literal notranslate"><span class="pre">topic</span></code>, use <code class="docutils literal notranslate"><span class="pre">apropos(topic)</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>apropos<span class="p">(</span><span class="s">&quot;seq&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>'seq'</li>
+    <li>'seq_along'</li>
+    <li>'seq_len'</li>
+    <li>'seq.Date'</li>
+    <li>'seq.default'</li>
+    <li>'seq.int'</li>
+    <li>'seq.POSIXt'</li>
+    <li>'sequence'</li>
+</ol></div>
+</div>
+<p>Finally, you can always use a search engine - e.g. Googling for “how to generate random numbers from a normal distribution in R” returns:</p>
+R Learning Module: Probabilities and Distributions
+www.ats.ucla.edu › stat › r › modules
+University of California, Los Angeles
+Generating random samples from a normal distribution ... (For more information on the random number generator used in R please refer to the help pages for the  ...
+
+R: The Normal Distribution
+https://stat.ethz.ch/R-manual/R-devel/library/.../Normal.html
+ETH Zurich
+Normal {stats}, R Documentation ... quantile function and random generation for the normal distribution with mean equal to mean and ... number of observations.
+
+CASt R: Random numbers
+astrostatistics.psu.edu/.../R/Random.html
+Pennsylvania State University
+It is often necessary to simulate random numbers in R. There are many functions available to ... Let's consider the well-known normal distribution as an example: ?Normal .... Creating functions in R, as illustrated above, is a common procedure.<div class="section" id="Creating-and-using-sequences">
+<h4>Creating and using sequences<a class="headerlink" href="#Creating-and-using-sequences" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="m">1</span><span class="o">:</span><span class="m">4</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">seq</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">12</span><span class="p">,</span> <span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>2</li>
+    <li>5</li>
+    <li>8</li>
+    <li>11</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">seq</span><span class="p">(</span>from <span class="o">=</span> <span class="m">0</span><span class="p">,</span> to <span class="o">=</span> <span class="kc">pi</span><span class="p">,</span> by <span class="o">=</span> <span class="kc">pi</span><span class="o">/</span><span class="m">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>0</li>
+    <li>0.785398163397448</li>
+    <li>1.5707963267949</li>
+    <li>2.35619449019234</li>
+    <li>3.14159265358979</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">seq</span><span class="p">(</span>from <span class="o">=</span> <span class="m">0</span><span class="p">,</span> to <span class="o">=</span> <span class="kc">pi</span><span class="p">,</span> length.out <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>0</li>
+    <li>0.785398163397448</li>
+    <li>1.5707963267949</li>
+    <li>2.35619449019234</li>
+    <li>3.14159265358979</li>
+</ol></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Basic-Programming-Concepts">
+<h2>Basic Programming Concepts<a class="headerlink" href="#Basic-Programming-Concepts" title="Permalink to this headline">¶</a></h2>
+<p>The following sections introduce some basic programming concepts within the context of R, but they are common ingredients in any programming language</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Style</span>
+<span class="o">-</span> <span class="n">Variable</span> <span class="n">Assignment</span>
+<span class="o">-</span> <span class="n">Data</span> <span class="n">Types</span>
+<span class="o">-</span> <span class="n">Operators</span>
+<span class="o">-</span> <span class="n">Looping</span> <span class="ow">and</span> <span class="n">branching</span>
+<span class="o">-</span> <span class="n">Errors</span> <span class="ow">and</span> <span class="n">debugging</span>
+</pre></div>
+</div>
+<div class="section" id="Style">
+<h3>Style<a class="headerlink" href="#Style" title="Permalink to this headline">¶</a></h3>
+<p>Programming style (how to name things, how much blank space to use, etc.) is an important part of creating a readable program. It’s beyond our scope to cover this in detail, but it would be a good idea to review an R style guide if you plan to write a lot of R code. Different people have slightly different conventions, but this guide by Hadley Wickham is pretty widely used:</p>
+<p><a class="reference external" href="http://adv-r.had.co.nz/Style.html">http://adv-r.had.co.nz/Style.html</a></p>
+<p>It’s ‘based’ on <a class="reference external" href="https://google.github.io/styleguide/Rguide.xml">Google’s R style guide</a>, but some of the recommendations are in direct conflict. The most important thing is to try to be <em>consistent</em>.</p>
+</div>
+<div class="section" id="Variable-Assignment">
+<h3>Variable Assignment<a class="headerlink" href="#Variable-Assignment" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="Assigning-to-variables">
+<h4>Assigning to variables<a class="headerlink" href="#Assigning-to-variables" title="Permalink to this headline">¶</a></h4>
+<p>Variable assignments in R are made using the <code class="docutils literal notranslate"><span class="pre">&lt;-</span></code> operator, but note that there is more than one assignment operator. Later, when we discuss custom functions in greater detail, we’ll talk about the “=” assignment operator. Note that while some programmers use “=” in place of “&lt;-” (they are <em>almost</em> equivalent), it is considered best practice to use “&lt;-” for assignments in R.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>x <span class="o">&lt;-</span> <span class="m">3</span>
+y <span class="o">&lt;-</span> <span class="m">5</span>
+
+z <span class="o">&lt;-</span> x <span class="o">*</span> y
+
+z
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+15</div>
+</div>
+</div>
+<div class="section" id="Data-Types">
+<h4>Data Types<a class="headerlink" href="#Data-Types" title="Permalink to this headline">¶</a></h4>
+<p>When we assign variables in R (and in any programming language), they are assigned a ‘type’ (implicitly or explicitly). Some common types are:</p>
+<ul class="simple">
+<li><p>numeric</p></li>
+</ul>
+<p>In R, this includes both floating points (decimal) and integers (e.g. 1.2, 3.14159, 15)</p>
+<ul class="simple">
+<li><p>integer</p></li>
+</ul>
+<p>Non-floating point number (e.g. 1, 2, -4, etc., but not 1.2, 3.14159,…)</p>
+<ul class="simple">
+<li><p>logical</p></li>
+</ul>
+<p>TRUE or FALSE</p>
+<ul class="simple">
+<li><p>character</p></li>
+</ul>
+<p>Words and letters. NB: numbers can be treated as characters too - we’ll do some examples that illustrate that.</p>
+<p>In R, these are also ‘classes’, and the distinction between ‘type’ and ‘class’ is a bit abstract and won’t really help us with basic programming, so using a gross and somewhat incorrect (but workable) simplification, we’ll just refer to the above as classes. New classes can be created from these basic classes:</p>
+<ul class="simple">
+<li><p>vector</p></li>
+</ul>
+<p>This is actually the same as ‘numeric’. R sees numbers as vectors of length 1.</p>
+<ul class="simple">
+<li><p>matrix</p></li>
+</ul>
+<p>A 2-dimensional array of numerics.</p>
+<ul class="simple">
+<li><p>list</p></li>
+</ul>
+<p>Like a vector, but elements can be other than numeric (such as a collection of logicals, character strings, etc.)</p>
+<ul class="simple">
+<li><p>dataframe</p></li>
+</ul>
+<p>A 2-dimensional array that allows columns to be different types.</p>
+<ul class="simple">
+<li><p>tibble</p></li>
+</ul>
+<p>New version of dataframe. We’ll talk more about this in future lectures.</p>
+</div>
+<div class="section" id="Operators">
+<h4>Operators<a class="headerlink" href="#Operators" title="Permalink to this headline">¶</a></h4>
+<p>Once we have variables of different types or classes, we usually want to <em>do</em> something with them. That can mean anything from simple arithmetic to summaries to custom made R functions. Here, we will discuss simple operators.</p>
+<div class="section" id="Arithmetic-operators">
+<h5>Arithmetic operators<a class="headerlink" href="#Arithmetic-operators" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>*, + , - , /</p></li>
+</ul>
+<p>These all do what you expect to numbers (numeric types), but things get a little tricky when we have vectors and matrices. To be explicit, the above operators are multiplication, addition, subtraction and division, respectively.</p>
+<ul class="simple">
+<li><p>%*%</p></li>
+</ul>
+<p>This is what is known as the ‘dot’ product for vectors and matrices.</p>
+<ul class="simple">
+<li><p>%%</p></li>
+</ul>
+<p>This is the modulus operator. (When you divide an integer by another integer it returns the remainder)</p>
+<ul class="simple">
+<li><p>%/%</p></li>
+</ul>
+<p>This is the integer division operator. It returns the result of a division without the remainder.</p>
+</div>
+<div class="section" id="Logical-Operators">
+<h5>Logical Operators<a class="headerlink" href="#Logical-Operators" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>&gt;, &lt;, ==, !=, &gt;=, &lt;=</p></li>
+</ul>
+<p>The above compare variables and return a ‘logical’ result (TRUE or FALSE)</p>
+<ul class="simple">
+<li><p>&amp;, |</p></li>
+</ul>
+<p>The above are ‘AND’ and ‘OR’ logical operators, respectively. We can combine the previous operators with these to form complex logical queries.</p>
+</div>
+</div>
+<div class="section" id="Examples">
+<h4>Examples<a class="headerlink" href="#Examples" title="Permalink to this headline">¶</a></h4>
+<p>The only way to learn R is by using R. The following exercises require a bit more knowledge than the notes describe. Remember to use <code class="docutils literal notranslate"><span class="pre">TAB</span></code> and <code class="docutils literal notranslate"><span class="pre">?</span></code> and <code class="docutils literal notranslate"><span class="pre">apropos</span></code> whenever you’re stuck.</p>
+<ol class="arabic">
+<li><p><strong>Using arithmetic operators on numbers.</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>a. If you put USD 100 in a bank that pays 5 percent interest compounded daily, how much will you have in the bank at the end of one year? Recall from high school math that
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}          A = P(1 + r/n)^m\\where :math:`A` is the amount, :math:`P` is the principal, :math:`r` is the interest rate, :math:`n` is the compoundings per period and :math:`m` is the number of periods.\end{aligned}\end{align} \]</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>b. What is the (Euclidean) distance between two points at (1,5) and (4,8)? Recall that the Euclidean distance between two points (x1, y1) and (x2, y2) is given by the Pythagorean theorem:
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}\]</div>
+<p></p>
+</li>
+<li><p><strong>Assigning variables</strong> Write the formula in part 1a using variables (i.e. P,r,n,m) and then assign those variables to the values above. Assign the result to the variable A, and then print A.</p></li>
+<li><p><strong>Data Types</strong> Define two variables of the following classes: numeric, character, logical and integer by assigning names (of your choice) to values (of your choice). (The integer is tricky - google or use help for this).</p></li>
+<li><p><strong>Operators</strong> Use the variables above to find the results of the operators <em>, +, -, /, %%, %</em>%, %/%, &lt;, &gt;, ==, !=, &lt;=, &gt;=. Which variables work with which data classes?</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Your code here</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Your code here</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Your code here</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Basic-Programming-continued">
+<h3>Basic Programming continued<a class="headerlink" href="#Basic-Programming-continued" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="Loops-and-Branching">
+<h4>Loops and Branching<a class="headerlink" href="#Loops-and-Branching" title="Permalink to this headline">¶</a></h4>
+<p>Sometimes, actually, nearly all the time, we want to repeat an operation or series of operations over many instances of a variable. For example, suppose I have a list of numbers and I want to double them all. This is a very simple example, and the first way I will show you to do it is <em>exactly the wrong way</em> in R. But we need simple examples to learn, so here we go.</p>
+<p>There are a couple of ways to make a loop, depending on whether or not you know how many iterations will be required when you write the code.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">for</span></code> loop is a loop that repeats over something called an iterator. The simplest example would be a count, say I want to do something 6 times. Then a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop may be used. Doubling a list of known length calls for a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop. (I’m kinda lying here… will clarify this in a bit.)</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">while</span></code> loop is used when conditions during execution of the code determine when the loop is terminated. Suppose we have a list of coin toss outcomes, and we want to count how many flips it took to get 3 heads. We don’t know how many iterations the loop will take, but we do have a condition for stopping.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## for loop example.</span>
+
+v <span class="o">&lt;-</span> <span class="kp">seq</span><span class="p">(</span>from <span class="o">=</span> <span class="m">2</span><span class="p">,</span> to <span class="o">=</span> <span class="m">20</span><span class="p">,</span> by <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+
+<span class="kp">print</span><span class="p">(</span>v<span class="p">)</span>
+
+
+<span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="kp">length</span><span class="p">(</span>v<span class="p">))</span> <span class="p">{</span>
+    v<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="m">2</span><span class="o">*</span>v<span class="p">[</span>i<span class="p">]</span>
+<span class="p">}</span>
+
+<span class="kp">print</span><span class="p">(</span>v<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1]  2  5  8 11 14 17 20
+[1]  4 10 16 22 28 34 40
+</pre></div></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">i</span></code> in the above <code class="docutils literal notranslate"><span class="pre">for</span></code> loop is called an <em>iterator</em>. At the first step, <code class="docutils literal notranslate"><span class="pre">i</span></code> is <em>initialized</em> to 1 (because the code tells it to start at 1 and end at the length of v, with the <code class="docutils literal notranslate"><span class="pre">in</span> <span class="pre">1:length(v)</span></code> statement. Each time the code in the body is executed, it is incremented (in this case, sequentially, one at a time). Iterators can be much fancier though. Here are a few examples:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## for loop example</span>
+
+iterator_variable <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">10</span><span class="p">,</span><span class="m">32</span><span class="p">,</span><span class="m">1.45</span><span class="p">)</span>
+
+
+<span class="kr">for</span> <span class="p">(</span> i <span class="kr">in</span> iterator_variable<span class="p">){</span>
+    <span class="kp">print</span><span class="p">(</span>i<span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1] 1
+[1] 10
+[1] 32
+[1] 1.45
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## for loop example</span>
+
+iterator_variable <span class="o">&lt;-</span> <span class="kt">list</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">10</span><span class="p">,</span><span class="m">32</span><span class="p">,</span><span class="m">1.45</span><span class="p">,</span><span class="s">&quot;the&quot;</span><span class="p">,</span> <span class="s">&quot;quick brown fox&quot;</span><span class="p">)</span>
+
+
+<span class="kr">for</span> <span class="p">(</span> i <span class="kr">in</span> iterator_variable<span class="p">){</span>
+    <span class="kp">print</span><span class="p">(</span>i<span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1] 1
+[1] 10
+[1] 32
+[1] 1.45
+[1] &#34;the&#34;
+[1] &#34;quick brown fox&#34;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## while loop example</span>
+
+samples <span class="o">&lt;-</span> rbinom<span class="p">(</span><span class="m">100</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> prob <span class="o">=</span> <span class="m">0.2</span><span class="p">)</span>  <span class="c1"># generate 100 Bernouli trials with success probability 0.2</span>
+i <span class="o">&lt;-</span> <span class="m">0</span>  <span class="c1">#initialize index for samples vector</span>
+
+
+found_success <span class="o">&lt;-</span> <span class="s">&#39;FALSE&#39;</span>  <span class="c1">#initialize the loop termination condition</span>
+
+<span class="kr">while</span> <span class="p">(</span>found_success <span class="o">==</span> <span class="s">&#39;FALSE&#39;</span><span class="p">){</span>
+       i <span class="o">&lt;-</span> i<span class="m">+1</span>
+       <span class="kr">if</span> <span class="p">(</span>samples<span class="p">[</span>i<span class="p">]</span> <span class="o">==</span> <span class="m">1</span><span class="p">)</span>
+           found_success <span class="o">&lt;-</span> <span class="s">&#39;TRUE&#39;</span>
+<span class="p">}</span>
+
+<span class="kp">print</span><span class="p">(</span>samples<span class="p">)</span>   <span class="c1"># print all trials</span>
+<span class="kp">print</span><span class="p">(</span>i<span class="p">)</span>         <span class="c1"># print index of first success.</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+  [1] 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 1 0 0 0 0 0 1 0 0 1 0 0 0 0 0 1 0 0 0 1 0
+ [38] 1 0 0 1 0 0 0 1 0 1 0 0 0 0 0 0 0 1 1 0 0 0 0 0 1 0 0 0 1 0 0 0 1 1 1 0 0
+ [75] 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 1 0 0 0
+[1] 13
+</pre></div></div>
+</div>
+<p>The above code also contains an example of ‘branching’. Branching is when the code that executes depends upon the current state of the program. In this example, the command <code class="docutils literal notranslate"><span class="pre">found_success</span> <span class="pre">&lt;-</span> <span class="pre">'TRUE'</span></code> only executes when the current (ith) component of <code class="docutils literal notranslate"><span class="pre">samples</span></code> is a 1.</p>
+</div>
+<div class="section" id="Examples">
+<h4>Examples<a class="headerlink" href="#Examples" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Write a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop to print the index of each success in <code class="docutils literal notranslate"><span class="pre">samples</span></code>.</p></li>
+<li><p>Write a <code class="docutils literal notranslate"><span class="pre">while</span></code> loop to find the index of the third success.</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="The-Next-Level---vectors,-matrices,-functions,-etc.">
+<h3>The Next Level - vectors, matrices, functions, etc.<a class="headerlink" href="#The-Next-Level---vectors,-matrices,-functions,-etc." title="Permalink to this headline">¶</a></h3>
+<div class="section" id="Avoiding-loops:-Vectorization">
+<h4>Avoiding loops: Vectorization<a class="headerlink" href="#Avoiding-loops:-Vectorization" title="Permalink to this headline">¶</a></h4>
+<p>In R, and in other scripting languages, it is usually best to avoid loops when possible. Historically, looping in interpreted languages was slow. Nowadays, the issue is more with programming style, readability and lowering the possibilty of errors.</p>
+<p>We avoid loops by using what is called ‘vectorization’. In other words, we use functions that work on whole vectors at once, rather than one element at a time (of course, at the lowest level, the code is iterating over each element. It is just happening using very fast machine code.)</p>
+<p>Many operations in R are vectorized. For example, we just used a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop to double the elements of a vector. We could have done this another way:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## Vectorization example</span>
+
+v <span class="o">&lt;-</span> <span class="kp">seq</span><span class="p">(</span>from <span class="o">=</span> <span class="m">2</span><span class="p">,</span> to <span class="o">=</span> <span class="m">20</span><span class="p">,</span> by <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+
+<span class="kp">print</span><span class="p">(</span>v<span class="p">)</span>
+
+print <span class="p">(</span><span class="m">2</span><span class="o">*</span>v<span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1]  2  5  8 11 14 17 20
+[1]  4 10 16 22 28 34 40
+</pre></div></div>
+</div>
+<p>R interprets the multiplication operator to do componentwise multiplication (because it’s the only thing that ‘makes sense’). Suppose we have two vectors of the same length. What does <code class="docutils literal notranslate"><span class="pre">*</span></code> do?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>v <span class="o">&lt;-</span> <span class="kp">seq</span><span class="p">(</span>from <span class="o">=</span> <span class="m">2</span><span class="p">,</span> to <span class="o">=</span> <span class="m">20</span><span class="p">,</span> by <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+
+w <span class="o">&lt;-</span> <span class="kp">seq</span><span class="p">(</span>from <span class="o">=</span> <span class="m">1</span><span class="p">,</span> to <span class="o">=</span> <span class="m">21</span><span class="p">,</span> by <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+
+<span class="kp">print</span><span class="p">(</span>v<span class="p">)</span>
+<span class="kp">print</span><span class="p">(</span>w<span class="p">)</span>
+
+<span class="kp">print</span><span class="p">(</span>v<span class="o">*</span>w<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1]  2  5  8 11 14 17 20
+[1]  1  4  7 10 13 16 19
+[1]   2  20  56 110 182 272 380
+</pre></div></div>
+</div>
+<p>Again, multiplication is componentwise. There is another way to multiply 2 vectors of the same size:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">print</span><span class="p">(</span>v <span class="o">%*%</span> w<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+     [,1]
+[1,] 1022
+</pre></div></div>
+</div>
+<p>This is called the ‘dot product’. The ith component of v is multiplied by the ith component of w, and these are added together for all i. Because linear algebra is beyond our scope, we won’t deal with this operation much.</p>
+<p>R has vectorization built in to many functions. In practice, if you ever feel you need to code a loop, you should look do some googling and see if there is another way.</p>
+<p>We’ll first talk a bit more about vectors, matrices and lists, and then we will cover some common R functions that take these as arguments.</p>
+</div>
+<div class="section" id="Examples">
+<h4>Examples<a class="headerlink" href="#Examples" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Create the vector (1,2,3,4,5,6) using the <code class="docutils literal notranslate"><span class="pre">seq</span></code> command in R.</p></li>
+<li><p>Add 2 to every element in the vector.</p></li>
+<li><p>Square every element of the original vector.</p></li>
+</ol>
+</div>
+<div class="section" id="Vectors,-lists,-and-matrices">
+<h4>Vectors, lists, and matrices<a class="headerlink" href="#Vectors,-lists,-and-matrices" title="Permalink to this headline">¶</a></h4>
+<p>Linear algebra is not a pre-requisite for this course, so for our purposes, we will think of vectors as lists of numbers and matrices as two-dimensional arrays of numbers. They are much, much more than that, but that material is very much beyond the scope of this course. We will also mention (for those for whom it is meaningful) that vectors can be multiplied (in various ways) and matrices and vectors are related objects, and we can also multiply matrices together as well as multiply vectors and
+matrices.</p>
+<div class="section" id="Creating-vectors-lists-and-matrices">
+<h5>Creating vectors lists and matrices<a class="headerlink" href="#Creating-vectors-lists-and-matrices" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>The <em>concatenate</em> function in R builds vectors. We can also obtain vectors from other functions as we have seen in the start of these notes with the function <code class="docutils literal notranslate"><span class="pre">seq</span></code></p></li>
+<li><p>Matrices are built with the command <code class="docutils literal notranslate"><span class="pre">matrix</span></code>. They can also be constructed from vectors or returned from certain functions.</p></li>
+<li><p>Lists are created with the <code class="docutils literal notranslate"><span class="pre">list</span></code> function.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## Example of vector creation</span>
+
+v <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">)</span>
+<span class="kp">print</span><span class="p">(</span>v<span class="p">)</span>
+
+w <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;This&quot;</span><span class="p">,</span> <span class="s">&quot;is&quot;</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;character&quot;</span><span class="p">,</span> <span class="s">&quot;vector&quot;</span><span class="p">)</span>
+<span class="kp">print</span><span class="p">(</span>w<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1] 1 2 3 4
+[1] &#34;This&#34;      &#34;is&#34;        &#34;a&#34;         &#34;character&#34; &#34;vector&#34;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## Example of matrix creation</span>
+
+<span class="c1">## First just create a vector of entries</span>
+matrix_entries <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">,</span><span class="m">7</span><span class="p">,</span><span class="m">8</span><span class="p">,</span><span class="m">9</span><span class="p">,</span><span class="m">10</span><span class="p">,</span><span class="m">11</span><span class="p">,</span><span class="m">12</span><span class="p">)</span>
+
+M <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span>matrix_entries<span class="p">,</span> ncol <span class="o">=</span> <span class="m">3</span><span class="p">,</span> nrow <span class="o">=</span> <span class="m">4</span><span class="p">)</span>
+<span class="kp">print</span><span class="p">(</span>M<span class="p">)</span>
+
+matrix_entries <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;This&quot;</span><span class="p">,</span> <span class="s">&quot;is&quot;</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;character&quot;</span><span class="p">,</span> <span class="s">&quot;matrix&quot;</span><span class="p">,</span> <span class="s">&quot;with&quot;</span><span class="p">,</span> <span class="s">&quot;two&quot;</span><span class="p">,</span> <span class="s">&quot;rows&quot;</span><span class="p">)</span>
+N <span class="o">&lt;-</span>  <span class="kt">matrix</span><span class="p">(</span>matrix_entries<span class="p">,</span> nrow <span class="o">=</span> <span class="m">2</span><span class="p">)</span>
+<span class="kp">print</span><span class="p">(</span>N<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+     [,1] [,2] [,3]
+[1,]    1    5    9
+[2,]    2    6   10
+[3,]    3    7   11
+[4,]    4    8   12
+     [,1]   [,2]        [,3]     [,4]
+[1,] &#34;This&#34; &#34;a&#34;         &#34;matrix&#34; &#34;two&#34;
+[2,] &#34;is&#34;   &#34;character&#34; &#34;with&#34;   &#34;rows&#34;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## We can create matrices of different dimensions</span>
+
+N <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span>matrix_entries<span class="p">,</span> ncol <span class="o">=</span> <span class="m">2</span><span class="p">,</span> nrow <span class="o">=</span> <span class="m">6</span><span class="p">)</span>
+<span class="kp">print</span><span class="p">(</span>N<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Warning message in matrix(matrix_entries, ncol = 2, nrow = 6):
+“data length [8] is not a sub-multiple or multiple of the number of rows [6]”
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+     [,1]        [,2]
+[1,] &#34;This&#34;      &#34;two&#34;
+[2,] &#34;is&#34;        &#34;rows&#34;
+[3,] &#34;a&#34;         &#34;This&#34;
+[4,] &#34;character&#34; &#34;is&#34;
+[5,] &#34;matrix&#34;    &#34;a&#34;
+[6,] &#34;with&#34;      &#34;character&#34;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## add rows or columns with row bind (``rbind``) or column bind (``cbind``)</span>
+
+<span class="c1">## First create a vector of the appropriate length:</span>
+
+new_column <span class="o">&lt;-</span> <span class="kp">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">4</span><span class="p">)</span>
+
+P <span class="o">&lt;-</span> <span class="kp">cbind</span><span class="p">(</span>M<span class="p">,</span> new_column<span class="p">)</span>
+<span class="kp">print</span><span class="p">(</span>P<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+            new_column
+[1,] 1 5  9          1
+[2,] 2 6 10          1
+[3,] 3 7 11          1
+[4,] 4 8 12          1
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Examples">
+<h4>Examples<a class="headerlink" href="#Examples" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Create 3 vectors, one using concatenate, one using <code class="docutils literal notranslate"><span class="pre">rep</span></code> and one using <code class="docutils literal notranslate"><span class="pre">seq</span></code></p></li>
+<li><p>Create 3 matrices: one 2x2, one 6x4, one a 4x4 with ones on the diagonal and zeroes everywhere else.</p></li>
+<li><p>Use cbind and rbind to add one row and one column to the 6x4 matrix.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Your code here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Common-Operations-on-Vectors-and-Matrices">
+<h4>Common Operations on Vectors and Matrices<a class="headerlink" href="#Common-Operations-on-Vectors-and-Matrices" title="Permalink to this headline">¶</a></h4>
+<p>Two major categories of vector operations are</p>
+<ul class="simple">
+<li><p>Componentwise operations</p></li>
+<li><p>Summary operations</p></li>
+</ul>
+<p>We have already seen some componentwise operations (e.g. the doubling example). Let’s look at some summary operations and we will do some more componentwise in the examples.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## Sum of the components of a vector</span>
+
+v <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">8</span><span class="p">,</span><span class="m">9</span><span class="p">,</span><span class="m">10</span><span class="p">)</span>
+<span class="kp">sum</span><span class="p">(</span>v<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+35</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## mean</span>
+
+<span class="kp">mean</span><span class="p">(</span>v<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+5.83333333333333</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## median</span>
+
+median<span class="p">(</span>v<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+6.5</div>
+</div>
+</div>
+<div class="section" id="Examples">
+<h4>Examples<a class="headerlink" href="#Examples" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Create two vectors length 3 using the concatenate function. What happens when you add them using <code class="docutils literal notranslate"><span class="pre">+</span></code>?</p></li>
+<li><p>Create a third vector of length 2. What happens if you try to add that vector to one of the others?</p></li>
+<li><p>Create another vector of length 4. Add it to the vector of length 2. What do you observe?</p></li>
+<li><p>We have examples of sum, mean and median summary operations. Can you find some others?</p></li>
+<li><p>Try the functions <code class="docutils literal notranslate"><span class="pre">sort</span></code> and <code class="docutils literal notranslate"><span class="pre">sample</span></code>. What do they do? Try <code class="docutils literal notranslate"><span class="pre">sample</span></code> with and without replacement.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## Your code here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Functions">
+<h4>Functions<a class="headerlink" href="#Functions" title="Permalink to this headline">¶</a></h4>
+<p>A function is code that behaves like a black box - you give it some input and it returns some output. Functions are essential because they allow you to design potentially complicated algorithms without having to keep track of the algorithmic details - all you need to remember are the function name (which you can search with <code class="docutils literal notranslate"><span class="pre">apropos</span></code> or by prepending <code class="docutils literal notranslate"><span class="pre">??</span></code> to the search term), the input arguments (TAB provides these), and what type of output will be generated. Most of R’s usefulness comes
+from the large collection of functions that it provides - for example, <code class="docutils literal notranslate"><span class="pre">library()</span></code>, <code class="docutils literal notranslate"><span class="pre">seq()</span></code>, <code class="docutils literal notranslate"><span class="pre">as.fractions()</span></code> are all functions. You can also write your own R functions - this will be covered in detail in a later session - but we show the basics here.</p>
+<div class="section" id="Creating-a-function">
+<h5>Creating a function<a class="headerlink" href="#Creating-a-function" title="Permalink to this headline">¶</a></h5>
+<p>A function has the following structure</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span>function_name <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>arguments<span class="p">)</span> <span class="p">{</span>
+    body_of_function
+    <span class="kr">return</span><span class="p">(</span>result<span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>function_name</strong> is defined by the user (you). It can be anything you like, but meaningfulnames are encouraged to make code more readable to humans.</p>
+<p><strong>function</strong> is a keyword (one that has special meaning to R). It tells R that this is a function you are defining (as opposed to a variable).</p>
+<p><strong>arguments</strong> are inputs to the function. Usually, when you write a function, you want it to do something to a variable or variables.</p>
+<p><strong>body_of_function</strong> is a list of R commands. They are whatever you wish this function to do with the arguments.</p>
+<p><strong>return</strong> is a keyword. It tells R to send something back to the code that ‘called’ it.</p>
+<p><strong>result</strong> is user-defined. It is whatever you want R to send back to the code that called this function.</p>
+<p>The simple example below will make this explicit.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>MyFunc <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>a<span class="p">,</span> b<span class="p">)</span> <span class="p">{</span>
+    <span class="kt">c</span> <span class="o">&lt;-</span> a <span class="o">*</span> b
+    d <span class="o">&lt;-</span> a <span class="o">+</span> <span class="m">2</span><span class="o">*</span>b
+    <span class="kr">return</span><span class="p">(</span>d<span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p><strong>function_name</strong> is MyFunc</p>
+<p><strong>arguments</strong> are a and b</p>
+<p><strong>body_of_function</strong> is</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">&lt;-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+<span class="n">d</span> <span class="o">&lt;-</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">b</span>
+</pre></div>
+</div>
+<p><strong>result</strong> is d</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>MyFunc<span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+13</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>MyFunc<span class="p">(</span>b <span class="o">=</span> <span class="m">4</span><span class="p">,</span> a <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+13</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>MyFunc<span class="p">(</span><span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+14</div>
+</div>
+</div>
+</div>
+<div class="section" id="Examples">
+<h4>Examples<a class="headerlink" href="#Examples" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Write a function that takes as input principal, interest rate, compoundings per period and number of periods and returns current amount.</p></li>
+<li><p>Write a function that takes as input two points, x and y, and returns the distance between them.</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="Lists-and-Data-Frames">
+<h3>Lists and Data Frames<a class="headerlink" href="#Lists-and-Data-Frames" title="Permalink to this headline">¶</a></h3>
+<p>A more general data structure in R is something called a list. Lists can have elements that are pretty much anything. For example, we can create a list of three members whose first element is a character vector, second element is a matrix and a third is a numeric vector. There is no restriction on length or type. Lists can even have other lists as elements.</p>
+<p>This is important, because Bioconductor packages often make use of something called S4 objects. These are really just complicated lists (with functions that act on them).</p>
+<div class="section" id="Simple-list">
+<h4>Simple list<a class="headerlink" href="#Simple-list" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>a <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;character&quot;</span><span class="p">,</span> <span class="s">&quot;vector&quot;</span><span class="p">)</span>
+b <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">12</span><span class="p">,</span> nrow <span class="o">=</span> <span class="m">4</span><span class="p">)</span>
+<span class="kt">c</span> <span class="o">&lt;-</span> <span class="m">2</span><span class="o">:</span><span class="m">5</span>
+
+<span class="kp">print</span><span class="p">(</span>a<span class="p">)</span>
+<span class="kp">print</span><span class="p">(</span>b<span class="p">)</span>
+<span class="kp">print</span><span class="p">(</span><span class="kt">c</span><span class="p">)</span>
+
+my_list <span class="o">&lt;-</span> <span class="kt">list</span><span class="p">(</span>first <span class="o">=</span> a<span class="p">,</span> second <span class="o">=</span> b<span class="p">,</span> third <span class="o">=</span> <span class="kt">c</span><span class="p">)</span>
+
+<span class="kp">print</span><span class="p">(</span>my_list<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1] &#34;a&#34;         &#34;character&#34; &#34;vector&#34;
+     [,1] [,2] [,3]
+[1,]    1    5    9
+[2,]    2    6   10
+[3,]    3    7   11
+[4,]    4    8   12
+[1] 2 3 4 5
+$first
+[1] &#34;a&#34;         &#34;character&#34; &#34;vector&#34;
+
+$second
+     [,1] [,2] [,3]
+[1,]    1    5    9
+[2,]    2    6   10
+[3,]    3    7   11
+[4,]    4    8   12
+
+$third
+[1] 2 3 4 5
+
+</pre></div></div>
+</div>
+<p>Note hoe the elements are named. Writing “first = ” names the first element ‘first’. Now, we can access elements of the list in different ways:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>my_list<span class="p">[</span><span class="m">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<strong>$first</strong> = <ol class=list-inline>
+    <li>'a'</li>
+    <li>'character'</li>
+    <li>'vector'</li>
+</ol></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>my_list<span class="p">[</span><span class="s">&quot;second&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<strong>$second</strong> = <table>
+<caption>A matrix: 4 × 3 of type int</caption>
+<tbody>
+    <tr><td>1</td><td>5</td><td> 9</td></tr>
+    <tr><td>2</td><td>6</td><td>10</td></tr>
+    <tr><td>3</td><td>7</td><td>11</td></tr>
+    <tr><td>4</td><td>8</td><td>12</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>my_list<span class="o">$</span>third
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+</ol></div>
+</div>
+<p>The ‘$’ is probably the most often used, but there is a lot of old R code out there where lists are accessed by the element number (you would also use element number when looping over a list, but you should probably not be doing that anyway!)</p>
+</div>
+<div class="section" id="Data-frames">
+<h4>Data frames<a class="headerlink" href="#Data-frames" title="Permalink to this headline">¶</a></h4>
+<p>Data frames are lists where each element has the same number of columns. This is the data structure most often seen in R code, and many functions are specialized to work on them easily. We can create one from scratch:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>names <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;bast&quot;</span><span class="p">,</span> <span class="s">&quot;dash&quot;</span><span class="p">,</span> <span class="s">&quot;chestnut&quot;</span><span class="p">,</span> <span class="s">&quot;tibbs&quot;</span><span class="p">)</span>
+species <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;cat&quot;</span><span class="p">,</span> <span class="s">&quot;cat&quot;</span><span class="p">,</span> <span class="s">&quot;dog&quot;</span><span class="p">,</span> <span class="s">&quot;dog&quot;</span><span class="p">)</span>
+ages <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">9</span><span class="p">,</span> <span class="m">9</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">8</span><span class="p">)</span>
+
+df <span class="o">&lt;-</span> <span class="kt">data.frame</span><span class="p">(</span>name <span class="o">=</span> <span class="kp">names</span><span class="p">,</span> species <span class="o">=</span> species<span class="p">,</span> age <span class="o">=</span> ages<span class="p">)</span>
+df
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 4 × 3</caption>
+<thead>
+    <tr><th scope=col>name</th><th scope=col>species</th><th scope=col>age</th></tr>
+    <tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>bast    </td><td>cat</td><td>9</td></tr>
+    <tr><td>dash    </td><td>cat</td><td>9</td></tr>
+    <tr><td>chestnut</td><td>dog</td><td>7</td></tr>
+    <tr><td>tibbs   </td><td>dog</td><td>8</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>R also has many built-in data frames that can be used to experiment or for examples.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">head</span><span class="p">(</span>iris<span class="p">)</span>
+
+hist<span class="p">(</span>iris<span class="o">$</span>Petal.Length<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 6 × 5</caption>
+<thead>
+    <tr><th scope=col>Sepal.Length</th><th scope=col>Sepal.Width</th><th scope=col>Petal.Length</th><th scope=col>Petal.Width</th><th scope=col>Species</th></tr>
+    <tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>5.1</td><td>3.5</td><td>1.4</td><td>0.2</td><td>setosa</td></tr>
+    <tr><td>4.9</td><td>3.0</td><td>1.4</td><td>0.2</td><td>setosa</td></tr>
+    <tr><td>4.7</td><td>3.2</td><td>1.3</td><td>0.2</td><td>setosa</td></tr>
+    <tr><td>4.6</td><td>3.1</td><td>1.5</td><td>0.2</td><td>setosa</td></tr>
+    <tr><td>5.0</td><td>3.6</td><td>1.4</td><td>0.2</td><td>setosa</td></tr>
+    <tr><td>5.4</td><td>3.9</td><td>1.7</td><td>0.4</td><td>setosa</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/janice_3_IntroductionToR_74_1.png" src="../_images/janice_3_IntroductionToR_74_1.png" />
+</div>
+</div>
+<p>We can also create a data frame from a .csv file.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>titanic_df <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;titanic.csv&quot;</span><span class="p">)</span>
+<span class="kp">head</span><span class="p">(</span>titanic_df<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 6 × 7</caption>
+<thead>
+    <tr><th scope=col>X</th><th scope=col>Name</th><th scope=col>PClass</th><th scope=col>Age</th><th scope=col>Sex</th><th scope=col>Survived</th><th scope=col>SexCode</th></tr>
+    <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>1</td><td>Allen, Miss Elisabeth Walton                 </td><td>1st</td><td>29.00</td><td>female</td><td>1</td><td>1</td></tr>
+    <tr><td>2</td><td>Allison, Miss Helen Loraine                  </td><td>1st</td><td> 2.00</td><td>female</td><td>0</td><td>1</td></tr>
+    <tr><td>3</td><td>Allison, Mr Hudson Joshua Creighton          </td><td>1st</td><td>30.00</td><td>male  </td><td>0</td><td>0</td></tr>
+    <tr><td>4</td><td>Allison, Mrs Hudson JC (Bessie Waldo Daniels)</td><td>1st</td><td>25.00</td><td>female</td><td>0</td><td>1</td></tr>
+    <tr><td>5</td><td>Allison, Master Hudson Trevor                </td><td>1st</td><td> 0.92</td><td>male  </td><td>1</td><td>0</td></tr>
+    <tr><td>6</td><td>Anderson, Mr Harry                           </td><td>1st</td><td>47.00</td><td>male  </td><td>1</td><td>0</td></tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="section" id="Examples">
+<h4>Examples<a class="headerlink" href="#Examples" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Explore the data frame mtcars. What variables does it contain? What are their data types?</p></li>
+<li><p>What is the average miles-per-gallon for a car with 4 cylinders? How about 8?</p></li>
+<li><p>Plot a histogram of the vehicle weight.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="4_Rlibraries_and_bioconductor.html" class="btn btn-neutral float-right" title="R libraries and Bioconductor" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="2_Intro_to_Unix_and_bash.html" class="btn btn-neutral float-left" title="Introduction to Unix and bash" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

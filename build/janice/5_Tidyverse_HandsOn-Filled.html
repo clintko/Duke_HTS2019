@@ -1,0 +1,1626 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Hands-On Tidyverse - with count data &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Simulations and Statistical Inference" href="6_Statistical_Inference.html" />
+    <link rel="prev" title="R libraries and Bioconductor" href="4_Rlibraries_and_bioconductor.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Quick Intro of Analysis Tools</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="2_Intro_to_Unix_and_bash.html">Introduction to Unix and bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3_IntroductionToR.html">Introduction to R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4_Rlibraries_and_bioconductor.html">R libraries and Bioconductor</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hands-On Tidyverse - with count data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Reading-in-count-data">Reading in count data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Functions">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Gather-and-spread">Gather and spread</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="6_Statistical_Inference.html">Simulations and Statistical Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7_Statistical_Inference_Solutions.html">Estimation and Hypothesis Testing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix01_File_And_Directory_Solutions.html">Working with Unix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix03_File_Storage_Solutions.html">File archival and recovery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix04_Text_Manipulation_Solutinos.html">Working with text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Hands-On Tidyverse - with count data</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/janice/5_Tidyverse_HandsOn-Filled.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Hands-On-Tidyverse---with-count-data">
+<h1>Hands-On Tidyverse - with count data<a class="headerlink" href="#Hands-On-Tidyverse---with-count-data" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Setup">
+<h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Load required packages</span>
+<span class="kn">library</span><span class="p">(</span>tidyverse<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>foreach<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>stringr<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>haven<span class="p">)</span>
+
+<span class="kn">library</span><span class="p">(</span>DESeq2<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>tools<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>limma<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>qvalue<span class="p">)</span>
+
+<span class="kn">library</span><span class="p">(</span>ggplot2<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>RColorBrewer<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>gridExtra<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>dendextend<span class="p">)</span>
+
+<span class="kn">library</span><span class="p">(</span>plotly<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Registered S3 methods overwritten by &#39;ggplot2&#39;:
+  method         from
+  [.quosures     rlang
+  c.quosures     rlang
+  print.quosures rlang
+── <span class="ansi-bold">Attaching packages</span> ─────────────────────────────────────── tidyverse 1.2.1 ──
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">ggplot2</span> 3.1.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">purrr  </span> 0.3.2
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tibble </span> 2.1.2     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">dplyr  </span> 0.8.1
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tidyr  </span> 0.8.3     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">stringr</span> 1.4.0
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">readr  </span> 1.3.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">forcats</span> 0.4.0
+── <span class="ansi-bold">Conflicts</span> ────────────────────────────────────────── tidyverse_conflicts() ──
+<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">filter()</span> masks <span class="ansi-blue-fg">stats</span>::filter()
+<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">lag()</span>    masks <span class="ansi-blue-fg">stats</span>::lag()
+
+Attaching package: ‘foreach’
+
+The following objects are masked from ‘package:purrr’:
+
+    accumulate, when
+
+Loading required package: S4Vectors
+Loading required package: stats4
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:dplyr’:
+
+    combine, intersect, setdiff, union
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+    union, unique, unsplit, which, which.max, which.min
+
+
+Attaching package: ‘S4Vectors’
+
+The following objects are masked from ‘package:dplyr’:
+
+    first, rename
+
+The following object is masked from ‘package:tidyr’:
+
+    expand
+
+The following object is masked from ‘package:base’:
+
+    expand.grid
+
+Loading required package: IRanges
+
+Attaching package: ‘IRanges’
+
+The following objects are masked from ‘package:dplyr’:
+
+    collapse, desc, slice
+
+The following object is masked from ‘package:purrr’:
+
+    reduce
+
+Loading required package: GenomicRanges
+Loading required package: GenomeInfoDb
+Loading required package: SummarizedExperiment
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    &#39;browseVignettes()&#39;. To cite Bioconductor, see
+    &#39;citation(&#34;Biobase&#34;)&#39;, and for packages &#39;citation(&#34;pkgname&#34;)&#39;.
+
+Loading required package: DelayedArray
+Loading required package: matrixStats
+
+Attaching package: ‘matrixStats’
+
+The following objects are masked from ‘package:Biobase’:
+
+    anyMissing, rowMedians
+
+The following object is masked from ‘package:dplyr’:
+
+    count
+
+Loading required package: BiocParallel
+
+Attaching package: ‘DelayedArray’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges
+
+The following object is masked from ‘package:purrr’:
+
+    simplify
+
+The following objects are masked from ‘package:base’:
+
+    aperm, apply, rowsum
+
+
+Attaching package: ‘limma’
+
+The following object is masked from ‘package:DESeq2’:
+
+    plotMA
+
+The following object is masked from ‘package:BiocGenerics’:
+
+    plotMA
+
+
+Attaching package: ‘gridExtra’
+
+The following object is masked from ‘package:Biobase’:
+
+    combine
+
+The following object is masked from ‘package:BiocGenerics’:
+
+    combine
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+
+---------------------
+Welcome to dendextend version 1.12.0
+Type citation(&#39;dendextend&#39;) for how to cite the package.
+
+Type browseVignettes(package = &#39;dendextend&#39;) for the package vignette.
+The github page is: https://github.com/talgalili/dendextend/
+
+Suggestions and bug-reports can be submitted at: https://github.com/talgalili/dendextend/issues
+Or contact: &lt;tal.galili@gmail.com&gt;
+
+        To suppress this message use:  suppressPackageStartupMessages(library(dendextend))
+---------------------
+
+
+Attaching package: ‘dendextend’
+
+The following object is masked from ‘package:stats’:
+
+    cutree
+
+
+Attaching package: ‘plotly’
+
+The following object is masked from ‘package:IRanges’:
+
+    slice
+
+The following object is masked from ‘package:S4Vectors’:
+
+    rename
+
+The following object is masked from ‘package:ggplot2’:
+
+    last_plot
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following object is masked from ‘package:graphics’:
+
+    layout
+
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># set directories</span>
+DATDIR <span class="o">&lt;-</span> <span class="s">&quot;/data/hts2018_pilot/star_counts&quot;</span>
+CURDIR <span class="o">&lt;-</span> <span class="s">&quot;/home/jovyan/work/scratch/analysis_output&quot;</span>
+OUTDIR <span class="o">&lt;-</span> <span class="kp">file.path</span><span class="p">(</span>CURDIR<span class="p">,</span> <span class="s">&quot;out&quot;</span><span class="p">)</span>
+IMGDIR <span class="o">&lt;-</span> <span class="kp">file.path</span><span class="p">(</span>CURDIR<span class="p">,</span> <span class="s">&quot;img&quot;</span><span class="p">)</span>
+
+<span class="c1"># Metadata (metadtfile)</span>
+METADTFILE <span class="o">&lt;-</span> <span class="s">&quot;/home/jovyan/work/HTS2018-notebooks/josh/info/2018_pilot_metadata_anon.tsv&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Reading-in-count-data">
+<h2>Reading in count data<a class="headerlink" href="#Reading-in-count-data" title="Permalink to this headline">¶</a></h2>
+<p>The gene counts from the pilot data from the 2018 course are in the directory /data/hts2018_pilot/start_counts.</p>
+<p>Let’s have a look at them:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">list.files</span><span class="p">(</span><span class="s">&quot;/data/hts2018_pilot/star_counts/&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol class=list-inline>
+    <li>'1_MA_J_S18_L001_ReadsPerGene.out.tab'</li>
+    <li>'1_MA_J_S18_L002_ReadsPerGene.out.tab'</li>
+    <li>'1_MA_J_S18_L003_ReadsPerGene.out.tab'</li>
+    <li>'1_MA_J_S18_L004_ReadsPerGene.out.tab'</li>
+    <li>'1_RZ_J_S26_L001_ReadsPerGene.out.tab'</li>
+    <li>'1_RZ_J_S26_L002_ReadsPerGene.out.tab'</li>
+    <li>'1_RZ_J_S26_L003_ReadsPerGene.out.tab'</li>
+    <li>'1_RZ_J_S26_L004_ReadsPerGene.out.tab'</li>
+    <li>'10_MA_C_S3_L001_ReadsPerGene.out.tab'</li>
+    <li>'10_MA_C_S3_L002_ReadsPerGene.out.tab'</li>
+    <li>'10_MA_C_S3_L003_ReadsPerGene.out.tab'</li>
+    <li>'10_MA_C_S3_L004_ReadsPerGene.out.tab'</li>
+    <li>'10_RZ_C_S11_L001_ReadsPerGene.out.tab'</li>
+    <li>'10_RZ_C_S11_L002_ReadsPerGene.out.tab'</li>
+    <li>'10_RZ_C_S11_L003_ReadsPerGene.out.tab'</li>
+    <li>'10_RZ_C_S11_L004_ReadsPerGene.out.tab'</li>
+    <li>'11_MA_J_S20_L001_ReadsPerGene.out.tab'</li>
+    <li>'11_MA_J_S20_L002_ReadsPerGene.out.tab'</li>
+    <li>'11_MA_J_S20_L003_ReadsPerGene.out.tab'</li>
+    <li>'11_MA_J_S20_L004_ReadsPerGene.out.tab'</li>
+    <li>'11_RZ_J_S28_L001_ReadsPerGene.out.tab'</li>
+    <li>'11_RZ_J_S28_L002_ReadsPerGene.out.tab'</li>
+    <li>'11_RZ_J_S28_L003_ReadsPerGene.out.tab'</li>
+    <li>'11_RZ_J_S28_L004_ReadsPerGene.out.tab'</li>
+    <li>'12_MA_P_S36_L001_ReadsPerGene.out.tab'</li>
+    <li>'12_MA_P_S36_L002_ReadsPerGene.out.tab'</li>
+    <li>'12_MA_P_S36_L003_ReadsPerGene.out.tab'</li>
+    <li>'12_MA_P_S36_L004_ReadsPerGene.out.tab'</li>
+    <li>'12_RZ_P_S44_L001_ReadsPerGene.out.tab'</li>
+    <li>'12_RZ_P_S44_L002_ReadsPerGene.out.tab'</li>
+    <li>'12_RZ_P_S44_L003_ReadsPerGene.out.tab'</li>
+    <li>'12_RZ_P_S44_L004_ReadsPerGene.out.tab'</li>
+    <li>'13_MA_J_S21_L001_ReadsPerGene.out.tab'</li>
+    <li>'13_MA_J_S21_L002_ReadsPerGene.out.tab'</li>
+    <li>'13_MA_J_S21_L003_ReadsPerGene.out.tab'</li>
+    <li>'13_MA_J_S21_L004_ReadsPerGene.out.tab'</li>
+    <li>'13_RZ_J_S29_L001_ReadsPerGene.out.tab'</li>
+    <li>'13_RZ_J_S29_L002_ReadsPerGene.out.tab'</li>
+    <li>'13_RZ_J_S29_L003_ReadsPerGene.out.tab'</li>
+    <li>'13_RZ_J_S29_L004_ReadsPerGene.out.tab'</li>
+    <li>'14_MA_C_S4_L001_ReadsPerGene.out.tab'</li>
+    <li>'14_MA_C_S4_L002_ReadsPerGene.out.tab'</li>
+    <li>'14_MA_C_S4_L003_ReadsPerGene.out.tab'</li>
+    <li>'14_MA_C_S4_L004_ReadsPerGene.out.tab'</li>
+    <li>'14_RZ_C_S12_L001_ReadsPerGene.out.tab'</li>
+    <li>'14_RZ_C_S12_L002_ReadsPerGene.out.tab'</li>
+    <li>'14_RZ_C_S12_L003_ReadsPerGene.out.tab'</li>
+    <li>'14_RZ_C_S12_L004_ReadsPerGene.out.tab'</li>
+    <li>'15_MA_C_S5_L001_ReadsPerGene.out.tab'</li>
+    <li>'15_MA_C_S5_L002_ReadsPerGene.out.tab'</li>
+    <li>'15_MA_C_S5_L003_ReadsPerGene.out.tab'</li>
+    <li>'15_MA_C_S5_L004_ReadsPerGene.out.tab'</li>
+    <li>'15_RZ_C_S13_L001_ReadsPerGene.out.tab'</li>
+    <li>'15_RZ_C_S13_L002_ReadsPerGene.out.tab'</li>
+    <li>'15_RZ_C_S13_L003_ReadsPerGene.out.tab'</li>
+    <li>'15_RZ_C_S13_L004_ReadsPerGene.out.tab'</li>
+    <li>'16_MA_P_S37_L001_ReadsPerGene.out.tab'</li>
+    <li>'16_MA_P_S37_L002_ReadsPerGene.out.tab'</li>
+    <li>'16_MA_P_S37_L003_ReadsPerGene.out.tab'</li>
+    <li>'16_MA_P_S37_L004_ReadsPerGene.out.tab'</li>
+    <li>'16_RZ_P_S45_L001_ReadsPerGene.out.tab'</li>
+    <li>'16_RZ_P_S45_L002_ReadsPerGene.out.tab'</li>
+    <li>'16_RZ_P_S45_L003_ReadsPerGene.out.tab'</li>
+    <li>'16_RZ_P_S45_L004_ReadsPerGene.out.tab'</li>
+    <li>'2_MA_C_S1_L001_ReadsPerGene.out.tab'</li>
+    <li>'2_MA_C_S1_L002_ReadsPerGene.out.tab'</li>
+    <li>'2_MA_C_S1_L003_ReadsPerGene.out.tab'</li>
+    <li>'2_MA_C_S1_L004_ReadsPerGene.out.tab'</li>
+    <li>'2_RZ_C_S9_L001_ReadsPerGene.out.tab'</li>
+    <li>'2_RZ_C_S9_L002_ReadsPerGene.out.tab'</li>
+    <li>'2_RZ_C_S9_L003_ReadsPerGene.out.tab'</li>
+    <li>'2_RZ_C_S9_L004_ReadsPerGene.out.tab'</li>
+    <li>'2_TOT_C_S17_L001_ReadsPerGene.out.tab'</li>
+    <li>'2_TOT_C_S17_L002_ReadsPerGene.out.tab'</li>
+    <li>'2_TOT_C_S17_L003_ReadsPerGene.out.tab'</li>
+    <li>'2_TOT_C_S17_L004_ReadsPerGene.out.tab'</li>
+    <li>'21_MA_C_S6_L001_ReadsPerGene.out.tab'</li>
+    <li>'21_MA_C_S6_L002_ReadsPerGene.out.tab'</li>
+    <li>'21_MA_C_S6_L003_ReadsPerGene.out.tab'</li>
+    <li>'21_MA_C_S6_L004_ReadsPerGene.out.tab'</li>
+    <li>'21_RZ_C_S14_L001_ReadsPerGene.out.tab'</li>
+    <li>'21_RZ_C_S14_L002_ReadsPerGene.out.tab'</li>
+    <li>'21_RZ_C_S14_L003_ReadsPerGene.out.tab'</li>
+    <li>'21_RZ_C_S14_L004_ReadsPerGene.out.tab'</li>
+    <li>'22_MA_C_S7_L001_ReadsPerGene.out.tab'</li>
+    <li>'22_MA_C_S7_L002_ReadsPerGene.out.tab'</li>
+    <li>'22_MA_C_S7_L003_ReadsPerGene.out.tab'</li>
+    <li>'22_MA_C_S7_L004_ReadsPerGene.out.tab'</li>
+    <li>'22_RZ_C_S15_L001_ReadsPerGene.out.tab'</li>
+    <li>'22_RZ_C_S15_L002_ReadsPerGene.out.tab'</li>
+    <li>'22_RZ_C_S15_L003_ReadsPerGene.out.tab'</li>
+    <li>'22_RZ_C_S15_L004_ReadsPerGene.out.tab'</li>
+    <li>'23_MA_J_S22_L001_ReadsPerGene.out.tab'</li>
+    <li>'23_MA_J_S22_L002_ReadsPerGene.out.tab'</li>
+    <li>'23_MA_J_S22_L003_ReadsPerGene.out.tab'</li>
+    <li>'23_MA_J_S22_L004_ReadsPerGene.out.tab'</li>
+    <li>'23_RZ_J_S30_L001_ReadsPerGene.out.tab'</li>
+    <li>'23_RZ_J_S30_L002_ReadsPerGene.out.tab'</li>
+    <li>'23_RZ_J_S30_L003_ReadsPerGene.out.tab'</li>
+    <li>'23_RZ_J_S30_L004_ReadsPerGene.out.tab'</li>
+    <li>'24_MA_J_S23_L001_ReadsPerGene.out.tab'</li>
+    <li>'24_MA_J_S23_L002_ReadsPerGene.out.tab'</li>
+    <li>'24_MA_J_S23_L003_ReadsPerGene.out.tab'</li>
+    <li>'24_MA_J_S23_L004_ReadsPerGene.out.tab'</li>
+    <li>'24_RZ_J_S31_L001_ReadsPerGene.out.tab'</li>
+    <li>'24_RZ_J_S31_L002_ReadsPerGene.out.tab'</li>
+    <li>'24_RZ_J_S31_L003_ReadsPerGene.out.tab'</li>
+    <li>'24_RZ_J_S31_L004_ReadsPerGene.out.tab'</li>
+    <li>'26_MA_C_S8_L001_ReadsPerGene.out.tab'</li>
+    <li>'26_MA_C_S8_L002_ReadsPerGene.out.tab'</li>
+    <li>'26_MA_C_S8_L003_ReadsPerGene.out.tab'</li>
+    <li>'26_MA_C_S8_L004_ReadsPerGene.out.tab'</li>
+    <li>'26_RZ_C_S16_L001_ReadsPerGene.out.tab'</li>
+    <li>'26_RZ_C_S16_L002_ReadsPerGene.out.tab'</li>
+    <li>'26_RZ_C_S16_L003_ReadsPerGene.out.tab'</li>
+    <li>'26_RZ_C_S16_L004_ReadsPerGene.out.tab'</li>
+    <li>'27_MA_P_S38_L001_ReadsPerGene.out.tab'</li>
+    <li>'27_MA_P_S38_L002_ReadsPerGene.out.tab'</li>
+    <li>'27_MA_P_S38_L003_ReadsPerGene.out.tab'</li>
+    <li>'27_MA_P_S38_L004_ReadsPerGene.out.tab'</li>
+    <li>'27_RZ_P_S46_L001_ReadsPerGene.out.tab'</li>
+    <li>'27_RZ_P_S46_L002_ReadsPerGene.out.tab'</li>
+    <li>'27_RZ_P_S46_L003_ReadsPerGene.out.tab'</li>
+    <li>'27_RZ_P_S46_L004_ReadsPerGene.out.tab'</li>
+    <li>'3_MA_J_S19_L001_ReadsPerGene.out.tab'</li>
+    <li>'3_MA_J_S19_L002_ReadsPerGene.out.tab'</li>
+    <li>'3_MA_J_S19_L003_ReadsPerGene.out.tab'</li>
+    <li>'3_MA_J_S19_L004_ReadsPerGene.out.tab'</li>
+    <li>'3_RZ_J_S27_L001_ReadsPerGene.out.tab'</li>
+    <li>'3_RZ_J_S27_L002_ReadsPerGene.out.tab'</li>
+    <li>'3_RZ_J_S27_L003_ReadsPerGene.out.tab'</li>
+    <li>'3_RZ_J_S27_L004_ReadsPerGene.out.tab'</li>
+    <li>'3_TOT_J_S34_L001_ReadsPerGene.out.tab'</li>
+    <li>'3_TOT_J_S34_L002_ReadsPerGene.out.tab'</li>
+    <li>'3_TOT_J_S34_L003_ReadsPerGene.out.tab'</li>
+    <li>'3_TOT_J_S34_L004_ReadsPerGene.out.tab'</li>
+    <li>'35_MA_P_S39_L001_ReadsPerGene.out.tab'</li>
+    <li>'35_MA_P_S39_L002_ReadsPerGene.out.tab'</li>
+    <li>'35_MA_P_S39_L003_ReadsPerGene.out.tab'</li>
+    <li>'35_MA_P_S39_L004_ReadsPerGene.out.tab'</li>
+    <li>'35_RZ_P_S47_L001_ReadsPerGene.out.tab'</li>
+    <li>'35_RZ_P_S47_L002_ReadsPerGene.out.tab'</li>
+    <li>'35_RZ_P_S47_L003_ReadsPerGene.out.tab'</li>
+    <li>'35_RZ_P_S47_L004_ReadsPerGene.out.tab'</li>
+    <li>'36_MA_J_S24_L001_ReadsPerGene.out.tab'</li>
+    <li>'36_MA_J_S24_L002_ReadsPerGene.out.tab'</li>
+    <li>'36_MA_J_S24_L003_ReadsPerGene.out.tab'</li>
+    <li>'36_MA_J_S24_L004_ReadsPerGene.out.tab'</li>
+    <li>'36_RZ_J_S32_L001_ReadsPerGene.out.tab'</li>
+    <li>'36_RZ_J_S32_L002_ReadsPerGene.out.tab'</li>
+    <li>'36_RZ_J_S32_L003_ReadsPerGene.out.tab'</li>
+    <li>'36_RZ_J_S32_L004_ReadsPerGene.out.tab'</li>
+    <li>'38_MA_P_S40_L001_ReadsPerGene.out.tab'</li>
+    <li>'38_MA_P_S40_L002_ReadsPerGene.out.tab'</li>
+    <li>'38_MA_P_S40_L003_ReadsPerGene.out.tab'</li>
+    <li>'38_MA_P_S40_L004_ReadsPerGene.out.tab'</li>
+    <li>'38_RZ_P_S48_L001_ReadsPerGene.out.tab'</li>
+    <li>'38_RZ_P_S48_L002_ReadsPerGene.out.tab'</li>
+    <li>'38_RZ_P_S48_L003_ReadsPerGene.out.tab'</li>
+    <li>'38_RZ_P_S48_L004_ReadsPerGene.out.tab'</li>
+    <li>'4_MA_P_S35_L001_ReadsPerGene.out.tab'</li>
+    <li>'4_MA_P_S35_L002_ReadsPerGene.out.tab'</li>
+    <li>'4_MA_P_S35_L003_ReadsPerGene.out.tab'</li>
+    <li>'4_MA_P_S35_L004_ReadsPerGene.out.tab'</li>
+    <li>'4_RZ_P_S43_L001_ReadsPerGene.out.tab'</li>
+    <li>'4_RZ_P_S43_L002_ReadsPerGene.out.tab'</li>
+    <li>'4_RZ_P_S43_L003_ReadsPerGene.out.tab'</li>
+    <li>'4_RZ_P_S43_L004_ReadsPerGene.out.tab'</li>
+    <li>'4_TOT_P_S51_L001_ReadsPerGene.out.tab'</li>
+    <li>'4_TOT_P_S51_L002_ReadsPerGene.out.tab'</li>
+    <li>'4_TOT_P_S51_L003_ReadsPerGene.out.tab'</li>
+    <li>'4_TOT_P_S51_L004_ReadsPerGene.out.tab'</li>
+    <li>'40_MA_J_S25_L001_ReadsPerGene.out.tab'</li>
+    <li>'40_MA_J_S25_L002_ReadsPerGene.out.tab'</li>
+    <li>'40_MA_J_S25_L003_ReadsPerGene.out.tab'</li>
+    <li>'40_MA_J_S25_L004_ReadsPerGene.out.tab'</li>
+    <li>'40_RZ_J_S33_L001_ReadsPerGene.out.tab'</li>
+    <li>'40_RZ_J_S33_L002_ReadsPerGene.out.tab'</li>
+    <li>'40_RZ_J_S33_L003_ReadsPerGene.out.tab'</li>
+    <li>'40_RZ_J_S33_L004_ReadsPerGene.out.tab'</li>
+    <li>'45_MA_P_S41_L001_ReadsPerGene.out.tab'</li>
+    <li>'45_MA_P_S41_L002_ReadsPerGene.out.tab'</li>
+    <li>'45_MA_P_S41_L003_ReadsPerGene.out.tab'</li>
+    <li>'45_MA_P_S41_L004_ReadsPerGene.out.tab'</li>
+    <li>'45_RZ_P_S49_L001_ReadsPerGene.out.tab'</li>
+    <li>'45_RZ_P_S49_L002_ReadsPerGene.out.tab'</li>
+    <li>'45_RZ_P_S49_L003_ReadsPerGene.out.tab'</li>
+    <li>'45_RZ_P_S49_L004_ReadsPerGene.out.tab'</li>
+    <li>'47_MA_P_S42_L001_ReadsPerGene.out.tab'</li>
+    <li>'47_MA_P_S42_L002_ReadsPerGene.out.tab'</li>
+    <li>'47_MA_P_S42_L003_ReadsPerGene.out.tab'</li>
+    <li>'47_MA_P_S42_L004_ReadsPerGene.out.tab'</li>
+    <li>'47_RZ_P_S50_L001_ReadsPerGene.out.tab'</li>
+    <li>'47_RZ_P_S50_L002_ReadsPerGene.out.tab'</li>
+    <li>'47_RZ_P_S50_L003_ReadsPerGene.out.tab'</li>
+    <li>'47_RZ_P_S50_L004_ReadsPerGene.out.tab'</li>
+    <li>'9_MA_C_S2_L001_ReadsPerGene.out.tab'</li>
+    <li>'9_MA_C_S2_L002_ReadsPerGene.out.tab'</li>
+    <li>'9_MA_C_S2_L003_ReadsPerGene.out.tab'</li>
+    <li>'9_MA_C_S2_L004_ReadsPerGene.out.tab'</li>
+    <li>'9_RZ_C_S10_L001_ReadsPerGene.out.tab'</li>
+    <li>'9_RZ_C_S10_L002_ReadsPerGene.out.tab'</li>
+    <li>'9_RZ_C_S10_L003_ReadsPerGene.out.tab'</li>
+    <li>'9_RZ_C_S10_L004_ReadsPerGene.out.tab'</li>
+</ol></div>
+</div>
+<p>We can also see these in the terminal window (open a terminal window and use the bash command ‘ls’). Let’s quickly go to the terminal and do this. Also, we can look at the content of the files.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Save the names in variable</span>
+stardirs <span class="o">&lt;-</span> <span class="kp">list.files</span><span class="p">(</span>DATDIR<span class="p">)</span>
+
+<span class="c1"># Look at the beginning of the first file from R</span>
+cmdstr <span class="o">&lt;-</span> <span class="kp">paste</span><span class="p">(</span><span class="s">&quot;head&quot;</span><span class="p">,</span> <span class="kp">file.path</span><span class="p">(</span>DATDIR<span class="p">,</span> stardirs<span class="p">[</span><span class="m">1</span><span class="p">]))</span>
+cmdout <span class="o">&lt;-</span> <span class="kp">system</span><span class="p">(</span>cmdstr<span class="p">,</span> intern <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+str_split<span class="p">(</span>cmdout<span class="p">,</span> pattern <span class="o">=</span> <span class="s">&quot;\t&quot;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<ol>
+    <li><ol class=list-inline>
+    <li>'N_unmapped'</li>
+    <li>'2690'</li>
+    <li>'2690'</li>
+    <li>'2690'</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>'N_multimapping'</li>
+    <li>'66100'</li>
+    <li>'66100'</li>
+    <li>'66100'</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>'N_noFeature'</li>
+    <li>'10626'</li>
+    <li>'2238382'</li>
+    <li>'20347'</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>'N_ambiguous'</li>
+    <li>'173170'</li>
+    <li>'1622'</li>
+    <li>'647'</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>'CNAG_04548'</li>
+    <li>'0'</li>
+    <li>'0'</li>
+    <li>'0'</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>'CNAG_07303'</li>
+    <li>'0'</li>
+    <li>'0'</li>
+    <li>'0'</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>'CNAG_07304'</li>
+    <li>'8'</li>
+    <li>'0'</li>
+    <li>'8'</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>'CNAG_00001'</li>
+    <li>'0'</li>
+    <li>'0'</li>
+    <li>'0'</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>'CNAG_07305'</li>
+    <li>'0'</li>
+    <li>'0'</li>
+    <li>'0'</li>
+</ol>
+</li>
+    <li><ol class=list-inline>
+    <li>'CNAG_00002'</li>
+    <li>'66'</li>
+    <li>'0'</li>
+    <li>'66'</li>
+</ol>
+</li>
+</ol></div>
+</div>
+<p>There are several things to note: * There are four columns. We only want the first (gene name) and the fourth (count). * There are no headers. * This is a tab-delimited file (we can’t see this, but what we can see is that it is not a csv)</p>
+<p>Exercise: 1. How many files are in the directory? 2. Print the first 10 filenames 3. Use the command read_tsv to read in the second file and save it in a tibble called “sample_2”. Use the note above to pass the correct options to read_tsv.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>sample_file <span class="o">&lt;-</span> <span class="kp">paste0</span><span class="p">(</span>DATDIR<span class="p">,</span> <span class="s">&quot;/&quot;</span><span class="p">,</span> stardirs<span class="p">[</span><span class="m">2</span><span class="p">])</span>
+sample_2 <span class="o">&lt;-</span> read_tsv<span class="p">(</span>sample_file<span class="p">,</span> col_names <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Parsed with column specification:
+cols(
+  X1 = <span class="ansi-red-fg">col_character()</span>,
+  X2 = <span class="ansi-green-fg">col_double()</span>,
+  X3 = <span class="ansi-green-fg">col_double()</span>,
+  X4 = <span class="ansi-green-fg">col_double()</span>
+)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>sample_2 <span class="o">%&gt;%</span> <span class="kp">head</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 6 × 4</caption>
+<thead>
+    <tr><th scope=col>X1</th><th scope=col>X2</th><th scope=col>X3</th><th scope=col>X4</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>N_unmapped    </td><td>  2684</td><td>   2684</td><td> 2684</td></tr>
+    <tr><td>N_multimapping</td><td> 65234</td><td>  65234</td><td>65234</td></tr>
+    <tr><td>N_noFeature   </td><td> 10340</td><td>2204187</td><td>20004</td></tr>
+    <tr><td>N_ambiguous   </td><td>169504</td><td>   1523</td><td>  652</td></tr>
+    <tr><td>CNAG_04548    </td><td>     0</td><td>      0</td><td>    0</td></tr>
+    <tr><td>CNAG_07303    </td><td>     0</td><td>      0</td><td>    0</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>Our goal is to read in all of these files and collect the first and fourth columns into one large tibble. Let’s first do this for two files.</p>
+<p>Exercise:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">Read</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">first</span> <span class="n">two</span> <span class="n">files</span><span class="p">,</span> <span class="n">one</span> <span class="n">into</span> <span class="n">a</span> <span class="n">tibble</span> <span class="n">called</span> <span class="n">df1</span><span class="p">,</span> <span class="n">the</span> <span class="n">other</span> <span class="n">into</span> <span class="n">a</span>  <span class="n">tibble</span> <span class="n">called</span> <span class="n">df2</span><span class="o">.</span>
+<span class="mf">2.</span> <span class="n">Remove</span> <span class="n">the</span> <span class="n">middle</span> <span class="n">two</span> <span class="n">columns</span> <span class="n">using</span> <span class="n">dplyr</span><span class="p">,</span> <span class="ow">and</span> <span class="n">rename</span> <span class="n">the</span> <span class="n">remaining</span> <span class="n">two</span> <span class="n">columns</span> <span class="s1">&#39;gene&#39;</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">count</span> <span class="n">file</span><span class="o">.</span>
+<span class="mf">3.</span> <span class="n">Join</span> <span class="n">the</span> <span class="n">two</span> <span class="n">tibbles</span> <span class="n">together</span> <span class="n">using</span> <span class="s1">&#39;gene&#39;</span> <span class="k">as</span> <span class="n">the</span> <span class="n">key</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Fancy way to read in columns 1 and 4 only</span>
+
+coltypes<span class="o">&lt;-</span> <span class="s">&quot;?--i&quot;</span>
+
+sample_file <span class="o">&lt;-</span> <span class="kp">paste0</span><span class="p">(</span>DATDIR<span class="p">,</span> <span class="s">&quot;/&quot;</span><span class="p">,</span> stardirs<span class="p">[</span><span class="m">1</span><span class="p">])</span>
+df1 <span class="o">&lt;-</span> readr<span class="o">::</span>read_tsv<span class="p">(</span>sample_file<span class="p">,</span> col_types <span class="o">=</span> coltypes<span class="p">,</span> col_names <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;gene&quot;</span><span class="p">,</span> stardirs<span class="p">[</span><span class="m">1</span><span class="p">]))</span>
+
+sample_file <span class="o">&lt;-</span> <span class="kp">paste0</span><span class="p">(</span>DATDIR<span class="p">,</span> <span class="s">&quot;/&quot;</span><span class="p">,</span> stardirs<span class="p">[</span><span class="m">2</span><span class="p">])</span>
+df2 <span class="o">&lt;-</span> readr<span class="o">::</span>read_tsv<span class="p">(</span>sample_file<span class="p">,</span> col_types <span class="o">=</span> coltypes<span class="p">,</span> col_names <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;gene&quot;</span><span class="p">,</span> stardirs<span class="p">[</span><span class="m">2</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>df1 <span class="o">%&gt;%</span> <span class="kp">head</span>
+df2 <span class="o">%&gt;%</span> <span class="kp">head</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 6 × 2</caption>
+<thead>
+    <tr><th scope=col>gene</th><th scope=col>1_MA_J_S18_L001_ReadsPerGene.out.tab</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>N_unmapped    </td><td> 2690</td></tr>
+    <tr><td>N_multimapping</td><td>66100</td></tr>
+    <tr><td>N_noFeature   </td><td>20347</td></tr>
+    <tr><td>N_ambiguous   </td><td>  647</td></tr>
+    <tr><td>CNAG_04548    </td><td>    0</td></tr>
+    <tr><td>CNAG_07303    </td><td>    0</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 6 × 2</caption>
+<thead>
+    <tr><th scope=col>gene</th><th scope=col>1_MA_J_S18_L002_ReadsPerGene.out.tab</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>N_unmapped    </td><td> 2684</td></tr>
+    <tr><td>N_multimapping</td><td>65234</td></tr>
+    <tr><td>N_noFeature   </td><td>20004</td></tr>
+    <tr><td>N_ambiguous   </td><td>  652</td></tr>
+    <tr><td>CNAG_04548    </td><td>    0</td></tr>
+    <tr><td>CNAG_07303    </td><td>    0</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>full_join<span class="p">(</span>df1<span class="p">,</span> df2<span class="p">,</span> by <span class="o">=</span> <span class="s">&quot;gene&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="kp">head</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 6 × 3</caption>
+<thead>
+    <tr><th scope=col>gene</th><th scope=col>1_MA_J_S18_L001_ReadsPerGene.out.tab</th><th scope=col>1_MA_J_S18_L002_ReadsPerGene.out.tab</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>N_unmapped    </td><td> 2690</td><td> 2684</td></tr>
+    <tr><td>N_multimapping</td><td>66100</td><td>65234</td></tr>
+    <tr><td>N_noFeature   </td><td>20347</td><td>20004</td></tr>
+    <tr><td>N_ambiguous   </td><td>  647</td><td>  652</td></tr>
+    <tr><td>CNAG_04548    </td><td>    0</td><td>    0</td></tr>
+    <tr><td>CNAG_07303    </td><td>    0</td><td>    0</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>Of course, we don’t want to do this manually for every file. We’ll use the <code class="docutils literal notranslate"><span class="pre">foreach</span></code> package in R to iterate over the files. This will require defining some of the steps above as functions, so first let’s review what a function is.</p>
+<div class="section" id="Functions">
+<h3>Functions<a class="headerlink" href="#Functions" title="Permalink to this headline">¶</a></h3>
+<p>Functions are simply objects that <em>do</em> something. In the functional programming paradigm, functions should be self-contained, in that they receive as inputs all the variables they need and do not modify anything else. They ‘return’ an output.</p>
+<div class="section" id="Example">
+<h4>Example<a class="headerlink" href="#Example" title="Permalink to this headline">¶</a></h4>
+<p><em>Good</em></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>myfunction_add <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>a<span class="p">,</span>b<span class="p">){</span>
+    a <span class="o">+</span> b   <span class="c1"># In R, the last statement is what is returned</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>myfunction_add<span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+3</div>
+</div>
+<p><em>Bad</em></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>a <span class="o">&lt;-</span> <span class="m">1</span>
+b <span class="o">&lt;-</span> <span class="m">2</span>
+
+myfunction_add <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(){</span>
+    a <span class="o">+</span> b <span class="c1"># We are using values from the &#39;global environment&#39; instead of passing them in</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>myfunction_add<span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+3</div>
+</div>
+<p>Exercise:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">Write</span> <span class="n">a</span> <span class="n">function</span> <span class="n">to</span> <span class="n">multiply</span> <span class="n">two</span> <span class="n">numbers</span> <span class="ow">and</span> <span class="k">return</span> <span class="n">the</span> <span class="n">result</span><span class="o">.</span>
+<span class="mf">2.</span> <span class="n">Write</span> <span class="n">a</span> <span class="n">function</span> <span class="n">to</span> <span class="n">join</span> <span class="n">two</span> <span class="n">dataframes</span>
+</pre></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>mycombine <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>df1<span class="p">,</span> df2<span class="p">)</span> <span class="p">{</span>
+    <span class="c1"># Combine two data frames by gene names</span>
+    <span class="c1">#</span>
+    <span class="c1"># Args:</span>
+    <span class="c1">#   df1 (Dataframe): the first count data</span>
+    <span class="c1">#   df2 (Dataframe): the second count data</span>
+    <span class="c1">#</span>
+    <span class="c1"># Returns:</span>
+    <span class="c1">#   (Dataframe) The combined data frame of df1 and df2</span>
+    full_join<span class="p">(</span>df1<span class="p">,</span> df2<span class="p">,</span> by <span class="o">=</span> <span class="s">&quot;gene&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+myfile <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>filedir<span class="p">,</span> filename<span class="p">)</span> <span class="p">{</span>
+    <span class="c1"># Get the absolute paths of a file</span>
+    <span class="c1">#</span>
+    <span class="c1"># Args:</span>
+    <span class="c1">#   filedir  (Character): the directory of the folder</span>
+    <span class="c1">#   filename (Character): the filename</span>
+    <span class="c1">#</span>
+    <span class="c1"># Returns:</span>
+    <span class="c1">#   (Character) the directory of the input file</span>
+    <span class="kp">file.path</span><span class="p">(</span>filedir<span class="p">,</span> filename<span class="p">)</span>
+<span class="p">}</span>
+
+
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>coltypes<span class="o">&lt;-</span> <span class="s">&quot;?--i&quot;</span>
+
+out <span class="o">&lt;-</span> foreach<span class="p">(</span>stardir <span class="o">=</span> stardirs<span class="p">,</span> <span class="m">.</span>combine <span class="o">=</span> mycombine<span class="p">)</span> <span class="o">%do%</span> <span class="p">{</span>
+
+    <span class="c1"># get a directory of each count file</span>
+    cntfile <span class="o">&lt;-</span> myfile<span class="p">(</span>DATDIR<span class="p">,</span> stardir<span class="p">)</span>
+
+    <span class="c1"># read in the count file</span>
+    readr<span class="o">::</span>read_tsv<span class="p">(</span>cntfile<span class="p">,</span> col_names <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span> col_types <span class="o">=</span> coltypes<span class="p">)</span> <span class="o">%&gt;%</span>
+           dplyr<span class="o">::</span>rename_<span class="p">(</span><span class="m">.</span>dots<span class="o">=</span>setNames<span class="p">(</span><span class="kp">names</span><span class="p">(</span><span class="m">.</span><span class="p">),</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;gene&quot;</span><span class="p">,</span>stardir<span class="p">)))</span>
+           <span class="c1">#dplyr::rename(&quot;gene&quot; = &quot;X1&quot;, `stardir` = &quot;X4&quot;)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Warning message:
+“rename_() is deprecated.
+Please use rename() instead
+
+The &#39;programming&#39; vignette or the tidyeval book can help you
+to program with rename() : https://tidyeval.tidyverse.org
+<span class="ansi-black-intense-fg">This warning is displayed once per session.</span>”
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>out <span class="o">%&gt;%</span> <span class="kp">head</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 6 × 205</caption>
+<thead>
+    <tr><th scope=col>gene</th><th scope=col>1_MA_J_S18_L001_ReadsPerGene.out.tab</th><th scope=col>1_MA_J_S18_L002_ReadsPerGene.out.tab</th><th scope=col>1_MA_J_S18_L003_ReadsPerGene.out.tab</th><th scope=col>1_MA_J_S18_L004_ReadsPerGene.out.tab</th><th scope=col>1_RZ_J_S26_L001_ReadsPerGene.out.tab</th><th scope=col>1_RZ_J_S26_L002_ReadsPerGene.out.tab</th><th scope=col>1_RZ_J_S26_L003_ReadsPerGene.out.tab</th><th scope=col>1_RZ_J_S26_L004_ReadsPerGene.out.tab</th><th scope=col>10_MA_C_S3_L001_ReadsPerGene.out.tab</th><th scope=col>⋯</th><th scope=col>47_RZ_P_S50_L003_ReadsPerGene.out.tab</th><th scope=col>47_RZ_P_S50_L004_ReadsPerGene.out.tab</th><th scope=col>9_MA_C_S2_L001_ReadsPerGene.out.tab</th><th scope=col>9_MA_C_S2_L002_ReadsPerGene.out.tab</th><th scope=col>9_MA_C_S2_L003_ReadsPerGene.out.tab</th><th scope=col>9_MA_C_S2_L004_ReadsPerGene.out.tab</th><th scope=col>9_RZ_C_S10_L001_ReadsPerGene.out.tab</th><th scope=col>9_RZ_C_S10_L002_ReadsPerGene.out.tab</th><th scope=col>9_RZ_C_S10_L003_ReadsPerGene.out.tab</th><th scope=col>9_RZ_C_S10_L004_ReadsPerGene.out.tab</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>⋯</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>N_unmapped    </td><td> 2690</td><td> 2684</td><td> 2672</td><td> 2585</td><td>  7218</td><td>  7022</td><td>  7355</td><td>  7076</td><td>38278</td><td>⋯</td><td>  10036</td><td>   9962</td><td> 2245</td><td> 2291</td><td> 2276</td><td> 2105</td><td>  3386</td><td>  3612</td><td>  3283</td><td>  4853</td></tr>
+    <tr><td>N_multimapping</td><td>66100</td><td>65234</td><td>66538</td><td>65066</td><td>395848</td><td>388079</td><td>401338</td><td>395490</td><td>64124</td><td>⋯</td><td> 536339</td><td> 529363</td><td>76258</td><td>74490</td><td>76370</td><td>75176</td><td>149388</td><td>149618</td><td>150874</td><td>156664</td></tr>
+    <tr><td>N_noFeature   </td><td>20347</td><td>20004</td><td>20549</td><td>20505</td><td>768146</td><td>755654</td><td>777749</td><td>773712</td><td>28540</td><td>⋯</td><td>1055322</td><td>1047171</td><td>27956</td><td>27638</td><td>28372</td><td>28459</td><td>503625</td><td>504801</td><td>510186</td><td>525524</td></tr>
+    <tr><td>N_ambiguous   </td><td>  647</td><td>  652</td><td>  697</td><td>  616</td><td>  1431</td><td>  1337</td><td>  1425</td><td>  1322</td><td>  147</td><td>⋯</td><td>   1260</td><td>   1236</td><td>  903</td><td>  848</td><td>  943</td><td>  838</td><td>  1354</td><td>  1333</td><td>  1359</td><td>  1357</td></tr>
+    <tr><td>CNAG_04548    </td><td>    0</td><td>    0</td><td>    0</td><td>    1</td><td>     0</td><td>     0</td><td>     0</td><td>     1</td><td>    0</td><td>⋯</td><td>      0</td><td>      0</td><td>    0</td><td>    0</td><td>    0</td><td>    0</td><td>     1</td><td>     0</td><td>     0</td><td>     0</td></tr>
+    <tr><td>CNAG_07303    </td><td>    0</td><td>    0</td><td>    0</td><td>    0</td><td>     0</td><td>     0</td><td>     0</td><td>     0</td><td>    0</td><td>⋯</td><td>      0</td><td>      0</td><td>    0</td><td>    0</td><td>    0</td><td>    0</td><td>     0</td><td>     0</td><td>     0</td><td>     0</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>Exercise: Create the ‘out’ tibble using a for loop instead of foreach.</p>
+</div>
+</div>
+<div class="section" id="Gather-and-spread">
+<h3>Gather and spread<a class="headerlink" href="#Gather-and-spread" title="Permalink to this headline">¶</a></h3>
+<p>Now, we have a few other things to fix. To begin with, the first four rows are really summaries and not genes.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Gather and spread the first four rows</span>
+out <span class="o">%&gt;%</span>
+    dplyr<span class="o">::</span>slice<span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">)</span> <span class="o">%&gt;%</span>
+    gather<span class="p">(</span>expid<span class="p">,</span> value<span class="p">,</span> <span class="o">-</span>gene<span class="p">)</span> <span class="o">%&gt;%</span>
+    spread<span class="p">(</span>gene<span class="p">,</span> value<span class="p">)</span> <span class="o">%&gt;%</span>
+    rename_<span class="p">(</span><span class="m">.</span>dots <span class="o">=</span> setNames<span class="p">(</span><span class="kp">names</span><span class="p">(</span><span class="m">.</span><span class="p">),</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;expid&quot;</span><span class="p">,</span> <span class="s">&quot;namb&quot;</span><span class="p">,</span> <span class="s">&quot;nmulti&quot;</span><span class="p">,</span> <span class="s">&quot;nnofeat&quot;</span><span class="p">,</span><span class="s">&quot;nunmap&quot;</span><span class="p">)))</span> <span class="o">-&gt;</span>
+    nmisc
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>nmisc <span class="o">%&gt;%</span> <span class="kp">head</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 6 × 5</caption>
+<thead>
+    <tr><th scope=col>expid</th><th scope=col>namb</th><th scope=col>nmulti</th><th scope=col>nnofeat</th><th scope=col>nunmap</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>1_MA_J_S18_L001_ReadsPerGene.out.tab</td><td> 647</td><td> 66100</td><td> 20347</td><td>2690</td></tr>
+    <tr><td>1_MA_J_S18_L002_ReadsPerGene.out.tab</td><td> 652</td><td> 65234</td><td> 20004</td><td>2684</td></tr>
+    <tr><td>1_MA_J_S18_L003_ReadsPerGene.out.tab</td><td> 697</td><td> 66538</td><td> 20549</td><td>2672</td></tr>
+    <tr><td>1_MA_J_S18_L004_ReadsPerGene.out.tab</td><td> 616</td><td> 65066</td><td> 20505</td><td>2585</td></tr>
+    <tr><td>1_RZ_J_S26_L001_ReadsPerGene.out.tab</td><td>1431</td><td>395848</td><td>768146</td><td>7218</td></tr>
+    <tr><td>1_RZ_J_S26_L002_ReadsPerGene.out.tab</td><td>1337</td><td>388079</td><td>755654</td><td>7022</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>Let’s break this down and see what each step does.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>out <span class="o">%&gt;%</span>
+    dplyr<span class="o">::</span>slice<span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">)</span> <span class="o">-&gt;</span> temp1
+
+temp1
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A spec_tbl_df: 4 × 205</caption>
+<thead>
+    <tr><th scope=col>gene</th><th scope=col>1_MA_J_S18_L001_ReadsPerGene.out.tab</th><th scope=col>1_MA_J_S18_L002_ReadsPerGene.out.tab</th><th scope=col>1_MA_J_S18_L003_ReadsPerGene.out.tab</th><th scope=col>1_MA_J_S18_L004_ReadsPerGene.out.tab</th><th scope=col>1_RZ_J_S26_L001_ReadsPerGene.out.tab</th><th scope=col>1_RZ_J_S26_L002_ReadsPerGene.out.tab</th><th scope=col>1_RZ_J_S26_L003_ReadsPerGene.out.tab</th><th scope=col>1_RZ_J_S26_L004_ReadsPerGene.out.tab</th><th scope=col>10_MA_C_S3_L001_ReadsPerGene.out.tab</th><th scope=col>⋯</th><th scope=col>47_RZ_P_S50_L003_ReadsPerGene.out.tab</th><th scope=col>47_RZ_P_S50_L004_ReadsPerGene.out.tab</th><th scope=col>9_MA_C_S2_L001_ReadsPerGene.out.tab</th><th scope=col>9_MA_C_S2_L002_ReadsPerGene.out.tab</th><th scope=col>9_MA_C_S2_L003_ReadsPerGene.out.tab</th><th scope=col>9_MA_C_S2_L004_ReadsPerGene.out.tab</th><th scope=col>9_RZ_C_S10_L001_ReadsPerGene.out.tab</th><th scope=col>9_RZ_C_S10_L002_ReadsPerGene.out.tab</th><th scope=col>9_RZ_C_S10_L003_ReadsPerGene.out.tab</th><th scope=col>9_RZ_C_S10_L004_ReadsPerGene.out.tab</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>⋯</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>N_unmapped    </td><td> 2690</td><td> 2684</td><td> 2672</td><td> 2585</td><td>  7218</td><td>  7022</td><td>  7355</td><td>  7076</td><td>38278</td><td>⋯</td><td>  10036</td><td>   9962</td><td> 2245</td><td> 2291</td><td> 2276</td><td> 2105</td><td>  3386</td><td>  3612</td><td>  3283</td><td>  4853</td></tr>
+    <tr><td>N_multimapping</td><td>66100</td><td>65234</td><td>66538</td><td>65066</td><td>395848</td><td>388079</td><td>401338</td><td>395490</td><td>64124</td><td>⋯</td><td> 536339</td><td> 529363</td><td>76258</td><td>74490</td><td>76370</td><td>75176</td><td>149388</td><td>149618</td><td>150874</td><td>156664</td></tr>
+    <tr><td>N_noFeature   </td><td>20347</td><td>20004</td><td>20549</td><td>20505</td><td>768146</td><td>755654</td><td>777749</td><td>773712</td><td>28540</td><td>⋯</td><td>1055322</td><td>1047171</td><td>27956</td><td>27638</td><td>28372</td><td>28459</td><td>503625</td><td>504801</td><td>510186</td><td>525524</td></tr>
+    <tr><td>N_ambiguous   </td><td>  647</td><td>  652</td><td>  697</td><td>  616</td><td>  1431</td><td>  1337</td><td>  1425</td><td>  1322</td><td>  147</td><td>⋯</td><td>   1260</td><td>   1236</td><td>  903</td><td>  848</td><td>  943</td><td>  838</td><td>  1354</td><td>  1333</td><td>  1359</td><td>  1357</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>temp1 <span class="o">%&gt;%</span> gather<span class="p">(</span>expid<span class="p">,</span> value<span class="p">,</span> <span class="o">-</span>gene<span class="p">)</span> <span class="o">-&gt;</span> temp2
+
+<span class="kp">head</span><span class="p">(</span>temp2<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 6 × 3</caption>
+<thead>
+    <tr><th scope=col>gene</th><th scope=col>expid</th><th scope=col>value</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>N_unmapped    </td><td>1_MA_J_S18_L001_ReadsPerGene.out.tab</td><td> 2690</td></tr>
+    <tr><td>N_multimapping</td><td>1_MA_J_S18_L001_ReadsPerGene.out.tab</td><td>66100</td></tr>
+    <tr><td>N_noFeature   </td><td>1_MA_J_S18_L001_ReadsPerGene.out.tab</td><td>20347</td></tr>
+    <tr><td>N_ambiguous   </td><td>1_MA_J_S18_L001_ReadsPerGene.out.tab</td><td>  647</td></tr>
+    <tr><td>N_unmapped    </td><td>1_MA_J_S18_L002_ReadsPerGene.out.tab</td><td> 2684</td></tr>
+    <tr><td>N_multimapping</td><td>1_MA_J_S18_L002_ReadsPerGene.out.tab</td><td>65234</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>temp2 <span class="o">%&gt;%</span>  spread<span class="p">(</span>gene<span class="p">,</span> value<span class="p">)</span> <span class="o">-&gt;</span> temp3
+
+<span class="kp">head</span><span class="p">(</span>temp3<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 6 × 5</caption>
+<thead>
+    <tr><th scope=col>expid</th><th scope=col>N_ambiguous</th><th scope=col>N_multimapping</th><th scope=col>N_noFeature</th><th scope=col>N_unmapped</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>1_MA_J_S18_L001_ReadsPerGene.out.tab</td><td> 647</td><td> 66100</td><td> 20347</td><td>2690</td></tr>
+    <tr><td>1_MA_J_S18_L002_ReadsPerGene.out.tab</td><td> 652</td><td> 65234</td><td> 20004</td><td>2684</td></tr>
+    <tr><td>1_MA_J_S18_L003_ReadsPerGene.out.tab</td><td> 697</td><td> 66538</td><td> 20549</td><td>2672</td></tr>
+    <tr><td>1_MA_J_S18_L004_ReadsPerGene.out.tab</td><td> 616</td><td> 65066</td><td> 20505</td><td>2585</td></tr>
+    <tr><td>1_RZ_J_S26_L001_ReadsPerGene.out.tab</td><td>1431</td><td>395848</td><td>768146</td><td>7218</td></tr>
+    <tr><td>1_RZ_J_S26_L002_ReadsPerGene.out.tab</td><td>1337</td><td>388079</td><td>755654</td><td>7022</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>temp3 <span class="o">%&gt;%</span> rename_<span class="p">(</span><span class="m">.</span>dots <span class="o">=</span> setNames<span class="p">(</span><span class="kp">names</span><span class="p">(</span><span class="m">.</span><span class="p">),</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;expid&quot;</span><span class="p">,</span> <span class="s">&quot;namb&quot;</span><span class="p">,</span> <span class="s">&quot;nmulti&quot;</span><span class="p">,</span> <span class="s">&quot;nnofeat&quot;</span><span class="p">,</span><span class="s">&quot;nunmap&quot;</span><span class="p">)))</span> <span class="o">%&gt;%</span> <span class="kp">head</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 6 × 5</caption>
+<thead>
+    <tr><th scope=col>expid</th><th scope=col>namb</th><th scope=col>nmulti</th><th scope=col>nnofeat</th><th scope=col>nunmap</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>1_MA_J_S18_L001_ReadsPerGene.out.tab</td><td> 647</td><td> 66100</td><td> 20347</td><td>2690</td></tr>
+    <tr><td>1_MA_J_S18_L002_ReadsPerGene.out.tab</td><td> 652</td><td> 65234</td><td> 20004</td><td>2684</td></tr>
+    <tr><td>1_MA_J_S18_L003_ReadsPerGene.out.tab</td><td> 697</td><td> 66538</td><td> 20549</td><td>2672</td></tr>
+    <tr><td>1_MA_J_S18_L004_ReadsPerGene.out.tab</td><td> 616</td><td> 65066</td><td> 20505</td><td>2585</td></tr>
+    <tr><td>1_RZ_J_S26_L001_ReadsPerGene.out.tab</td><td>1431</td><td>395848</td><td>768146</td><td>7218</td></tr>
+    <tr><td>1_RZ_J_S26_L002_ReadsPerGene.out.tab</td><td>1337</td><td>388079</td><td>755654</td><td>7022</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### Gather and spread the genes to get a count matrix</span>
+out <span class="o">%&gt;%</span>
+    dplyr<span class="o">::</span>slice<span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">))</span> <span class="o">%&gt;%</span>
+    gather<span class="p">(</span>expid<span class="p">,</span> value<span class="p">,</span> <span class="o">-</span>gene<span class="p">)</span> <span class="o">%&gt;%</span>
+    spread<span class="p">(</span>gene<span class="p">,</span> value<span class="p">)</span> <span class="o">-&gt;</span> genecounts
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>genecounts<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A tibble: 5 × 5</caption>
+<thead>
+    <tr><th scope=col>expid</th><th scope=col>CNAG_00001</th><th scope=col>CNAG_00002</th><th scope=col>CNAG_00003</th><th scope=col>CNAG_00004</th></tr>
+    <tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>1_MA_J_S18_L001_ReadsPerGene.out.tab</td><td>0</td><td>66</td><td>38</td><td>74</td></tr>
+    <tr><td>1_MA_J_S18_L002_ReadsPerGene.out.tab</td><td>0</td><td>59</td><td>25</td><td>79</td></tr>
+    <tr><td>1_MA_J_S18_L003_ReadsPerGene.out.tab</td><td>0</td><td>74</td><td>27</td><td>79</td></tr>
+    <tr><td>1_MA_J_S18_L004_ReadsPerGene.out.tab</td><td>0</td><td>66</td><td>22</td><td>69</td></tr>
+    <tr><td>1_RZ_J_S26_L001_ReadsPerGene.out.tab</td><td>0</td><td>50</td><td>16</td><td>51</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>out <span class="o">%&gt;%</span>
+    dplyr<span class="o">::</span>slice<span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">))</span> <span class="o">%&gt;%</span> <span class="kp">t</span><span class="p">()</span> <span class="o">-&gt;</span> check
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>check<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 5 × 5 of type chr</caption>
+<tbody>
+    <tr><th scope=row>gene</th><td>CNAG_04548</td><td>CNAG_07303</td><td>CNAG_07304</td><td>CNAG_00001</td><td>CNAG_07305</td></tr>
+    <tr><th scope=row>1_MA_J_S18_L001_ReadsPerGene.out.tab</th><td>    0     </td><td>    0     </td><td>    8     </td><td>    0     </td><td>    0     </td></tr>
+    <tr><th scope=row>1_MA_J_S18_L002_ReadsPerGene.out.tab</th><td>    0     </td><td>    0     </td><td>    7     </td><td>    0     </td><td>    1     </td></tr>
+    <tr><th scope=row>1_MA_J_S18_L003_ReadsPerGene.out.tab</th><td>    0     </td><td>    0     </td><td>   10     </td><td>    0     </td><td>    0     </td></tr>
+    <tr><th scope=row>1_MA_J_S18_L004_ReadsPerGene.out.tab</th><td>    1     </td><td>    0     </td><td>    9     </td><td>    0     </td><td>    0     </td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="6_Statistical_Inference.html" class="btn btn-neutral float-right" title="Simulations and Statistical Inference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="4_Rlibraries_and_bioconductor.html" class="btn btn-neutral float-left" title="R libraries and Bioconductor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

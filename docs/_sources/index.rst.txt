@@ -17,8 +17,20 @@ Source materials can bd cloned from the `HTS2019 GitLab Repository <https://gitl
 
 .. toctree::
    :maxdepth: 2
+   :caption: Quick Intro of Analysis Tools
+
+   janice/1_IntroToCompBoot.ipynb
+   janice/2_Intro_to_Unix_and_bash.ipynb
+   janice/3_IntroductionToR.ipynb
+   janice/4_Rlibraries_and_bioconductor.ipynb
+   janice/5_Tidyverse_HandsOn-Filled.ipynb
+   janice/6_Statistical_Inference.ipynb
+   janice/7_Statistical_Inference_Solutions.ipynb
+
+.. toctree::
+   :maxdepth: 2
    :caption: Unix Shell
-   
+
    cliburn/Unix01_File_And_Directory_Solutions.ipynb
    cliburn/Unix02_FileIO_Solutions.ipynb
    cliburn/Unix03_File_Storage_Solutions.ipynb
@@ -50,7 +62,11 @@ Source materials can bd cloned from the `HTS2019 GitLab Repository <https://gitl
 
 .. toctree::
    :maxdepth: 2
-   :caption: Bioinformatics
+   :caption: Bioinformatics (FASTQ, FASTQC, STAR, etc)
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Gene Count & DESeq2
 
 .. toctree::
    :maxdepth: 2

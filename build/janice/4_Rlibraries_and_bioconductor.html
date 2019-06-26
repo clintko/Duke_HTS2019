@@ -1,0 +1,1535 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>R libraries and Bioconductor &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Hands-On Tidyverse - with count data" href="5_Tidyverse_HandsOn-Filled.html" />
+    <link rel="prev" title="Introduction to R" href="3_IntroductionToR.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Quick Intro of Analysis Tools</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="2_Intro_to_Unix_and_bash.html">Introduction to Unix and bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3_IntroductionToR.html">Introduction to R</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">R libraries and Bioconductor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Packages-and-Libraries">Packages and Libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Libraries">Libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Installed-and-installing-packages">Installed and installing packages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#BioConductor">BioConductor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Installing-BioConductor-packages">Installing BioConductor packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DESeq2-and-S4-Objects">DESeq2 and S4 Objects</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="5_Tidyverse_HandsOn-Filled.html">Hands-On Tidyverse - with count data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="6_Statistical_Inference.html">Simulations and Statistical Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7_Statistical_Inference_Solutions.html">Estimation and Hypothesis Testing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix01_File_And_Directory_Solutions.html">Working with Unix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix03_File_Storage_Solutions.html">File archival and recovery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix04_Text_Manipulation_Solutinos.html">Working with text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../computing/data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../computing/git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>R libraries and Bioconductor</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/janice/4_Rlibraries_and_bioconductor.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="R-libraries-and-Bioconductor">
+<h1>R libraries and Bioconductor<a class="headerlink" href="#R-libraries-and-Bioconductor" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Packages-and-Libraries">
+<h2>Packages and Libraries<a class="headerlink" href="#Packages-and-Libraries" title="Permalink to this headline">¶</a></h2>
+<p>R is at heart a collection of ‘packages’. There is a ‘base’ system that contains the truly basic commands, such as the assignment operator <code class="docutils literal notranslate"><span class="pre">-&gt;</span></code> or the command to create a vector. In addition to that, there are ‘standard R’ packages that are included when you install the R kernel (in the Jupyter notebook), or ‘R’ as a program to run either at the command line or with Rstudio. (I’ve shown some examples of these different ways to run R in class).</p>
+<div class="section" id="Libraries">
+<h3>Libraries<a class="headerlink" href="#Libraries" title="Permalink to this headline">¶</a></h3>
+<p>Many packages, even those included in [standard R] (<a class="reference external" href="https://www.r-project.org/">https://www.r-project.org/</a>), will need to be ‘loaded’ to be used. In other words, they exist on your computer (or in your container), but the R kernel doesn’t know about them. This is because if it did, R would be using computer memory (RAM) to remember all their functions and variables. If all the available packages were loaded, you might not have any RAM left!</p>
+<p>A consequence of this is that you often have to tell R explicitly that you want to use a particular package. You do that using <code class="docutils literal notranslate"><span class="pre">library</span></code>. Let’s read in the titanic data set to have something to play with.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>titanic <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;titanic.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kp">head</span><span class="p">(</span>titanic<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 6 × 7</caption>
+<thead>
+    <tr><th scope=col>X</th><th scope=col>Name</th><th scope=col>PClass</th><th scope=col>Age</th><th scope=col>Sex</th><th scope=col>Survived</th><th scope=col>SexCode</th></tr>
+    <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>1</td><td>Allen, Miss Elisabeth Walton                 </td><td>1st</td><td>29.00</td><td>female</td><td>1</td><td>1</td></tr>
+    <tr><td>2</td><td>Allison, Miss Helen Loraine                  </td><td>1st</td><td> 2.00</td><td>female</td><td>0</td><td>1</td></tr>
+    <tr><td>3</td><td>Allison, Mr Hudson Joshua Creighton          </td><td>1st</td><td>30.00</td><td>male  </td><td>0</td><td>0</td></tr>
+    <tr><td>4</td><td>Allison, Mrs Hudson JC (Bessie Waldo Daniels)</td><td>1st</td><td>25.00</td><td>female</td><td>0</td><td>1</td></tr>
+    <tr><td>5</td><td>Allison, Master Hudson Trevor                </td><td>1st</td><td> 0.92</td><td>male  </td><td>1</td><td>0</td></tr>
+    <tr><td>6</td><td>Anderson, Mr Harry                           </td><td>1st</td><td>47.00</td><td>male  </td><td>1</td><td>0</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>There is a cool R function that will allow us to look at some random rows from a data frame. It’s called <code class="docutils literal notranslate"><span class="pre">sample_n</span></code>. Let’s try it:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>sample_n<span class="p">(</span>titanic<span class="p">,</span> <span class="m">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Error in sample_n(titanic, 10): could not find function &#34;sample_n&#34;
+Traceback:
+
+</pre></div></div>
+</div>
+<p>Oops. It turns out <code class="docutils literal notranslate"><span class="pre">sample_n</span></code> is in the dplyr package. It’s installed in your container - but R doesn’t know that! Let’s tell R we want to use it:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">library</span><span class="p">(</span>dplyr<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>sample_n<span class="p">(</span>titanic<span class="p">,</span> <span class="m">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A data.frame: 10 × 7</caption>
+<thead>
+    <tr><th scope=col>X</th><th scope=col>Name</th><th scope=col>PClass</th><th scope=col>Age</th><th scope=col>Sex</th><th scope=col>Survived</th><th scope=col>SexCode</th></tr>
+    <tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td> 304</td><td>Geiger, Miss Emily                         </td><td>1st</td><td>NA</td><td>female</td><td>1</td><td>1</td></tr>
+    <tr><td> 675</td><td>Birkeland, Mr Hans                         </td><td>3rd</td><td>21</td><td>male  </td><td>0</td><td>0</td></tr>
+    <tr><td> 555</td><td>Sincock, Miss Maude                        </td><td>2nd</td><td>20</td><td>female</td><td>1</td><td>1</td></tr>
+    <tr><td>  52</td><td>Case, Mr Howard Brown                      </td><td>1st</td><td>49</td><td>male  </td><td>0</td><td>0</td></tr>
+    <tr><td> 125</td><td>Greenfield, Mrs Leo David (Blanche Strouse)</td><td>1st</td><td>45</td><td>female</td><td>1</td><td>1</td></tr>
+    <tr><td> 427</td><td>Harbeck, Mr William H                      </td><td>2nd</td><td>44</td><td>male  </td><td>0</td><td>0</td></tr>
+    <tr><td> 195</td><td>Ostby, Miss Helen Raghnild                 </td><td>1st</td><td>22</td><td>female</td><td>1</td><td>1</td></tr>
+    <tr><td>1183</td><td>Salkjelsvik, Miss Anna                     </td><td>3rd</td><td>NA</td><td>female</td><td>1</td><td>1</td></tr>
+    <tr><td> 953</td><td>Leeni, Mr Fahim                            </td><td>3rd</td><td>NA</td><td>male  </td><td>1</td><td>0</td></tr>
+    <tr><td> 935</td><td>Kink, Miss Maria                           </td><td>3rd</td><td>22</td><td>female</td><td>0</td><td>1</td></tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="section" id="Installed-and-installing-packages">
+<h3>Installed and installing packages<a class="headerlink" href="#Installed-and-installing-packages" title="Permalink to this headline">¶</a></h3>
+<p>Now, <code class="docutils literal notranslate"><span class="pre">dplyr</span></code> is actually not part of standard R. It’s <em>installed</em> separately. There are a multitude of R packages out there. Anyone can write one (yes, even you!!!). They are shared with the public using the [CRAN archive.] (<a class="reference external" href="https://cran.r-project.org/">https://cran.r-project.org/</a>) In order to be listed in CRAN, packages need to meet specific criteria for documentation purposes, testing, etc.</p>
+<p>You can check to see what packages are installed using <code class="docutils literal notranslate"><span class="pre">installed.packages()</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>installed.packages<span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 304 × 16 of type chr</caption>
+<thead>
+    <tr><th></th><th scope=col>Package</th><th scope=col>LibPath</th><th scope=col>Version</th><th scope=col>Priority</th><th scope=col>Depends</th><th scope=col>Imports</th><th scope=col>LinkingTo</th><th scope=col>Suggests</th><th scope=col>Enhances</th><th scope=col>License</th><th scope=col>License_is_FOSS</th><th scope=col>License_restricts_use</th><th scope=col>OS_type</th><th scope=col>MD5sum</th><th scope=col>NeedsCompilation</th><th scope=col>Built</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>countrycode</th><td><span style=white-space:pre-wrap>countrycode     </span></td><td>/home/jovyan/R/x86_64-pc-linux-gnu-library/3.6</td><td><span style=white-space:pre-wrap>1.1.0   </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 2.10)                                                                                                                                                                                            </span></td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                                                                                                                                                                                                                                            </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>testthat (&gt;= 0.5)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>GPL-3             </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>acepack</th><td>acepack         </td><td>/usr/local/lib/R/site-library                 </td><td>1.4.1   </td><td>NA</td><td>NA                                                                                                                                                                                                     </td><td>NA                                                                                                                                                                                                                                                                                                                                                                                                                            </td><td>NA                         </td><td>testthat                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </td><td>NA  </td><td>MIT + file LICENSE</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>ade4</th><td><span style=white-space:pre-wrap>ade4            </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>1.7-13  </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 2.10)                                                                                                                                                                                            </span></td><td><span style=white-space:pre-wrap>graphics, grDevices, methods, stats, utils, MASS                                                                                                                                                                                                                                                                                                                                                                              </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>ade4TkGUI, adegraphics, adephylo, ape, CircStats, deldir,
+lattice, pixmap, sp, spdep, splancs, waveslim                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>GPL (&gt;= 2)        </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>airway</th><td><span style=white-space:pre-wrap>airway          </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>1.4.0   </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 2.10), SummarizedExperiment                                                                                                                                                                      </span></td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                                                                                                                                                                                                                                            </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>knitr, GEOquery                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>LGPL              </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>annotate</th><td><span style=white-space:pre-wrap>annotate        </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>1.62.0  </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 2.10), AnnotationDbi (&gt;= 1.27.5), XML                                                                                                                                                            </span></td><td><span style=white-space:pre-wrap>Biobase, DBI, xtable, graphics, utils, stats, methods,
+BiocGenerics (&gt;= 0.13.8), RCurl                                                                                                                                                                                                                                                                                                                                       </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>hgu95av2.db, genefilter, Biostrings (&gt;= 2.25.10), IRanges,
+rae230a.db, rae230aprobe, tkWidgets, GO.db, org.Hs.eg.db,
+org.Mm.eg.db, hom.Hs.inp.db, humanCHRLOC, Rgraphviz, RUnit,                                                                                                                                                                                                                                                                                                                                                                                                      </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>Artistic-2.0      </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>AnnotationDbi</th><td><span style=white-space:pre-wrap>AnnotationDbi   </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>1.46.0  </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 2.7.0), methods, utils, stats4, BiocGenerics (&gt;=
+0.29.2), Biobase (&gt;= 1.17.0), IRanges                                                                                                          </span></td><td><span style=white-space:pre-wrap>DBI, RSQLite, S4Vectors (&gt;= 0.9.25)                                                                                                                                                                                                                                                                                                                                                                                           </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>hgu95av2.db, GO.db, org.Sc.sgd.db, org.At.tair.db, KEGG.db,
+RUnit, TxDb.Hsapiens.UCSC.hg19.knownGene, hom.Hs.inp.db,
+org.Hs.eg.db, reactome.db, AnnotationForge, graph,
+EnsDb.Hsapiens.v75, BiocStyle, knitr                                                                                                                                                                                                                                                                                                                                                                         </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>Artistic-2.0      </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>AnnotationFilter</th><td>AnnotationFilter</td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>1.8.0   </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 3.4.0)                                                                                                                                                                                           </span></td><td><span style=white-space:pre-wrap>utils, methods, GenomicRanges, lazyeval                                                                                                                                                                                                                                                                                                                                                                                       </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>BiocStyle, knitr, testthat, RSQLite, org.Hs.eg.db                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>Artistic-2.0      </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>ape</th><td><span style=white-space:pre-wrap>ape             </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>5.3     </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 3.2.0)                                                                                                                                                                                           </span></td><td><span style=white-space:pre-wrap>nlme, lattice, graphics, methods, stats, tools, utils,
+parallel, Rcpp (&gt;= 0.12.0)                                                                                                                                                                                                                                                                                                                                            </span></td><td><span style=white-space:pre-wrap>Rcpp                       </span></td><td><span style=white-space:pre-wrap>gee, expm, igraph                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>GPL (&gt;= 2)        </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>askpass</th><td><span style=white-space:pre-wrap>askpass         </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>1.1     </span></td><td>NA</td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                     </span></td><td><span style=white-space:pre-wrap>sys (&gt;= 2.1)                                                                                                                                                                                                                                                                                                                                                                                                                  </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>testthat                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td>MIT + file LICENSE</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>assertthat</th><td>assertthat      </td><td>/usr/local/lib/R/site-library                 </td><td>0.2.1   </td><td>NA</td><td>NA                                                                                                                                                                                                     </td><td>tools                                                                                                                                                                                                                                                                                                                                                                                                                         </td><td>NA                         </td><td>testthat, covr                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </td><td>NA  </td><td>GPL-3             </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>backports</th><td><span style=white-space:pre-wrap>backports       </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>1.1.4   </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 3.0.0)                                                                                                                                                                                           </span></td><td><span style=white-space:pre-wrap>utils                                                                                                                                                                                                                                                                                                                                                                                                                         </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>GPL-2             </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>base64enc</th><td><span style=white-space:pre-wrap>base64enc       </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>0.1-3   </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 2.9.0)                                                                                                                                                                                           </span></td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                                                                                                                                                                                                                                            </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </span></td><td>png </td><td><span style=white-space:pre-wrap>GPL-2 | GPL-3     </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>BH</th><td>BH              </td><td>/usr/local/lib/R/site-library                 </td><td>1.69.0-1</td><td>NA</td><td>NA                                                                                                                                                                                                     </td><td>NA                                                                                                                                                                                                                                                                                                                                                                                                                            </td><td>NA                         </td><td>NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </td><td>NA  </td><td>BSL-1.0           </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>Biobase</th><td><span style=white-space:pre-wrap>Biobase         </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>2.44.0  </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 2.10), BiocGenerics (&gt;= 0.27.1), utils                                                                                                                                                           </span></td><td><span style=white-space:pre-wrap>methods                                                                                                                                                                                                                                                                                                                                                                                                                       </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>tools, tkWidgets, ALL, RUnit, golubEsets                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>Artistic-2.0      </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>BiocGenerics</th><td><span style=white-space:pre-wrap>BiocGenerics    </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>0.30.0  </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 3.6.0), methods, utils, graphics, stats, parallel                                                                                                                                                </span></td><td><span style=white-space:pre-wrap>methods, utils, graphics, stats, parallel                                                                                                                                                                                                                                                                                                                                                                                     </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>Biobase, S4Vectors, IRanges, GenomicRanges, Rsamtools,
+AnnotationDbi, oligoClasses, oligo, affyPLM, flowClust, affy,
+DESeq2, MSnbase, annotate, RUnit                                                                                                                                                                                                                                                                                                                                                                                                                                 </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>Artistic-2.0      </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>BiocManager</th><td><span style=white-space:pre-wrap>BiocManager     </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>1.30.4  </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 3.5.0)                                                                                                                                                                                           </span></td><td><span style=white-space:pre-wrap>utils                                                                                                                                                                                                                                                                                                                                                                                                                         </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>BiocStyle, BiocVersion, remotes, testthat, knitr, withr                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>Artistic-2.0      </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>BiocParallel</th><td>BiocParallel    </td><td>/usr/local/lib/R/site-library                 </td><td>1.18.0  </td><td>NA</td><td>methods                                                                                                                                                                                                </td><td>stats, utils, futile.logger, parallel, snow                                                                                                                                                                                                                                                                                                                                                                                   </td><td>BH                         </td><td>BiocGenerics, tools, foreach, BatchJobs, BBmisc, doParallel,
+Rmpi, GenomicRanges, RNAseqData.HNRNPC.bam.chr14,
+TxDb.Hsapiens.UCSC.hg19.knownGene, VariantAnnotation,
+Rsamtools, GenomicAlignments, ShortRead, codetools, RUnit,
+BiocStyle, knitr, batchtools, data.table                                                                                                                                                                                                                                                                                                            </td><td>NA  </td><td>GPL-2 | GPL-3     </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>BiocVersion</th><td><span style=white-space:pre-wrap>BiocVersion     </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>3.9.0   </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 3.6.0), R (&lt; 3.7.0)                                                                                                                                                                              </span></td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                                                                                                                                                                                                                                            </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>Artistic-2.0      </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>biomaRt</th><td>biomaRt         </td><td>/usr/local/lib/R/site-library                 </td><td>2.40.0  </td><td>NA</td><td>methods                                                                                                                                                                                                </td><td>utils, XML, RCurl, AnnotationDbi, progress, stringr, httr                                                                                                                                                                                                                                                                                                                                                                     </td><td>NA                         </td><td>annotate, BiocStyle, knitr, rmarkdown, testthat                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </td><td>NA  </td><td>Artistic-2.0      </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>biomformat</th><td><span style=white-space:pre-wrap>biomformat      </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>1.12.0  </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 3.2), methods                                                                                                                                                                                    </span></td><td><span style=white-space:pre-wrap>plyr (&gt;= 1.8), jsonlite (&gt;= 0.9.16), Matrix (&gt;= 1.2), rhdf5                                                                                                                                                                                                                                                                                                                                                                   </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>testthat (&gt;= 0.10), knitr (&gt;= 1.10), BiocStyle (&gt;= 1.6),
+rmarkdown (&gt;= 0.7)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>GPL-2             </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>Biostrings</th><td><span style=white-space:pre-wrap>Biostrings      </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>2.52.0  </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 3.5.0), methods, BiocGenerics, S4Vectors (&gt;= 0.21.13),
+IRanges, XVector (&gt;= 0.23.2)                                                                                                             </span></td><td><span style=white-space:pre-wrap>graphics, methods, stats, utils                                                                                                                                                                                                                                                                                                                                                                                               </span></td><td>S4Vectors, IRanges, XVector</td><td><span style=white-space:pre-wrap>BSgenome (&gt;= 1.13.14), BSgenome.Celegans.UCSC.ce2 (&gt;=
+1.3.11), BSgenome.Dmelanogaster.UCSC.dm3 (&gt;= 1.3.11),
+BSgenome.Hsapiens.UCSC.hg18, drosophila2probe, hgu95av2probe,
+hgu133aprobe, GenomicFeatures (&gt;= 1.3.14), hgu95av2cdf, affy
+(&gt;= 1.41.3), affydata (&gt;= 1.11.5), RUnit                                                                                                                                                                                                                                                                                                     </span></td><td>Rmpi</td><td><span style=white-space:pre-wrap>Artistic-2.0      </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>biovizBase</th><td><span style=white-space:pre-wrap>biovizBase      </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>1.32.0  </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 2.10), methods                                                                                                                                                                                   </span></td><td>grDevices, stats, scales, Hmisc, RColorBrewer, dichromat,
+BiocGenerics, S4Vectors (&gt;= 0.9.25), IRanges (&gt;= 1.99.28),
+GenomeInfoDb (&gt;= 1.5.14), GenomicRanges (&gt;= 1.23.21),
+SummarizedExperiment, Biostrings (&gt;= 2.33.11), Rsamtools (&gt;=
+1.17.28), GenomicAlignments (&gt;= 1.1.16), GenomicFeatures (&gt;=
+1.21.19), AnnotationDbi, VariantAnnotation (&gt;= 1.11.4),
+ensembldb (&gt;= 1.99.13), AnnotationFilter (&gt;= 0.99.8), rlang</td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>BSgenome.Hsapiens.UCSC.hg19,
+TxDb.Hsapiens.UCSC.hg19.knownGene, BSgenome, rtracklayer,
+EnsDb.Hsapiens.v75, RUnit                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>Artistic-2.0      </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>bit</th><td><span style=white-space:pre-wrap>bit             </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>1.1-14  </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 2.9.2)                                                                                                                                                                                           </span></td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                                                                                                                                                                                                                                            </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>GPL-2             </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>bit64</th><td><span style=white-space:pre-wrap>bit64           </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>0.9-7   </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 3.0.1), bit (&gt;= 1.1-12), utils, methods, stats                                                                                                                                                   </span></td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                                                                                                                                                                                                                                            </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>GPL-2             </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>bitops</th><td><span style=white-space:pre-wrap>bitops          </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>1.0-6   </span></td><td>NA</td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                     </span></td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                                                                                                                                                                                                                                            </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>GPL (&gt;= 2)        </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>blob</th><td><span style=white-space:pre-wrap>blob            </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>1.1.1   </span></td><td>NA</td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                     </span></td><td><span style=white-space:pre-wrap>methods, prettyunits                                                                                                                                                                                                                                                                                                                                                                                                          </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>covr, pillar (&gt;= 1.2.1), testthat                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>GPL-3             </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>broom</th><td><span style=white-space:pre-wrap>broom           </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>0.5.2   </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 3.1)                                                                                                                                                                                             </span></td><td><span style=white-space:pre-wrap>backports, dplyr, generics (&gt;= 0.0.2), methods, nlme, purrr,
+reshape2, stringr, tibble, tidyr                                                                                                                                                                                                                                                                                                                                </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td>AER, akima, AUC, bbmle, betareg, biglm, binGroup, boot, brms,
+btergm, car, caret, coda, covr, e1071, emmeans, ergm, gam (&gt;=
+1.15), gamlss, gamlss.data, gamlss.dist, geepack, ggplot2,
+glmnet, gmm, Hmisc, irlba, joineRML, Kendall, knitr, ks,
+Lahman, lavaan, lfe, lme4, lmodel2, lmtest, lsmeans, maps,
+maptools, MASS, Matrix, mclust, mgcv, muhaz, multcomp, network,
+nnet, orcutt (&gt;= 2.2), ordinal, plm, plyr, poLCA, psych,
+quantreg, rgeos, rmarkdown, robust, rsample, rstan, rstanarm,
+sp, speedglm, statnet.common, survey, survival, testthat,
+tseries, xergm, zoo</td><td><span style=white-space:pre-wrap>NA  </span></td><td>MIT + file LICENSE</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>BSgenome</th><td><span style=white-space:pre-wrap>BSgenome        </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>1.52.0  </span></td><td>NA</td><td>R (&gt;= 2.8.0), methods, BiocGenerics (&gt;= 0.13.8), S4Vectors (&gt;=
+0.17.28), IRanges (&gt;= 2.13.16), GenomeInfoDb (&gt;= 1.15.2),
+GenomicRanges (&gt;= 1.31.10), Biostrings (&gt;= 2.47.6), rtracklayer
+(&gt;= 1.39.7)</td><td><span style=white-space:pre-wrap>methods, utils, stats, BiocGenerics, S4Vectors, IRanges,
+XVector, GenomeInfoDb, GenomicRanges, Biostrings, Rsamtools,
+rtracklayer                                                                                                                                                                                                                                                                                           </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>BiocManager, Biobase, BSgenome.Celegans.UCSC.ce2,
+BSgenome.Hsapiens.UCSC.hg38,
+BSgenome.Hsapiens.UCSC.hg38.masked,
+BSgenome.Mmusculus.UCSC.mm10, BSgenome.Rnorvegicus.UCSC.rn5,
+BSgenome.Scerevisiae.UCSC.sacCer1,
+TxDb.Hsapiens.UCSC.hg38.knownGene,
+TxDb.Mmusculus.UCSC.mm10.knownGene,
+SNPlocs.Hsapiens.dbSNP144.GRCh38,
+XtraSNPlocs.Hsapiens.dbSNP144.GRCh38, hgu95av2probe, RUnit                                                                                                                                                                                          </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>Artistic-2.0      </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>callr</th><td><span style=white-space:pre-wrap>callr           </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>3.2.0   </span></td><td>NA</td><td><span style=white-space:pre-wrap>NA                                                                                                                                                                                                     </span></td><td><span style=white-space:pre-wrap>processx (&gt;= 3.3.0), R6, utils                                                                                                                                                                                                                                                                                                                                                                                                </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>cliapp, covr, crayon, pingr, ps, testthat, withr                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td>MIT + file LICENSE</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.6.0</td></tr>
+    <tr><th scope=row>caret</th><td><span style=white-space:pre-wrap>caret           </span></td><td><span style=white-space:pre-wrap>/usr/local/lib/R/site-library                 </span></td><td><span style=white-space:pre-wrap>6.0-84  </span></td><td>NA</td><td><span style=white-space:pre-wrap>R (&gt;= 3.2.0), lattice (&gt;= 0.20), ggplot2                                                                                                                                                               </span></td><td><span style=white-space:pre-wrap>foreach, methods, plyr, ModelMetrics (&gt;= 1.1.0), nlme,
+reshape2, stats, stats4, utils, grDevices, recipes (&gt;= 0.1.4),
+withr (&gt;= 2.0.0)                                                                                                                                                                                                                                                                                      </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td><span style=white-space:pre-wrap>BradleyTerry2, e1071, earth (&gt;= 2.2-3), fastICA, gam (&gt;=
+1.15), ipred, kernlab, knitr, klaR, MASS, ellipse, mda, mgcv,
+mlbench, MLmetrics, nnet, party (&gt;= 0.9-99992), pls, pROC,
+proxy, randomForest, RANN, spls, subselect, pamr, superpc,
+Cubist, testthat (&gt;= 0.9.1), rpart, dplyr                                                                                                                                                                                                                                                                                              </span></td><td><span style=white-space:pre-wrap>NA  </span></td><td><span style=white-space:pre-wrap>GPL (&gt;= 2)        </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>⋮</th><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td></tr>
+    <tr><th scope=row>zoo</th><td><span style=white-space:pre-wrap>zoo       </span></td><td>/usr/local/lib/R/site-library</td><td><span style=white-space:pre-wrap>1.8-6   </span></td><td><span style=white-space:pre-wrap>NA         </span></td><td><span style=white-space:pre-wrap>R (&gt;= 3.1.0), stats                            </span></td><td>utils, graphics, grDevices, lattice (&gt;= 0.20-27)</td><td>NA</td><td>coda, chron, DAAG, fts, ggplot2, mondate, scales,
+strucchange, timeDate, timeSeries, tis, tseries, xts</td><td><span style=white-space:pre-wrap>NA                                   </span></td><td><span style=white-space:pre-wrap>GPL-2 | GPL-3            </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>base</th><td>base      </td><td>/usr/lib/R/library           </td><td>3.6.0   </td><td>base       </td><td>NA                                             </td><td>NA                                              </td><td>NA</td><td>methods                                                                                                </td><td>NA                                   </td><td>Part of R 3.6.0          </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>NA </td><td>3.6.0</td></tr>
+    <tr><th scope=row>boot</th><td><span style=white-space:pre-wrap>boot      </span></td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td><span style=white-space:pre-wrap>1.3-20  </span></td><td>recommended</td><td><span style=white-space:pre-wrap>R (&gt;= 3.0.0), graphics, stats                  </span></td><td><span style=white-space:pre-wrap>NA                                              </span></td><td>NA</td><td><span style=white-space:pre-wrap>MASS, survival                                                                                         </span></td><td><span style=white-space:pre-wrap>NA                                   </span></td><td><span style=white-space:pre-wrap>Unlimited                </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.5.1</td></tr>
+    <tr><th scope=row>class</th><td><span style=white-space:pre-wrap>class     </span></td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td><span style=white-space:pre-wrap>7.3-15  </span></td><td>recommended</td><td><span style=white-space:pre-wrap>R (&gt;= 3.0.0), stats, utils                     </span></td><td><span style=white-space:pre-wrap>MASS                                            </span></td><td>NA</td><td><span style=white-space:pre-wrap>NA                                                                                                     </span></td><td><span style=white-space:pre-wrap>NA                                   </span></td><td><span style=white-space:pre-wrap>GPL-2 | GPL-3            </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>cluster</th><td><span style=white-space:pre-wrap>cluster   </span></td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td><span style=white-space:pre-wrap>2.0.8   </span></td><td>recommended</td><td><span style=white-space:pre-wrap>R (&gt;= 3.3.0)                                   </span></td><td><span style=white-space:pre-wrap>graphics, grDevices, stats, utils               </span></td><td>NA</td><td><span style=white-space:pre-wrap>MASS, Matrix                                                                                           </span></td><td><span style=white-space:pre-wrap>NA                                   </span></td><td><span style=white-space:pre-wrap>GPL (&gt;= 2)               </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>codetools</th><td>codetools </td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td><span style=white-space:pre-wrap>0.2-16  </span></td><td>recommended</td><td><span style=white-space:pre-wrap>R (&gt;= 2.1)                                     </span></td><td><span style=white-space:pre-wrap>NA                                              </span></td><td>NA</td><td><span style=white-space:pre-wrap>NA                                                                                                     </span></td><td><span style=white-space:pre-wrap>NA                                   </span></td><td><span style=white-space:pre-wrap>GPL                      </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>no </td><td>3.5.3</td></tr>
+    <tr><th scope=row>compiler</th><td>compiler  </td><td>/usr/lib/R/library           </td><td>3.6.0   </td><td>base       </td><td>NA                                             </td><td>NA                                              </td><td>NA</td><td>NA                                                                                                     </td><td>NA                                   </td><td>Part of R 3.6.0          </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>NA </td><td>3.6.0</td></tr>
+    <tr><th scope=row>datasets</th><td>datasets  </td><td>/usr/lib/R/library           </td><td>3.6.0   </td><td>base       </td><td>NA                                             </td><td>NA                                              </td><td>NA</td><td>NA                                                                                                     </td><td>NA                                   </td><td>Part of R 3.6.0          </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>NA </td><td>3.6.0</td></tr>
+    <tr><th scope=row>foreign</th><td><span style=white-space:pre-wrap>foreign   </span></td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td><span style=white-space:pre-wrap>0.8-71  </span></td><td>recommended</td><td><span style=white-space:pre-wrap>R (&gt;= 3.0.0)                                   </span></td><td><span style=white-space:pre-wrap>methods, utils, stats                           </span></td><td>NA</td><td><span style=white-space:pre-wrap>NA                                                                                                     </span></td><td><span style=white-space:pre-wrap>NA                                   </span></td><td><span style=white-space:pre-wrap>GPL (&gt;= 2)               </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>graphics</th><td>graphics  </td><td>/usr/lib/R/library           </td><td>3.6.0   </td><td>base       </td><td>NA                                             </td><td>grDevices                                       </td><td>NA</td><td>NA                                                                                                     </td><td>NA                                   </td><td>Part of R 3.6.0          </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>grDevices</th><td>grDevices </td><td>/usr/lib/R/library           </td><td>3.6.0   </td><td>base       </td><td>NA                                             </td><td>NA                                              </td><td>NA</td><td>KernSmooth                                                                                             </td><td>NA                                   </td><td>Part of R 3.6.0          </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>grid</th><td>grid      </td><td>/usr/lib/R/library           </td><td>3.6.0   </td><td>base       </td><td>NA                                             </td><td>grDevices, utils                                </td><td>NA</td><td>lattice                                                                                                </td><td>NA                                   </td><td>Part of R 3.6.0          </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>KernSmooth</th><td>KernSmooth</td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td>2.23-15 </td><td>recommended</td><td><span style=white-space:pre-wrap>R (&gt;= 2.5.0), stats                            </span></td><td><span style=white-space:pre-wrap>NA                                              </span></td><td>NA</td><td><span style=white-space:pre-wrap>MASS                                                                                                   </span></td><td><span style=white-space:pre-wrap>NA                                   </span></td><td><span style=white-space:pre-wrap>Unlimited                </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>lattice</th><td><span style=white-space:pre-wrap>lattice   </span></td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td>0.20-38 </td><td>recommended</td><td><span style=white-space:pre-wrap>R (&gt;= 3.0.0)                                   </span></td><td><span style=white-space:pre-wrap>grid, grDevices, graphics, stats, utils         </span></td><td>NA</td><td><span style=white-space:pre-wrap>KernSmooth, MASS, latticeExtra                                                                         </span></td><td><span style=white-space:pre-wrap>chron                                </span></td><td><span style=white-space:pre-wrap>GPL (&gt;= 2)               </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>MASS</th><td><span style=white-space:pre-wrap>MASS      </span></td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td>7.3-51.3</td><td>recommended</td><td>R (&gt;= 3.1.0), grDevices, graphics, stats, utils</td><td><span style=white-space:pre-wrap>methods                                         </span></td><td>NA</td><td><span style=white-space:pre-wrap>lattice, nlme, nnet, survival                                                                          </span></td><td><span style=white-space:pre-wrap>NA                                   </span></td><td><span style=white-space:pre-wrap>GPL-2 | GPL-3            </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>Matrix</th><td><span style=white-space:pre-wrap>Matrix    </span></td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td><span style=white-space:pre-wrap>1.2-17  </span></td><td>recommended</td><td><span style=white-space:pre-wrap>R (&gt;= 3.2.0)                                   </span></td><td><span style=white-space:pre-wrap>methods, graphics, grid, stats, utils, lattice  </span></td><td>NA</td><td><span style=white-space:pre-wrap>expm, MASS                                                                                             </span></td><td>MatrixModels, graph, SparseM, sfsmisc</td><td>GPL (&gt;= 2) | file LICENCE</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>methods</th><td>methods   </td><td>/usr/lib/R/library           </td><td>3.6.0   </td><td>base       </td><td>NA                                             </td><td>utils, stats                                    </td><td>NA</td><td>codetools                                                                                              </td><td>NA                                   </td><td>Part of R 3.6.0          </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>mgcv</th><td><span style=white-space:pre-wrap>mgcv      </span></td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td><span style=white-space:pre-wrap>1.8-28  </span></td><td>recommended</td><td><span style=white-space:pre-wrap>R (&gt;= 2.14.0), nlme (&gt;= 3.1-64)                </span></td><td>methods, stats, graphics, Matrix, splines, utils</td><td>NA</td><td><span style=white-space:pre-wrap>parallel, survival, MASS                                                                               </span></td><td><span style=white-space:pre-wrap>NA                                   </span></td><td><span style=white-space:pre-wrap>GPL (&gt;= 2)               </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>nlme</th><td><span style=white-space:pre-wrap>nlme      </span></td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td>3.1-139 </td><td>recommended</td><td><span style=white-space:pre-wrap>R (&gt;= 3.4.0)                                   </span></td><td><span style=white-space:pre-wrap>graphics, stats, utils, lattice                 </span></td><td>NA</td><td><span style=white-space:pre-wrap>Hmisc, MASS                                                                                            </span></td><td><span style=white-space:pre-wrap>NA                                   </span></td><td>GPL (&gt;= 2) | file LICENCE</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>nnet</th><td><span style=white-space:pre-wrap>nnet      </span></td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td><span style=white-space:pre-wrap>7.3-12  </span></td><td>recommended</td><td><span style=white-space:pre-wrap>R (&gt;= 2.14.0), stats, utils                    </span></td><td><span style=white-space:pre-wrap>NA                                              </span></td><td>NA</td><td><span style=white-space:pre-wrap>MASS                                                                                                   </span></td><td><span style=white-space:pre-wrap>NA                                   </span></td><td><span style=white-space:pre-wrap>GPL-2 | GPL-3            </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>parallel</th><td>parallel  </td><td>/usr/lib/R/library           </td><td>3.6.0   </td><td>base       </td><td>NA                                             </td><td>tools, compiler                                 </td><td>NA</td><td>methods                                                                                                </td><td>snow, nws, Rmpi                      </td><td>Part of R 3.6.0          </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>rpart</th><td><span style=white-space:pre-wrap>rpart     </span></td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td><span style=white-space:pre-wrap>4.1-15  </span></td><td>recommended</td><td><span style=white-space:pre-wrap>R (&gt;= 2.15.0), graphics, stats, grDevices      </span></td><td><span style=white-space:pre-wrap>NA                                              </span></td><td>NA</td><td><span style=white-space:pre-wrap>survival                                                                                               </span></td><td><span style=white-space:pre-wrap>NA                                   </span></td><td><span style=white-space:pre-wrap>GPL-2 | GPL-3            </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>spatial</th><td><span style=white-space:pre-wrap>spatial   </span></td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td><span style=white-space:pre-wrap>7.3-11  </span></td><td>recommended</td><td><span style=white-space:pre-wrap>R (&gt;= 3.0.0), graphics, stats, utils           </span></td><td><span style=white-space:pre-wrap>NA                                              </span></td><td>NA</td><td><span style=white-space:pre-wrap>MASS                                                                                                   </span></td><td><span style=white-space:pre-wrap>NA                                   </span></td><td><span style=white-space:pre-wrap>GPL-2 | GPL-3            </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>splines</th><td>splines   </td><td>/usr/lib/R/library           </td><td>3.6.0   </td><td>base       </td><td>NA                                             </td><td>graphics, stats                                 </td><td>NA</td><td>Matrix, methods                                                                                        </td><td>NA                                   </td><td>Part of R 3.6.0          </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>stats</th><td>stats     </td><td>/usr/lib/R/library           </td><td>3.6.0   </td><td>base       </td><td>NA                                             </td><td>utils, grDevices, graphics                      </td><td>NA</td><td>MASS, Matrix, SuppDists, methods, stats4                                                               </td><td>NA                                   </td><td>Part of R 3.6.0          </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>stats4</th><td>stats4    </td><td>/usr/lib/R/library           </td><td>3.6.0   </td><td>base       </td><td>NA                                             </td><td>graphics, methods, stats                        </td><td>NA</td><td>NA                                                                                                     </td><td>NA                                   </td><td>Part of R 3.6.0          </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>NA </td><td>3.6.0</td></tr>
+    <tr><th scope=row>survival</th><td><span style=white-space:pre-wrap>survival  </span></td><td><span style=white-space:pre-wrap>/usr/lib/R/library           </span></td><td>2.44-1.1</td><td>recommended</td><td><span style=white-space:pre-wrap>R (&gt;= 2.13.0)                                  </span></td><td>graphics, Matrix, methods, splines, stats, utils</td><td>NA</td><td><span style=white-space:pre-wrap>NA                                                                                                     </span></td><td><span style=white-space:pre-wrap>NA                                   </span></td><td><span style=white-space:pre-wrap>LGPL (&gt;= 2)              </span></td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>tcltk</th><td>tcltk     </td><td>/usr/lib/R/library           </td><td>3.6.0   </td><td>base       </td><td>NA                                             </td><td>utils                                           </td><td>NA</td><td>NA                                                                                                     </td><td>NA                                   </td><td>Part of R 3.6.0          </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>tools</th><td>tools     </td><td>/usr/lib/R/library           </td><td>3.6.0   </td><td>base       </td><td>NA                                             </td><td>NA                                              </td><td>NA</td><td>codetools, methods, xml2, curl, commonmark                                                             </td><td>NA                                   </td><td>Part of R 3.6.0          </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+    <tr><th scope=row>utils</th><td>utils     </td><td>/usr/lib/R/library           </td><td>3.6.0   </td><td>base       </td><td>NA                                             </td><td>NA                                              </td><td>NA</td><td>methods, xml2, commonmark                                                                              </td><td>NA                                   </td><td>Part of R 3.6.0          </td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>yes</td><td>3.6.0</td></tr>
+</tbody>
+</table></div>
+</div>
+<p>You can install new packages using the command <code class="docutils literal notranslate"><span class="pre">install.packages()</span></code></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>install.packages<span class="p">(</span><span class="s">&quot;auk&quot;</span><span class="p">,</span> lib <span class="o">=</span> <span class="s">&quot;~/work&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="m">.</span>libPaths<span class="p">(</span><span class="s">&quot;~/work&quot;</span><span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>auk<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+auk 0.3.3 is designed for EBD files downloaded after 2018-08-15.
+No EBD data directory set, see ?auk_set_ebd_path to set EBD_PATH
+eBird taxonomy version:  2018
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>remove.packages<span class="p">(</span><span class="s">&quot;auk&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Removing package from ‘/home/jovyan/work’
+(as ‘lib’ is unspecified)
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="BioConductor">
+<h2>BioConductor<a class="headerlink" href="#BioConductor" title="Permalink to this headline">¶</a></h2>
+<p>CRAN is home to many, many R packages. But there is a whole other world out there when it comes to bioinformatics in R. It’s called <a class="reference external" href="https://bioconductor.org/">BioConductor</a>. BioConductor is a comprehensive toolkit for all things having to do with high-throughput sequencing data processing and analysis. In this course, we will use the BioConductor package <code class="docutils literal notranslate"><span class="pre">DESeq2</span></code> to perform differential expression analysis. It’s the end of the pipeline, after QC, clipping and trimming, aligning and
+counting.</p>
+<div class="section" id="Installing-BioConductor-packages">
+<h3>Installing BioConductor packages<a class="headerlink" href="#Installing-BioConductor-packages" title="Permalink to this headline">¶</a></h3>
+<p>BioConductor has it’s own installation procedure (and it’s own criteria for documentation, testing, etc.) - separate from CRAN. Let’s have a look at the page for <a class="reference external" href="https://bioconductor.org/packages/release/bioc/html/DESeq2.html">DESeq2</a></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#source(&quot;https://bioconductor.org/biocLite.R&quot;)</span>
+<span class="c1">#biocLite(&quot;DESeq2&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="DESeq2-and-S4-Objects">
+<h3>DESeq2 and S4 Objects<a class="headerlink" href="#DESeq2-and-S4-Objects" title="Permalink to this headline">¶</a></h3>
+<p>We’ll walk through an example using a sample data set called ‘airway’. Airway is an object of type ‘SummarizedExperiment’. This kind of object is the basis for many objects used in Bioconductor packages.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">library</span><span class="p">(</span><span class="s">&quot;airway&quot;</span><span class="p">)</span>
+data<span class="p">(</span><span class="s">&quot;airway&quot;</span><span class="p">)</span>
+se <span class="o">&lt;-</span> airway
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Loading required package: SummarizedExperiment
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:dplyr’:
+
+    combine, intersect, setdiff, union
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+    union, unique, unsplit, which, which.max, which.min
+
+Loading required package: S4Vectors
+
+Attaching package: ‘S4Vectors’
+
+The following objects are masked from ‘package:dplyr’:
+
+    first, rename
+
+The following object is masked from ‘package:base’:
+
+    expand.grid
+
+Loading required package: IRanges
+
+Attaching package: ‘IRanges’
+
+The following objects are masked from ‘package:dplyr’:
+
+    collapse, desc, slice
+
+Loading required package: GenomeInfoDb
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    &#39;browseVignettes()&#39;. To cite Bioconductor, see
+    &#39;citation(&#34;Biobase&#34;)&#39;, and for packages &#39;citation(&#34;pkgname&#34;)&#39;.
+
+Loading required package: DelayedArray
+Loading required package: matrixStats
+
+Attaching package: ‘matrixStats’
+
+The following objects are masked from ‘package:Biobase’:
+
+    anyMissing, rowMedians
+
+The following object is masked from ‘package:dplyr’:
+
+    count
+
+Loading required package: BiocParallel
+
+Attaching package: ‘DelayedArray’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges
+
+The following objects are masked from ‘package:base’:
+
+    aperm, apply, rowsum
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>str<span class="p">(</span>se<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Formal class &#39;RangedSummarizedExperiment&#39; [package &#34;SummarizedExperiment&#34;] with 6 slots
+  ..@ rowRanges      :Formal class &#39;GRangesList&#39; [package &#34;GenomicRanges&#34;] with 5 slots
+  .. .. ..@ unlistData     :Formal class &#39;GRanges&#39; [package &#34;GenomicRanges&#34;] with 7 slots
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Warning message:
+“Not a validObject(): no slot of name &#34;elementType&#34; for this object of class &#34;GRanges&#34;”
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+  .. .. .. .. ..@ seqnames       :Formal class &#39;Rle&#39; [package &#34;S4Vectors&#34;] with 4 slots
+  .. .. .. .. .. .. ..@ values         : Factor w/ 722 levels &#34;1&#34;,&#34;2&#34;,&#34;3&#34;,&#34;4&#34;,..: 23 20 1 6 1 23 6 3 7 12 ...
+  .. .. .. .. .. .. ..@ lengths        : int [1:47916] 27 29 173 80 75 27 4 41 196 71 ...
+  .. .. .. .. .. .. ..@ elementMetadata: NULL
+  .. .. .. .. .. .. ..@ metadata       : list()
+  .. .. .. .. ..@ strand         :Formal class &#39;Rle&#39; [package &#34;S4Vectors&#34;] with 4 slots
+  .. .. .. .. .. .. ..@ values         : Factor w/ 3 levels &#34;+&#34;,&#34;-&#34;,&#34;*&#34;: 2 1 2 1 2 1 2 1 2 1 ...
+  .. .. .. .. .. .. ..@ lengths        : int [1:31658] 17 10 59 72 26 45 68 12 42 33 ...
+  .. .. .. .. .. .. ..@ elementMetadata: NULL
+  .. .. .. .. .. .. ..@ metadata       : list()
+  .. .. .. .. ..@ ranges         :Formal class &#39;IRanges&#39; [package &#34;IRanges&#34;] with 6 slots
+  .. .. .. .. .. .. ..@ start          : int [1:745593] 99883667 99885756 99887482 99887538 99888402 99888402 99888439 99888928 99888928 99890175 ...
+  .. .. .. .. .. .. ..@ width          : int [1:745593] 1317 108 84 28 135 135 98 99 99 75 ...
+  .. .. .. .. .. .. ..@ NAMES          : NULL
+  .. .. .. .. .. .. ..@ elementType    : chr &#34;integer&#34;
+  .. .. .. .. .. .. ..@ elementMetadata: NULL
+  .. .. .. .. .. .. ..@ metadata       : list()
+  .. .. .. .. ..@ elementMetadata:Formal class &#39;DataFrame&#39; [package &#34;IRanges&#34;] with 6 slots
+  .. .. .. .. .. .. ..@ rownames       : NULL
+  .. .. .. .. .. .. ..@ nrows          : int 745593
+  .. .. .. .. .. .. ..@ listData       :List of 2
+  .. .. .. .. .. .. .. ..$ exon_id  : int [1:745593] 667145 667146 667147 667148 667149 667150 667151 667153 667152 667154 ...
+  .. .. .. .. .. .. .. ..$ exon_name: chr [1:745593] &#34;ENSE00001459322&#34; &#34;ENSE00000868868&#34; &#34;ENSE00000401072&#34; &#34;ENSE00001849132&#34; ...
+  .. .. .. .. .. .. ..@ elementType    : chr &#34;ANY&#34;
+  .. .. .. .. .. .. ..@ elementMetadata: NULL
+  .. .. .. .. .. .. ..@ metadata       : list()
+  .. .. .. .. ..@ seqinfo        :Formal class &#39;Seqinfo&#39; [package &#34;GenomeInfoDb&#34;] with 4 slots
+  .. .. .. .. .. .. ..@ seqnames   : chr [1:722] &#34;1&#34; &#34;2&#34; &#34;3&#34; &#34;4&#34; ...
+  .. .. .. .. .. .. ..@ seqlengths : int [1:722] 249250621 243199373 198022430 191154276 180915260 171115067 159138663 146364022 141213431 135534747 ...
+  .. .. .. .. .. .. ..@ is_circular: logi [1:722] FALSE FALSE FALSE FALSE FALSE FALSE ...
+  .. .. .. .. .. .. ..@ genome     : chr [1:722] NA NA NA NA ...
+  .. .. .. .. ..@ metadata       : list()
+  .. .. .. .. ..@ NA             : NULL
+  .. .. ..@ elementMetadata:Formal class &#39;DataFrame&#39; [package &#34;IRanges&#34;] with 6 slots
+  .. .. .. .. ..@ rownames       : NULL
+  .. .. .. .. ..@ nrows          : int 64102
+  .. .. .. .. ..@ listData       : Named list()
+  .. .. .. .. ..@ elementType    : chr &#34;ANY&#34;
+  .. .. .. .. ..@ elementMetadata: NULL
+  .. .. .. .. ..@ metadata       : list()
+  .. .. ..@ elementType    : chr &#34;GRanges&#34;
+  .. .. ..@ metadata       :List of 1
+  .. .. .. ..$ genomeInfo:List of 20
+  .. .. .. .. ..$ Db type                                 : chr &#34;TranscriptDb&#34;
+  .. .. .. .. ..$ Supporting package                      : chr &#34;GenomicFeatures&#34;
+  .. .. .. .. ..$ Data source                             : chr &#34;BioMart&#34;
+  .. .. .. .. ..$ Organism                                : chr &#34;Homo sapiens&#34;
+  .. .. .. .. ..$ Resource URL                            : chr &#34;www.biomart.org:80&#34;
+  .. .. .. .. ..$ BioMart database                        : chr &#34;ensembl&#34;
+  .. .. .. .. ..$ BioMart database version                : chr &#34;ENSEMBL GENES 75 (SANGER UK)&#34;
+  .. .. .. .. ..$ BioMart dataset                         : chr &#34;hsapiens_gene_ensembl&#34;
+  .. .. .. .. ..$ BioMart dataset description             : chr &#34;Homo sapiens genes (GRCh37.p13)&#34;
+  .. .. .. .. ..$ BioMart dataset version                 : chr &#34;GRCh37.p13&#34;
+  .. .. .. .. ..$ Full dataset                            : chr &#34;yes&#34;
+  .. .. .. .. ..$ miRBase build ID                        : chr NA
+  .. .. .. .. ..$ transcript_nrow                         : chr &#34;215647&#34;
+  .. .. .. .. ..$ exon_nrow                               : chr &#34;745593&#34;
+  .. .. .. .. ..$ cds_nrow                                : chr &#34;537555&#34;
+  .. .. .. .. ..$ Db created by                           : chr &#34;GenomicFeatures package from Bioconductor&#34;
+  .. .. .. .. ..$ Creation time                           : chr &#34;2014-07-10 14:55:55 -0400 (Thu, 10 Jul 2014)&#34;
+  .. .. .. .. ..$ GenomicFeatures version at creation time: chr &#34;1.17.9&#34;
+  .. .. .. .. ..$ RSQLite version at creation time        : chr &#34;0.11.4&#34;
+  .. .. .. .. ..$ DBSCHEMAVERSION                         : chr &#34;1.0&#34;
+  .. .. ..@ partitioning   :Formal class &#39;PartitioningByEnd&#39; [package &#34;IRanges&#34;] with 5 slots
+  .. .. .. .. ..@ end            : int [1:64102] 17 27 56 86 158 184 229 243 297 309 ...
+  .. .. .. .. ..@ NAMES          : chr [1:64102] &#34;ENSG00000000003&#34; &#34;ENSG00000000005&#34; &#34;ENSG00000000419&#34; &#34;ENSG00000000457&#34; ...
+  .. .. .. .. ..@ elementType    : chr &#34;integer&#34;
+  .. .. .. .. ..@ elementMetadata: NULL
+  .. .. .. .. ..@ metadata       : list()
+  ..@ colData        :Formal class &#39;DataFrame&#39; [package &#34;IRanges&#34;] with 6 slots
+  .. .. ..@ rownames       : chr [1:8] &#34;SRR1039508&#34; &#34;SRR1039509&#34; &#34;SRR1039512&#34; &#34;SRR1039513&#34; ...
+  .. .. ..@ nrows          : int 8
+  .. .. ..@ listData       :List of 9
+  .. .. .. ..$ SampleName: Factor w/ 8 levels &#34;GSM1275862&#34;,&#34;GSM1275863&#34;,..: 1 2 3 4 5 6 7 8
+  .. .. .. ..$ cell      : Factor w/ 4 levels &#34;N052611&#34;,&#34;N061011&#34;,..: 4 4 1 1 3 3 2 2
+  .. .. .. ..$ dex       : Factor w/ 2 levels &#34;trt&#34;,&#34;untrt&#34;: 2 1 2 1 2 1 2 1
+  .. .. .. ..$ albut     : Factor w/ 1 level &#34;untrt&#34;: 1 1 1 1 1 1 1 1
+  .. .. .. ..$ Run       : Factor w/ 8 levels &#34;SRR1039508&#34;,&#34;SRR1039509&#34;,..: 1 2 3 4 5 6 7 8
+  .. .. .. ..$ avgLength : int [1:8] 126 126 126 87 120 126 101 98
+  .. .. .. ..$ Experiment: Factor w/ 8 levels &#34;SRX384345&#34;,&#34;SRX384346&#34;,..: 1 2 3 4 5 6 7 8
+  .. .. .. ..$ Sample    : Factor w/ 8 levels &#34;SRS508567&#34;,&#34;SRS508568&#34;,..: 2 1 3 4 5 6 7 8
+  .. .. .. ..$ BioSample : Factor w/ 8 levels &#34;SAMN02422669&#34;,..: 1 4 6 2 7 3 8 5
+  .. .. ..@ elementType    : chr &#34;ANY&#34;
+  .. .. ..@ elementMetadata: NULL
+  .. .. ..@ metadata       : list()
+  ..@ assays         :Reference class &#39;ShallowSimpleListAssays&#39; [package &#34;GenomicRanges&#34;] with 1 field
+  .. ..$ data: NULL
+  .. ..and 12 methods.
+  ..@ NAMES          : NULL
+  ..@ elementMetadata:Formal class &#39;DataFrame&#39; [package &#34;S4Vectors&#34;] with 6 slots
+  .. .. ..@ rownames       : NULL
+  .. .. ..@ nrows          : int 64102
+  .. .. ..@ listData       : Named list()
+  .. .. ..@ elementType    : chr &#34;ANY&#34;
+  .. .. ..@ elementMetadata: NULL
+  .. .. ..@ metadata       : list()
+  ..@ metadata       :List of 1
+  .. ..$ :Formal class &#39;MIAME&#39; [package &#34;Biobase&#34;] with 13 slots
+  .. .. .. ..@ name             : chr &#34;Himes BE&#34;
+  .. .. .. ..@ lab              : chr NA
+  .. .. .. ..@ contact          : chr &#34;&#34;
+  .. .. .. ..@ title            : chr &#34;RNA-Seq transcriptome profiling identifies CRISPLD2 as a glucocorticoid responsive gene that modulates cytokine&#34;| __truncated__
+  .. .. .. ..@ abstract         : chr &#34;Asthma is a chronic inflammatory respiratory disease that affects over 300 million people worldwide. Glucocorti&#34;| __truncated__
+  .. .. .. ..@ url              : chr &#34;http://www.ncbi.nlm.nih.gov/pubmed/24926665&#34;
+  .. .. .. ..@ pubMedIds        : chr &#34;24926665&#34;
+  .. .. .. ..@ samples          : list()
+  .. .. .. ..@ hybridizations   : list()
+  .. .. .. ..@ normControls     : list()
+  .. .. .. ..@ preprocessing    : list()
+  .. .. .. ..@ other            : list()
+  .. .. .. ..@ .__classVersion__:Formal class &#39;Versions&#39; [package &#34;Biobase&#34;] with 1 slot
+  .. .. .. .. .. ..@ .Data:List of 2
+  .. .. .. .. .. .. ..$ : int [1:3] 1 0 0
+  .. .. .. .. .. .. ..$ : int [1:3] 1 1 0
+</pre></div></div>
+</div>
+<p><a class="reference external" href="https://bioconductor.org/packages/devel/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html">This tutorial</a> gives a great introduction to the SummarizedExperiment object. We’ll take a peek, and then move on to DESeq2</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>assays<span class="p">(</span>se<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>List of length 1
+names(1): counts
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>assays<span class="p">(</span>se<span class="p">)</span><span class="o">$</span>counts
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 64102 × 8 of type int</caption>
+<thead>
+    <tr><th></th><th scope=col>SRR1039508</th><th scope=col>SRR1039509</th><th scope=col>SRR1039512</th><th scope=col>SRR1039513</th><th scope=col>SRR1039516</th><th scope=col>SRR1039517</th><th scope=col>SRR1039520</th><th scope=col>SRR1039521</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>ENSG00000000003</th><td> 679</td><td> 448</td><td> 873</td><td> 408</td><td> 1138</td><td> 1047</td><td> 770</td><td> 572</td></tr>
+    <tr><th scope=row>ENSG00000000005</th><td>   0</td><td>   0</td><td>   0</td><td>   0</td><td>    0</td><td>    0</td><td>   0</td><td>   0</td></tr>
+    <tr><th scope=row>ENSG00000000419</th><td> 467</td><td> 515</td><td> 621</td><td> 365</td><td>  587</td><td>  799</td><td> 417</td><td> 508</td></tr>
+    <tr><th scope=row>ENSG00000000457</th><td> 260</td><td> 211</td><td> 263</td><td> 164</td><td>  245</td><td>  331</td><td> 233</td><td> 229</td></tr>
+    <tr><th scope=row>ENSG00000000460</th><td>  60</td><td>  55</td><td>  40</td><td>  35</td><td>   78</td><td>   63</td><td>  76</td><td>  60</td></tr>
+    <tr><th scope=row>ENSG00000000938</th><td>   0</td><td>   0</td><td>   2</td><td>   0</td><td>    1</td><td>    0</td><td>   0</td><td>   0</td></tr>
+    <tr><th scope=row>ENSG00000000971</th><td>3251</td><td>3679</td><td>6177</td><td>4252</td><td> 6721</td><td>11027</td><td>5176</td><td>7995</td></tr>
+    <tr><th scope=row>ENSG00000001036</th><td>1433</td><td>1062</td><td>1733</td><td> 881</td><td> 1424</td><td> 1439</td><td>1359</td><td>1109</td></tr>
+    <tr><th scope=row>ENSG00000001084</th><td> 519</td><td> 380</td><td> 595</td><td> 493</td><td>  820</td><td>  714</td><td> 696</td><td> 704</td></tr>
+    <tr><th scope=row>ENSG00000001167</th><td> 394</td><td> 236</td><td> 464</td><td> 175</td><td>  658</td><td>  584</td><td> 360</td><td> 269</td></tr>
+    <tr><th scope=row>ENSG00000001460</th><td> 172</td><td> 168</td><td> 264</td><td> 118</td><td>  241</td><td>  210</td><td> 155</td><td> 177</td></tr>
+    <tr><th scope=row>ENSG00000001461</th><td>2112</td><td>1867</td><td>5137</td><td>2657</td><td> 2735</td><td> 2751</td><td>2467</td><td>2905</td></tr>
+    <tr><th scope=row>ENSG00000001497</th><td> 524</td><td> 488</td><td> 638</td><td> 357</td><td>  676</td><td>  806</td><td> 493</td><td> 475</td></tr>
+    <tr><th scope=row>ENSG00000001561</th><td>  71</td><td>  51</td><td> 211</td><td> 156</td><td>   23</td><td>   38</td><td> 134</td><td> 172</td></tr>
+    <tr><th scope=row>ENSG00000001617</th><td> 555</td><td> 394</td><td> 905</td><td> 415</td><td>  727</td><td>  697</td><td> 618</td><td> 599</td></tr>
+    <tr><th scope=row>ENSG00000001626</th><td>  10</td><td>   2</td><td>   9</td><td>   2</td><td>   10</td><td>    6</td><td>   5</td><td>   5</td></tr>
+    <tr><th scope=row>ENSG00000001629</th><td>1660</td><td>1251</td><td>2259</td><td>1079</td><td> 2462</td><td> 2514</td><td>1888</td><td>1660</td></tr>
+    <tr><th scope=row>ENSG00000001630</th><td>  59</td><td>  54</td><td>  66</td><td>  23</td><td>   84</td><td>   87</td><td>  31</td><td>  59</td></tr>
+    <tr><th scope=row>ENSG00000001631</th><td> 729</td><td> 692</td><td> 943</td><td> 475</td><td> 1034</td><td> 1163</td><td> 731</td><td> 744</td></tr>
+    <tr><th scope=row>ENSG00000002016</th><td> 201</td><td> 161</td><td> 256</td><td>  99</td><td>  268</td><td>  257</td><td> 160</td><td> 137</td></tr>
+    <tr><th scope=row>ENSG00000002079</th><td>   3</td><td>   0</td><td>   3</td><td>   1</td><td>    4</td><td>    0</td><td>   0</td><td>   1</td></tr>
+    <tr><th scope=row>ENSG00000002330</th><td> 206</td><td> 174</td><td> 184</td><td> 111</td><td>  194</td><td>  260</td><td> 156</td><td> 177</td></tr>
+    <tr><th scope=row>ENSG00000002549</th><td>1459</td><td>1294</td><td>1317</td><td> 998</td><td> 1451</td><td> 1824</td><td> 853</td><td>1031</td></tr>
+    <tr><th scope=row>ENSG00000002586</th><td>7507</td><td>7203</td><td>9501</td><td>6214</td><td>10973</td><td>12863</td><td>6834</td><td>7225</td></tr>
+    <tr><th scope=row>ENSG00000002587</th><td>   2</td><td>   0</td><td>   1</td><td>   0</td><td>    0</td><td>    2</td><td>   0</td><td>   0</td></tr>
+    <tr><th scope=row>ENSG00000002726</th><td>   0</td><td>   0</td><td>   1</td><td>   0</td><td>    0</td><td>    0</td><td>   0</td><td>   0</td></tr>
+    <tr><th scope=row>ENSG00000002745</th><td>   4</td><td>   6</td><td>  22</td><td>  10</td><td>    2</td><td>    1</td><td>   5</td><td>   3</td></tr>
+    <tr><th scope=row>ENSG00000002746</th><td> 151</td><td> 139</td><td> 117</td><td>  65</td><td>   90</td><td>  102</td><td>  86</td><td> 119</td></tr>
+    <tr><th scope=row>ENSG00000002822</th><td> 411</td><td> 303</td><td> 446</td><td> 195</td><td>  445</td><td>  523</td><td> 295</td><td> 300</td></tr>
+    <tr><th scope=row>ENSG00000002834</th><td>6314</td><td>6364</td><td>7831</td><td>5809</td><td> 6677</td><td>11970</td><td>5766</td><td>7825</td></tr>
+    <tr><th scope=row>⋮</th><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td></tr>
+    <tr><th scope=row>LRG_70</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_71</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_715</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_717</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_72</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_73</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_74</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_75</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_76</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_77</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_78</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_79</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_8</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_80</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_81</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_83</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_84</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_85</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_86</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_88</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_89</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_90</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_91</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_92</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_93</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_94</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_96</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_97</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_98</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><th scope=row>LRG_99</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>rowRanges<span class="p">(</span>se<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>GRangesList object of length 64102:
+$ENSG00000000003
+GRanges object with 17 ranges and 2 metadata columns:
+       seqnames            ranges strand |   exon_id       exon_name
+          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt;     &lt;character&gt;
+   [1]        X 99883667-99884983      - |    667145 ENSE00001459322
+   [2]        X 99885756-99885863      - |    667146 ENSE00000868868
+   [3]        X 99887482-99887565      - |    667147 ENSE00000401072
+   [4]        X 99887538-99887565      - |    667148 ENSE00001849132
+   [5]        X 99888402-99888536      - |    667149 ENSE00003554016
+   ...      ...               ...    ... .       ...             ...
+  [13]        X 99890555-99890743      - |    667156 ENSE00003512331
+  [14]        X 99891188-99891686      - |    667158 ENSE00001886883
+  [15]        X 99891605-99891803      - |    667159 ENSE00001855382
+  [16]        X 99891790-99892101      - |    667160 ENSE00001863395
+  [17]        X 99894942-99894988      - |    667161 ENSE00001828996
+
+...
+&lt;64101 more elements&gt;
+-------
+seqinfo: 722 sequences (1 circular) from an unspecified genome
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>colData<span class="p">(</span>se<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>DataFrame with 8 rows and 9 columns
+           SampleName     cell      dex    albut        Run avgLength
+             &lt;factor&gt; &lt;factor&gt; &lt;factor&gt; &lt;factor&gt;   &lt;factor&gt; &lt;integer&gt;
+SRR1039508 GSM1275862   N61311    untrt    untrt SRR1039508       126
+SRR1039509 GSM1275863   N61311      trt    untrt SRR1039509       126
+SRR1039512 GSM1275866  N052611    untrt    untrt SRR1039512       126
+SRR1039513 GSM1275867  N052611      trt    untrt SRR1039513        87
+SRR1039516 GSM1275870  N080611    untrt    untrt SRR1039516       120
+SRR1039517 GSM1275871  N080611      trt    untrt SRR1039517       126
+SRR1039520 GSM1275874  N061011    untrt    untrt SRR1039520       101
+SRR1039521 GSM1275875  N061011      trt    untrt SRR1039521        98
+           Experiment    Sample    BioSample
+             &lt;factor&gt;  &lt;factor&gt;     &lt;factor&gt;
+SRR1039508  SRX384345 SRS508568 SAMN02422669
+SRR1039509  SRX384346 SRS508567 SAMN02422675
+SRR1039512  SRX384349 SRS508571 SAMN02422678
+SRR1039513  SRX384350 SRS508572 SAMN02422670
+SRR1039516  SRX384353 SRS508575 SAMN02422682
+SRR1039517  SRX384354 SRS508576 SAMN02422673
+SRR1039520  SRX384357 SRS508579 SAMN02422683
+SRR1039521  SRX384358 SRS508580 SAMN02422677
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>metadata<span class="p">(</span>se<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[[1]]
+Experiment data
+  Experimenter name: Himes BE
+  Laboratory: NA
+  Contact information:
+  Title: RNA-Seq transcriptome profiling identifies CRISPLD2 as a glucocorticoid responsive gene that modulates cytokine function in airway smooth muscle cells.
+  URL: http://www.ncbi.nlm.nih.gov/pubmed/24926665
+  PMIDs: 24926665
+
+  Abstract: A 226 word abstract is available. Use &#39;abstract&#39; method.
+
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Just a list - we can add elements</span>
+
+metadata<span class="p">(</span>se<span class="p">)</span><span class="o">$</span>formula <span class="o">&lt;-</span> counts <span class="o">~</span> dex <span class="o">+</span> albut
+
+metadata<span class="p">(</span>se<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[[1]]
+Experiment data
+  Experimenter name: Himes BE
+  Laboratory: NA
+  Contact information:
+  Title: RNA-Seq transcriptome profiling identifies CRISPLD2 as a glucocorticoid responsive gene that modulates cytokine function in airway smooth muscle cells.
+  URL: http://www.ncbi.nlm.nih.gov/pubmed/24926665
+  PMIDs: 24926665
+
+  Abstract: A 226 word abstract is available. Use &#39;abstract&#39; method.
+
+$formula
+counts ~ dex + albut
+
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># subset the first five transcripts and first three samples</span>
+se<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class: RangedSummarizedExperiment
+dim: 5 3
+metadata(2): &#39;&#39; formula
+assays(1): counts
+rownames(5): ENSG00000000003 ENSG00000000005 ENSG00000000419
+  ENSG00000000457 ENSG00000000460
+rowData names(0):
+colnames(3): SRR1039508 SRR1039509 SRR1039512
+colData names(9): SampleName cell ... Sample BioSample
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>assays<span class="p">(</span>se<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">])</span><span class="o">$</span>counts
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<caption>A matrix: 5 × 3 of type int</caption>
+<thead>
+    <tr><th></th><th scope=col>SRR1039508</th><th scope=col>SRR1039509</th><th scope=col>SRR1039512</th></tr>
+</thead>
+<tbody>
+    <tr><th scope=row>ENSG00000000003</th><td>679</td><td>448</td><td>873</td></tr>
+    <tr><th scope=row>ENSG00000000005</th><td>  0</td><td>  0</td><td>  0</td></tr>
+    <tr><th scope=row>ENSG00000000419</th><td>467</td><td>515</td><td>621</td></tr>
+    <tr><th scope=row>ENSG00000000457</th><td>260</td><td>211</td><td>263</td></tr>
+    <tr><th scope=row>ENSG00000000460</th><td> 60</td><td> 55</td><td> 40</td></tr>
+</tbody>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">library</span><span class="p">(</span><span class="s">&quot;DESeq2&quot;</span><span class="p">)</span>
+
+
+dds <span class="o">&lt;-</span> DESeqDataSet<span class="p">(</span>se<span class="p">,</span> design <span class="o">=</span> <span class="o">~</span> cell <span class="o">+</span> dex<span class="p">)</span>
+dds
+
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Registered S3 methods overwritten by &#39;ggplot2&#39;:
+  method         from
+  [.quosures     rlang
+  c.quosures     rlang
+  print.quosures rlang
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class: DESeqDataSet
+dim: 64102 8
+metadata(3): &#39;&#39; formula version
+assays(1): counts
+rownames(64102): ENSG00000000003 ENSG00000000005 ... LRG_98 LRG_99
+rowData names(0):
+colnames(8): SRR1039508 SRR1039509 ... SRR1039520 SRR1039521
+colData names(9): SampleName cell ... Sample BioSample
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># remove rows with less than 10 total transcripts</span>
+
+keep <span class="o">&lt;-</span> <span class="kp">rowSums</span><span class="p">(</span>counts<span class="p">(</span>dds<span class="p">))</span> <span class="o">&gt;=</span> <span class="m">10</span>
+dds <span class="o">&lt;-</span> dds<span class="p">[</span>keep<span class="p">,]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>colData<span class="p">(</span>dds<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>DataFrame with 8 rows and 9 columns
+           SampleName     cell      dex    albut        Run avgLength
+             &lt;factor&gt; &lt;factor&gt; &lt;factor&gt; &lt;factor&gt;   &lt;factor&gt; &lt;integer&gt;
+SRR1039508 GSM1275862   N61311    untrt    untrt SRR1039508       126
+SRR1039509 GSM1275863   N61311      trt    untrt SRR1039509       126
+SRR1039512 GSM1275866  N052611    untrt    untrt SRR1039512       126
+SRR1039513 GSM1275867  N052611      trt    untrt SRR1039513        87
+SRR1039516 GSM1275870  N080611    untrt    untrt SRR1039516       120
+SRR1039517 GSM1275871  N080611      trt    untrt SRR1039517       126
+SRR1039520 GSM1275874  N061011    untrt    untrt SRR1039520       101
+SRR1039521 GSM1275875  N061011      trt    untrt SRR1039521        98
+           Experiment    Sample    BioSample
+             &lt;factor&gt;  &lt;factor&gt;     &lt;factor&gt;
+SRR1039508  SRX384345 SRS508568 SAMN02422669
+SRR1039509  SRX384346 SRS508567 SAMN02422675
+SRR1039512  SRX384349 SRS508571 SAMN02422678
+SRR1039513  SRX384350 SRS508572 SAMN02422670
+SRR1039516  SRX384353 SRS508575 SAMN02422682
+SRR1039517  SRX384354 SRS508576 SAMN02422673
+SRR1039520  SRX384357 SRS508579 SAMN02422683
+SRR1039521  SRX384358 SRS508580 SAMN02422677
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Specify reference level</span>
+
+dds<span class="o">$</span>dex <span class="o">&lt;-</span> <span class="kp">factor</span><span class="p">(</span>dds<span class="o">$</span>dex<span class="p">,</span> levels <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;untrt&quot;</span><span class="p">,</span><span class="s">&quot;trt&quot;</span><span class="p">))</span>
+
+<span class="c1">#alternative</span>
+dds<span class="o">$</span>dex <span class="o">&lt;-</span> relevel<span class="p">(</span>dds<span class="o">$</span>dex<span class="p">,</span> ref <span class="o">=</span> <span class="s">&quot;untrt&quot;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-r notranslate"><div class="highlight"><pre>
+<span></span>ddsDE <span class="o">&lt;-</span> DESeq<span class="p">(</span>dds<span class="p">)</span>
+res   <span class="o">&lt;-</span> results<span class="p">(</span>ddsDE<span class="p">)</span>
+res
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+estimating size factors
+estimating dispersions
+gene-wise dispersion estimates
+mean-dispersion relationship
+final dispersion estimates
+fitting model and testing
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>log2 fold change (MLE): dex trt vs untrt
+Wald test p-value: dex trt vs untrt
+DataFrame with 22369 rows and 6 columns
+                        baseMean      log2FoldChange              lfcSE
+                       &lt;numeric&gt;           &lt;numeric&gt;          &lt;numeric&gt;
+ENSG00000000003 708.597861536998  -0.381227063105246  0.100702281802452
+ENSG00000000419 520.296296925274   0.206840376248021  0.112107724670949
+ENSG00000000457 237.162103834464   0.037954335389843  0.142823085130162
+ENSG00000000460 57.9323803212894 -0.0885309218770955  0.284934403160848
+ENSG00000000971 5817.31081674539    0.42642455731918 0.0888056149171329
+...                          ...                 ...                ...
+ENSG00000273483 2.68955174874763    0.84920766214805   1.25336471679961
+ENSG00000273485 1.28646279725438  -0.123613168835481   1.58825060361379
+ENSG00000273486 15.4524429107135  -0.150428542992948  0.482097671940096
+ENSG00000273487 8.16326862804303    1.04563935414612  0.693057045984001
+ENSG00000273488 8.58437098976254   0.108945615633239  0.632299687532417
+                               stat               pvalue                 padj
+                          &lt;numeric&gt;            &lt;numeric&gt;            &lt;numeric&gt;
+ENSG00000000003   -3.78568445800561 0.000153286080966785   0.0012892045764893
+ENSG00000000419    1.84501448811957    0.065035431092294    0.194929521562025
+ENSG00000000457   0.265743702114076    0.790436603689371    0.909899502487793
+ENSG00000000460  -0.310706327123015    0.756023886827025     0.89299357560032
+ENSG00000000971    4.80177472693691 1.57265558148175e-06 2.06391014885582e-05
+...                             ...                  ...                  ...
+ENSG00000273483   0.677542339245393    0.498061916323377                   NA
+ENSG00000273485 -0.0778297634858257    0.937963470414454                   NA
+ENSG00000273486  -0.312029183604188    0.755018344483373    0.892519390830221
+ENSG00000273487    1.50873490170137    0.131366542567104    0.323297597320869
+ENSG00000273488   0.172300600144854    0.863201212561737    0.943414817499248
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="5_Tidyverse_HandsOn-Filled.html" class="btn btn-neutral float-right" title="Hands-On Tidyverse - with count data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="3_IntroductionToR.html" class="btn btn-neutral float-left" title="Introduction to R" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

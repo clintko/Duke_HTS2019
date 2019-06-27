@@ -6,8 +6,9 @@
 HTS2019 Source Materials
 ===================================
 
-Source materials can bd cloned from the `HTS2019 GitLab Repository <https://gitlab.oit.duke.edu/HTS2018/HTS2019-notebooks.git>`_
+Source materials can be cloned from the `HTS2019 GitLab Repository <https://gitlab.oit.duke.edu/HTS2018/HTS2019-notebooks.git>`_
 
+The working environment can be built using the dockerfile from Dockerhub: `/dukehtscourse/jupyter-hts-2019 <https://hub.docker.com/r/dukehtscourse/jupyter-hts-2019>`_
 
 .. toctree::
    :maxdepth: 2

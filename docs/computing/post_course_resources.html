@@ -1,0 +1,825 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Overview &mdash; HTS2019 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HTS2019
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Slides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../slides.html">Slide sets</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Quick Intro of Analysis Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../janice/1_IntroToCompBoot.html">Duke HTS Summer Course 2019</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/2_Intro_to_Unix_and_bash.html">Introduction to Unix and bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/3_IntroductionToR.html">Introduction to R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/4_Rlibraries_and_bioconductor.html">R libraries and Bioconductor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/5_Tidyverse_HandsOn-Filled.html">Hands-On Tidyverse - with count data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/6_Statistical_Inference.html">Simulations and Statistical Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../janice/7_Statistical_Inference_Solutions.html">Estimation and Hypothesis Testing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix01_File_And_Directory_Solutions.html">Working with Unix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix02_FileIO_Solutions.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix03_File_Storage_Solutions.html">File archival and recovery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix04_Text_Manipulation_Solutinos.html">Working with text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix05_Variables_Solutions.html">Unix Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix06_Bash_Bioinformatics.html">Using <code class="docutils literal notranslate"><span class="pre">bash</span></code> in bioinformatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix07_Capstone_Exercise_Solutions.html">Unix capstone exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix01_Regular_Expressions.html">The Unix Shell: Regular Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/Unix_Appendix02_Review.html">Unix Review of Basics</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R Graphics and Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R00_Review_Basics.html">Basics of R (Review)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R01_Data_Manipulation_Solutions.html">Data Manipulation in the <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R02_Tidying_Data_Solutions.html">Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R03_FileIO.html">File I/O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R04_Unsupervised_Learning.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R05_Unsupervised_Learning_More_Examples.html">Unsupervised Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R06_Graphics_Overview.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R07_Graphics_Base.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R08_Graphics_ggplot2.html">R Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise.html">R Graphics Exercise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cliburn/R09_Graphics_Exercise_Solutions.html">R Graphics Exercise (Solutions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Bioinformatics (FASTQ, FASTQC, STAR, etc)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/fastq_intro.html">Introduction to FASTQ Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/fastq_intro.html#What-do-quality-scores-mean?">What do quality scores mean?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/quality_scores.html">What do quality scores mean?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/fastqc.html">Quality Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/fastq_trimming.html">Trimming and Filtering a FASTQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/fastq_trimming.html#Trimming-and-Filtering">Trimming and Filtering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/genome_prep.html">Download and Index Genome</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/counting.html">Counting Reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/mapping.html">Mapping Reads to a Reference Genome</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/making_generic_commands.html">Making Generic Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/making_a_pipeline.html">Making a Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/loop_pipeline.html">Working with Loops</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/multifastq_loop_pipeline.html">Working with Loops</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/glob_loop.html">Looping with Globs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/prep_for_full_run.html">Initialize Variables and Make Directories</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/prep_for_full_run.html#Make-adapter-file">Make adapter file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/prep_for_full_run.html#Download-and-Index-Genome">Download and Index Genome</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/igv_visualization.html">Prepare Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/igv_visualization.html#Downloading-Everything">Downloading Everything</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/igv_visualization.html#Using-IGV">Using IGV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bioinformatics/igv_shorter_introns.html">Run with shorter intron limit</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Analysis of Pilot Data (Gene Count, DESeq2 &amp; DE Analysis)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/8_Pilot2019_getstarcounts-KO.html">Get Star Count of the Pilot 2019 Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/00_deseq_prepare_data.html">DESeq2: Create count matrix and metadata data frame</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/01_deseq_dataobject.html">DESeq2: Create Data Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/02_deseq_DE.html">DESeq2: Basic Differential Expression (DE) analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/03_deseq_interaction.html">DESeq2: Basic Differential Expression (DE) analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DESeq2/04-deseq2-plots.html">Generate figures from DESEq2 analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reproducible Analysis (Git)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data_handling_demo.html">Data handling Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_lesson.html">Git Lesson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_in_class.html">Git in class</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HTS2019</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/computing/post_course_resources.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Overview">
+<h1>Overview<a class="headerlink" href="#Overview" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="#Maintaining-Personal-Files">Personal Notebooks</a>: Downloading notebooks that you modified</p></li>
+<li><p><a class="reference external" href="#Accessing-Course-Material">HTS Course Material</a>: Downloading official course material: notebooks, lecture slides, etc</p></li>
+<li><p><a class="reference external" href="#Docker-Containers">HTS Computing Environment</a>: Downloading and running the HTS Docker Image</p></li>
+</ol>
+</div>
+<div class="section" id="High-Priority">
+<h1>High Priority<a class="headerlink" href="#High-Priority" title="Permalink to this headline">¶</a></h1>
+<p>If you have <strong>created or modified files</strong> in your Jupyter container that you would like to preserve, we recommend that you follow the instructions for <a class="reference external" href="#Maintaining-Personal-Files">Maintaining Personal Files</a>. - We recommend you do this before <em>as soon as possible</em>, certainly before the beginning of August, regardless of whether you plan to renew your Docker container or not - Keep in mind that you only need to worry about this for files that you have <strong>created or modified</strong>. The course
+material that we created and shared with you will continue to be publicly available.</p>
+<div class="section" id="Important-Notes">
+<h2>Important Notes<a class="headerlink" href="#Important-Notes" title="Permalink to this headline">¶</a></h2>
+<p>See details below, but please keep the following in mind: 1. The course material will remain in the <a class="reference external" href="https://gitlab.oit.duke.edu/HTS2019/hts2019-notebooks">hts2019-notebooks repo</a> and will be publicly available, in perpetuity (or as long as <a class="reference external" href="https://gitlab.oit.duke.edu/">https://gitlab.oit.duke.edu/</a> continues to exist), regardless of your affiliation with Duke (or lack thereof). See below for details. 2. The configuration and build information for the course Docker container will remain in the <a class="reference external" href="https://gitlab.oit.duke.edu/HTS2019/jupyter-HTS-2019">jupyter-hts-2019
+repo</a> and will be publicly available, in perpetuity (or as long as <a class="reference external" href="https://gitlab.oit.duke.edu/">https://gitlab.oit.duke.edu/</a> continues to exist), regardless of your affiliation with Duke (or lack thereof). 3. The HTS 2019 Docker image will remain at <a class="reference external" href="https://hub.docker.com/r/dukehtscourse/jupyter-hts-2019">https://hub.docker.com/r/dukehtscourse/jupyter-hts-2019</a> and will be publicly available, in perpetuity (or as long as <a class="reference external" href="https://hub.docker.com">https://hub.docker.com</a> continues to exist), regardless of your affiliation with Duke (or lack thereof).</p>
+</div>
+</div>
+<div class="section" id="Maintaining-Personal-Files">
+<h1>Maintaining Personal Files<a class="headerlink" href="#Maintaining-Personal-Files" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Tar-and-Download">
+<h2>Tar and Download<a class="headerlink" href="#Tar-and-Download" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Tarring">
+<h3>Tarring<a class="headerlink" href="#Tarring" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="Tarring:-Get-Everything-(simplest)">
+<h4>Tarring: Get Everything (simplest)<a class="headerlink" href="#Tarring:-Get-Everything-(simplest)" title="Permalink to this headline">¶</a></h4>
+<p>The simplest thing to do is to make a tarball of the whole directory that contains your <strong>personal files</strong>. Assuming that you have just been copying and renaming files in the hts2019-notebooks directory.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>tar -cvzf ~/work/hts2019-notebooks.tar.gz ~/work/hts2019-notebooks
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tar: Removing leading `/&#39; from member names
+tar: /home/clint/work/hts2019-notebooks: Cannot stattar (child): /home/clint/work/hts2019-notebooks.tar.gz: Cannot open: No such file or directory
+: No such file or directory
+tar (child): Error is not recoverable: exiting now
+tar: Child returned status 2
+tar: Error is not recoverable: exiting now
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Tarring:-Only-Notebooks">
+<h4>Tarring: Only Notebooks<a class="headerlink" href="#Tarring:-Only-Notebooks" title="Permalink to this headline">¶</a></h4>
+<p>If you <em>only want to get notebooks</em>, you could use the following to only grab the notebooks from hts2019-notebooks</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>find ~/work/hts2019-notebooks <span class="se">\</span>
+    -name <span class="s2">&quot;*.ipynb&quot;</span> <span class="se">\</span>
+    -not -path <span class="s2">&quot;*/.ipynb_checkpoints/*&quot;</span> <span class="se">\</span>
+    <span class="p">|</span> tar -cvzf ~/work/hts2019-notebooks.tar.gz -T -
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tar (child): /home/clint/work/hts2019-notebooks.tar.gz: Cannot open: No such file or directory
+tar (child): Error is not recoverable: exiting now
+find: ‘/home/clint/work/hts2019-notebooks’: No such file or directory
+tar: /home/clint/work/hts2019-notebooks.tar.gz: Cannot write: Broken pipe
+tar: Error is not recoverable: exiting now
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Tarring:-Only-Notebooks-with-a-common-name">
+<h4>Tarring: Only Notebooks with a common name<a class="headerlink" href="#Tarring:-Only-Notebooks-with-a-common-name" title="Permalink to this headline">¶</a></h4>
+<p>And if you want only modified notebooks, and saved them with a standard naming scheme, e.g. leaving <code class="docutils literal notranslate"><span class="pre">-Copy1</span></code> in the name, for example, renaming <code class="docutils literal notranslate"><span class="pre">demultiplex.ipynb</span></code> to <code class="docutils literal notranslate"><span class="pre">demultiplex-Copy1.ipynb</span></code>, you could use the following to only grab the modified files from hts2019-notebooks</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>find ~/work/hts2019-notebooks <span class="se">\</span>
+    -name <span class="s2">&quot;*-Copy1*&quot;</span> <span class="se">\</span>
+    -not -path <span class="s2">&quot;*/.ipynb_checkpoints/*&quot;</span> <span class="se">\</span>
+    <span class="p">|</span> tar -cvzf ~/work/hts2019-notebooks.tar.gz -T -
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+find: ‘/home/clint/work/hts2019-notebooks’: No such file or directory
+tar (child): /home/clint/work/hts2019-notebooks.tar.gz: Cannot open: No such file or directory
+tar (child): Error is not recoverable: exiting now
+tar: Child returned status 2
+tar: Error is not recoverable: exiting now
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>tar -tvf ~/work/hts2019-notebooks.tar.gz
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tar: /home/clint/work/hts2019-notebooks.tar.gz: Cannot open: No such file or directory
+tar: Error is not recoverable: exiting now
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Downloadng-the-tarball">
+<h3>Downloadng the tarball<a class="headerlink" href="#Downloadng-the-tarball" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Go to the file browser and click on the new file. You should be prompted to download.</p></li>
+<li><p>Once you have the file, your system’s archive program should be able to open it and allow you to extract to a directory on your computer.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="section" id="Accessing-Course-Material">
+<h1>Accessing Course Material<a class="headerlink" href="#Accessing-Course-Material" title="Permalink to this headline">¶</a></h1>
+<p>You can access the course material in three different ways: 1. You can browse and download the materials from the <a class="reference external" href="https://gitlab.oit.duke.edu/HTS2018/hts2018-notebooks">hts2019-notebooks repo</a> 2. You can <strong>clone</strong> the repo using git: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">&lt;https://gitlab.oit.duke.edu/hts2019/hts2019-notebooks.git&gt;</span></code> 3. You can browse the material at: <a class="reference external" href="https://duke-hts-2019.netlify.com/">https://duke-hts-2019.netlify.com/</a></p>
+</div>
+<div class="section" id="Docker-Containers">
+<h1>Docker Containers<a class="headerlink" href="#Docker-Containers" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Course-Instances">
+<h2>Course Instances<a class="headerlink" href="#Course-Instances" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Duke-Affiliates">
+<h3>Duke Affiliates<a class="headerlink" href="#Duke-Affiliates" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="Container-Renewal">
+<h4>Container Renewal<a class="headerlink" href="#Container-Renewal" title="Permalink to this headline">¶</a></h4>
+<p>Before the begining of the fall semester you <strong>should</strong> receive an email telling you that your HTS2019 container will expire soon, unless you renew it. If you want to maintain your container, we strongly recommend that you keep an eye out for this email, or just be proactive and regularly check <a class="reference external" href="https://vm-manage.oit.duke.edu/containers">VM Manage</a> for a “renewal” link. In the past course participants have lost their containers and contents because they failed to renew in time.</p>
+</div>
+<div class="section" id="Reduced-Capabilities">
+<h4>Reduced Capabilities<a class="headerlink" href="#Reduced-Capabilities" title="Permalink to this headline">¶</a></h4>
+<p>Soon after the course ends, the containers will be shifted to a server with drastically reduced the resources. That means that running analyses on those containers may not work and may crash the container.</p>
+</div>
+</div>
+<div class="section" id="Non-affiliates">
+<h3>Non-affiliates<a class="headerlink" href="#Non-affiliates" title="Permalink to this headline">¶</a></h3>
+<p>For those not affiliated with Duke, the containers will be deactivated before the fall semester. If you want to save any files from the course that you have modified, you must follow the instructions for <a class="reference external" href="#Maintaining-Personal-Files">Maintaining Personal Files</a> as soon as possible.</p>
+</div>
+</div>
+<div class="section" id="Running-the-Docker-Image-Elsewhere">
+<h2>Running the Docker Image Elsewhere<a class="headerlink" href="#Running-the-Docker-Image-Elsewhere" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Running-on-your-local-machine">
+<h3>Running on your local machine<a class="headerlink" href="#Running-on-your-local-machine" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="Quick-Start">
+<h4>Quick Start<a class="headerlink" href="#Quick-Start" title="Permalink to this headline">¶</a></h4>
+<p>The script that was demonstrated in class for installing the course Jupyter image and downloading the hts2019-notebooks repo is at <a class="reference external" href="https://gitlab.oit.duke.edu/hts2019/hts2019-notebooks/blob/master/computing/reproducible_demo.sh">https://gitlab.oit.duke.edu/hts2019/hts2019-notebooks/blob/master/computing/reproducible_demo.sh</a>. It should work in any environment that meets the requirements listed below. Run it like this (on your local computer or server):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">reproducible_demo</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>Once you start the Jupyter container it will continue running, even if you are not actively using Jupyter.</p>
+<p>For detailed instructions see <a class="reference external" href="#Install-docker">Install docker</a> and <a class="reference external" href="#Run-docker">Run docker</a> below. If this</p>
+<div class="section" id="Requirements">
+<h5>Requirements<a class="headerlink" href="#Requirements" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>git</p></li>
+<li><p>docker</p></li>
+<li><p>bash</p></li>
+</ul>
+<p>Install docker</p>
+<p>To run a container on your local machine or laptop, download the docker program from <a class="reference external" href="https://www.docker.com">https://www.docker.com</a>. There is a tab at the top of the page that says ‘Get Docker’. You can run it on OS X, Windows, and Linux: - <a class="reference external" href="https://docs.docker.com/docker-for-mac/">Docker for Mac</a> - <a class="reference external" href="https://docs.docker.com/docker-for-windows/">Docker for Windows</a> - <a class="reference external" href="https://store.docker.com/search?type=edition&amp;offering=community&amp;operating_system=linux">Linux: Docker Community Edition</a></p>
+</div>
+</div>
+<div class="section" id="Run-docker">
+<h4>Run docker<a class="headerlink" href="#Run-docker" title="Permalink to this headline">¶</a></h4>
+<p>If you successfully ran <code class="docutils literal notranslate"><span class="pre">reproducible_demo.sh</span></code>, as described above, you can skip this step and go on to <a class="reference external" href="#Open-the-notebook-in-your-browser">Open the notebook in your browser</a></p>
+<p>Once you have the docker program installed, open the program (you should get a terminal screen with command line). Enter the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">pull</span> <span class="n">dukehtscourse</span><span class="o">/</span><span class="n">jupyter</span><span class="o">-</span><span class="n">hts</span><span class="o">-</span><span class="mi">2019</span>
+</pre></div>
+</div>
+<p>This will pull down the course docker image from dockerhub. It may take a few minutes. Next, run the command to start a container:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">name</span> <span class="n">hts</span><span class="o">-</span><span class="n">course</span> <span class="o">-</span><span class="n">v</span> <span class="n">YOUR_DIRECTORY_WITH_COURSE_MATERIAL</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jovyan</span><span class="o">/</span><span class="n">work</span> \
+<span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">p</span> <span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span>\<span class="p">:</span><span class="mi">9999</span>\<span class="p">:</span><span class="mi">8888</span> \
+<span class="o">-</span><span class="n">e</span> <span class="n">PASSWORD</span><span class="o">=</span><span class="s2">&quot;YOUR_CHOSEN_NOTEBOOK_PASSWORD&quot;</span> \
+<span class="o">-</span><span class="n">e</span> <span class="n">NB_UID</span><span class="o">=</span><span class="mi">1000</span> \
+<span class="o">-</span><span class="n">t</span> <span class="n">dukehtscourse</span><span class="o">/</span><span class="n">jupyter</span><span class="o">-</span><span class="n">hts</span><span class="o">-</span><span class="mi">2019</span>
+</pre></div>
+</div>
+<p>The most important parts of this verbiage are the <code class="docutils literal notranslate"><span class="pre">YOUR_DIRECTORY_WITH_COURSE_MATERIALS</span></code> and <code class="docutils literal notranslate"><span class="pre">YOUR_CHOSEN_NOTEBOOK_PASSWORD</span></code>. - <code class="docutils literal notranslate"><span class="pre">YOUR_DIRECTORY_WITH_COURSE_MATERIALS</span></code> (Bind mounting): The directory name is the one you extracted your course materials into. So, if you put them in your home directory, it might look something like: <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">/home/janice/HTS2019-notebooks:/home/jovyan/work</span></code> - <code class="docutils literal notranslate"><span class="pre">YOUR_CHOSEN_NOTEBOOK_PASSWORD</span></code>: The password is whatever you want to use to password protect your
+notebook. Now, this command is running the notebook so that it is only ‘seen’ by your local computer - no one else on the internet can access it, and you cannot access it remotely, so the password is a bit of overkill. Use it anyway. An example might be: <code class="docutils literal notranslate"><span class="pre">-e</span> <span class="pre">PASSWORD=&quot;Pssst_this_is_Secret&quot;</span></code> except that this is a terrible password and you should follow standard rules of not using words, include a mix of capital and lowercase and special symbols. etc. - <code class="docutils literal notranslate"><span class="pre">-d</span> <span class="pre">-p</span> <span class="pre">127.0.0.1\:9999\:8888</span></code> part of
+the command is telling docker to run the notebook so that it is only visible to the local machine. It is absolutely possible to run it as a server to be accessed across the web - but there are some security risks associated, so if you want to do this proceed with great caution and get help.</p>
+</div>
+<div class="section" id="Open-the-notebook-in-your-browser">
+<h4>Open the notebook in your browser<a class="headerlink" href="#Open-the-notebook-in-your-browser" title="Permalink to this headline">¶</a></h4>
+<p>Open a browser and point it to <a class="reference external" href="http://127.0.0.1:9999">http://127.0.0.1:9999</a> You should get to a Jupyter screen asking for a password. This is the password you created in the docker run command. Now, you should be able to run anything you like from the course. Depending on your laptop’s resources (RAM, cores), this might be slow, so be aware and start by testing only one file (vs the entire course data set).</p>
+</div>
+<div class="section" id="Stopping-Docker">
+<h4>Stopping Docker<a class="headerlink" href="#Stopping-Docker" title="Permalink to this headline">¶</a></h4>
+<p>The container will continue running, even if you do not have Jupyter open in a web browser. If you don’t plan to use it for a while, you might want to shut it down so it isn’t using resources on your computer. Here are two ways to do that: ##### Kitematic Included in the <a class="reference external" href="https://docs.docker.com/docker-for-mac/">Docker for Mac</a> and the <a class="reference external" href="https://docs.docker.com/docker-for-windows/">Docker for Windows</a> installations.</p>
+<div class="section" id="Commandline">
+<h5>Commandline<a class="headerlink" href="#Commandline" title="Permalink to this headline">¶</a></h5>
+<p>You may want to familiarize yourself with the following Docker commands. - <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">stop</span></code> - <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">rm</span></code> - <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span> <span class="pre">-a</span></code> - <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">images</span></code> - <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">rmi</span></code></p>
+</div>
+</div>
+<div class="section" id="Windows-Note">
+<h4>Windows Note<a class="headerlink" href="#Windows-Note" title="Permalink to this headline">¶</a></h4>
+<p>These instructions have not been tested in a Windows environment. If you have problems with them, please give us feedback</p>
+</div>
+</div>
+<div class="section" id="Running-on-a-server">
+<h3>Running on a server<a class="headerlink" href="#Running-on-a-server" title="Permalink to this headline">¶</a></h3>
+<p>To run on a remote server you will want to use a slightly different command from above, because you <em>will need to connect remotely</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">name</span> <span class="n">hts</span><span class="o">-</span><span class="n">course</span> \
+<span class="o">-</span><span class="n">v</span> <span class="n">YOUR_DIRECTORY_WITH_COURSE_MATERIAL</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jovyan</span><span class="o">/</span><span class="n">work</span> \
+<span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">p</span> <span class="mi">8888</span><span class="p">:</span><span class="mi">8888</span> \
+<span class="o">-</span><span class="n">e</span> <span class="n">USE_HTTPS</span><span class="o">=</span><span class="s2">&quot;yes&quot;</span> \
+<span class="o">-</span><span class="n">e</span> <span class="n">PASSWORD</span><span class="o">=</span><span class="s2">&quot;YOUR_CHOSEN_NOTEBOOK_PASSWORD&quot;</span> \
+<span class="o">-</span><span class="n">e</span> <span class="n">NB_UID</span><span class="o">=</span><span class="mi">1000</span> \
+<span class="o">-</span><span class="n">t</span> <span class="n">dukehtscourse</span><span class="o">/</span><span class="n">jupyter</span><span class="o">-</span><span class="n">hts</span><span class="o">-</span><span class="mi">2019</span>
+</pre></div>
+</div>
+<div class="section" id="Running-on-a-Duke-server-(Duke-Affiliates)">
+<h4>Running on a Duke server (Duke Affiliates)<a class="headerlink" href="#Running-on-a-Duke-server-(Duke-Affiliates)" title="Permalink to this headline">¶</a></h4>
+<p>If you want to use the HTS Docker container for research, contact Mark Delong and the research computing people. Andy Ingham (one of Mark DeLong’s guys) can help with setup of a research VM with the HTS Docker container. If there is enough interest we could also look at having an option for an HTS image that could be automatically provisioned as part of the Research Toolkits/RAPID service for Duke researchers in general.</p>
+</div>
+<div class="section" id="Running-on-a-non-Duke-server">
+<h4>Running on a non-Duke server<a class="headerlink" href="#Running-on-a-non-Duke-server" title="Permalink to this headline">¶</a></h4>
+<p>Sys admins at other institution may be able to help set you up with compute resources if you let them know that you want to use a dockerhub image. Mark McCahill (OIT Wizard, class 50, and the person who keeps our course containers humming along) <a class="reference external" href="mailto:mark&#46;mccahill&#37;&#52;&#48;duke&#46;edu">mark<span>&#46;</span>mccahill<span>&#64;</span>duke<span>&#46;</span>edu</a> has generously offered to consult with IT people at other institutions to get you up and running. You can also run Docker images in AWS or Azure cloud environments. Mark McCahill can probably give you some pointers here too.</p>
+</div>
+</div>
+<div class="section" id="Running-the-Course-Image-with-Singularity">
+<h3>Running the Course Image with Singularity<a class="headerlink" href="#Running-the-Course-Image-with-Singularity" title="Permalink to this headline">¶</a></h3>
+<p>Docker requires root permissions to run, so you are unlikely to be able to run Docker on a computer that you are not fully in control of. As an alternative you can run the course image with <a class="reference external" href="https://sylabs.io/singularity/">Singularity</a>, another container system. Singularity is similar to Docker, and can run Docker images, but you do not need special permissions to run Singularity images <em>or</em> Docker images with Singularity (as long as Singularity is actually installed on the computer).</p>
+<p>The following command uses Singularity to start up a container from the course Jupyter image.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">USE_HTTPS</span><span class="o">=</span><span class="n">yes</span><span class="p">;</span> \
+    <span class="n">singularity</span> <span class="n">exec</span> <span class="n">docker</span><span class="p">:</span><span class="o">//</span><span class="n">dukehtscourse</span><span class="o">/</span><span class="n">jupyter</span><span class="o">-</span><span class="n">hts</span><span class="o">-</span><span class="mi">2019</span> \
+    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">start</span><span class="o">-</span><span class="n">notebook</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<div class="section" id="Install-Singularity">
+<h4>Install Singularity<a class="headerlink" href="#Install-Singularity" title="Permalink to this headline">¶</a></h4>
+<p>Here are instructions for installing:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://sylabs.io/guides/2.6/user-guide/quick_start.html#quick-installation-steps">Singularity version 2.6</a></p></li>
+<li><p><a class="reference external" href="https://sylabs.io/guides/3.2/user-guide/quick_start.html#quick-installation-steps">Singularity version 3.2</a></p></li>
+<li><p><a class="reference external" href="https://sylabs.io/singularity-desktop-macos/">Singularity Desktop for macOS (Alpha Preview)</a></p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Select-Duke-Computing-Resources">
+<h1>Select Duke Computing Resources<a class="headerlink" href="#Select-Duke-Computing-Resources" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://rc.duke.edu">Duke Research Computing Website</a></p></li>
+<li><p><a class="reference external" href="https://oit.duke.edu/what-we-do/services/research-computing">Research Computing Links on OIT Website</a></p></li>
+</ul>
+<div class="section" id="Individual-Virtual-Machines">
+<h2>Individual Virtual Machines<a class="headerlink" href="#Individual-Virtual-Machines" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://oit.duke.edu/help/articles/vcm-how-use-virtual-computing-manager">Virtual Computing Manager</a>: Duke offers free small VMs (2 core, 2GB RAM) all affiliates through a system called VCM. For running the Jupyter containers you will want some version of Linux, such as “Ubuntu 16.04”</p></li>
+<li><p><a class="reference external" href="https://oit.duke.edu/what-we-do/applications/research-toolkits">Research Toolkits</a>: Duke faculty researchers have access to moderate size VMs (4 core, 32GB RAM)</p></li>
+</ul>
+</div>
+<div class="section" id="Clusters">
+<h2>Clusters<a class="headerlink" href="#Clusters" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://rc.duke.edu/the-duke-compute-cluster/">Duke Compute Cluster</a></p></li>
+<li><p><a class="reference external" href="https://genome.duke.edu/cores-and-services/computational-solutions/compute-environments-genomics">HARDAC</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="Assorted-Notes-on-Approaches-to-Reproducible-Analysis">
+<h1>Assorted Notes on Approaches to Reproducible Analysis<a class="headerlink" href="#Assorted-Notes-on-Approaches-to-Reproducible-Analysis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Scripting-Options">
+<h2>Scripting Options<a class="headerlink" href="#Scripting-Options" title="Permalink to this headline">¶</a></h2>
+<p>I have used shell scripts, makefiles, Jupyter notebooks, and Rmarkdown notebooks as “master scripts” for running complex analyses. My current preference is for Rmarkdown notebooks. Jupyter and Rmarkdown let you combine code from different languages in a single notebook, so you can have a bash cell followed by an R cell followed by a python cell. You can’t put other languages in shell scripts or makefiles, so if you want to combine multiple languages with these, you need to put that code in its
+own script and run that script similar to how you would run a binary executable.</p>
+<p>One thing I like about Rmarkdown is how easy it is to generate good looking reports/manuscripts.</p>
+</div>
+<div class="section" id="Singularity">
+<h2>Singularity<a class="headerlink" href="#Singularity" title="Permalink to this headline">¶</a></h2>
+<p>I switched from Docker to Singularity for several reasons that are mostly summed up by the fact that Singularity was designed for use in a research environment. As far as you are concerned the most important issue is that you have to have root to run Docker on a machine, so no cluster sysadmin will ever let you run your own Docker container. Singularity runs fine in user space and is installed on both of the Duke clusters I have access to. If you need to convince the cluster admin to install it,
+see this: <a class="reference external" href="http://singularity.lbl.gov/install-request">http://singularity.lbl.gov/install-request</a>.</p>
+<p>I put together these notes about <a class="reference external" href="https://gist.github.com/granek/6f492ed1593bcc0c1c6cafe242a2e5d4">getting started with Singularity</a>. They were intended to run on a Duke VCM or RAPID VM, but should work on any machine where you have root. If you don’t have root on any linux machine, you can try to run Singularity on your local machine: <a class="reference external" href="http://singularity.lbl.gov/install-mac">http://singularity.lbl.gov/install-mac</a> or <a class="reference external" href="http://singularity.lbl.gov/install-windows">http://singularity.lbl.gov/install-windows</a></p>
+</div>
+<div class="section" id="Etc">
+<h2>Etc<a class="headerlink" href="#Etc" title="Permalink to this headline">¶</a></h2>
+<p>I almost never run anything locally on my computer, I do everything through web interfaces (RStudio Server) and command line session over ssh, both running on remote servers. I end up running most of my research projects on the Duke VCM or RAPID machines, which I can get away with because microbial datasets tend to be relatively modest.</p>
+<p>These days when I start a new project, I prepare a Singularity Recipe with the software I expect to need and build a Singularity image from it. I usually include RStudio Server in these images so I can use that interface to develop Rmarkdown notebooks and run the analysis. For the occasional project where I need a bigger machine I still build the image on my VCM or RAPID machine (building a singularity image requires sudo, and these are the only machines where I have root), and copy the image
+over to a bigger server. I have access to one biggish server where I can run RStudio Server from a Singularity image, but I don’t think the clusters on campus allow this, so I am stuck working over an ssh session.</p>
+<p>All my scripts, config files, metadata, and Singularity Recipes/Dockerfiles live in a git repo that is synced to Github/Bitbucket/Gitlab. This makes it easy to move this stuff between servers if I need to upgrade. I usually end up having to rsync data and Singularity images between servers, because only the VCM and RAPID servers can share storage. If I do this, I will tend to move everything over to the bigger server, instead of trying to work in two places, because it gets confusing. The one
+exception is that if I need to update the singularity image that has to be done on one of the VMs I control.</p>
+<p>As much as possible, I avoid running things on clusters because they make things more complicated: I can’t use RStudio and I have to fiddle with SLURM. When I do need to work on a machine that won’t allow RStudio, I will often edit files with Emacs running locally (because it is set up how I like and has a nice mac os interface) using tramp-mode. Several other text editors allow you to edit remote files over ssh.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

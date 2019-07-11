@@ -93,6 +93,7 @@ The working environment can be built using the dockerfile from Dockerhub: `/duke
    DESeq2/03_deseq_interaction.ipynb
    DESeq2/04-deseq2-plots.ipynb
 
+
 .. toctree::
    :maxdepth: 2
    :caption: Reproducible Analysis (Git)
@@ -100,6 +101,13 @@ The working environment can be built using the dockerfile from Dockerhub: `/duke
    computing/data_handling_demo.ipynb
    computing/git_lesson.ipynb
    computing/git_in_class.ipynb
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: After the course... (Docker & Singularity)
+
+   computing/post_course_resources.ipynb
 
 
 

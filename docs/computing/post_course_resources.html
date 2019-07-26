@@ -36,7 +36,8 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Git in class" href="git_in_class.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -160,6 +161,72 @@
 <li class="toctree-l1"><a class="reference internal" href="data_handling_demo.html">Data handling Demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_lesson.html">Git Lesson</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_in_class.html">Git in class</a></li>
+</ul>
+<p class="caption"><span class="caption-text">After the course... (Docker &amp; Singularity)</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#High-Priority">High Priority</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Important-Notes">Important Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#Maintaining-Personal-Files">Maintaining Personal Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Tar-and-Download">Tar and Download</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Tarring">Tarring</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Tarring:-Get-Everything-(simplest)">Tarring: Get Everything (simplest)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Tarring:-Only-Notebooks">Tarring: Only Notebooks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Tarring:-Only-Notebooks-with-a-common-name">Tarring: Only Notebooks with a common name</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Downloadng-the-tarball">Downloadng the tarball</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Unpacking-the-tarball">Unpacking the tarball</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#Accessing-Course-Material">Accessing Course Material</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Docker-Containers">Docker Containers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Course-Instances">Course Instances</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Duke-Affiliates">Duke Affiliates</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Container-Renewal">Container Renewal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Reduced-Capabilities">Reduced Capabilities</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Non-affiliates">Non-affiliates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Running-the-Docker-Image-Elsewhere">Running the Docker Image Elsewhere</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Running-on-your-local-machine">Running on your local machine</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Quick-Start">Quick Start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Run-docker">Run docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Open-the-notebook-in-your-browser">Open the notebook in your browser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Stopping-Docker">Stopping Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Windows-Note">Windows Note</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Running-on-a-server">Running on a server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Running-on-a-Duke-server-(Duke-Affiliates)">Running on a Duke server (Duke Affiliates)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Running-on-a-non-Duke-server">Running on a non-Duke server</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Running-the-Course-Image-with-Singularity">Running the Course Image with Singularity</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Install-Singularity">Install Singularity</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#Select-Duke-Computing-Resources">Select Duke Computing Resources</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Individual-Virtual-Machines">Individual Virtual Machines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Clusters">Clusters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#Assorted-Notes-on-Approaches-to-Reproducible-Analysis">Assorted Notes on Approaches to Reproducible Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Scripting-Options">Scripting Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Singularity">Singularity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Etc">Etc</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -605,10 +672,18 @@ tar: Error is not recoverable: exiting now
 </div>
 <div class="section" id="Downloadng-the-tarball">
 <h3>Downloadng the tarball<a class="headerlink" href="#Downloadng-the-tarball" title="Permalink to this headline">¶</a></h3>
+<p>Now you can do one of the following to download the tarball to your laptop:</p>
 <ol class="arabic simple">
-<li><p>Go to the file browser and click on the new file. You should be prompted to download.</p></li>
-<li><p>Once you have the file, your system’s archive program should be able to open it and allow you to extract to a directory on your computer.</p></li>
+<li><p>Click on the “Jupyter” logo above to open the Jupyter file browser</p></li>
+<li><p>Naviagte your way to the directory where you saved the tarball. The tarball should be in the toplevel directory, which is usually what opens when you click the Jupyter logo, but if not, you can click on the folder icon near the top of the file browser</p></li>
+<li><p>Click the checkbox next to <code class="docutils literal notranslate"><span class="pre">hts2019-notebooks.tar.gz</span></code></p></li>
+<li><p>Click the <em>Download</em> button near the top of the Jupyter window to download it.</p></li>
 </ol>
+</div>
+<div class="section" id="Unpacking-the-tarball">
+<h3>Unpacking the tarball<a class="headerlink" href="#Unpacking-the-tarball" title="Permalink to this headline">¶</a></h3>
+<p>On a Mac you can “untar” by double clicking on the file in finder, or at the terminal with the command <code class="docutils literal notranslate"><span class="pre">tar</span> <span class="pre">-zxf</span> <span class="pre">hts2019-notebooks.tar.gz</span></code>.</p>
+<p>On Windows, you can download software that will do it, such as <a class="reference external" href="http://www.7-zip.org/">7-Zip</a></p>
 </div>
 </div>
 </div>
@@ -788,6 +863,13 @@ exception is that if I need to update the singularity image that has to be done 
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="git_in_class.html" class="btn btn-neutral float-left" title="Git in class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
